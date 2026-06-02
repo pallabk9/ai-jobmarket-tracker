@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>AI Job Market Impact Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Daily, weekly, monthly and yearly tracking of AI-driven labour market change across six regions. Grounded in the Anthropic Observed Exposure methodology.">
+  <meta name="description" content="Weekly, monthly and yearly tracking of AI-driven labour market change across six regions. Grounded in the Anthropic Observed Exposure methodology.">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' fill='%231F3864'/><text x='12' y='17' text-anchor='middle' font-family='Arial' font-size='14' font-weight='700' fill='white'>AI</text></svg>">
 </head>
@@ -93,7 +93,7 @@
 
       <article class="gl-card">
         <h3>Cadence</h3>
-        <p>The reporting cycle. <strong>Daily:</strong> overnight deltas. <strong>Weekly:</strong> regional digest. <strong>Monthly:</strong> per-region deep-dive. <strong>Yearly:</strong> retrospective and forecast.</p>
+        <p>The reporting cycle. <strong>Weekly:</strong> regional digest refreshed every Monday. <strong>Monthly:</strong> per-region deep-dive. <strong>Yearly:</strong> retrospective and forecast.</p>
       </article>
     </div>
 
@@ -133,7 +133,6 @@
       </div>
       <div class="ctl-grp">
         <span class="ctl-label">Cadence</span>
-        <span class="pill" data-cadence="daily">Daily</span>
         <span class="pill" data-cadence="weekly">Weekly</span>
         <span class="pill active" data-cadence="monthly">Monthly</span>
         <span class="pill" data-cadence="yearly">Yearly</span>
@@ -264,7 +263,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td><strong>AI-attributed layoffs (YTD)</strong></td><td>Cumulative tech-sector layoffs since 1 Jan where the employer cited AI/automation. Filtered to attribution confidence &ge; 3.</td><td><a href="https://layoffs.fyi/" target="_blank" rel="noopener">Layoffs.fyi</a> + curated news</td><td>Daily</td></tr>
+        <tr><td><strong>AI-attributed layoffs (YTD)</strong></td><td>Cumulative tech-sector layoffs since 1 Jan where the employer cited AI/automation. Filtered to attribution confidence &ge; 3.</td><td><a href="https://layoffs.fyi/" target="_blank" rel="noopener">Layoffs.fyi</a> + curated news</td><td>Weekly</td></tr>
         <tr><td><strong>Top-quartile unemployment delta</strong></td><td>Difference-in-differences estimate of unemployment in the top-quartile-exposure group vs the unexposed group, vs pre-ChatGPT baseline.</td><td><a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" rel="noopener">Massenkoff &amp; McCrory 2026</a> + BLS CPS / ONS LFS / Eurostat / NSO</td><td>Monthly</td></tr>
         <tr><td><strong>22&ndash;25 hire rate</strong></td><td>Year-on-year change in the monthly job-start rate for workers aged 22 to 25 in exposed occupations.</td><td>BLS CPS panel / equivalent local LFS</td><td>Monthly</td></tr>
         <tr><td><strong>AI-mention posting share</strong></td><td>% of job postings whose description mentions AI, ML, GenAI, prompt engineering, or related skills.</td><td><a href="https://www.hiringlab.org/" target="_blank" rel="noopener">Indeed Hiring Lab</a></td><td>Weekly</td></tr>
@@ -284,7 +283,7 @@
       <thead><tr><th>Track</th><th>Refresh</th><th>Sources</th><th>Use case</th></tr></thead>
       <tbody>
         <tr><td><strong>Structural exposure</strong></td><td>Monthly</td><td>Anthropic Economic Index, Eloundou &beta;, O*NET, official occupational projections</td><td>Maintain the watch list, deep-dive reports</td></tr>
-        <tr><td><strong>Market signal</strong></td><td>Daily / weekly</td><td>Indeed Hiring Lab, Naukri JobSpeak, Seek, Layoffs.fyi, news feeds, ONS Vacancy Survey, ABS Job Vacancies</td><td>Trigger alerts when an exposed occupation breaches its band</td></tr>
+        <tr><td><strong>Market signal</strong></td><td>Weekly</td><td>Indeed Hiring Lab, Naukri JobSpeak, Seek, Layoffs.fyi, news feeds, ONS Vacancy Survey, ABS Job Vacancies</td><td>Trigger alerts when an exposed occupation breaches its band</td></tr>
       </tbody>
     </table>
 

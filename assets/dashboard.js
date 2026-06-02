@@ -5,8 +5,7 @@
  */
 
 const CADENCE_NARRATIVE = {
-  daily:   "Daily view emphasises event-driven signals: layoffs, new postings, alerts. Refreshes every morning.",
-  weekly:  "Weekly view shows the last seven days alongside the four-week rolling baseline. Feeds the weekly regional digest.",
+  weekly:  "Weekly view shows the last seven days alongside the four-week rolling baseline. Feeds the weekly regional digest. Refreshed every Monday.",
   monthly: "Monthly view combines structural and market signals. The same data drives the monthly per-region deep-dive report.",
   yearly:  "Yearly view emphasises stocks, bands, and back-tested watch-list performance. Basis for the annual retrospective and forecast.",
 };
@@ -293,9 +292,12 @@ try {
     region = r;
     document.querySelectorAll("[data-region]").forEach((e) => e.classList.toggle("active", e.dataset.region === r));
   }
-  if (c) {
+  if (c && CADENCE_NARRATIVE[c]) {
     cadence = c;
     document.querySelectorAll("[data-cadence]").forEach((e) => e.classList.toggle("active", e.dataset.cadence === c));
+  } else if (c) {
+    // stored cadence is no longer valid (e.g. "daily" after we dropped it)
+    try { localStorage.removeItem("aijmit.cadence"); } catch (e) {}
   }
 } catch (e) {}
 

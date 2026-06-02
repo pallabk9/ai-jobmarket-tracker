@@ -238,15 +238,15 @@ story.append(Paragraph(
 story.append(Paragraph("4. The KPI catalogue", h1))
 story.append(Paragraph(
     "The dashboard shows ten KPIs per region. Each KPI has a definition, a formula or source, "
-    "a refresh cadence, and an alert band that triggers escalation in the daily and weekly briefs.",
+    "a refresh cadence, and an alert band that triggers escalation in the weekly digest.",
     body))
 
 kpis = [
     ("AI-attributed layoffs (YTD)",
      "Cumulative tech-sector layoff events since 1 January where the employer cited AI or automation as the reason. Filtered to attribution confidence &ge; 3.",
      "Layoffs.fyi tracker plus curated news cross-check.",
-     "Daily.",
-     "More than 500 in a single rolling week."),
+     "Weekly.",
+     "More than 500 in a single week."),
     ("Top-quartile unemployment delta",
      "Difference-in-differences estimate of the unemployment rate in the top-quartile-exposure group minus the unexposed group, relative to a pre-ChatGPT baseline (2022-Q3).",
      "Massenkoff &amp; McCrory 2026 framework applied to BLS CPS / ONS LFS / Eurostat / NSO microdata.",
@@ -389,8 +389,8 @@ story.append(Paragraph(
 tiers = [
     ["Tier 1 — Methodological anchor", "Anthropic Economic Index releases; Anthropic country briefs; Hugging Face dataset Anthropic/EconomicIndex.", "Quarterly", "Sets Observed Exposure per occupation."],
     ["Tier 2 — Official statistics", "US BLS, UK ONS, Eurostat, India NSO, Australia ABS, Singapore MOM.", "1-3 months", "Baseline employment, unemployment, demographics."],
-    ["Tier 3 — Real-time market", "Indeed Hiring Lab, LinkedIn Economic Graph, Seek, Naukri JobSpeak, Lightcast.", "Daily-weekly", "Postings, AI-mention share, vacancy trends."],
-    ["Tier 4 — Narrative & event", "Layoffs.fyi, WEF Future of Jobs, McKinsey/IFOW/British Progress reports, central-bank notes.", "Daily-annual", "AI-attributed layoffs, narrative, alternative attributions."],
+    ["Tier 3 — Real-time market", "Indeed Hiring Lab, LinkedIn Economic Graph, Seek, Naukri JobSpeak, Lightcast.", "Weekly", "Postings, AI-mention share, vacancy trends."],
+    ["Tier 4 — Narrative & event", "Layoffs.fyi, WEF Future of Jobs, McKinsey/IFOW/British Progress reports, central-bank notes.", "Weekly-annual", "AI-attributed layoffs, narrative, alternative attributions."],
 ]
 story.append(header_table(["Tier", "Sources", "Latency", "Role"], tiers,
     [4.5*cm, 6.5*cm, 2.2*cm, 3.8*cm]))
