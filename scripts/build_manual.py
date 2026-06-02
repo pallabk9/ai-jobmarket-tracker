@@ -67,7 +67,7 @@ def on_page(canvas, doc):
     canvas.drawRightString(A4[0] - 1.5 * cm, A4[1] - 1.0 * cm,
         "AI Job Market Impact Tracker  |  User manual v1.0")
     # footer
-    canvas.drawString(1.5 * cm, 1.0 * cm, "advanced-workplace.com")
+    canvas.drawString(1.5 * cm, 1.0 * cm, "Developed by Dr. Pallab Kakoti")
     canvas.drawRightString(A4[0] - 1.5 * cm, 1.0 * cm, f"Page {doc.page}")
     canvas.restoreState()
 
@@ -122,7 +122,7 @@ story.append(Paragraph(
     cover_meta))
 story.append(Spacer(1, 2 * cm))
 story.append(Paragraph(
-    "Prepared for: <b>Nathan Gupta</b>, Advanced Workplace Associates<br/>"
+    "Developed by <b>Dr. Pallab Kakoti</b><br/>"
     "Version 1.0 &mdash; June 2026",
     cover_meta))
 story.append(PageBreak())
@@ -491,7 +491,7 @@ doc = SimpleDocTemplate(
     str(OUT),
     pagesize=A4,
     title="AI Job Market Impact Tracker - User Manual",
-    author="Nathan Gupta, Advanced Workplace Associates",
+    author="Dr. Pallab Kakoti",
     leftMargin=1.8*cm, rightMargin=1.8*cm,
     topMargin=2.0*cm, bottomMargin=1.8*cm,
 )

@@ -12,7 +12,7 @@ Write-Host "==> Staging all files..."
 git add .
 
 Write-Host "==> Creating initial commit..."
-git -c user.email="ngupta@advanced-workplace.com" -c user.name="Nathan Gupta" commit -m "Initial commit: AI Job Market Impact Tracker"
+git -c user.email="pallabk9@users.noreply.github.com" -c user.name="Dr. Pallab Kakoti" commit -m "Initial commit: AI Job Market Impact Tracker"
 
 Write-Host "==> Renaming branch to main..."
 git branch -M main
