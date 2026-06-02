@@ -1,0 +1,106 @@
+{
+  "snapshots": [
+    "2026-W22",
+    "2026-W21",
+    "2026-W20",
+    "2026-W19",
+    "2026-W18",
+    "2026-W17",
+    "2026-W16",
+    "2026-W15",
+    "2026-W14",
+    "2026-W13",
+    "2026-W12",
+    "2026-W11",
+    "2026-W10"
+  ],
+  "csv_path": "data/historical.csv",
+  "regions": [
+    {
+      "code": "US",
+      "label": "United States"
+    },
+    {
+      "code": "UK",
+      "label": "United Kingdom"
+    },
+    {
+      "code": "IN",
+      "label": "India"
+    },
+    {
+      "code": "EU",
+      "label": "European Union"
+    },
+    {
+      "code": "APAC",
+      "label": "Asia Pacific"
+    },
+    {
+      "code": "AU",
+      "label": "Australia"
+    }
+  ],
+  "kpis": [
+    {
+      "id": "ai_layoffs_ytd",
+      "name": "AI-attributed layoffs (YTD, thousands)",
+      "unit": "k roles",
+      "direction": "up"
+    },
+    {
+      "id": "topq_unemp_delta",
+      "name": "Top-quartile unemployment delta",
+      "unit": "pp",
+      "direction": "up"
+    },
+    {
+      "id": "hire_rate_22_25",
+      "name": "22-25 hire rate change vs 2022",
+      "unit": "%",
+      "direction": "up"
+    },
+    {
+      "id": "ai_mention_postings",
+      "name": "AI-mention posting share",
+      "unit": "%",
+      "direction": "down"
+    },
+    {
+      "id": "capability_gap",
+      "name": "Capability gap (theoretical-observed)",
+      "unit": "pp",
+      "direction": "neutral"
+    },
+    {
+      "id": "augmentation_share",
+      "name": "Augmentation share of Claude usage",
+      "unit": "%",
+      "direction": "neutral"
+    },
+    {
+      "id": "exposed_posting_index",
+      "name": "Exposed-occupation posting index",
+      "unit": "index",
+      "direction": "up"
+    },
+    {
+      "id": "ai_skill_premium",
+      "name": "AI-skill salary premium",
+      "unit": "%",
+      "direction": "down"
+    },
+    {
+      "id": "graduate_posting",
+      "name": "Graduate posting in exposed roles",
+      "unit": "%",
+      "direction": "up"
+    },
+    {
+      "id": "net_creation",
+      "name": "Net AI-attributed job creation",
+      "unit": "k roles",
+      "direction": "down"
+    }
+  ]
+}

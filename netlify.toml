@@ -1,0 +1,68 @@
+# Netlify configuration for AI Job Market Impact Tracker
+#
+# This is a fully static site. No build step is required; Netlify simply
+# publishes the repo root. Headers and redirects below enforce caching
+# discipline so the dashboard always sees a fresh data file.
+
+[build]
+  publish = "."
+  # No build command needed - everything is pre-built and committed.
+  # The GitHub Actions workflow refreshes data weekly and pushes,
+  # which triggers a Netlify redeploy automatically.
+  command = ""
+
+# ---------------- HEADERS ----------------
+
+# Never cache the data files. The dashboard must always see the latest.
+[[headers]]
+  for = "/data/current.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Content-Type = "application/json"
+
+[[headers]]
+  for = "/data/historical.csv"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Content-Type = "text/csv; charset=utf-8"
+    Content-Disposition = "attachment; filename=ai-jobmarket-historical.csv"
+
+[[headers]]
+  for = "/data/snapshots_index.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Content-Type = "application/json"
+
+[[headers]]
+  for = "/data/snapshots/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/json"
+
+# Cache assets aggressively - filenames will change if code changes.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Security headers across the site
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=()"
+
+# ---------------- REDIRECTS ----------------
+
+# Friendly URLs for the data files
+[[redirects]]
+  from = "/data.csv"
+  to = "/data/historical.csv"
+  status = 301
+
+[[redirects]]
+  from = "/manual"
+  to = "/manual.pdf"
+  status = 301

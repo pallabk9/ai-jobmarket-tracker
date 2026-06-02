@@ -1,0 +1,1634 @@
+{
+  "generated_at": "2026-06-02T00:00:00Z",
+  "iso_week": "2026-W22",
+  "week_ending": "2026-05-31",
+  "version": "1.0",
+  "regions": {
+    "US": {
+      "label": "United States",
+      "narrative": "Aggregate unemployment differential for top-quartile exposure remains statistically zero (Massenkoff & McCrory). Leading indicators are moving: job-finding rate for workers aged 22 to 25 in exposed occupations is down 14% vs 2022; 113K tech layoffs YTD with ~48% AI-attributed by the employer.",
+      "kpis": {
+        "ai_layoffs_ytd": {
+          "name": "AI-attributed layoffs (YTD, thousands)",
+          "value": 113.0,
+          "unit": "k roles",
+          "direction": "up",
+          "source": "Layoffs.fyi",
+          "source_url": "https://layoffs.fyi/"
+        },
+        "topq_unemp_delta": {
+          "name": "Top-quartile unemployment delta",
+          "value": 0.1,
+          "unit": "pp",
+          "direction": "up",
+          "source": "Massenkoff & McCrory",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "hire_rate_22_25": {
+          "name": "22-25 hire rate change vs 2022",
+          "value": -14.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "CPS panel / Brynjolfsson 2025",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "ai_mention_postings": {
+          "name": "AI-mention posting share",
+          "value": 8.3,
+          "unit": "%",
+          "direction": "down",
+          "source": "Indeed Hiring Lab",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "capability_gap": {
+          "name": "Capability gap (theoretical-observed)",
+          "value": 42.0,
+          "unit": "pp",
+          "direction": "neutral",
+          "source": "Eloundou et al. + Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "augmentation_share": {
+          "name": "Augmentation share of Claude usage",
+          "value": 52.0,
+          "unit": "%",
+          "direction": "neutral",
+          "source": "Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "exposed_posting_index": {
+          "name": "Exposed-occupation posting index",
+          "value": 83.0,
+          "unit": "index",
+          "direction": "up",
+          "source": "Indeed Hiring Lab + Naukri + Seek",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "ai_skill_premium": {
+          "name": "AI-skill salary premium",
+          "value": 28.0,
+          "unit": "%",
+          "direction": "down",
+          "source": "Lightcast + Indeed",
+          "source_url": "https://lightcast.io/"
+        },
+        "graduate_posting": {
+          "name": "Graduate posting in exposed roles",
+          "value": -18.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "IFOW + Big 4 disclosures",
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+        },
+        "net_creation": {
+          "name": "Net AI-attributed job creation",
+          "value": 116.0,
+          "unit": "k roles",
+          "direction": "down",
+          "source": "WEF Future of Jobs 2025 + regional adapter",
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+        }
+      },
+      "occupations": [
+        {
+          "name": "Computer Programmers",
+          "exposure": 75,
+          "gap": 19
+        },
+        {
+          "name": "Customer Service Representatives",
+          "exposure": 71,
+          "gap": 24
+        },
+        {
+          "name": "Data Entry Keyers",
+          "exposure": 67,
+          "gap": 28
+        },
+        {
+          "name": "Financial Analysts",
+          "exposure": 62,
+          "gap": 31
+        },
+        {
+          "name": "Market Research Analysts",
+          "exposure": 58,
+          "gap": 33
+        },
+        {
+          "name": "Paralegals & Legal Assistants",
+          "exposure": 54,
+          "gap": 36
+        },
+        {
+          "name": "Administrative Assistants",
+          "exposure": 51,
+          "gap": 38
+        },
+        {
+          "name": "Technical Writers",
+          "exposure": 49,
+          "gap": 42
+        },
+        {
+          "name": "Bookkeeping & Auditing Clerks",
+          "exposure": 47,
+          "gap": 41
+        },
+        {
+          "name": "Graphic Designers",
+          "exposure": 44,
+          "gap": 48
+        }
+      ],
+      "demographics": {
+        "sex": {
+          "Female": 58,
+          "Male": 42
+        },
+        "age": {
+          "16-21": 4,
+          "22-25": 9,
+          "26-34": 27,
+          "35-49": 36,
+          "50-64": 21,
+          "65+": 3
+        }
+      },
+      "gap_chart": {
+        "cats": [
+          "Comp & Math",
+          "Office & Admin",
+          "Business",
+          "Sales",
+          "Education",
+          "Healthcare",
+          "Construction",
+          "Production"
+        ],
+        "theoretical": [
+          94,
+          90,
+          78,
+          65,
+          58,
+          32,
+          12,
+          18
+        ],
+        "observed": [
+          52,
+          38,
+          31,
+          24,
+          14,
+          8,
+          1,
+          3
+        ]
+      },
+      "posting_series": [
+        {
+          "iso_week": "2026-W11",
+          "value": 90.88
+        },
+        {
+          "iso_week": "2026-W12",
+          "value": 90.81
+        },
+        {
+          "iso_week": "2026-W13",
+          "value": 89.47
+        },
+        {
+          "iso_week": "2026-W14",
+          "value": 89.29
+        },
+        {
+          "iso_week": "2026-W15",
+          "value": 88.96
+        },
+        {
+          "iso_week": "2026-W16",
+          "value": 87.49
+        },
+        {
+          "iso_week": "2026-W17",
+          "value": 86.55
+        },
+        {
+          "iso_week": "2026-W18",
+          "value": 86.49
+        },
+        {
+          "iso_week": "2026-W19",
+          "value": 85.31
+        },
+        {
+          "iso_week": "2026-W20",
+          "value": 84.37
+        },
+        {
+          "iso_week": "2026-W21",
+          "value": 83.67
+        },
+        {
+          "iso_week": "2026-W22",
+          "value": 83.0
+        }
+      ],
+      "feed": [
+        {
+          "headline": "Meta cuts 10% of workforce, redirects compensation budget to AI infrastructure",
+          "date": "2026-04-24",
+          "source": "CNBC",
+          "url": "https://www.cnbc.com/2026/04/24/20k-job-cuts-at-meta-microsoft-raise-concern-of-ai-labor-crisis-.html",
+          "conf": 4
+        },
+        {
+          "headline": "Block reduces headcount from 10K to under 6K - largest single AI-attributed cut",
+          "date": "2026-03-07",
+          "source": "Layoffs.fyi",
+          "url": "https://layoffs.fyi/",
+          "conf": 5
+        },
+        {
+          "headline": "Microsoft adds 12K to AI ops while cutting 8K in legacy product groups",
+          "date": "2026-04-21",
+          "source": "Crunchbase News",
+          "url": "https://news.crunchbase.com/startups/tech-layoffs/",
+          "conf": 3
+        },
+        {
+          "headline": "BLS Employment Projections 2024-34: exposure correlates with weaker growth",
+          "date": "2025-09-15",
+          "source": "BLS",
+          "url": "https://www.bls.gov/emp/",
+          "conf": 5
+        },
+        {
+          "headline": "Hiring Lab: AI postings double YoY across the US",
+          "date": "2026-05-12",
+          "source": "Indeed Hiring Lab",
+          "url": "https://www.hiringlab.org/",
+          "conf": 4
+        }
+      ]
+    },
+    "UK": {
+      "label": "United Kingdom",
+      "narrative": "70% of UK workers in occupations with at least one AI-exposable task (IMF estimate). Postings in AI-exposed roles 5.5% below pre-ChatGPT trend by mid-2025; 38% lower for the highest-exposure cohort. Big 4 graduate hiring: KPMG -29%, Deloitte -18%, EY -11%, PwC -6%.",
+      "kpis": {
+        "ai_layoffs_ytd": {
+          "name": "AI-attributed layoffs (YTD, thousands)",
+          "value": 4.2,
+          "unit": "k roles",
+          "direction": "up",
+          "source": "Layoffs.fyi",
+          "source_url": "https://layoffs.fyi/"
+        },
+        "topq_unemp_delta": {
+          "name": "Top-quartile unemployment delta",
+          "value": 0.2,
+          "unit": "pp",
+          "direction": "up",
+          "source": "Massenkoff & McCrory",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "hire_rate_22_25": {
+          "name": "22-25 hire rate change vs 2022",
+          "value": -12.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "CPS panel / Brynjolfsson 2025",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "ai_mention_postings": {
+          "name": "AI-mention posting share",
+          "value": 7.1,
+          "unit": "%",
+          "direction": "down",
+          "source": "Indeed Hiring Lab",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "capability_gap": {
+          "name": "Capability gap (theoretical-observed)",
+          "value": 44.0,
+          "unit": "pp",
+          "direction": "neutral",
+          "source": "Eloundou et al. + Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "augmentation_share": {
+          "name": "Augmentation share of Claude usage",
+          "value": 53.0,
+          "unit": "%",
+          "direction": "neutral",
+          "source": "Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "exposed_posting_index": {
+          "name": "Exposed-occupation posting index",
+          "value": 89.0,
+          "unit": "index",
+          "direction": "up",
+          "source": "Indeed Hiring Lab + Naukri + Seek",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "ai_skill_premium": {
+          "name": "AI-skill salary premium",
+          "value": 22.0,
+          "unit": "%",
+          "direction": "down",
+          "source": "Lightcast + Indeed",
+          "source_url": "https://lightcast.io/"
+        },
+        "graduate_posting": {
+          "name": "Graduate posting in exposed roles",
+          "value": -29.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "IFOW + Big 4 disclosures",
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+        },
+        "net_creation": {
+          "name": "Net AI-attributed job creation",
+          "value": 59.0,
+          "unit": "k roles",
+          "direction": "down",
+          "source": "WEF Future of Jobs 2025 + regional adapter",
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+        }
+      },
+      "occupations": [
+        {
+          "name": "Software Developers",
+          "exposure": 72,
+          "gap": 22
+        },
+        {
+          "name": "Customer Service Occupations",
+          "exposure": 68,
+          "gap": 26
+        },
+        {
+          "name": "Accounts & Wages Clerks",
+          "exposure": 64,
+          "gap": 28
+        },
+        {
+          "name": "Marketing Associates",
+          "exposure": 59,
+          "gap": 31
+        },
+        {
+          "name": "Legal Associate Professionals",
+          "exposure": 55,
+          "gap": 34
+        },
+        {
+          "name": "Financial Analysts",
+          "exposure": 53,
+          "gap": 36
+        },
+        {
+          "name": "HR & Industrial Relations Officers",
+          "exposure": 48,
+          "gap": 40
+        },
+        {
+          "name": "Business Analysts",
+          "exposure": 46,
+          "gap": 42
+        },
+        {
+          "name": "Designers (Graphic & Multimedia)",
+          "exposure": 43,
+          "gap": 46
+        },
+        {
+          "name": "Auditors",
+          "exposure": 41,
+          "gap": 44
+        }
+      ],
+      "demographics": {
+        "sex": {
+          "Female": 55,
+          "Male": 45
+        },
+        "age": {
+          "16-21": 3,
+          "22-25": 7,
+          "26-34": 26,
+          "35-49": 38,
+          "50-64": 23,
+          "65+": 3
+        }
+      },
+      "gap_chart": {
+        "cats": [
+          "Professional",
+          "Associate prof",
+          "Admin & Secretarial",
+          "Skilled Trades",
+          "Caring & Leisure",
+          "Sales",
+          "Plant ops",
+          "Elementary"
+        ],
+        "theoretical": [
+          86,
+          82,
+          88,
+          22,
+          28,
+          60,
+          18,
+          14
+        ],
+        "observed": [
+          44,
+          36,
+          36,
+          4,
+          6,
+          22,
+          2,
+          2
+        ]
+      },
+      "posting_series": [
+        {
+          "iso_week": "2026-W11",
+          "value": 99.25
+        },
+        {
+          "iso_week": "2026-W12",
+          "value": 96.72
+        },
+        {
+          "iso_week": "2026-W13",
+          "value": 96.99
+        },
+        {
+          "iso_week": "2026-W14",
+          "value": 95.51
+        },
+        {
+          "iso_week": "2026-W15",
+          "value": 94.65
+        },
+        {
+          "iso_week": "2026-W16",
+          "value": 94.55
+        },
+        {
+          "iso_week": "2026-W17",
+          "value": 93.67
+        },
+        {
+          "iso_week": "2026-W18",
+          "value": 92.35
+        },
+        {
+          "iso_week": "2026-W19",
+          "value": 91.62
+        },
+        {
+          "iso_week": "2026-W20",
+          "value": 90.49
+        },
+        {
+          "iso_week": "2026-W21",
+          "value": 89.78
+        },
+        {
+          "iso_week": "2026-W22",
+          "value": 89.0
+        }
+      ],
+      "feed": [
+        {
+          "headline": "KPMG UK cuts graduate cohort 29% citing AI productivity",
+          "date": "2026-03-20",
+          "source": "People Management",
+          "url": "https://www.peoplemanagement.co.uk/article/1923445/graduate-job-openings-fall-lowest-level-seven-years-research-reveals-%E2%80%93-ai-blame",
+          "conf": 4
+        },
+        {
+          "headline": "Bank Underground: GenAI exposure tied to softer vacancy posting growth",
+          "date": "2026-01-22",
+          "source": "Bank of England",
+          "url": "https://bankunderground.co.uk/2026/01/22/generative-ai-degenerative-for-jobs/",
+          "conf": 4
+        },
+        {
+          "headline": "Indeed Hiring Lab UK: AI hiring bucks the cooling trend",
+          "date": "2026-03-30",
+          "source": "Indeed",
+          "url": "https://www.hiringlab.org/uk/blog/2026/03/30/uk-labour-market-is-cooling-but-ai-hiring-is-bucking-the-trend/",
+          "conf": 4
+        },
+        {
+          "headline": "IFOW: graduate roles in exposed sectors down 16pp on vacancy posting",
+          "date": "2026-03-10",
+          "source": "IFOW",
+          "url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective",
+          "conf": 3
+        },
+        {
+          "headline": "UK Gov publishes refreshed AI capability assessment",
+          "date": "2026-04-08",
+          "source": "GOV.UK",
+          "url": "https://www.gov.uk/government/publications/assessment-of-ai-capabilities-and-the-impact-on-the-uk-labour-market/assessment-of-ai-capabilities-and-the-impact-on-the-uk-labour-market",
+          "conf": 5
+        }
+      ]
+    },
+    "IN": {
+      "label": "India",
+      "narrative": "Nasscom reports tech-sector workforce growth slowed to 2.3% in FY26. IT firm gross hiring fell from a five-year average of 230K to 170K. ~80K mid-to-senior layoffs across major firms 2025-26 citing inability to reskill. AI talent pool projected to reach 1.25M by 2027 (Nasscom-Deloitte).",
+      "kpis": {
+        "ai_layoffs_ytd": {
+          "name": "AI-attributed layoffs (YTD, thousands)",
+          "value": 80.0,
+          "unit": "k roles",
+          "direction": "up",
+          "source": "Layoffs.fyi",
+          "source_url": "https://layoffs.fyi/"
+        },
+        "topq_unemp_delta": {
+          "name": "Top-quartile unemployment delta",
+          "value": 0.4,
+          "unit": "pp",
+          "direction": "up",
+          "source": "Massenkoff & McCrory",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "hire_rate_22_25": {
+          "name": "22-25 hire rate change vs 2022",
+          "value": -22.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "CPS panel / Brynjolfsson 2025",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "ai_mention_postings": {
+          "name": "AI-mention posting share",
+          "value": 11.4,
+          "unit": "%",
+          "direction": "down",
+          "source": "Indeed Hiring Lab",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "capability_gap": {
+          "name": "Capability gap (theoretical-observed)",
+          "value": 36.0,
+          "unit": "pp",
+          "direction": "neutral",
+          "source": "Eloundou et al. + Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "augmentation_share": {
+          "name": "Augmentation share of Claude usage",
+          "value": 44.0,
+          "unit": "%",
+          "direction": "neutral",
+          "source": "Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "exposed_posting_index": {
+          "name": "Exposed-occupation posting index",
+          "value": 83.0,
+          "unit": "index",
+          "direction": "up",
+          "source": "Indeed Hiring Lab + Naukri + Seek",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "ai_skill_premium": {
+          "name": "AI-skill salary premium",
+          "value": 41.0,
+          "unit": "%",
+          "direction": "down",
+          "source": "Lightcast + Indeed",
+          "source_url": "https://lightcast.io/"
+        },
+        "graduate_posting": {
+          "name": "Graduate posting in exposed roles",
+          "value": -25.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "IFOW + Big 4 disclosures",
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+        },
+        "net_creation": {
+          "name": "Net AI-attributed job creation",
+          "value": 149.0,
+          "unit": "k roles",
+          "direction": "down",
+          "source": "WEF Future of Jobs 2025 + regional adapter",
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+        }
+      },
+      "occupations": [
+        {
+          "name": "Application Developers (entry)",
+          "exposure": 78,
+          "gap": 16
+        },
+        {
+          "name": "Customer Support \u2014 BPO",
+          "exposure": 74,
+          "gap": 21
+        },
+        {
+          "name": "Data Entry & KPO",
+          "exposure": 71,
+          "gap": 24
+        },
+        {
+          "name": "Test Engineers (manual)",
+          "exposure": 65,
+          "gap": 27
+        },
+        {
+          "name": "Content Writers / SEO",
+          "exposure": 61,
+          "gap": 32
+        },
+        {
+          "name": "Junior Financial Analysts",
+          "exposure": 56,
+          "gap": 35
+        },
+        {
+          "name": "Tele-marketing & Sales",
+          "exposure": 54,
+          "gap": 37
+        },
+        {
+          "name": "Junior Auditors",
+          "exposure": 49,
+          "gap": 41
+        },
+        {
+          "name": "Translators & Localisation",
+          "exposure": 47,
+          "gap": 43
+        },
+        {
+          "name": "Para-legal & Doc Review",
+          "exposure": 44,
+          "gap": 45
+        }
+      ],
+      "demographics": {
+        "sex": {
+          "Female": 36,
+          "Male": 64
+        },
+        "age": {
+          "16-21": 2,
+          "22-25": 18,
+          "26-34": 41,
+          "35-49": 28,
+          "50-64": 10,
+          "65+": 1
+        }
+      },
+      "gap_chart": {
+        "cats": [
+          "IT Services",
+          "BPO/KPO",
+          "BFSI",
+          "Telecom",
+          "Retail",
+          "Healthcare",
+          "Manufacturing",
+          "Agriculture"
+        ],
+        "theoretical": [
+          92,
+          95,
+          78,
+          64,
+          48,
+          32,
+          22,
+          8
+        ],
+        "observed": [
+          58,
+          52,
+          32,
+          24,
+          12,
+          8,
+          4,
+          1
+        ]
+      },
+      "posting_series": [
+        {
+          "iso_week": "2026-W11",
+          "value": 91.01
+        },
+        {
+          "iso_week": "2026-W12",
+          "value": 91.3
+        },
+        {
+          "iso_week": "2026-W13",
+          "value": 89.41
+        },
+        {
+          "iso_week": "2026-W14",
+          "value": 88.36
+        },
+        {
+          "iso_week": "2026-W15",
+          "value": 87.93
+        },
+        {
+          "iso_week": "2026-W16",
+          "value": 87.4
+        },
+        {
+          "iso_week": "2026-W17",
+          "value": 87.22
+        },
+        {
+          "iso_week": "2026-W18",
+          "value": 86.46
+        },
+        {
+          "iso_week": "2026-W19",
+          "value": 85.17
+        },
+        {
+          "iso_week": "2026-W20",
+          "value": 84.6
+        },
+        {
+          "iso_week": "2026-W21",
+          "value": 83.75
+        },
+        {
+          "iso_week": "2026-W22",
+          "value": 83.0
+        }
+      ],
+      "feed": [
+        {
+          "headline": "Nasscom: AI-driven restructuring trims fresher hiring 25%",
+          "date": "2026-04-05",
+          "source": "Nasscom",
+          "url": "https://nasscom.in/voices/indias-workforce-transformation-opportunity-ai-era",
+          "conf": 4
+        },
+        {
+          "headline": "TCS, Infosys, Wipro collectively shed 80K mid-senior over 18 months",
+          "date": "2026-03-22",
+          "source": "Storyboard18",
+          "url": "https://www.storyboard18.com/digital/entry-level-it-jobs-shrink-20-25-as-ai-reshapes-hiring-in-india-ws-l-95225.htm",
+          "conf": 4
+        },
+        {
+          "headline": "AI threat exposes cracks in India's growth story for high-paid IT jobs",
+          "date": "2026-04-30",
+          "source": "CNBC",
+          "url": "https://www.cnbc.com/2026/04/30/ai-threat-indias-growth-story-jobs.html",
+          "conf": 3
+        },
+        {
+          "headline": "Naukri JobSpeak: AI/ML posting share up 142% YoY in BFSI",
+          "date": "2026-05-02",
+          "source": "Naukri",
+          "url": "https://www.naukri.com/jobspeak",
+          "conf": 4
+        },
+        {
+          "headline": "Deloitte-Nasscom: India can address 60% of AI talent gap via GCCs",
+          "date": "2026-02-18",
+          "source": "Deloitte",
+          "url": "https://www.deloitte.com/in/en/about/press-room/bridging-the-ai-talent-gap-to-boost-indias-tech-and-economic-impact-deloitte-nasscom-report.html",
+          "conf": 4
+        }
+      ]
+    },
+    "EU": {
+      "label": "European Union",
+      "narrative": "Up to 6.5% of EU workforce may need to transition occupations by 2030 if AI adoption accelerates. 55.6% of EU adults meet basic digital competence; target is 80% by 2030. CEPR: no measurable employment reduction yet once selection effects are controlled. Apply AI Strategy and AI Skills Academy launched 2025-26.",
+      "kpis": {
+        "ai_layoffs_ytd": {
+          "name": "AI-attributed layoffs (YTD, thousands)",
+          "value": 18.6,
+          "unit": "k roles",
+          "direction": "up",
+          "source": "Layoffs.fyi",
+          "source_url": "https://layoffs.fyi/"
+        },
+        "topq_unemp_delta": {
+          "name": "Top-quartile unemployment delta",
+          "value": 0.0,
+          "unit": "pp",
+          "direction": "up",
+          "source": "Massenkoff & McCrory",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "hire_rate_22_25": {
+          "name": "22-25 hire rate change vs 2022",
+          "value": -9.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "CPS panel / Brynjolfsson 2025",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "ai_mention_postings": {
+          "name": "AI-mention posting share",
+          "value": 6.8,
+          "unit": "%",
+          "direction": "down",
+          "source": "Indeed Hiring Lab",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "capability_gap": {
+          "name": "Capability gap (theoretical-observed)",
+          "value": 46.0,
+          "unit": "pp",
+          "direction": "neutral",
+          "source": "Eloundou et al. + Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "augmentation_share": {
+          "name": "Augmentation share of Claude usage",
+          "value": 55.0,
+          "unit": "%",
+          "direction": "neutral",
+          "source": "Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "exposed_posting_index": {
+          "name": "Exposed-occupation posting index",
+          "value": 94.0,
+          "unit": "index",
+          "direction": "up",
+          "source": "Indeed Hiring Lab + Naukri + Seek",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "ai_skill_premium": {
+          "name": "AI-skill salary premium",
+          "value": 19.0,
+          "unit": "%",
+          "direction": "down",
+          "source": "Lightcast + Indeed",
+          "source_url": "https://lightcast.io/"
+        },
+        "graduate_posting": {
+          "name": "Graduate posting in exposed roles",
+          "value": -11.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "IFOW + Big 4 disclosures",
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+        },
+        "net_creation": {
+          "name": "Net AI-attributed job creation",
+          "value": 71.0,
+          "unit": "k roles",
+          "direction": "down",
+          "source": "WEF Future of Jobs 2025 + regional adapter",
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+        }
+      },
+      "occupations": [
+        {
+          "name": "Business Services Clerks",
+          "exposure": 69,
+          "gap": 24
+        },
+        {
+          "name": "ICT Application Developers",
+          "exposure": 67,
+          "gap": 25
+        },
+        {
+          "name": "Customer Care Clerks",
+          "exposure": 64,
+          "gap": 28
+        },
+        {
+          "name": "Numerical Clerks",
+          "exposure": 60,
+          "gap": 31
+        },
+        {
+          "name": "Sales & Marketing Managers",
+          "exposure": 53,
+          "gap": 36
+        },
+        {
+          "name": "Finance Professionals",
+          "exposure": 51,
+          "gap": 38
+        },
+        {
+          "name": "Legal Professionals",
+          "exposure": 47,
+          "gap": 42
+        },
+        {
+          "name": "Translators & Interpreters",
+          "exposure": 45,
+          "gap": 44
+        },
+        {
+          "name": "Graphic & Multimedia Designers",
+          "exposure": 43,
+          "gap": 46
+        },
+        {
+          "name": "HR Professionals",
+          "exposure": 41,
+          "gap": 47
+        }
+      ],
+      "demographics": {
+        "sex": {
+          "Female": 52,
+          "Male": 48
+        },
+        "age": {
+          "16-21": 3,
+          "22-25": 8,
+          "26-34": 25,
+          "35-49": 35,
+          "50-64": 25,
+          "65+": 4
+        }
+      },
+      "gap_chart": {
+        "cats": [
+          "ICT",
+          "Admin",
+          "Finance",
+          "Mgrs & Prof",
+          "Services",
+          "Trades",
+          "Care",
+          "Elementary"
+        ],
+        "theoretical": [
+          88,
+          90,
+          76,
+          68,
+          38,
+          18,
+          22,
+          10
+        ],
+        "observed": [
+          40,
+          38,
+          30,
+          24,
+          8,
+          2,
+          4,
+          1
+        ]
+      },
+      "posting_series": [
+        {
+          "iso_week": "2026-W11",
+          "value": 102.45
+        },
+        {
+          "iso_week": "2026-W12",
+          "value": 102.49
+        },
+        {
+          "iso_week": "2026-W13",
+          "value": 101.92
+        },
+        {
+          "iso_week": "2026-W14",
+          "value": 100.8
+        },
+        {
+          "iso_week": "2026-W15",
+          "value": 99.61
+        },
+        {
+          "iso_week": "2026-W16",
+          "value": 99.11
+        },
+        {
+          "iso_week": "2026-W17",
+          "value": 98.83
+        },
+        {
+          "iso_week": "2026-W18",
+          "value": 97.56
+        },
+        {
+          "iso_week": "2026-W19",
+          "value": 96.75
+        },
+        {
+          "iso_week": "2026-W20",
+          "value": 95.91
+        },
+        {
+          "iso_week": "2026-W21",
+          "value": 94.93
+        },
+        {
+          "iso_week": "2026-W22",
+          "value": 94.0
+        }
+      ],
+      "feed": [
+        {
+          "headline": "EC launches AI Skills Academy to retrain 1M workers by 2027",
+          "date": "2026-02-14",
+          "source": "European Commission",
+          "url": "https://digital-strategy.ec.europa.eu/en/policies/digital-skills-and-jobs",
+          "conf": 4
+        },
+        {
+          "headline": "CEPR: AI shows no short-run employment reduction in EU once selection-controlled",
+          "date": "2026-02-08",
+          "source": "CEPR / VoxEU",
+          "url": "https://cepr.org/voxeu/columns/how-ai-affecting-productivity-and-jobs-europe",
+          "conf": 3
+        },
+        {
+          "headline": "EPC: AI's impact on EU job market - call for a Social Compact",
+          "date": "2026-03-12",
+          "source": "European Policy Centre",
+          "url": "https://www.epc.eu/publication/ais-impact-on-europes-job-market-a-call-for-a-social-compact/",
+          "conf": 3
+        },
+        {
+          "headline": "Eurostat: AI use in enterprises rises to 13.5% (medium & large)",
+          "date": "2026-04-22",
+          "source": "Eurostat",
+          "url": "https://ec.europa.eu/eurostat/documents/7870049/23260410/KS-01-26-009-EN-N.pdf",
+          "conf": 5
+        },
+        {
+          "headline": "Cedefop: low-skilled and 15-24 y/o most exposed to routine automation",
+          "date": "2026-02-26",
+          "source": "Cedefop",
+          "url": "https://www.cedefop.europa.eu/en",
+          "conf": 4
+        }
+      ]
+    },
+    "APAC": {
+      "label": "Asia Pacific",
+      "narrative": "Singapore leads Claude usage per capita (AUI 4.19x); Japan and Korea show steady but slower diffusion. Government-led adoption strategies in Singapore (SkillsFuture), Japan (METI AI), and Korea (Digital Twin) emphasise augmentation over displacement. Manufacturing automation continues but is largely robotics-driven, not generative-AI driven.",
+      "kpis": {
+        "ai_layoffs_ytd": {
+          "name": "AI-attributed layoffs (YTD, thousands)",
+          "value": 14.2,
+          "unit": "k roles",
+          "direction": "up",
+          "source": "Layoffs.fyi",
+          "source_url": "https://layoffs.fyi/"
+        },
+        "topq_unemp_delta": {
+          "name": "Top-quartile unemployment delta",
+          "value": 0.1,
+          "unit": "pp",
+          "direction": "up",
+          "source": "Massenkoff & McCrory",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "hire_rate_22_25": {
+          "name": "22-25 hire rate change vs 2022",
+          "value": -8.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "CPS panel / Brynjolfsson 2025",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "ai_mention_postings": {
+          "name": "AI-mention posting share",
+          "value": 9.6,
+          "unit": "%",
+          "direction": "down",
+          "source": "Indeed Hiring Lab",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "capability_gap": {
+          "name": "Capability gap (theoretical-observed)",
+          "value": 41.0,
+          "unit": "pp",
+          "direction": "neutral",
+          "source": "Eloundou et al. + Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "augmentation_share": {
+          "name": "Augmentation share of Claude usage",
+          "value": 50.0,
+          "unit": "%",
+          "direction": "neutral",
+          "source": "Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "exposed_posting_index": {
+          "name": "Exposed-occupation posting index",
+          "value": 94.0,
+          "unit": "index",
+          "direction": "up",
+          "source": "Indeed Hiring Lab + Naukri + Seek",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "ai_skill_premium": {
+          "name": "AI-skill salary premium",
+          "value": 33.0,
+          "unit": "%",
+          "direction": "down",
+          "source": "Lightcast + Indeed",
+          "source_url": "https://lightcast.io/"
+        },
+        "graduate_posting": {
+          "name": "Graduate posting in exposed roles",
+          "value": -7.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "IFOW + Big 4 disclosures",
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+        },
+        "net_creation": {
+          "name": "Net AI-attributed job creation",
+          "value": 86.0,
+          "unit": "k roles",
+          "direction": "down",
+          "source": "WEF Future of Jobs 2025 + regional adapter",
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+        }
+      },
+      "occupations": [
+        {
+          "name": "ICT Developers (SG/JP/KR)",
+          "exposure": 70,
+          "gap": 23
+        },
+        {
+          "name": "Customer Service Officers",
+          "exposure": 65,
+          "gap": 27
+        },
+        {
+          "name": "Financial Analysts (HK/SG)",
+          "exposure": 61,
+          "gap": 30
+        },
+        {
+          "name": "Numerical Clerks",
+          "exposure": 58,
+          "gap": 33
+        },
+        {
+          "name": "Translators (JP/KR)",
+          "exposure": 56,
+          "gap": 35
+        },
+        {
+          "name": "Marketing Officers",
+          "exposure": 51,
+          "gap": 38
+        },
+        {
+          "name": "Para-legals",
+          "exposure": 47,
+          "gap": 42
+        },
+        {
+          "name": "HR Officers",
+          "exposure": 44,
+          "gap": 45
+        },
+        {
+          "name": "Designers",
+          "exposure": 42,
+          "gap": 47
+        },
+        {
+          "name": "Auditors",
+          "exposure": 39,
+          "gap": 49
+        }
+      ],
+      "demographics": {
+        "sex": {
+          "Female": 49,
+          "Male": 51
+        },
+        "age": {
+          "16-21": 3,
+          "22-25": 9,
+          "26-34": 28,
+          "35-49": 36,
+          "50-64": 21,
+          "65+": 3
+        }
+      },
+      "gap_chart": {
+        "cats": [
+          "ICT",
+          "Finance",
+          "Admin",
+          "Manufacturing",
+          "Retail",
+          "Healthcare",
+          "Construction",
+          "Hospitality"
+        ],
+        "theoretical": [
+          90,
+          78,
+          86,
+          24,
+          42,
+          30,
+          14,
+          22
+        ],
+        "observed": [
+          44,
+          32,
+          34,
+          5,
+          10,
+          7,
+          1,
+          3
+        ]
+      },
+      "posting_series": [
+        {
+          "iso_week": "2026-W11",
+          "value": 104.73
+        },
+        {
+          "iso_week": "2026-W12",
+          "value": 101.73
+        },
+        {
+          "iso_week": "2026-W13",
+          "value": 102.3
+        },
+        {
+          "iso_week": "2026-W14",
+          "value": 100.94
+        },
+        {
+          "iso_week": "2026-W15",
+          "value": 100.52
+        },
+        {
+          "iso_week": "2026-W16",
+          "value": 99.49
+        },
+        {
+          "iso_week": "2026-W17",
+          "value": 98.52
+        },
+        {
+          "iso_week": "2026-W18",
+          "value": 97.47
+        },
+        {
+          "iso_week": "2026-W19",
+          "value": 96.82
+        },
+        {
+          "iso_week": "2026-W20",
+          "value": 95.55
+        },
+        {
+          "iso_week": "2026-W21",
+          "value": 94.8
+        },
+        {
+          "iso_week": "2026-W22",
+          "value": 94.0
+        }
+      ],
+      "feed": [
+        {
+          "headline": "Singapore MOM: AI adoption rate among SMEs hits 28%",
+          "date": "2026-04-15",
+          "source": "MOM Singapore",
+          "url": "https://www.mom.gov.sg/",
+          "conf": 5
+        },
+        {
+          "headline": "METI Japan announces JPY 1.2T AI workforce reskilling fund",
+          "date": "2026-03-04",
+          "source": "METI",
+          "url": "https://www.meti.go.jp/english/",
+          "conf": 4
+        },
+        {
+          "headline": "Korea NIA: AI exposure in admin clerical jobs at 64%",
+          "date": "2026-02-19",
+          "source": "Korea NIA",
+          "url": "https://www.nia.or.kr/site/nia_eng/main.do",
+          "conf": 4
+        },
+        {
+          "headline": "Anthropic Australia brief extended to NZ - usage parity within 9 months",
+          "date": "2026-04-29",
+          "source": "Anthropic",
+          "url": "https://www.anthropic.com/research/how-australia-uses-claude",
+          "conf": 5
+        },
+        {
+          "headline": "JobStreet APAC: AI postings up 47% YoY across SEA",
+          "date": "2026-05-08",
+          "source": "JobStreet",
+          "url": "https://www.jobstreet.com/",
+          "conf": 4
+        }
+      ]
+    },
+    "AU": {
+      "label": "Australia",
+      "narrative": "8.5% of Indeed AU postings mention AI (vs 5.8% a year earlier). In software development and data/analytics, 43% of postings reference AI. Finance leads AI-skill demand at ~12%. Indeed Hiring Lab reports graduates are still being hired despite AI hype. ABS Job Vacancies show overall cooling but AI hiring bucks the trend.",
+      "kpis": {
+        "ai_layoffs_ytd": {
+          "name": "AI-attributed layoffs (YTD, thousands)",
+          "value": 1.8,
+          "unit": "k roles",
+          "direction": "up",
+          "source": "Layoffs.fyi",
+          "source_url": "https://layoffs.fyi/"
+        },
+        "topq_unemp_delta": {
+          "name": "Top-quartile unemployment delta",
+          "value": 0.0,
+          "unit": "pp",
+          "direction": "up",
+          "source": "Massenkoff & McCrory",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "hire_rate_22_25": {
+          "name": "22-25 hire rate change vs 2022",
+          "value": -3.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "CPS panel / Brynjolfsson 2025",
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+        },
+        "ai_mention_postings": {
+          "name": "AI-mention posting share",
+          "value": 8.5,
+          "unit": "%",
+          "direction": "down",
+          "source": "Indeed Hiring Lab",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "capability_gap": {
+          "name": "Capability gap (theoretical-observed)",
+          "value": 43.0,
+          "unit": "pp",
+          "direction": "neutral",
+          "source": "Eloundou et al. + Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "augmentation_share": {
+          "name": "Augmentation share of Claude usage",
+          "value": 51.0,
+          "unit": "%",
+          "direction": "neutral",
+          "source": "Anthropic Economic Index",
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+        },
+        "exposed_posting_index": {
+          "name": "Exposed-occupation posting index",
+          "value": 98.0,
+          "unit": "index",
+          "direction": "up",
+          "source": "Indeed Hiring Lab + Naukri + Seek",
+          "source_url": "https://www.hiringlab.org/"
+        },
+        "ai_skill_premium": {
+          "name": "AI-skill salary premium",
+          "value": 26.0,
+          "unit": "%",
+          "direction": "down",
+          "source": "Lightcast + Indeed",
+          "source_url": "https://lightcast.io/"
+        },
+        "graduate_posting": {
+          "name": "Graduate posting in exposed roles",
+          "value": -2.0,
+          "unit": "%",
+          "direction": "up",
+          "source": "IFOW + Big 4 disclosures",
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+        },
+        "net_creation": {
+          "name": "Net AI-attributed job creation",
+          "value": 37.0,
+          "unit": "k roles",
+          "direction": "down",
+          "source": "WEF Future of Jobs 2025 + regional adapter",
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+        }
+      },
+      "occupations": [
+        {
+          "name": "Software & Applications Programmers",
+          "exposure": 73,
+          "gap": 21
+        },
+        {
+          "name": "Contact Centre Operators",
+          "exposure": 69,
+          "gap": 25
+        },
+        {
+          "name": "Accounting Clerks & Bookkeepers",
+          "exposure": 64,
+          "gap": 28
+        },
+        {
+          "name": "Marketing Specialists",
+          "exposure": 58,
+          "gap": 33
+        },
+        {
+          "name": "Financial Investment Advisers",
+          "exposure": 55,
+          "gap": 35
+        },
+        {
+          "name": "Para-legals",
+          "exposure": 51,
+          "gap": 38
+        },
+        {
+          "name": "HR Advisers",
+          "exposure": 48,
+          "gap": 41
+        },
+        {
+          "name": "Graphic Designers",
+          "exposure": 45,
+          "gap": 44
+        },
+        {
+          "name": "Insurance Agents",
+          "exposure": 43,
+          "gap": 45
+        },
+        {
+          "name": "Procurement Officers",
+          "exposure": 41,
+          "gap": 46
+        }
+      ],
+      "demographics": {
+        "sex": {
+          "Female": 53,
+          "Male": 47
+        },
+        "age": {
+          "16-21": 4,
+          "22-25": 9,
+          "26-34": 27,
+          "35-49": 35,
+          "50-64": 22,
+          "65+": 3
+        }
+      },
+      "gap_chart": {
+        "cats": [
+          "ICT",
+          "Finance",
+          "Admin",
+          "Mining",
+          "Construction",
+          "Healthcare",
+          "Education",
+          "Hospitality"
+        ],
+        "theoretical": [
+          92,
+          80,
+          85,
+          26,
+          18,
+          30,
+          42,
+          22
+        ],
+        "observed": [
+          48,
+          34,
+          36,
+          5,
+          2,
+          8,
+          12,
+          4
+        ]
+      },
+      "posting_series": [
+        {
+          "iso_week": "2026-W11",
+          "value": 108.67
+        },
+        {
+          "iso_week": "2026-W12",
+          "value": 107.0
+        },
+        {
+          "iso_week": "2026-W13",
+          "value": 106.5
+        },
+        {
+          "iso_week": "2026-W14",
+          "value": 106.07
+        },
+        {
+          "iso_week": "2026-W15",
+          "value": 103.81
+        },
+        {
+          "iso_week": "2026-W16",
+          "value": 103.57
+        },
+        {
+          "iso_week": "2026-W17",
+          "value": 102.7
+        },
+        {
+          "iso_week": "2026-W18",
+          "value": 101.62
+        },
+        {
+          "iso_week": "2026-W19",
+          "value": 100.42
+        },
+        {
+          "iso_week": "2026-W20",
+          "value": 99.74
+        },
+        {
+          "iso_week": "2026-W21",
+          "value": 98.87
+        },
+        {
+          "iso_week": "2026-W22",
+          "value": 98.0
+        }
+      ],
+      "feed": [
+        {
+          "headline": "Indeed AU: AI mentions in postings reach 8.5%, double last year",
+          "date": "2026-04-01",
+          "source": "Indeed Hiring Lab",
+          "url": "https://www.hiringlab.org/au/blog/2026/04/01/nothing-artificial-about-australian-ai-adoption/",
+          "conf": 5
+        },
+        {
+          "headline": "Seek Employment Trends: AI-enabled roles outpace overall growth 3:1",
+          "date": "2026-03-18",
+          "source": "Seek",
+          "url": "https://www.seek.com.au/",
+          "conf": 4
+        },
+        {
+          "headline": "ACS: AI jobs fastest growing category in Australia",
+          "date": "2026-02-11",
+          "source": "ACS Information Age",
+          "url": "https://ia.acs.org.au/article/2026/ai-jobs-are-the-fastest-growing-in-australia.html",
+          "conf": 4
+        },
+        {
+          "headline": "ABS Job Vacancies - Feb 2026 release: cooling broad-based, AI exempt",
+          "date": "2026-02-27",
+          "source": "ABS",
+          "url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia/latest-release",
+          "conf": 5
+        },
+        {
+          "headline": "Treasury Workforce Outlook flags 6.5% of AU jobs at high exposure",
+          "date": "2026-04-18",
+          "source": "AU Treasury",
+          "url": "https://treasury.gov.au/",
+          "conf": 4
+        }
+      ]
+    }
+  }
+}

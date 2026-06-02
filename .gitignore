@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.local
+.venv/
+node_modules/
+*.swp
+*.swo
+.vscode/
+.idea/

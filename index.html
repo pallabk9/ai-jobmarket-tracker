@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AI Job Market Impact Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Daily, weekly, monthly and yearly tracking of AI-driven labour market change across six regions. Grounded in the Anthropic Observed Exposure methodology.">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' fill='%231F3864'/><text x='12' y='17' text-anchor='middle' font-family='Arial' font-size='14' font-weight='700' fill='white'>AI</text></svg>">
+</head>
+<body>
+
+<header class="site-hdr">
+  <div class="wrap hdr-inner">
+    <div>
+      <h1>AI Job Market Impact Tracker</h1>
+      <p class="sub">Anthropic Observed Exposure methodology &middot; six regions &middot; weekly refresh</p>
+    </div>
+    <nav class="topnav">
+      <a href="#glossary">Glossary</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#downloads">Download data</a>
+      <a href="manual.pdf" target="_blank" rel="noopener" class="cta">User manual (PDF)</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============== INTRO + GLOSSARY ============== -->
+  <section id="glossary" class="block">
+    <div class="block-hdr">
+      <h2>Glossary &mdash; read this first</h2>
+      <p class="block-sub">Every term used on the dashboard, explained in plain language. Tap a term to jump to its full entry in the user manual.</p>
+    </div>
+
+    <div class="glossary-grid">
+      <article class="gl-card">
+        <h3>Observed Exposure</h3>
+        <p>The headline score, 0&ndash;100%, for each occupation. It is the share of an occupation's job tasks that (a) an LLM is theoretically capable of doing AND (b) we already see being done by Claude in real Anthropic usage data. Tasks that are <em>automated</em> count double tasks that are <em>augmented</em>. Defined by Massenkoff &amp; McCrory (Anthropic, March 2026).</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>Theoretical &beta;</h3>
+        <p>A task's potential AI exposure on a 0 / 0.5 / 1 scale, from Eloundou et al. 2023. A score of 1 means an LLM alone can at least double the task's speed; 0.5 means it can with extra tools; 0 means it can't. Used as the upper bound.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>Capability gap</h3>
+        <p>Theoretical &beta; minus Observed Exposure. Big gap = the AI <em>could</em> do this work but isn't yet. The leading indicator: when this gap closes, displacement risk rises.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>Automation vs Augmentation</h3>
+        <p><strong>Automation:</strong> the AI does the task end-to-end. <strong>Augmentation:</strong> the human and AI collaborate. Anthropic's March 2026 release shows augmentation accounts for just over half of Claude.ai conversations.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>Top-quartile exposure</h3>
+        <p>Workers whose occupation sits in the highest 25% of Observed Exposure scores in their region. The group most likely to feel AI impact first.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>Hire rate (22&ndash;25)</h3>
+        <p>The percentage of workers aged 22 to 25 who started a new job in an exposed occupation in a given month. The earliest moving signal in the US data.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>Attribution confidence (1&ndash;5)</h3>
+        <p>How confident we are that a layoff was actually caused by AI rather than labelled "AI-driven" for PR. 5 = automation directly cited by company filings or layoff letters. 1 = vague reference in press, plausible "AI washing".</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>AI washing</h3>
+        <p>When companies attribute job cuts to AI to mask routine cost-cutting or post-pandemic rightsizing. Layoffs.fyi reports ~48% of 2026 tech layoffs are "AI-attributed" but a stricter count puts genuine automation closer to 20%.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>O*NET / SOC / NCO / ISCO / ANZSCO</h3>
+        <p>Occupation classification systems. O*NET is US; SOC2020 is UK; NCO-2015 is India; ISCO-08 is the EU; ANZSCO is Australia/NZ. Each region's data is crosswalked to O*NET for comparability.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>BLS / ONS / NSO / Eurostat / ABS</h3>
+        <p>Government statistics agencies for the US, UK, India, EU, and Australia respectively. They publish the official labour-force surveys that anchor each region.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>AUI</h3>
+        <p>Anthropic AI Usage Index. A country's Claude usage relative to its share of the global working-age population. Singapore leads at 4.19x, US at 3.69x, India ranks 101st of 116 per-capita.</p>
+      </article>
+
+      <article class="gl-card">
+        <h3>Cadence</h3>
+        <p>The reporting cycle. <strong>Daily:</strong> overnight deltas. <strong>Weekly:</strong> regional digest. <strong>Monthly:</strong> per-region deep-dive. <strong>Yearly:</strong> retrospective and forecast.</p>
+      </article>
+    </div>
+
+    <details class="more-info">
+      <summary>How the score is calculated &mdash; expand</summary>
+      <div class="formula-box">
+        <p><strong>Observed Exposure (occupation) = </strong>
+          &Sigma; over tasks of [ time_share(task) &times; coverage(task) ]
+        </p>
+        <p>where <strong>coverage(task)</strong> = 1 if the task has &beta; &ge; 0.5 <em>and</em> sufficient Claude usage in the latest Anthropic Economic Index, weighted by:</p>
+        <ul>
+          <li>1.0 if the use is fully automated</li>
+          <li>0.5 if the use is augmentative</li>
+          <li>0 otherwise</li>
+        </ul>
+        <p>Occupation-level scores are aggregated to category level by current-employment weight. See the user manual for the full appendix and citation chain.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============== CONTROLS ============== -->
+  <section id="dashboard" class="block">
+    <div class="block-hdr">
+      <h2>Live dashboard</h2>
+      <p class="block-sub">Pick a region and a cadence. Every chart and panel rebinds. Numbers and sources are visible &mdash; nothing is hidden behind tooltips alone.</p>
+    </div>
+
+    <div class="controls">
+      <div class="ctl-grp">
+        <span class="ctl-label">Region</span>
+        <span class="pill active" data-region="US">United States</span>
+        <span class="pill" data-region="UK">United Kingdom</span>
+        <span class="pill" data-region="IN">India</span>
+        <span class="pill" data-region="EU">European Union</span>
+        <span class="pill" data-region="APAC">Asia Pacific</span>
+        <span class="pill" data-region="AU">Australia</span>
+      </div>
+      <div class="ctl-grp">
+        <span class="ctl-label">Cadence</span>
+        <span class="pill" data-cadence="daily">Daily</span>
+        <span class="pill" data-cadence="weekly">Weekly</span>
+        <span class="pill active" data-cadence="monthly">Monthly</span>
+        <span class="pill" data-cadence="yearly">Yearly</span>
+      </div>
+      <div class="meta-line">
+        <span id="snapshot-meta">Loading&hellip;</span>
+      </div>
+    </div>
+
+    <div class="kpi-grid" id="kpis"></div>
+
+    <div class="narrative" id="narrative">Loading region narrative&hellip;</div>
+
+    <div class="cards-grid">
+
+      <article class="card span-7">
+        <header class="card-hdr">
+          <h3>Most exposed occupations</h3>
+          <details class="src">
+            <summary>Source &amp; method</summary>
+            <p><strong>What this shows:</strong> the ten occupations in the selected region with the highest Observed Exposure score. The blue bar is the score; the red bar is the capability gap (room for the score to grow).</p>
+            <p><strong>Source:</strong> Anthropic Economic Index task-level data, mapped to the local occupation classification.</p>
+            <p><strong>Formula:</strong> time-weighted average of task-level coverage, automation weighted 2x augmentation.</p>
+          </details>
+        </header>
+        <table class="occ-table">
+          <thead>
+            <tr>
+              <th>Occupation</th>
+              <th>Observed exposure</th>
+              <th class="num">Score</th>
+              <th>Capability gap (room to grow)</th>
+            </tr>
+          </thead>
+          <tbody id="occ-table-body"></tbody>
+        </table>
+      </article>
+
+      <article class="card span-5">
+        <header class="card-hdr">
+          <h3>Net job change &mdash; AI-attributed</h3>
+          <details class="src">
+            <summary>Source &amp; method</summary>
+            <p><strong>What this shows:</strong> jobs created (green) and displaced (red) in the last 12 months, by occupation family, in thousands of roles.</p>
+            <p><strong>Source:</strong> WEF Future of Jobs 2025 regional baseline, plus job-board posting deltas (Indeed Hiring Lab, Naukri JobSpeak, Seek) and Layoffs.fyi for displacement.</p>
+            <p><strong>Caveat:</strong> displacement figures filter to attribution-confidence &ge; 3 to mute AI-washing.</p>
+          </details>
+        </header>
+        <div class="chart-wrap"><canvas id="cvdChart"></canvas></div>
+      </article>
+
+      <article class="card span-4">
+        <header class="card-hdr">
+          <h3>Demographics in the exposed quartile</h3>
+          <details class="src">
+            <summary>Source &amp; method</summary>
+            <p><strong>What this shows:</strong> age distribution of workers in the top-quartile-exposure occupations. The chart title lists the female/male split.</p>
+            <p><strong>Source:</strong> US CPS / UK LFS / India PLFS / EU LFS / AU LFS, with each region's labour-force survey weighted to its working-age population.</p>
+          </details>
+        </header>
+        <div class="chart-wrap short"><canvas id="demoChart"></canvas></div>
+      </article>
+
+      <article class="card span-4">
+        <header class="card-hdr">
+          <h3>Augmentation vs automation</h3>
+          <details class="src">
+            <summary>Source &amp; method</summary>
+            <p><strong>What this shows:</strong> the split of Claude usage between collaborative (augmentation) and end-to-end (automation) interactions in the region's traffic mix.</p>
+            <p><strong>Source:</strong> Anthropic Economic Index Feb 2026 sample.</p>
+          </details>
+        </header>
+        <div class="chart-wrap short"><canvas id="augChart"></canvas></div>
+      </article>
+
+      <article class="card span-4">
+        <header class="card-hdr">
+          <h3>Posting volume &mdash; exposed roles</h3>
+          <details class="src">
+            <summary>Source &amp; method</summary>
+            <p><strong>What this shows:</strong> 12-week index of job postings in the top-quartile-exposure occupations, base = first week shown.</p>
+            <p><strong>Source:</strong> Indeed Hiring Lab feeds, supplemented by Naukri JobSpeak (India), Seek (AU), ONS Vacancy Survey (UK).</p>
+          </details>
+        </header>
+        <div class="chart-wrap short"><canvas id="postChart"></canvas></div>
+      </article>
+
+      <article class="card span-7">
+        <header class="card-hdr">
+          <h3>Capability gap by sector &mdash; theoretical vs observed</h3>
+          <details class="src">
+            <summary>Source &amp; method</summary>
+            <p><strong>What this shows:</strong> blue = theoretical &beta; (Eloundou et al.) for tasks in each sector. Red = Observed Exposure (Anthropic usage). The space between is the headroom.</p>
+            <p><strong>Why it matters:</strong> watch the red bar growing toward the blue bar. That movement, not aggregate unemployment, is the earliest signal.</p>
+          </details>
+        </header>
+        <div class="chart-wrap tall"><canvas id="gapChart"></canvas></div>
+      </article>
+
+      <article class="card span-5">
+        <header class="card-hdr">
+          <h3>News &amp; events &mdash; AI-attributed</h3>
+          <details class="src">
+            <summary>Source &amp; method</summary>
+            <p><strong>What this shows:</strong> the most recent AI-attributed events in the region. Each is tagged with an attribution-confidence score.</p>
+            <p><strong>Confidence scale:</strong> 5 = direct company statement, 4 = first-party data, 3 = credible reporting, 2 = secondary reporting, 1 = unsourced.</p>
+          </details>
+        </header>
+        <div class="feed" id="feed"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============== METHODOLOGY ============== -->
+  <section id="methodology" class="block">
+    <div class="block-hdr">
+      <h2>Methodology &mdash; what every KPI means and where it comes from</h2>
+      <p class="block-sub">Each KPI on the dashboard, with its definition, formula, source, and alert band.</p>
+    </div>
+
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th>KPI</th>
+          <th>What it means</th>
+          <th>Source</th>
+          <th>Refresh</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>AI-attributed layoffs (YTD)</strong></td><td>Cumulative tech-sector layoffs since 1 Jan where the employer cited AI/automation. Filtered to attribution confidence &ge; 3.</td><td><a href="https://layoffs.fyi/" target="_blank" rel="noopener">Layoffs.fyi</a> + curated news</td><td>Daily</td></tr>
+        <tr><td><strong>Top-quartile unemployment delta</strong></td><td>Difference-in-differences estimate of unemployment in the top-quartile-exposure group vs the unexposed group, vs pre-ChatGPT baseline.</td><td><a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" rel="noopener">Massenkoff &amp; McCrory 2026</a> + BLS CPS / ONS LFS / Eurostat / NSO</td><td>Monthly</td></tr>
+        <tr><td><strong>22&ndash;25 hire rate</strong></td><td>Year-on-year change in the monthly job-start rate for workers aged 22 to 25 in exposed occupations.</td><td>BLS CPS panel / equivalent local LFS</td><td>Monthly</td></tr>
+        <tr><td><strong>AI-mention posting share</strong></td><td>% of job postings whose description mentions AI, ML, GenAI, prompt engineering, or related skills.</td><td><a href="https://www.hiringlab.org/" target="_blank" rel="noopener">Indeed Hiring Lab</a></td><td>Weekly</td></tr>
+        <tr><td><strong>Capability gap</strong></td><td>Theoretical &beta; minus Observed Exposure, averaged across the region's occupations weighted by current employment.</td><td>Eloundou et al. 2023 + Anthropic Economic Index</td><td>Monthly</td></tr>
+        <tr><td><strong>Augmentation share</strong></td><td>% of Claude conversations in the region's traffic mix classified as collaborative rather than end-to-end automation.</td><td>Anthropic Economic Index</td><td>Quarterly</td></tr>
+        <tr><td><strong>Exposed-occupation posting index</strong></td><td>Indexed (Jan 2025 = 100) job postings in the top-quartile-exposure occupations.</td><td>Indeed + Naukri + Seek + ONS Vacancy Survey</td><td>Weekly</td></tr>
+        <tr><td><strong>AI-skill salary premium</strong></td><td>Median advertised salary for postings mentioning AI minus median for comparable non-AI postings, expressed as a percentage.</td><td>Indeed Hiring Lab + Lightcast</td><td>Monthly</td></tr>
+        <tr><td><strong>Graduate posting</strong></td><td>YoY change in entry-level postings in exposed roles. Big 4 graduate disclosures (KPMG, Deloitte, EY, PwC) are used where available.</td><td>Indeed + IFOW + employer filings</td><td>Quarterly</td></tr>
+        <tr><td><strong>Net AI-attributed job creation</strong></td><td>New AI/ML/data/security postings minus AI-attributed displacement events, latest 12 months, in thousands of roles.</td><td>WEF Future of Jobs 2025 + regional adapters</td><td>Quarterly</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Two-track model</h3>
+    <p>Structural signals move slowly and reliably; market signals move fast and noisily. The tool keeps them separate so fast noise never overrides slow signal.</p>
+
+    <table class="kpi-table">
+      <thead><tr><th>Track</th><th>Refresh</th><th>Sources</th><th>Use case</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Structural exposure</strong></td><td>Monthly</td><td>Anthropic Economic Index, Eloundou &beta;, O*NET, official occupational projections</td><td>Maintain the watch list, deep-dive reports</td></tr>
+        <tr><td><strong>Market signal</strong></td><td>Daily / weekly</td><td>Indeed Hiring Lab, Naukri JobSpeak, Seek, Layoffs.fyi, news feeds, ONS Vacancy Survey, ABS Job Vacancies</td><td>Trigger alerts when an exposed occupation breaches its band</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:14px">Full methodology, regional crosswalks, and the citation chain are in the <a href="manual.pdf" target="_blank" rel="noopener"><strong>User manual PDF</strong></a>.</p>
+  </section>
+
+  <!-- ============== DOWNLOADS ============== -->
+  <section id="downloads" class="block">
+    <div class="block-hdr">
+      <h2>Download the data</h2>
+      <p class="block-sub">Every weekly snapshot is preserved. The master CSV contains every value the dashboard has ever shown.</p>
+    </div>
+
+    <div class="dl-grid">
+      <a class="dl-card primary" href="data/historical.csv" download>
+        <div class="dl-icon">CSV</div>
+        <div>
+          <div class="dl-title">Master historical dataset</div>
+          <div class="dl-sub">All KPIs &times; all regions &times; all weeks since launch</div>
+        </div>
+      </a>
+      <a class="dl-card" href="data/current.json" download>
+        <div class="dl-icon">JSON</div>
+        <div>
+          <div class="dl-title">Latest weekly snapshot</div>
+          <div class="dl-sub" id="dl-current-meta">Loading&hellip;</div>
+        </div>
+      </a>
+      <a class="dl-card" href="manual.pdf" target="_blank" rel="noopener">
+        <div class="dl-icon">PDF</div>
+        <div>
+          <div class="dl-title">User manual</div>
+          <div class="dl-sub">Methodology, KPI definitions, how to read the dashboard</div>
+        </div>
+      </a>
+    </div>
+
+    <h3 style="margin-top:24px">Weekly snapshot archive</h3>
+    <p class="block-sub">Each Monday a frozen snapshot is added. Older snapshots are never edited &mdash; they are the audit trail.</p>
+    <div class="snapshot-list" id="snapshot-list">Loading snapshots&hellip;</div>
+  </section>
+
+  <!-- ============== UPDATE STATUS ============== -->
+  <section class="block">
+    <div class="block-hdr">
+      <h2>Update status</h2>
+      <p class="block-sub">The dashboard refreshes automatically every Monday at 06:00 UTC via a GitHub Actions workflow.</p>
+    </div>
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="status-label">Last refresh</div>
+        <div class="status-val" id="status-last">&mdash;</div>
+      </div>
+      <div class="status-card">
+        <div class="status-label">Source week</div>
+        <div class="status-val" id="status-week">&mdash;</div>
+      </div>
+      <div class="status-card">
+        <div class="status-label">Next refresh</div>
+        <div class="status-val">Monday 06:00 UTC</div>
+      </div>
+      <div class="status-card">
+        <div class="status-label">Snapshots stored</div>
+        <div class="status-val" id="status-snapshots">&mdash;</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-ftr">
+  <div class="wrap">
+    <p>Built on the Anthropic Observed Exposure methodology (Massenkoff &amp; McCrory, 5 March 2026). This site is a research instrument, not investment or hiring advice.</p>
+    <p>Project owner: Nathan Gupta, Advanced Workplace Associates. Open data feed: <a href="data/historical.csv">historical.csv</a> &middot; <a href="data/current.json">current.json</a> &middot; <a href="data/snapshots_index.json">snapshots_index.json</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<script src="assets/dashboard.js"></script>
+
+</body>
+</html>
