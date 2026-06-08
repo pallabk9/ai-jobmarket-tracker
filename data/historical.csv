@@ -779,3 +779,63 @@ iso_week,week_ending,region_code,region,kpi_id,kpi_name,value,unit,direction,sou
 2026-W20,2026-05-17,AU,Australia,net_creation,Net AI-attributed job creation,36.15,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-02T00:00:00Z
 2026-W21,2026-05-24,AU,Australia,net_creation,Net AI-attributed job creation,36.53,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-02T00:00:00Z
 2026-W22,2026-05-31,AU,Australia,net_creation,Net AI-attributed job creation,37.0,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-02T00:00:00Z
+2026-W23,2026-06-07,US,United States,ai_layoffs_ytd,"AI-attributed layoffs (YTD, thousands)",114.75,k roles,up,Layoffs.fyi,https://layoffs.fyi/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,topq_unemp_delta,Top-quartile unemployment delta,0.1,pp,up,Massenkoff & McCrory,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,hire_rate_22_25,22-25 hire rate change vs 2022,-14.31,%,up,CPS panel / Brynjolfsson 2025,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,ai_mention_postings,AI-mention posting share,8.2,%,down,Indeed Hiring Lab,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,capability_gap,Capability gap (theoretical-observed),41.96,pp,neutral,Eloundou et al. + Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,augmentation_share,Augmentation share of Claude usage,52.4,%,neutral,Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,exposed_posting_index,Exposed-occupation posting index,84.34,index,up,Indeed Hiring Lab + Naukri + Seek,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,ai_skill_premium,AI-skill salary premium,27.47,%,down,Lightcast + Indeed,https://lightcast.io/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,graduate_posting,Graduate posting in exposed roles,-17.92,%,up,IFOW + Big 4 disclosures,https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,US,United States,net_creation,Net AI-attributed job creation,115.71,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,ai_layoffs_ytd,"AI-attributed layoffs (YTD, thousands)",4.24,k roles,up,Layoffs.fyi,https://layoffs.fyi/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,topq_unemp_delta,Top-quartile unemployment delta,0.2,pp,up,Massenkoff & McCrory,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,hire_rate_22_25,22-25 hire rate change vs 2022,-12.27,%,up,CPS panel / Brynjolfsson 2025,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,ai_mention_postings,AI-mention posting share,7.02,%,down,Indeed Hiring Lab,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,capability_gap,Capability gap (theoretical-observed),43.92,pp,neutral,Eloundou et al. + Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,augmentation_share,Augmentation share of Claude usage,52.82,%,neutral,Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,exposed_posting_index,Exposed-occupation posting index,89.59,index,up,Indeed Hiring Lab + Naukri + Seek,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,ai_skill_premium,AI-skill salary premium,21.83,%,down,Lightcast + Indeed,https://lightcast.io/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,graduate_posting,Graduate posting in exposed roles,-29.54,%,up,IFOW + Big 4 disclosures,https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,UK,United Kingdom,net_creation,Net AI-attributed job creation,58.4,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,ai_layoffs_ytd,"AI-attributed layoffs (YTD, thousands)",80.8,k roles,up,Layoffs.fyi,https://layoffs.fyi/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,topq_unemp_delta,Top-quartile unemployment delta,0.41,pp,up,Massenkoff & McCrory,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,hire_rate_22_25,22-25 hire rate change vs 2022,-21.86,%,up,CPS panel / Brynjolfsson 2025,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,ai_mention_postings,AI-mention posting share,11.41,%,down,Indeed Hiring Lab,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,capability_gap,Capability gap (theoretical-observed),36.19,pp,neutral,Eloundou et al. + Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,augmentation_share,Augmentation share of Claude usage,43.92,%,neutral,Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,exposed_posting_index,Exposed-occupation posting index,82.41,index,up,Indeed Hiring Lab + Naukri + Seek,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,ai_skill_premium,AI-skill salary premium,41.0,%,down,Lightcast + Indeed,https://lightcast.io/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,graduate_posting,Graduate posting in exposed roles,-25.15,%,up,IFOW + Big 4 disclosures,https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,IN,India,net_creation,Net AI-attributed job creation,146.87,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,ai_layoffs_ytd,"AI-attributed layoffs (YTD, thousands)",18.79,k roles,up,Layoffs.fyi,https://layoffs.fyi/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,topq_unemp_delta,Top-quartile unemployment delta,0.0,pp,up,Massenkoff & McCrory,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,hire_rate_22_25,22-25 hire rate change vs 2022,-9.08,%,up,CPS panel / Brynjolfsson 2025,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,ai_mention_postings,AI-mention posting share,6.83,%,down,Indeed Hiring Lab,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,capability_gap,Capability gap (theoretical-observed),46.31,pp,neutral,Eloundou et al. + Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,augmentation_share,Augmentation share of Claude usage,55.39,%,neutral,Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,exposed_posting_index,Exposed-occupation posting index,93.24,index,up,Indeed Hiring Lab + Naukri + Seek,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,ai_skill_premium,AI-skill salary premium,18.99,%,down,Lightcast + Indeed,https://lightcast.io/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,graduate_posting,Graduate posting in exposed roles,-11.22,%,up,IFOW + Big 4 disclosures,https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,EU,European Union,net_creation,Net AI-attributed job creation,69.64,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,ai_layoffs_ytd,"AI-attributed layoffs (YTD, thousands)",14.39,k roles,up,Layoffs.fyi,https://layoffs.fyi/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,topq_unemp_delta,Top-quartile unemployment delta,0.1,pp,up,Massenkoff & McCrory,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,hire_rate_22_25,22-25 hire rate change vs 2022,-7.97,%,up,CPS panel / Brynjolfsson 2025,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,ai_mention_postings,AI-mention posting share,9.66,%,down,Indeed Hiring Lab,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,capability_gap,Capability gap (theoretical-observed),41.3,pp,neutral,Eloundou et al. + Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,augmentation_share,Augmentation share of Claude usage,50.34,%,neutral,Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,exposed_posting_index,Exposed-occupation posting index,93.82,index,up,Indeed Hiring Lab + Naukri + Seek,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,ai_skill_premium,AI-skill salary premium,32.41,%,down,Lightcast + Indeed,https://lightcast.io/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,graduate_posting,Graduate posting in exposed roles,-7.11,%,up,IFOW + Big 4 disclosures,https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,APAC,Asia Pacific,net_creation,Net AI-attributed job creation,85.26,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,ai_layoffs_ytd,"AI-attributed layoffs (YTD, thousands)",1.83,k roles,up,Layoffs.fyi,https://layoffs.fyi/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,topq_unemp_delta,Top-quartile unemployment delta,0.0,pp,up,Massenkoff & McCrory,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,hire_rate_22_25,22-25 hire rate change vs 2022,-3.01,%,up,CPS panel / Brynjolfsson 2025,https://www.anthropic.com/research/labor-market-impacts,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,ai_mention_postings,AI-mention posting share,8.51,%,down,Indeed Hiring Lab,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,capability_gap,Capability gap (theoretical-observed),43.04,pp,neutral,Eloundou et al. + Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,augmentation_share,Augmentation share of Claude usage,50.87,%,neutral,Anthropic Economic Index,https://www.anthropic.com/research/economic-index-march-2026-report,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,exposed_posting_index,Exposed-occupation posting index,96.84,index,up,Indeed Hiring Lab + Naukri + Seek,https://www.hiringlab.org/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,ai_skill_premium,AI-skill salary premium,26.11,%,down,Lightcast + Indeed,https://lightcast.io/,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,graduate_posting,Graduate posting in exposed roles,-1.98,%,up,IFOW + Big 4 disclosures,https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective,2026-06-08T05:53:03Z
+2026-W23,2026-06-07,AU,Australia,net_creation,Net AI-attributed job creation,36.59,k roles,down,WEF Future of Jobs 2025 + regional adapter,https://www.weforum.org/publications/the-future-of-jobs-report-2025/,2026-06-08T05:53:03Z
