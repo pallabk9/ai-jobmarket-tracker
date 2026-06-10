@@ -292,22 +292,35 @@ def _abs_discover_key():
                 codes[code.get("id")] = name
         codelists[cl.get("id")] = codes
 
-    dims = []        # (position, dim id, codelist id)
+    def _enum_ref(dim_el):
+        """Codelist id referenced by a Dimension, across SDMX XML flavours:
+        <Ref class="Codelist" id=..>, <Ref id="CL_..">, or a URN string."""
+        for r in dim_el.iter():
+            if r.tag.endswith("}Ref"):
+                rid = r.get("id")
+                if rid and (r.get("class") == "Codelist" or rid.upper().startswith("CL")):
+                    return rid
+            if r.tag.endswith("}URN") and r.text and "Codelist" in r.text:
+                return r.text.rsplit(".", 1)[-1].rstrip(")")
+        return None
+
+    dims = []        # (position, dim id, codelist id or None)
     for d in root.iter():
         if d.tag.endswith("}Dimension") and d.get("id") and d.get("position"):
-            enum_ref = next((r.get("id") for r in d.iter()
-                             if r.tag.endswith("}Ref")
-                             and r.get("class") == "Codelist"), None)
-            dims.append((int(d.get("position")), d.get("id"), enum_ref))
+            dims.append((int(d.get("position")), d.get("id"), _enum_ref(d)))
     dims.sort()
     if not dims:
         raise ValueError("ABS DSD: no dimensions parsed")
 
     def pick(cl_id, *needles, exclude=()):
-        for code, name in (codelists.get(cl_id) or {}).items():
-            low = name.lower()
-            if any(n in low for n in needles) and not any(x in low for x in exclude):
-                return code
+        """Find a code whose name matches; cl_id=None scans every codelist."""
+        pools = ([codelists[cl_id]] if cl_id in codelists
+                 else list(codelists.values()))
+        for pool in pools:
+            for code, name in pool.items():
+                low = name.lower()
+                if any(n in low for n in needles) and not any(x in low for x in exclude):
+                    return code
         return None
 
     WANT = {
@@ -323,10 +336,13 @@ def _abs_discover_key():
         if dim_id == "TIME_PERIOD":
             continue
         if dim_id == "AGE":
-            tot = pick(cl_id, "all ages", "total") or ""
-            yth = pick(cl_id, "15-24", "15 to 24") or ""
+            tot = pick(cl_id, "all ages", "total") or pick(None, "all ages") or ""
+            yth = (pick(cl_id, "15-24", "15 to 24")
+                   or pick(None, "15-24", "15 to 24") or "")
             if not (tot and yth):
-                raise ValueError(f"ABS DSD: AGE codes not found in {cl_id}")
+                raise ValueError(
+                    f"ABS DSD: AGE codes not found (cl={cl_id}; "
+                    f"codelists: {sorted(k for k in codelists if k)[:10]})")
             age_codes = (tot, yth)
             parts.append(f"{tot}+{yth}")
             continue
