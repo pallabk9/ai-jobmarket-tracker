@@ -272,12 +272,12 @@
         },
         "topq_unemp_delta": {
           "name": "Early-career unemployment delta (proxy)",
-          "value": 0.19,
+          "value": 9.7,
           "unit": "pp",
           "direction": "up",
-          "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
-          "measurement": "modelled"
+          "source": "ONS LFS (18-24 vs 16+, SA)",
+          "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment",
+          "measurement": "measured"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -1523,5 +1523,5 @@
       ]
     }
   },
-  "backfilled_at": "2026-06-10T11:14:17Z"
+  "backfilled_at": "2026-06-10T11:23:20Z"
 }
