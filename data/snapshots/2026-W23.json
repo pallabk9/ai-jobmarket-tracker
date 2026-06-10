@@ -10,19 +10,21 @@
       "kpis": {
         "ai_layoffs_ytd": {
           "name": "AI-attributed layoffs (YTD, thousands)",
-          "value": 114.75,
+          "value": 87.71,
           "unit": "k roles",
           "direction": "up",
-          "source": "Layoffs.fyi",
-          "source_url": "https://layoffs.fyi/"
+          "source": "Challenger, Gray & Christmas (AI-cited cuts YTD)",
+          "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
+          "measurement": "measured"
         },
         "topq_unemp_delta": {
-          "name": "Top-quartile unemployment delta",
+          "name": "Early-career unemployment delta (proxy)",
           "value": 0.1,
           "unit": "pp",
           "direction": "up",
           "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -30,7 +32,8 @@
           "unit": "%",
           "direction": "up",
           "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
@@ -38,7 +41,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -46,7 +50,8 @@
           "unit": "pp",
           "direction": "neutral",
           "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
@@ -54,15 +59,17 @@
           "unit": "%",
           "direction": "neutral",
           "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
-          "value": 84.34,
+          "value": 84.19,
           "unit": "index",
           "direction": "up",
-          "source": "Indeed Hiring Lab + Naukri + Seek",
-          "source_url": "https://www.hiringlab.org/"
+          "source": "Indeed Hiring Lab (exposed-sector composite)",
+          "source_url": "https://github.com/hiring-lab/job_postings_tracker",
+          "measurement": "measured"
         },
         "ai_skill_premium": {
           "name": "AI-skill salary premium",
@@ -70,7 +77,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Lightcast + Indeed",
-          "source_url": "https://lightcast.io/"
+          "source_url": "https://lightcast.io/",
+          "measurement": "modelled"
         },
         "graduate_posting": {
           "name": "Graduate posting in exposed roles",
@@ -78,7 +86,8 @@
           "unit": "%",
           "direction": "up",
           "source": "IFOW + Big 4 disclosures",
-          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective",
+          "measurement": "modelled"
         },
         "net_creation": {
           "name": "Net AI-attributed job creation",
@@ -86,7 +95,8 @@
           "unit": "k roles",
           "direction": "down",
           "source": "WEF Future of Jobs 2025 + regional adapter",
-          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
+          "measurement": "modelled"
         }
       },
       "occupations": [
@@ -190,51 +200,51 @@
       "posting_series": [
         {
           "iso_week": "2026-W12",
-          "value": 90.81
+          "value": 90.6
         },
         {
           "iso_week": "2026-W13",
-          "value": 89.47
+          "value": 89.13
         },
         {
           "iso_week": "2026-W14",
-          "value": 89.29
+          "value": 86.7
         },
         {
           "iso_week": "2026-W15",
-          "value": 88.96
+          "value": 86.16
         },
         {
           "iso_week": "2026-W16",
-          "value": 87.49
+          "value": 84.75
         },
         {
           "iso_week": "2026-W17",
-          "value": 86.55
+          "value": 85.52
         },
         {
           "iso_week": "2026-W18",
-          "value": 86.49
+          "value": 85.6
         },
         {
           "iso_week": "2026-W19",
-          "value": 85.31
+          "value": 86.5
         },
         {
           "iso_week": "2026-W20",
-          "value": 84.37
+          "value": 86.15
         },
         {
           "iso_week": "2026-W21",
-          "value": 83.67
+          "value": 86.11
         },
         {
           "iso_week": "2026-W22",
-          "value": 83.0
+          "value": 84.19
         },
         {
           "iso_week": "2026-W23",
-          "value": 84.34
+          "value": 84.19
         }
       ],
       "feed": [
@@ -285,15 +295,17 @@
           "unit": "k roles",
           "direction": "up",
           "source": "Layoffs.fyi",
-          "source_url": "https://layoffs.fyi/"
+          "source_url": "https://layoffs.fyi/",
+          "measurement": "modelled"
         },
         "topq_unemp_delta": {
-          "name": "Top-quartile unemployment delta",
+          "name": "Early-career unemployment delta (proxy)",
           "value": 0.2,
           "unit": "pp",
           "direction": "up",
           "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -301,7 +313,8 @@
           "unit": "%",
           "direction": "up",
           "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
@@ -309,7 +322,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -317,7 +331,8 @@
           "unit": "pp",
           "direction": "neutral",
           "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
@@ -325,15 +340,17 @@
           "unit": "%",
           "direction": "neutral",
           "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
-          "value": 89.59,
+          "value": 66.08,
           "unit": "index",
           "direction": "up",
-          "source": "Indeed Hiring Lab + Naukri + Seek",
-          "source_url": "https://www.hiringlab.org/"
+          "source": "Indeed Hiring Lab (exposed-sector composite)",
+          "source_url": "https://github.com/hiring-lab/job_postings_tracker",
+          "measurement": "measured"
         },
         "ai_skill_premium": {
           "name": "AI-skill salary premium",
@@ -341,7 +358,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Lightcast + Indeed",
-          "source_url": "https://lightcast.io/"
+          "source_url": "https://lightcast.io/",
+          "measurement": "modelled"
         },
         "graduate_posting": {
           "name": "Graduate posting in exposed roles",
@@ -349,7 +367,8 @@
           "unit": "%",
           "direction": "up",
           "source": "IFOW + Big 4 disclosures",
-          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective",
+          "measurement": "modelled"
         },
         "net_creation": {
           "name": "Net AI-attributed job creation",
@@ -357,7 +376,8 @@
           "unit": "k roles",
           "direction": "down",
           "source": "WEF Future of Jobs 2025 + regional adapter",
-          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
+          "measurement": "modelled"
         }
       },
       "occupations": [
@@ -461,51 +481,51 @@
       "posting_series": [
         {
           "iso_week": "2026-W12",
-          "value": 96.72
+          "value": 70.34
         },
         {
           "iso_week": "2026-W13",
-          "value": 96.99
+          "value": 68.43
         },
         {
           "iso_week": "2026-W14",
-          "value": 95.51
+          "value": 68.54
         },
         {
           "iso_week": "2026-W15",
-          "value": 94.65
+          "value": 67.38
         },
         {
           "iso_week": "2026-W16",
-          "value": 94.55
+          "value": 66.46
         },
         {
           "iso_week": "2026-W17",
-          "value": 93.67
+          "value": 68.29
         },
         {
           "iso_week": "2026-W18",
-          "value": 92.35
+          "value": 66.85
         },
         {
           "iso_week": "2026-W19",
-          "value": 91.62
+          "value": 67.43
         },
         {
           "iso_week": "2026-W20",
-          "value": 90.49
+          "value": 68.38
         },
         {
           "iso_week": "2026-W21",
-          "value": 89.78
+          "value": 69.16
         },
         {
           "iso_week": "2026-W22",
-          "value": 89.0
+          "value": 66.08
         },
         {
           "iso_week": "2026-W23",
-          "value": 89.59
+          "value": 66.08
         }
       ],
       "feed": [
@@ -556,15 +576,17 @@
           "unit": "k roles",
           "direction": "up",
           "source": "Layoffs.fyi",
-          "source_url": "https://layoffs.fyi/"
+          "source_url": "https://layoffs.fyi/",
+          "measurement": "modelled"
         },
         "topq_unemp_delta": {
-          "name": "Top-quartile unemployment delta",
+          "name": "Early-career unemployment delta (proxy)",
           "value": 0.41,
           "unit": "pp",
           "direction": "up",
           "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -572,7 +594,8 @@
           "unit": "%",
           "direction": "up",
           "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
@@ -580,7 +603,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -588,7 +612,8 @@
           "unit": "pp",
           "direction": "neutral",
           "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
@@ -596,7 +621,8 @@
           "unit": "%",
           "direction": "neutral",
           "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
@@ -604,7 +630,8 @@
           "unit": "index",
           "direction": "up",
           "source": "Indeed Hiring Lab + Naukri + Seek",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "ai_skill_premium": {
           "name": "AI-skill salary premium",
@@ -612,7 +639,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Lightcast + Indeed",
-          "source_url": "https://lightcast.io/"
+          "source_url": "https://lightcast.io/",
+          "measurement": "modelled"
         },
         "graduate_posting": {
           "name": "Graduate posting in exposed roles",
@@ -620,7 +648,8 @@
           "unit": "%",
           "direction": "up",
           "source": "IFOW + Big 4 disclosures",
-          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective",
+          "measurement": "modelled"
         },
         "net_creation": {
           "name": "Net AI-attributed job creation",
@@ -628,7 +657,8 @@
           "unit": "k roles",
           "direction": "down",
           "source": "WEF Future of Jobs 2025 + regional adapter",
-          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
+          "measurement": "modelled"
         }
       },
       "occupations": [
@@ -827,15 +857,17 @@
           "unit": "k roles",
           "direction": "up",
           "source": "Layoffs.fyi",
-          "source_url": "https://layoffs.fyi/"
+          "source_url": "https://layoffs.fyi/",
+          "measurement": "modelled"
         },
         "topq_unemp_delta": {
-          "name": "Top-quartile unemployment delta",
-          "value": 0.0,
+          "name": "Early-career unemployment delta (proxy)",
+          "value": 9.1,
           "unit": "pp",
           "direction": "up",
-          "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source": "Eurostat une_rt_m (<25 vs total, SA)",
+          "source_url": "https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table",
+          "measurement": "measured"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -843,7 +875,8 @@
           "unit": "%",
           "direction": "up",
           "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
@@ -851,7 +884,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -859,7 +893,8 @@
           "unit": "pp",
           "direction": "neutral",
           "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
@@ -867,7 +902,8 @@
           "unit": "%",
           "direction": "neutral",
           "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
@@ -875,7 +911,8 @@
           "unit": "index",
           "direction": "up",
           "source": "Indeed Hiring Lab + Naukri + Seek",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "ai_skill_premium": {
           "name": "AI-skill salary premium",
@@ -883,7 +920,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Lightcast + Indeed",
-          "source_url": "https://lightcast.io/"
+          "source_url": "https://lightcast.io/",
+          "measurement": "modelled"
         },
         "graduate_posting": {
           "name": "Graduate posting in exposed roles",
@@ -891,7 +929,8 @@
           "unit": "%",
           "direction": "up",
           "source": "IFOW + Big 4 disclosures",
-          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective",
+          "measurement": "modelled"
         },
         "net_creation": {
           "name": "Net AI-attributed job creation",
@@ -899,7 +938,8 @@
           "unit": "k roles",
           "direction": "down",
           "source": "WEF Future of Jobs 2025 + regional adapter",
-          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
+          "measurement": "modelled"
         }
       },
       "occupations": [
@@ -1098,15 +1138,17 @@
           "unit": "k roles",
           "direction": "up",
           "source": "Layoffs.fyi",
-          "source_url": "https://layoffs.fyi/"
+          "source_url": "https://layoffs.fyi/",
+          "measurement": "modelled"
         },
         "topq_unemp_delta": {
-          "name": "Top-quartile unemployment delta",
+          "name": "Early-career unemployment delta (proxy)",
           "value": 0.1,
           "unit": "pp",
           "direction": "up",
           "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -1114,7 +1156,8 @@
           "unit": "%",
           "direction": "up",
           "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
@@ -1122,7 +1165,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -1130,7 +1174,8 @@
           "unit": "pp",
           "direction": "neutral",
           "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
@@ -1138,7 +1183,8 @@
           "unit": "%",
           "direction": "neutral",
           "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
@@ -1146,7 +1192,8 @@
           "unit": "index",
           "direction": "up",
           "source": "Indeed Hiring Lab + Naukri + Seek",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "ai_skill_premium": {
           "name": "AI-skill salary premium",
@@ -1154,7 +1201,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Lightcast + Indeed",
-          "source_url": "https://lightcast.io/"
+          "source_url": "https://lightcast.io/",
+          "measurement": "modelled"
         },
         "graduate_posting": {
           "name": "Graduate posting in exposed roles",
@@ -1162,7 +1210,8 @@
           "unit": "%",
           "direction": "up",
           "source": "IFOW + Big 4 disclosures",
-          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective",
+          "measurement": "modelled"
         },
         "net_creation": {
           "name": "Net AI-attributed job creation",
@@ -1170,7 +1219,8 @@
           "unit": "k roles",
           "direction": "down",
           "source": "WEF Future of Jobs 2025 + regional adapter",
-          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
+          "measurement": "modelled"
         }
       },
       "occupations": [
@@ -1369,15 +1419,17 @@
           "unit": "k roles",
           "direction": "up",
           "source": "Layoffs.fyi",
-          "source_url": "https://layoffs.fyi/"
+          "source_url": "https://layoffs.fyi/",
+          "measurement": "modelled"
         },
         "topq_unemp_delta": {
-          "name": "Top-quartile unemployment delta",
+          "name": "Early-career unemployment delta (proxy)",
           "value": 0.0,
           "unit": "pp",
           "direction": "up",
           "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -1385,7 +1437,8 @@
           "unit": "%",
           "direction": "up",
           "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts"
+          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
@@ -1393,7 +1446,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/"
+          "source_url": "https://www.hiringlab.org/",
+          "measurement": "modelled"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -1401,7 +1455,8 @@
           "unit": "pp",
           "direction": "neutral",
           "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
@@ -1409,15 +1464,17 @@
           "unit": "%",
           "direction": "neutral",
           "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report"
+          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "measurement": "modelled"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
-          "value": 96.84,
+          "value": 116.55,
           "unit": "index",
           "direction": "up",
-          "source": "Indeed Hiring Lab + Naukri + Seek",
-          "source_url": "https://www.hiringlab.org/"
+          "source": "Indeed Hiring Lab (exposed-sector composite)",
+          "source_url": "https://github.com/hiring-lab/job_postings_tracker",
+          "measurement": "measured"
         },
         "ai_skill_premium": {
           "name": "AI-skill salary premium",
@@ -1425,7 +1482,8 @@
           "unit": "%",
           "direction": "down",
           "source": "Lightcast + Indeed",
-          "source_url": "https://lightcast.io/"
+          "source_url": "https://lightcast.io/",
+          "measurement": "modelled"
         },
         "graduate_posting": {
           "name": "Graduate posting in exposed roles",
@@ -1433,7 +1491,8 @@
           "unit": "%",
           "direction": "up",
           "source": "IFOW + Big 4 disclosures",
-          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"
+          "source_url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective",
+          "measurement": "modelled"
         },
         "net_creation": {
           "name": "Net AI-attributed job creation",
@@ -1441,7 +1500,8 @@
           "unit": "k roles",
           "direction": "down",
           "source": "WEF Future of Jobs 2025 + regional adapter",
-          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"
+          "source_url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
+          "measurement": "modelled"
         }
       },
       "occupations": [
@@ -1545,51 +1605,51 @@
       "posting_series": [
         {
           "iso_week": "2026-W12",
-          "value": 107.0
+          "value": 124.37
         },
         {
           "iso_week": "2026-W13",
-          "value": 106.5
+          "value": 120.77
         },
         {
           "iso_week": "2026-W14",
-          "value": 106.07
+          "value": 120.48
         },
         {
           "iso_week": "2026-W15",
-          "value": 103.81
+          "value": 118.22
         },
         {
           "iso_week": "2026-W16",
-          "value": 103.57
+          "value": 120.11
         },
         {
           "iso_week": "2026-W17",
-          "value": 102.7
+          "value": 122.55
         },
         {
           "iso_week": "2026-W18",
-          "value": 101.62
+          "value": 122.51
         },
         {
           "iso_week": "2026-W19",
-          "value": 100.42
+          "value": 121.43
         },
         {
           "iso_week": "2026-W20",
-          "value": 99.74
+          "value": 118.52
         },
         {
           "iso_week": "2026-W21",
-          "value": 98.87
+          "value": 118.13
         },
         {
           "iso_week": "2026-W22",
-          "value": 98.0
+          "value": 116.55
         },
         {
           "iso_week": "2026-W23",
-          "value": 96.84
+          "value": 116.55
         }
       ],
       "feed": [
@@ -1631,5 +1691,6 @@
       ]
     }
   },
-  "feed_updated_at": "2026-06-10T00:00:00Z"
+  "feed_updated_at": "2026-06-10T00:00:00Z",
+  "backfilled_at": "2026-06-10T11:04:29Z"
 }
