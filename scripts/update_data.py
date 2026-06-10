@@ -229,10 +229,17 @@ def fetch_bls_unemp():
         raise ValueError("BLS API: missing series in response")
     return out
 
+# Canonical ONS JSON endpoints are the website paths plus /data
+# (api.ons.gov.uk/timeseries/... has been retired and 404s).
+ONS_SERIES_PATH = {
+    "MGSX": "employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/mgsx/lms",
+    "YBVQ": "employmentandlabourmarket/peoplenotinwork/unemployment/timeseries/ybvq/lms",
+}
+
 def fetch_ons_series(series_id):
-    """{YYYY-MM: rate} from the ONS LMS time-series API (ids must be lowercase)."""
+    """{YYYY-MM: rate} from the ONS website time-series JSON endpoint."""
     js = json.loads(_http_get(
-        f"https://api.ons.gov.uk/timeseries/{series_id.lower()}/dataset/lms/data"))
+        f"https://www.ons.gov.uk/{ONS_SERIES_PATH[series_id.upper()]}/data"))
     months = {"JANUARY": "01", "FEBRUARY": "02", "MARCH": "03", "APRIL": "04",
               "MAY": "05", "JUNE": "06", "JULY": "07", "AUGUST": "08",
               "SEPTEMBER": "09", "OCTOBER": "10", "NOVEMBER": "11", "DECEMBER": "12"}
@@ -265,37 +272,84 @@ def fetch_eurostat_unemp():
             raise ValueError(f"Eurostat une_rt_m {age}: empty")
     return out
 
+def _abs_discover_key():
+    """Build the exact SDMX key for 'unemployment rate, persons, AUS, SA,
+    ages total+15-24, monthly' by reading the LF datastructure definition.
+    No guessing: dimension order and codes come from the DSD itself."""
+    xml_text = _http_get(
+        "https://data.api.abs.gov.au/rest/datastructure/ABS/LF?references=codelist")
+    root = ET.fromstring(xml_text)
+
+    codelists = {}   # codelist id -> {code id: name}
+    for cl in root.iter():
+        if not cl.tag.endswith("}Codelist"):
+            continue
+        codes = {}
+        for code in cl:
+            if code.tag.endswith("}Code"):
+                name = next((c.text for c in code
+                             if c.tag.endswith("}Name")), "") or ""
+                codes[code.get("id")] = name
+        codelists[cl.get("id")] = codes
+
+    dims = []        # (position, dim id, codelist id)
+    for d in root.iter():
+        if d.tag.endswith("}Dimension") and d.get("id") and d.get("position"):
+            enum_ref = next((r.get("id") for r in d.iter()
+                             if r.tag.endswith("}Ref")
+                             and r.get("class") == "Codelist"), None)
+            dims.append((int(d.get("position")), d.get("id"), enum_ref))
+    dims.sort()
+    if not dims:
+        raise ValueError("ABS DSD: no dimensions parsed")
+
+    def pick(cl_id, *needles, exclude=()):
+        for code, name in (codelists.get(cl_id) or {}).items():
+            low = name.lower()
+            if any(n in low for n in needles) and not any(x in low for x in exclude):
+                return code
+        return None
+
+    WANT = {
+        "MEASURE": (("unemployment rate",), ()),
+        "SEX": (("persons",), ()),
+        "AGE": None,                          # handled specially: total + 15-24
+        "TSEST": (("seasonally adjusted",), ()),
+        "REGION": (("australia",), ("western", "south", "new", "north")),
+        "FREQ": (("monthly",), ()),
+    }
+    parts, age_codes = [], None
+    for _, dim_id, cl_id in dims:
+        if dim_id == "TIME_PERIOD":
+            continue
+        if dim_id == "AGE":
+            tot = pick(cl_id, "all ages", "total") or ""
+            yth = pick(cl_id, "15-24", "15 to 24") or ""
+            if not (tot and yth):
+                raise ValueError(f"ABS DSD: AGE codes not found in {cl_id}")
+            age_codes = (tot, yth)
+            parts.append(f"{tot}+{yth}")
+            continue
+        spec = WANT.get(dim_id)
+        if spec:
+            code = pick(cl_id, *spec[0], exclude=spec[1])
+            parts.append(code or "")          # empty = wildcard, filter later
+        else:
+            parts.append("")                  # unknown dimension: wildcard
+    return ".".join(parts), age_codes
+
 def fetch_abs_unemp():
     """{'total': {YYYY-MM: rate}, 'youth': {...}} from the ABS LF dataflow.
 
-    Uses SDMX-JSON with client-side filtering: requests the
-    'unemployment rate' measure for persons, Australia, seasonally
-    adjusted, ages total and 15-24. Dimension codes are discovered from
-    the structure section of the response itself, so code-list drift
-    fails loudly instead of silently returning the wrong series.
+    The SDMX key is discovered from the datastructure definition at run
+    time, then the (small, server-side filtered) data slice is fetched
+    and matched by dimension names, so code-list drift fails loudly
+    instead of silently returning the wrong series.
     """
-    url = ("https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/all"
-           "?startPeriod=2025-01&format=jsondata&detail=dataonly"
-           "&dimensionAtObservation=AllDimensions")
-    # The full LF pull is too heavy; ask the API to filter server-side
-    # where possible. ABS supports partial keys: try the conventional
-    # key order MEASURE.INDEX.SEX.AGE.TSEST.REGION.FREQ with wildcards.
-    candidates = [
-        "M13.3.1599.10+1518.20.AUS.M",   # historical LF key layout
-        "M13.3.1599.10+1518.20.M",
-        "all",
-    ]
-    js = None
-    for key in candidates:
-        try:
-            js = json.loads(_http_get(
-                "https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/" + key +
-                "?startPeriod=2025-01&format=jsondata"))
-            break
-        except Exception:
-            continue
-    if js is None:
-        raise ValueError("ABS LF: all key layouts failed")
+    key, _ = _abs_discover_key()
+    js = json.loads(_http_get(
+        "https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/" + key +
+        "?startPeriod=2025-01&format=jsondata"))
     # The ABS API has served both SDMX-JSON layouts in the wild:
     #   v1: {"structure": {...}, "dataSets": [...]}
     #   v2: {"data": {"structures": [{...}], "dataSets": [...]}}

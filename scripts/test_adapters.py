@@ -73,6 +73,33 @@ def eurostat_json(v1, v2):
             {"2026-03": 0, "2026-04": 1}}}},
     })
 
+ABS_DSD_XML = """<?xml version="1.0"?>
+<mes:Structure xmlns:mes="http://x/message" xmlns:str="http://x/structure" xmlns:com="http://x/common">
+ <str:DataStructure id="LF">
+  <str:DimensionList>
+   <str:Dimension id="MEASURE" position="1"><str:LocalRepresentation><str:Enumeration><com:Ref class="Codelist" id="CL_MEASURE"/></str:Enumeration></str:LocalRepresentation></str:Dimension>
+   <str:Dimension id="SEX" position="2"><str:LocalRepresentation><str:Enumeration><com:Ref class="Codelist" id="CL_SEX"/></str:Enumeration></str:LocalRepresentation></str:Dimension>
+   <str:Dimension id="AGE" position="3"><str:LocalRepresentation><str:Enumeration><com:Ref class="Codelist" id="CL_AGE"/></str:Enumeration></str:LocalRepresentation></str:Dimension>
+   <str:Dimension id="TSEST" position="4"><str:LocalRepresentation><str:Enumeration><com:Ref class="Codelist" id="CL_TSEST"/></str:Enumeration></str:LocalRepresentation></str:Dimension>
+   <str:Dimension id="REGION" position="5"><str:LocalRepresentation><str:Enumeration><com:Ref class="Codelist" id="CL_REGION"/></str:Enumeration></str:LocalRepresentation></str:Dimension>
+   <str:Dimension id="FREQ" position="6"><str:LocalRepresentation><str:Enumeration><com:Ref class="Codelist" id="CL_FREQ"/></str:Enumeration></str:LocalRepresentation></str:Dimension>
+   <str:TimeDimension id="TIME_PERIOD" position="7"/>
+  </str:DimensionList>
+ </str:DataStructure>
+ <str:Codelist id="CL_MEASURE">
+  <str:Code id="M12"><com:Name>Employed total</com:Name></str:Code>
+  <str:Code id="M13"><com:Name>Unemployment rate</com:Name></str:Code>
+ </str:Codelist>
+ <str:Codelist id="CL_SEX"><str:Code id="3"><com:Name>Persons</com:Name></str:Code></str:Codelist>
+ <str:Codelist id="CL_AGE">
+  <str:Code id="1599"><com:Name>All ages</com:Name></str:Code>
+  <str:Code id="1524"><com:Name>15-24 years</com:Name></str:Code>
+ </str:Codelist>
+ <str:Codelist id="CL_TSEST"><str:Code id="20"><com:Name>Seasonally Adjusted</com:Name></str:Code></str:Codelist>
+ <str:Codelist id="CL_REGION"><str:Code id="AUS"><com:Name>Australia</com:Name></str:Code></str:Codelist>
+ <str:Codelist id="CL_FREQ"><str:Code id="M"><com:Name>Monthly</com:Name></str:Code></str:Codelist>
+</mes:Structure>"""
+
 ABS_JSON = {
     "structure": {"dimensions": {
         "series": [
@@ -106,15 +133,16 @@ def build_http_fixtures():
     fixtures = {}
     for cc in sorted({c for codes in ud.HL_COUNTRY.values() for c in codes}):
         fixtures[f"{ud.HL_RAW}/{cc}/job_postings_by_sector_{cc}.csv"] = hl_csv(cc)
-    fixtures["https://api.ons.gov.uk/timeseries/mgsx/dataset/lms/data"] = ons_json(5.0)
-    fixtures["https://api.ons.gov.uk/timeseries/ybvq/dataset/lms/data"] = ons_json(13.6)
+    fixtures["https://www.ons.gov.uk/" + ud.ONS_SERIES_PATH["MGSX"] + "/data"] = ons_json(5.0)
+    fixtures["https://www.ons.gov.uk/" + ud.ONS_SERIES_PATH["YBVQ"] + "/data"] = ons_json(13.6)
     base = ("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
             "une_rt_m?format=JSON&lang=EN&geo=EU27_2020&s_adj=SA&unit=PC_ACT&sex=T"
             "&sinceTimePeriod=2025-01&age=")
     fixtures[base + "TOTAL"] = eurostat_json(5.9, 5.8)
     fixtures[base + "Y_LT25"] = eurostat_json(14.4, 14.6)
+    fixtures["https://data.api.abs.gov.au/rest/datastructure/ABS/LF?references=codelist"] = ABS_DSD_XML
     abs_url = ("https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/"
-               "M13.3.1599.10+1518.20.AUS.M?startPeriod=2025-01&format=jsondata")
+               "M13.3.1599+1524.20.AUS.M?startPeriod=2025-01&format=jsondata")
     fixtures[abs_url] = json.dumps(ABS_JSON)
     fixtures[ud.CHALLENGER_BLOG] = CHALLENGER_INDEX
     fixtures["https://www.challengergray.com/blog/challenger-report-may-job-cuts-rise-16-from-april-highest-may-total-since-2020/"] = CHALLENGER_POST
