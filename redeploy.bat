@@ -8,14 +8,14 @@ cd /d "%~dp0"
 set MSG=%~1
 if "%MSG%"=="" set MSG=Update site
 
-echo Staging changes...
+echo [1/4] Staging changes...
 git add .
 
-echo Committing...
+echo [2/4] Committing...
 git -c user.email="pallabk9@users.noreply.github.com" -c user.name="Dr. Pallab Kakoti" commit -m "%MSG%"
 if errorlevel 1 echo No new changes to commit - will still push any unpushed commits.
 
-echo Pulling latest from GitHub first...
+echo [3/4] Pulling latest from GitHub...
 git pull --rebase origin main
 if errorlevel 1 (
   echo Pull failed - resolve the conflict shown above, then rerun.
@@ -23,7 +23,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo Pushing to GitHub...
+echo [4/4] Pushing to GitHub...
 git push origin main
 if errorlevel 1 (
   echo Push failed. Try Git Bash instead of cmd, or check your GitHub auth.
