@@ -47,10 +47,12 @@ BLS_JSON = {
     "status": "REQUEST_SUCCEEDED",
     "Results": {"series": [
         {"seriesID": "LNS14000000", "data": [
+            {"year": "2026", "period": "M05", "value": "-"},   # BLS placeholder
             {"year": "2026", "period": "M04", "value": "4.6"},
             {"year": "2026", "period": "M03", "value": "4.5"},
             {"year": "2026", "period": "M02", "value": "4.4"}]},
         {"seriesID": "LNS14000036", "data": [
+            {"year": "2026", "period": "M05", "value": "-"},
             {"year": "2026", "period": "M04", "value": "8.1"},
             {"year": "2026", "period": "M03", "value": "7.9"},
             {"year": "2026", "period": "M02", "value": "7.7"}]},
@@ -102,10 +104,10 @@ CHALLENGER_POST = ("<p>For the year, AI has been cited in 87,714 cuts, or 22% "
 def build_http_fixtures():
     """Map every URL the adapters hit to a canned body."""
     fixtures = {}
-    for region, cc in ud.HL_COUNTRY.items():
+    for cc in sorted({c for codes in ud.HL_COUNTRY.values() for c in codes}):
         fixtures[f"{ud.HL_RAW}/{cc}/job_postings_by_sector_{cc}.csv"] = hl_csv(cc)
-    fixtures["https://api.ons.gov.uk/timeseries/MGSX/dataset/lms/data"] = ons_json(5.0)
-    fixtures["https://api.ons.gov.uk/timeseries/YBVQ/dataset/lms/data"] = ons_json(13.6)
+    fixtures["https://api.ons.gov.uk/timeseries/mgsx/dataset/lms/data"] = ons_json(5.0)
+    fixtures["https://api.ons.gov.uk/timeseries/ybvq/dataset/lms/data"] = ons_json(13.6)
     base = ("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
             "une_rt_m?format=JSON&lang=EN&geo=EU27_2020&s_adj=SA&unit=PC_ACT&sex=T"
             "&sinceTimePeriod=2025-01&age=")
@@ -134,12 +136,12 @@ def run_parser_tests(fixtures):
     ok("hiring-lab composite: correct date pick and 8-sector mean")
 
     v, src, _ = ud._adapter_hl("EU", "2026-03-08")
-    assert v == 73.5 and "Hiring Lab" in src  # 2026-03-06, i=0: 70+3.5
-    ok("hiring-lab composite: EA folder, early-week date")
+    assert v == 73.5 and "DE+FR" in src  # mean of DE,FR at 2026-03-06: 70+3.5
+    ok("hiring-lab composite: EU = DE+FR mean, early-week date")
 
     v, src, _ = ud._adapter_unemp("US", "2026-06-07")
-    assert v == 3.5 and "BLS" in src  # 8.1 - 4.6 (April latest)
-    ok("BLS delta: April youth-overall = +3.5pp")
+    assert v == 3.5 and "BLS" in src  # 8.1 - 4.6 (April latest valid; May is '-')
+    ok("BLS delta: skips '-' placeholders, April youth-overall = +3.5pp")
 
     v, src, _ = ud._adapter_unemp("US", "2026-03-15")
     assert v == 3.4, v  # latest reference month <= March is March: 7.9 - 4.5

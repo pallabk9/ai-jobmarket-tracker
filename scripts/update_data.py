@@ -155,7 +155,9 @@ def _http_post_json(url, payload, timeout=40):
 # --- Indeed Hiring Lab: exposed-sector posting composite -----------
 
 HL_RAW = "https://raw.githubusercontent.com/hiring-lab/job_postings_tracker/master"
-HL_COUNTRY = {"US": "US", "UK": "GB", "EU": "EA", "AU": "AU"}
+# EU note: the EA (euro area) folder carries no sector-level file, so the EU
+# composite is the mean of the DE and FR exposed-sector composites.
+HL_COUNTRY = {"US": ["US"], "UK": ["GB"], "EU": ["DE", "FR"], "AU": ["AU"]}
 
 # Indeed sectors mapped to the top Observed Exposure categories
 # (Computer & Mathematical, Office & Admin, Business & Financial,
@@ -214,16 +216,23 @@ def fetch_bls_unemp():
     name_by_id = {"LNS14000000": "total", "LNS14000036": "youth"}
     for s in js["Results"]["series"]:
         tag = name_by_id[s["seriesID"]]
-        out[tag] = {f"{d['year']}-{d['period'][1:]}": float(d["value"])
-                    for d in s["data"] if d["period"].startswith("M")}
+        vals = {}
+        for d in s["data"]:
+            if not d["period"].startswith("M"):
+                continue
+            try:
+                vals[f"{d['year']}-{d['period'][1:]}"] = float(d["value"])
+            except (TypeError, ValueError):
+                continue  # BLS publishes '-' for missing/preliminary points
+        out[tag] = vals
     if "total" not in out or "youth" not in out:
         raise ValueError("BLS API: missing series in response")
     return out
 
 def fetch_ons_series(series_id):
-    """{YYYY-MM: rate} from the ONS LMS time-series API."""
+    """{YYYY-MM: rate} from the ONS LMS time-series API (ids must be lowercase)."""
     js = json.loads(_http_get(
-        f"https://api.ons.gov.uk/timeseries/{series_id}/dataset/lms/data"))
+        f"https://api.ons.gov.uk/timeseries/{series_id.lower()}/dataset/lms/data"))
     months = {"JANUARY": "01", "FEBRUARY": "02", "MARCH": "03", "APRIL": "04",
               "MAY": "05", "JUNE": "06", "JULY": "07", "AUGUST": "08",
               "SEPTEMBER": "09", "OCTOBER": "10", "NOVEMBER": "11", "DECEMBER": "12"}
@@ -287,8 +296,19 @@ def fetch_abs_unemp():
             continue
     if js is None:
         raise ValueError("ABS LF: all key layouts failed")
-    dims = js["structure"]["dimensions"]["series"]
-    obs_dims = js["structure"]["dimensions"]["observation"]
+    # The ABS API has served both SDMX-JSON layouts in the wild:
+    #   v1: {"structure": {...}, "dataSets": [...]}
+    #   v2: {"data": {"structures": [{...}], "dataSets": [...]}}
+    body = js.get("data") if isinstance(js.get("data"), dict) else js
+    struct = (body.get("structure")
+              or (body.get("structures") or [None])[0]
+              or js.get("structure"))
+    datasets = body.get("dataSets") or js.get("dataSets")
+    if not struct or not datasets:
+        raise ValueError("ABS LF: unrecognised response layout "
+                         f"(top-level keys: {sorted(js)[:6]})")
+    dims = struct["dimensions"]["series"]
+    obs_dims = struct["dimensions"]["observation"]
     time_vals = next(d for d in obs_dims if d["id"] == "TIME_PERIOD")["values"]
 
     def dim_index(did, match):
@@ -315,7 +335,7 @@ def fetch_abs_unemp():
     out = {"total": {}, "youth": {}}
     for tag, age_sel in (("total", age_tot), ("youth", age_yth)):
         wanted = [w for w in (measure, age_sel, sex, adj) if w]
-        for key_str, series in js["dataSets"][0]["series"].items():
+        for key_str, series in datasets[0]["series"].items():
             if not series_match(key_str, wanted):
                 continue
             for t_idx, obs in series["observations"].items():
@@ -364,9 +384,13 @@ def fetch_challenger_ai_ytd():
 # --- Wiring ---------------------------------------------------------
 
 def _adapter_hl(region, on_date_iso):
-    v = hl_exposed_index_on(HL_COUNTRY[region], on_date_iso)
-    return v, "Indeed Hiring Lab (exposed-sector composite)", \
-        "https://github.com/hiring-lab/job_postings_tracker"
+    codes = HL_COUNTRY[region]
+    vals = [hl_exposed_index_on(cc, on_date_iso) for cc in codes]
+    v = round(sum(vals) / len(vals), 2)
+    label = "Indeed Hiring Lab (exposed-sector composite)"
+    if region == "EU":
+        label = "Indeed Hiring Lab (DE+FR exposed-sector mean, euro-area proxy)"
+    return v, label, "https://github.com/hiring-lab/job_postings_tracker"
 
 def _adapter_unemp(region, on_date_iso):
     if region == "US":

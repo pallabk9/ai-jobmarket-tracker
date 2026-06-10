@@ -93,7 +93,7 @@ any fetch failure falls back to drift for that week, flagged modelled):
 
 | KPI | Regions | Source |
 |---|---|---|
-| `exposed_posting_index` | US, UK (GB), EU (euro area), AU | [Indeed Hiring Lab job_postings_tracker](https://github.com/hiring-lab/job_postings_tracker) - mean postings index across eight high-exposure sectors (Software Development; IT Operations & Helpdesk; Information Design & Documentation; Mathematics; Accounting; Banking & Finance; Administrative Assistance; Media & Communications) |
+| `exposed_posting_index` | US, UK (GB), EU (DE+FR mean - the EA folder has no sector file), AU | [Indeed Hiring Lab job_postings_tracker](https://github.com/hiring-lab/job_postings_tracker) - mean postings index across eight high-exposure sectors (Software Development; IT Operations & Helpdesk; Information Design & Documentation; Mathematics; Accounting; Banking & Finance; Administrative Assistance; Media & Communications) |
 | `topq_unemp_delta` | US, UK, EU, AU | BLS CPS (20-24 vs 16+), ONS LMS (YBVQ 18-24 vs MGSX 16+), Eurostat `une_rt_m` (<25 vs total), ABS Labour Force (15-24 vs total). All seasonally adjusted |
 | `ai_layoffs_ytd` | US | Challenger, Gray & Christmas monthly Job Cut Report - AI-cited cuts YTD, parsed from the latest report; manual override via `CHALLENGER_AI_YTD_THOUSANDS` env |
 
