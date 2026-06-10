@@ -19,12 +19,12 @@
         },
         "topq_unemp_delta": {
           "name": "Early-career unemployment delta (proxy)",
-          "value": 0.09,
+          "value": 2.1,
           "unit": "pp",
           "direction": "up",
-          "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
-          "measurement": "modelled"
+          "source": "BLS CPS (20-24 vs 16+, SA)",
+          "source_url": "https://www.bls.gov/cps/",
+          "measurement": "measured"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -811,12 +811,12 @@
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
-          "value": 101.92,
+          "value": 84.78,
           "unit": "index",
           "direction": "up",
-          "source": "Indeed Hiring Lab + Naukri + Seek",
-          "source_url": "https://www.hiringlab.org/",
-          "measurement": "modelled"
+          "source": "Indeed Hiring Lab (DE+FR exposed-sector mean, euro-area proxy)",
+          "source_url": "https://github.com/hiring-lab/job_postings_tracker",
+          "measurement": "measured"
         },
         "ai_skill_premium": {
           "name": "AI-skill salary premium",
@@ -947,19 +947,19 @@
       "posting_series": [
         {
           "iso_week": "2026-W10",
-          "value": 105.03
+          "value": 87.92
         },
         {
           "iso_week": "2026-W11",
-          "value": 102.45
+          "value": 86.78
         },
         {
           "iso_week": "2026-W12",
-          "value": 102.49
+          "value": 85.49
         },
         {
           "iso_week": "2026-W13",
-          "value": 101.92
+          "value": 84.78
         }
       ],
       "feed": [
@@ -1499,5 +1499,5 @@
       ]
     }
   },
-  "backfilled_at": "2026-06-10T11:04:29Z"
+  "backfilled_at": "2026-06-10T11:14:17Z"
 }
