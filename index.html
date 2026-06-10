@@ -17,9 +17,9 @@
       <p class="sub">Anthropic Observed Exposure methodology &middot; six regions &middot; weekly refresh</p>
     </div>
     <nav class="topnav">
-      <a href="#glossary">Glossary</a>
+      <a href="#glossary" data-modal="glossary-modal">Glossary</a>
       <a href="#dashboard">Dashboard</a>
-      <a href="#methodology">Methodology</a>
+      <a href="#methodology" data-modal="methodology-modal">Methodology</a>
       <a href="#downloads">Download data</a>
       <a href="manual.pdf" target="_blank" rel="noopener" class="cta">User manual (PDF)</a>
     </nav>
@@ -28,12 +28,14 @@
 
 <main class="wrap">
 
-  <!-- ============== INTRO + GLOSSARY ============== -->
-  <section id="glossary" class="block">
-    <div class="block-hdr">
-      <h2>Glossary &mdash; read this first</h2>
-      <p class="block-sub">Every term used on the dashboard, explained in plain language. Tap a term to jump to its full entry in the user manual.</p>
+  <!-- ============== GLOSSARY (popup) ============== -->
+  <dialog id="glossary-modal" class="modal" aria-labelledby="glossary-title">
+    <div class="modal-hdr">
+      <h2 id="glossary-title">Glossary &mdash; read this first</h2>
+      <button class="modal-close" data-close aria-label="Close glossary">&times;</button>
     </div>
+    <div class="modal-body">
+    <p class="block-sub">Every term used on the dashboard, explained in plain language. Tap a term to jump to its full entry in the user manual.</p>
 
     <div class="glossary-grid">
       <article class="gl-card">
@@ -95,6 +97,11 @@
         <h3>Cadence</h3>
         <p>The reporting cycle. <strong>Weekly:</strong> regional digest refreshed every Monday. <strong>Monthly:</strong> per-region deep-dive. <strong>Yearly:</strong> retrospective and forecast.</p>
       </article>
+
+      <article class="gl-card">
+        <h3>Measured vs Modelled</h3>
+        <p>Each KPI tile carries a badge. <strong>Measured:</strong> the value is pulled weekly from the named source's published data (Indeed Hiring Lab, BLS, ONS, Eurostat, ABS, Challenger). <strong>Modelled:</strong> a synthetic placeholder series &mdash; no public weekly source exists yet for that KPI in that region. The "early-career unemployment delta" uses a published proxy: youth minus overall unemployment rate, since no statistics agency publishes unemployment by AI exposure.</p>
+      </article>
     </div>
 
     <details class="more-info">
@@ -112,7 +119,8 @@
         <p>Occupation-level scores are aggregated to category level by current-employment weight. See the user manual for the full appendix and citation chain.</p>
       </div>
     </details>
-  </section>
+    </div>
+  </dialog>
 
   <!-- ============== CONTROLS ============== -->
   <section id="dashboard" class="block">
@@ -246,12 +254,14 @@
     </div>
   </section>
 
-  <!-- ============== METHODOLOGY ============== -->
-  <section id="methodology" class="block">
-    <div class="block-hdr">
-      <h2>Methodology &mdash; what every KPI means and where it comes from</h2>
-      <p class="block-sub">Each KPI on the dashboard, with its definition, formula, source, and alert band.</p>
+  <!-- ============== METHODOLOGY (popup) ============== -->
+  <dialog id="methodology-modal" class="modal" aria-labelledby="methodology-title">
+    <div class="modal-hdr">
+      <h2 id="methodology-title">Methodology &mdash; what every KPI means and where it comes from</h2>
+      <button class="modal-close" data-close aria-label="Close methodology">&times;</button>
     </div>
+    <div class="modal-body">
+    <p class="block-sub">Each KPI on the dashboard, with its definition, formula, source, and alert band. Tiles marked <em>measured</em> pull these sources live each Monday; <em>modelled</em> tiles are placeholder series awaiting a public source.</p>
 
     <table class="kpi-table">
       <thead>
@@ -263,13 +273,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td><strong>AI-attributed layoffs (YTD)</strong></td><td>Cumulative tech-sector layoffs since 1 Jan where the employer cited AI/automation. Filtered to attribution confidence &ge; 3.</td><td><a href="https://layoffs.fyi/" target="_blank" rel="noopener">Layoffs.fyi</a> + curated news</td><td>Weekly</td></tr>
-        <tr><td><strong>Top-quartile unemployment delta</strong></td><td>Difference-in-differences estimate of unemployment in the top-quartile-exposure group vs the unexposed group, vs pre-ChatGPT baseline.</td><td><a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" rel="noopener">Massenkoff &amp; McCrory 2026</a> + BLS CPS / ONS LFS / Eurostat / NSO</td><td>Monthly</td></tr>
+        <tr><td><strong>AI-attributed layoffs (YTD)</strong></td><td>Cumulative US layoffs since 1 Jan where the employer cited AI, parsed from the latest monthly Job Cut Report (measured, US only). Other regions remain modelled pending a comparable source.</td><td><a href="https://www.challengergray.com/blog/category/job-cuts-report/" target="_blank" rel="noopener">Challenger, Gray &amp; Christmas</a> + <a href="https://layoffs.fyi/" target="_blank" rel="noopener">Layoffs.fyi</a> context</td><td>Monthly report, checked weekly</td></tr>
+        <tr><td><strong>Early-career unemployment delta (proxy)</strong></td><td>Youth minus overall unemployment rate, pp, seasonally adjusted (measured: US 20-24 via BLS, UK 18-24 via ONS, EU &lt;25 via Eurostat, AU 15-24 via ABS). A documented proxy: agencies do not publish unemployment by AI exposure, so the original top-quartile diff-in-diff (Massenkoff &amp; McCrory) can only be replicated from CPS microdata.</td><td>BLS CPS / ONS LMS / Eurostat une_rt_m / ABS LF + <a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" rel="noopener">Massenkoff &amp; McCrory 2026</a> framing</td><td>Monthly</td></tr>
         <tr><td><strong>22&ndash;25 hire rate</strong></td><td>Year-on-year change in the monthly job-start rate for workers aged 22 to 25 in exposed occupations.</td><td>BLS CPS panel / equivalent local LFS</td><td>Monthly</td></tr>
         <tr><td><strong>AI-mention posting share</strong></td><td>% of job postings whose description mentions AI, ML, GenAI, prompt engineering, or related skills.</td><td><a href="https://www.hiringlab.org/" target="_blank" rel="noopener">Indeed Hiring Lab</a></td><td>Weekly</td></tr>
         <tr><td><strong>Capability gap</strong></td><td>Theoretical &beta; minus Observed Exposure, averaged across the region's occupations weighted by current employment.</td><td>Eloundou et al. 2023 + Anthropic Economic Index</td><td>Monthly</td></tr>
         <tr><td><strong>Augmentation share</strong></td><td>% of Claude conversations in the region's traffic mix classified as collaborative rather than end-to-end automation.</td><td>Anthropic Economic Index</td><td>Quarterly</td></tr>
-        <tr><td><strong>Exposed-occupation posting index</strong></td><td>Indexed (Jan 2025 = 100) job postings in the top-quartile-exposure occupations.</td><td>Indeed + Naukri + Seek + ONS Vacancy Survey</td><td>Weekly</td></tr>
+        <tr><td><strong>Exposed-occupation posting index</strong></td><td>Mean Indeed postings index (Feb 2020 = 100, seasonally adjusted) across eight high-exposure sectors (measured: US, UK, euro area, AU from the Hiring Lab open dataset). India and APAC composite remain modelled via Naukri/Seek baselines.</td><td><a href="https://github.com/hiring-lab/job_postings_tracker" target="_blank" rel="noopener">Indeed Hiring Lab</a> + Naukri + Seek</td><td>Weekly</td></tr>
         <tr><td><strong>AI-skill salary premium</strong></td><td>Median advertised salary for postings mentioning AI minus median for comparable non-AI postings, expressed as a percentage.</td><td>Indeed Hiring Lab + Lightcast</td><td>Monthly</td></tr>
         <tr><td><strong>Graduate posting</strong></td><td>YoY change in entry-level postings in exposed roles. Big 4 graduate disclosures (KPMG, Deloitte, EY, PwC) are used where available.</td><td>Indeed + IFOW + employer filings</td><td>Quarterly</td></tr>
         <tr><td><strong>Net AI-attributed job creation</strong></td><td>New AI/ML/data/security postings minus AI-attributed displacement events, latest 12 months, in thousands of roles.</td><td>WEF Future of Jobs 2025 + regional adapters</td><td>Quarterly</td></tr>
@@ -288,7 +298,8 @@
     </table>
 
     <p style="margin-top:14px">Full methodology, regional crosswalks, and the citation chain are in the <a href="manual.pdf" target="_blank" rel="noopener"><strong>User manual PDF</strong></a>.</p>
-  </section>
+    </div>
+  </dialog>
 
   <!-- ============== DOWNLOADS ============== -->
   <section id="downloads" class="block">

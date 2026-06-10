@@ -22,6 +22,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import urllib.error
+import urllib.parse
 import urllib.request
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -43,7 +44,7 @@ REGION_LABEL = {
 
 KPIS = [
     ("ai_layoffs_ytd",        "AI-attributed layoffs (YTD, thousands)", "k roles", "up"),
-    ("topq_unemp_delta",      "Top-quartile unemployment delta",        "pp",      "up"),
+    ("topq_unemp_delta",      "Early-career unemployment delta (proxy)", "pp",     "up"),
     ("hire_rate_22_25",       "22-25 hire rate change vs 2022",          "%",       "up"),
     ("ai_mention_postings",   "AI-mention posting share",                "%",       "down"),
     ("capability_gap",        "Capability gap (theoretical-observed)",   "pp",      "neutral"),
@@ -106,15 +107,428 @@ def _drift(region, kpi_id):
 
 ADAPTERS = {kpi_id: _drift for kpi_id, _, _, _ in KPIS}
 
-# Real adapters can replace the entries above. Example skeleton:
+# ------------------------------------------------------------------
+# Real adapters (v2). Each wired (kpi_id, region) pair pulls a real
+# value; everything else keeps the v1 drift and is flagged "modelled".
+# Any fetch/parse failure falls back to drift for that pair, so the
+# cron never dies on a source outage.
 #
-# def layoffs_fyi_adapter(region, kpi_id):
-#     req = urllib.request.Request("https://example.com/api/layoffs",
-#                                   headers={"User-Agent": "ai-jobmarket-tracker"})
-#     with urllib.request.urlopen(req, timeout=20) as r:
-#         data = json.load(r)
-#     return float(data[region]["ytd"])
-# ADAPTERS["ai_layoffs_ytd"] = layoffs_fyi_adapter
+# Wired pairs:
+#   ai_layoffs_ytd / US          Challenger, Gray & Christmas monthly report
+#                                (AI-cited cuts YTD, thousands; US-based employers)
+#   topq_unemp_delta / US,UK,EU,AU
+#                                Youth-minus-overall unemployment rate (pp), the
+#                                published proxy for the top-exposure cohort:
+#                                BLS (20-24 vs 16+), ONS (18-24 vs 16+),
+#                                Eurostat (<25 vs total), ABS (15-24 vs total).
+#                                METHODOLOGY NOTE: agencies do not publish
+#                                unemployment by AI exposure; this is a proxy,
+#                                flagged in the manual and README.
+#   exposed_posting_index / US,UK,EU,AU
+#                                Indeed Hiring Lab job_postings_tracker -
+#                                mean postings index across high-exposure
+#                                sectors (EXPOSED_SECTORS below). UK=GB,
+#                                EU=EA (euro area) folders.
+# ------------------------------------------------------------------
+
+import re
+
+UA = {"User-Agent": "ai-jobmarket-tracker/2.0 (+github actions weekly refresh)"}
+_CACHE = {}
+
+def _http_get(url, timeout=40):
+    if url in _CACHE:
+        return _CACHE[url]
+    req = urllib.request.Request(url, headers=UA)
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        body = r.read().decode("utf-8", errors="replace")
+    _CACHE[url] = body
+    return body
+
+def _http_post_json(url, payload, timeout=40):
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(url, data=data,
+                                 headers={**UA, "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8"))
+
+# --- Indeed Hiring Lab: exposed-sector posting composite -----------
+
+HL_RAW = "https://raw.githubusercontent.com/hiring-lab/job_postings_tracker/master"
+HL_COUNTRY = {"US": "US", "UK": "GB", "EU": "EA", "AU": "AU"}
+
+# Indeed sectors mapped to the top Observed Exposure categories
+# (Computer & Mathematical, Office & Admin, Business & Financial,
+# Media). Fixed list - change only with a methodology note.
+EXPOSED_SECTORS = [
+    "Software Development", "IT Operations & Helpdesk",
+    "Information Design & Documentation", "Mathematics",
+    "Accounting", "Banking & Finance",
+    "Administrative Assistance", "Media & Communications",
+]
+
+def fetch_hiring_lab_sectors(cc):
+    """Return {iso_date: {sector: index}} for exposed sectors, total postings."""
+    url = f"{HL_RAW}/{cc}/job_postings_by_sector_{cc}.csv"
+    body = _http_get(url)
+    out = {}
+    reader = csv.DictReader(body.splitlines())
+    for row in reader:
+        if row.get("display_name") not in EXPOSED_SECTORS:
+            continue
+        if "new" in (row.get("variable") or "").lower():
+            continue  # keep total postings, drop "new postings"
+        try:
+            val = float(row["indeed_job_postings_index"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        out.setdefault(row["date"], {})[row["display_name"]] = val
+    if not out:
+        raise ValueError(f"hiring-lab {cc}: no exposed-sector rows parsed")
+    return out
+
+def hl_exposed_index_on(cc, on_date_iso):
+    """Mean exposed-sector index at the latest date <= on_date_iso."""
+    series = fetch_hiring_lab_sectors(cc)
+    usable = [d for d in series if d <= on_date_iso
+              and len(series[d]) >= max(3, len(EXPOSED_SECTORS) // 2)]
+    if not usable:
+        raise ValueError(f"hiring-lab {cc}: no usable date <= {on_date_iso}")
+    d = max(usable)
+    vals = series[d].values()
+    return round(sum(vals) / len(vals), 2)
+
+# --- Statistical agencies: youth-minus-overall unemployment (pp) ---
+
+def fetch_bls_unemp():
+    """{'total': {YYYY-MM: rate}, 'youth': {...}} - LNS14000000 / LNS14000036."""
+    payload = {"seriesid": ["LNS14000000", "LNS14000036"],
+               "startyear": "2025", "endyear": str(date.today().year)}
+    key = os.environ.get("BLS_API_KEY")
+    if key:
+        payload["registrationkey"] = key
+    js = _http_post_json("https://api.bls.gov/publicAPI/v2/timeseries/data/", payload)
+    if js.get("status") != "REQUEST_SUCCEEDED":
+        raise ValueError(f"BLS API: {js.get('status')} {js.get('message')}")
+    out = {}
+    name_by_id = {"LNS14000000": "total", "LNS14000036": "youth"}
+    for s in js["Results"]["series"]:
+        tag = name_by_id[s["seriesID"]]
+        out[tag] = {f"{d['year']}-{d['period'][1:]}": float(d["value"])
+                    for d in s["data"] if d["period"].startswith("M")}
+    if "total" not in out or "youth" not in out:
+        raise ValueError("BLS API: missing series in response")
+    return out
+
+def fetch_ons_series(series_id):
+    """{YYYY-MM: rate} from the ONS LMS time-series API."""
+    js = json.loads(_http_get(
+        f"https://api.ons.gov.uk/timeseries/{series_id}/dataset/lms/data"))
+    months = {"JANUARY": "01", "FEBRUARY": "02", "MARCH": "03", "APRIL": "04",
+              "MAY": "05", "JUNE": "06", "JULY": "07", "AUGUST": "08",
+              "SEPTEMBER": "09", "OCTOBER": "10", "NOVEMBER": "11", "DECEMBER": "12"}
+    out = {}
+    for m in js.get("months", []):
+        try:
+            y, mon = m["date"].split(" ", 1)   # e.g. "2026 MAR" or "2026 MARCH"
+            mon = mon.strip().upper()
+            mm = months.get(mon) or months.get({k[:3]: k for k in months}[mon[:3]])
+            out[f"{y}-{mm}"] = float(m["value"])
+        except (KeyError, ValueError, IndexError):
+            continue
+    if not out:
+        raise ValueError(f"ONS {series_id}: no monthly values parsed")
+    return out
+
+def fetch_eurostat_unemp():
+    """{'total': {YYYY-MM: rate}, 'youth': {...}} from une_rt_m (EU27, SA)."""
+    base = ("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
+            "une_rt_m?format=JSON&lang=EN&geo=EU27_2020&s_adj=SA&unit=PC_ACT&sex=T"
+            "&sinceTimePeriod=2025-01&age=")
+    out = {}
+    for tag, age in (("total", "TOTAL"), ("youth", "Y_LT25")):
+        js = json.loads(_http_get(base + age))
+        time_idx = js["dimension"]["time"]["category"]["index"]
+        vals = js["value"]
+        out[tag] = {t: float(vals[str(i)]) for t, i in time_idx.items()
+                    if str(i) in vals}
+        if not out[tag]:
+            raise ValueError(f"Eurostat une_rt_m {age}: empty")
+    return out
+
+def fetch_abs_unemp():
+    """{'total': {YYYY-MM: rate}, 'youth': {...}} from the ABS LF dataflow.
+
+    Uses SDMX-JSON with client-side filtering: requests the
+    'unemployment rate' measure for persons, Australia, seasonally
+    adjusted, ages total and 15-24. Dimension codes are discovered from
+    the structure section of the response itself, so code-list drift
+    fails loudly instead of silently returning the wrong series.
+    """
+    url = ("https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/all"
+           "?startPeriod=2025-01&format=jsondata&detail=dataonly"
+           "&dimensionAtObservation=AllDimensions")
+    # The full LF pull is too heavy; ask the API to filter server-side
+    # where possible. ABS supports partial keys: try the conventional
+    # key order MEASURE.INDEX.SEX.AGE.TSEST.REGION.FREQ with wildcards.
+    candidates = [
+        "M13.3.1599.10+1518.20.AUS.M",   # historical LF key layout
+        "M13.3.1599.10+1518.20.M",
+        "all",
+    ]
+    js = None
+    for key in candidates:
+        try:
+            js = json.loads(_http_get(
+                "https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/" + key +
+                "?startPeriod=2025-01&format=jsondata"))
+            break
+        except Exception:
+            continue
+    if js is None:
+        raise ValueError("ABS LF: all key layouts failed")
+    dims = js["structure"]["dimensions"]["series"]
+    obs_dims = js["structure"]["dimensions"]["observation"]
+    time_vals = next(d for d in obs_dims if d["id"] == "TIME_PERIOD")["values"]
+
+    def dim_index(did, match):
+        for i, d in enumerate(dims):
+            if d["id"] == did:
+                for j, v in enumerate(d["values"]):
+                    if match(v):
+                        return i, j
+        return None
+
+    measure = dim_index("MEASURE", lambda v: "unemployment rate" in v["name"].lower())
+    age_tot = dim_index("AGE", lambda v: v["name"].strip().lower() in
+                        ("all ages", "total", "15 years and over", "15+"))
+    age_yth = dim_index("AGE", lambda v: "15-24" in v["name"] or "15 to 24" in v["name"])
+    sex = dim_index("SEX", lambda v: "person" in v["name"].lower())
+    adj = dim_index("TSEST", lambda v: "seasonally adjusted" in v["name"].lower())
+    if not measure or not age_yth:
+        raise ValueError("ABS LF: required dimensions not found")
+
+    def series_match(key_str, wanted):
+        parts = [int(p) for p in key_str.split(":")]
+        return all(parts[i] == j for (i, j) in wanted if (i, j) is not None)
+
+    out = {"total": {}, "youth": {}}
+    for tag, age_sel in (("total", age_tot), ("youth", age_yth)):
+        wanted = [w for w in (measure, age_sel, sex, adj) if w]
+        for key_str, series in js["dataSets"][0]["series"].items():
+            if not series_match(key_str, wanted):
+                continue
+            for t_idx, obs in series["observations"].items():
+                period = time_vals[int(t_idx)]["id"]   # e.g. "2026-04"
+                if obs and obs[0] is not None:
+                    out[tag][period] = float(obs[0])
+            break
+    if not out["total"] or not out["youth"]:
+        raise ValueError("ABS LF: series not matched")
+    return out
+
+def _latest_common_delta(data, on_date_iso):
+    """Youth minus total for the latest month <= on_date_iso present in both."""
+    cutoff = on_date_iso[:7]
+    common = [m for m in data["total"] if m in data["youth"] and m <= cutoff]
+    if not common:
+        raise ValueError("no common month at or before " + cutoff)
+    m = max(common)
+    return round(data["youth"][m] - data["total"][m], 2)
+
+# --- Challenger, Gray & Christmas: AI-cited layoffs YTD (US) -------
+
+CHALLENGER_BLOG = "https://www.challengergray.com/blog/category/job-cuts-report/"
+_AI_YTD_PATTERNS = [
+    re.compile(r"AI has been cited in ([\d,]+) cuts", re.I),
+    re.compile(r"Artificial Intelligence[^.]{0,120}?cited in ([\d,]+) (?:cuts|job cuts)", re.I),
+]
+
+def fetch_challenger_ai_ytd():
+    """AI-cited job cuts YTD in thousands, from the latest monthly report."""
+    override = os.environ.get("CHALLENGER_AI_YTD_THOUSANDS")
+    if override:
+        return round(float(override), 2)
+    index_html = _http_get(CHALLENGER_BLOG)
+    links = re.findall(r'href="(https://www\.challengergray\.com/blog/[^"]*challenger-report[^"]*)"',
+                       index_html)
+    if not links:
+        raise ValueError("Challenger: no report links on index page")
+    post_html = _http_get(links[0])
+    for pat in _AI_YTD_PATTERNS:
+        m = pat.search(post_html)
+        if m:
+            return round(float(m.group(1).replace(",", "")) / 1000.0, 2)
+    raise ValueError("Challenger: AI YTD figure not found in latest report")
+
+# --- Wiring ---------------------------------------------------------
+
+def _adapter_hl(region, on_date_iso):
+    v = hl_exposed_index_on(HL_COUNTRY[region], on_date_iso)
+    return v, "Indeed Hiring Lab (exposed-sector composite)", \
+        "https://github.com/hiring-lab/job_postings_tracker"
+
+def _adapter_unemp(region, on_date_iso):
+    if region == "US":
+        data, src, url = fetch_bls_unemp(), "BLS CPS (20-24 vs 16+, SA)", \
+            "https://www.bls.gov/cps/"
+    elif region == "UK":
+        data = {"total": fetch_ons_series("MGSX"), "youth": fetch_ons_series("YBVQ")}
+        src, url = "ONS LFS (18-24 vs 16+, SA)", \
+            "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment"
+    elif region == "EU":
+        data, src, url = fetch_eurostat_unemp(), "Eurostat une_rt_m (<25 vs total, SA)", \
+            "https://ec.europa.eu/eurostat/databrowser/view/une_rt_m/default/table"
+    elif region == "AU":
+        data, src, url = fetch_abs_unemp(), "ABS Labour Force (15-24 vs total, SA)", \
+            "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release"
+    else:
+        raise ValueError("no agency adapter for " + region)
+    return _latest_common_delta(data, on_date_iso), src, url
+
+def _adapter_challenger(region, on_date_iso):
+    v = fetch_challenger_ai_ytd()
+    return v, "Challenger, Gray & Christmas (AI-cited cuts YTD)", \
+        "https://www.challengergray.com/blog/category/job-cuts-report/"
+
+REAL_ADAPTERS = {
+    ("ai_layoffs_ytd", "US"): _adapter_challenger,
+    ("topq_unemp_delta", "US"): _adapter_unemp,
+    ("topq_unemp_delta", "UK"): _adapter_unemp,
+    ("topq_unemp_delta", "EU"): _adapter_unemp,
+    ("topq_unemp_delta", "AU"): _adapter_unemp,
+    ("exposed_posting_index", "US"): _adapter_hl,
+    ("exposed_posting_index", "UK"): _adapter_hl,
+    ("exposed_posting_index", "EU"): _adapter_hl,
+    ("exposed_posting_index", "AU"): _adapter_hl,
+}
+
+def resolve_value(region, kpi_id, on_date_iso):
+    """Return (value, source_name, source_url, measurement) for the pair."""
+    fn = REAL_ADAPTERS.get((kpi_id, region))
+    if fn:
+        try:
+            v, src, url = fn(region, on_date_iso)
+            return v, src, url, "measured"
+        except Exception as exc:  # noqa: BLE001 - fall back, never die
+            print(f"adapter {kpi_id}/{region}: {exc}; falling back to drift")
+    src, url = SOURCES[kpi_id]
+    return ADAPTERS[kpi_id](region, kpi_id), src, url, "modelled"
+
+# ------------------------------------------------------------------
+# News feed refresh ("News & events - AI-attributed" section)
+# Pulls per-region headlines from Google News RSS. If the fetch fails
+# or returns too few usable items, the previous week's feed is kept,
+# so a network hiccup can never blank the section.
+# Items arrive with conf=2 (press report, unverified). Raise/lower
+# manually in data/current.json if a story deserves it; manual edits
+# survive until the next item displaces them out of the top 5.
+# ------------------------------------------------------------------
+
+import email.utils
+import xml.etree.ElementTree as ET
+
+FEED_QUERIES = {
+    "US":   ('"AI" (layoffs OR hiring OR jobs) when:21d', "en-US", "US", "US:en"),
+    "UK":   ('"AI" (layoffs OR hiring OR jobs OR graduate) UK when:21d', "en-GB", "GB", "GB:en"),
+    "IN":   ('"AI" (layoffs OR hiring OR jobs OR freshers) India IT when:21d', "en-IN", "IN", "IN:en"),
+    "EU":   ('"AI" (jobs OR employment OR workforce) Europe OR EU when:21d', "en-GB", "GB", "GB:en"),
+    "APAC": ('"AI" (jobs OR workforce) Singapore OR Japan OR Korea OR "Asia Pacific" when:21d', "en-SG", "SG", "SG:en"),
+    "AU":   ('"AI" (jobs OR hiring OR workforce) Australia when:21d', "en-AU", "AU", "AU:en"),
+}
+
+MAX_FEED_ITEMS = 5
+MIN_FEED_ITEMS = 3   # keep old feed if we can't do better than this
+MAX_AGE_DAYS = 21
+
+def _parse_rss_items(xml_text):
+    """Return [{headline, date, source, url, conf}] from a Google News RSS payload."""
+    out = []
+    root = ET.fromstring(xml_text)
+    for item in root.iter("item"):
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        pub = (item.findtext("pubDate") or "").strip()
+        src = (item.findtext("source") or "").strip()
+        if not title or not link or not pub:
+            continue
+        try:
+            dt = email.utils.parsedate_to_datetime(pub)
+        except (TypeError, ValueError):
+            continue
+        if (datetime.now(timezone.utc) - dt).days > MAX_AGE_DAYS:
+            continue
+        # Google News titles end with " - Publisher"; strip it, and use it
+        # as the source when <source> is missing
+        if " - " in title:
+            head, tail = title.rsplit(" - ", 1)
+            if not src:
+                src = tail
+            if tail == src:
+                title = head
+        out.append({
+            "headline": title[:160],
+            "date": dt.date().isoformat(),
+            "source": src or "Google News",
+            "url": link,
+            "conf": 2,
+        })
+    return out
+
+def fetch_news_feed(region):
+    q, hl, gl, ceid = FEED_QUERIES[region]
+    url = ("https://news.google.com/rss/search?q=" + urllib.parse.quote(q)
+           + f"&hl={hl}&gl={gl}&ceid={urllib.parse.quote(ceid)}")
+    req = urllib.request.Request(url, headers={"User-Agent": "ai-jobmarket-tracker/1.0"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        return _parse_rss_items(r.read().decode("utf-8", errors="replace"))
+
+def refresh_feeds(snapshot):
+    """Replace each region's feed in-place when enough fresh items arrive."""
+    refreshed = 0
+    for region in REGIONS:
+        try:
+            items = fetch_news_feed(region)
+        except Exception as exc:  # noqa: BLE001 - cron must never die on news
+            print(f"feed {region}: fetch failed ({exc}); keeping previous items")
+            continue
+        # dedupe by headline, newest first
+        seen, fresh = set(), []
+        for it in sorted(items, key=lambda i: i["date"], reverse=True):
+            key = it["headline"].lower()
+            if key not in seen:
+                seen.add(key)
+                fresh.append(it)
+        if len(fresh) >= MIN_FEED_ITEMS:
+            snapshot["regions"][region]["feed"] = fresh[:MAX_FEED_ITEMS]
+            refreshed += 1
+        else:
+            print(f"feed {region}: only {len(fresh)} fresh items; keeping previous items")
+    snapshot["feed_updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    print(f"News feeds refreshed for {refreshed}/{len(REGIONS)} regions")
+
+# ------------------------------------------------------------------
+# CSV schema migration
+# ------------------------------------------------------------------
+
+def migrate_csv_schema(fieldnames):
+    """One-time, in-place migration when historical.csv lacks new columns
+    (e.g. 'measurement'). Existing rows get measurement='modelled'."""
+    if not CSV_PATH.exists():
+        return
+    with CSV_PATH.open(newline="", encoding="utf-8") as fh:
+        reader = csv.DictReader(fh)
+        if reader.fieldnames == fieldnames:
+            return
+        rows = list(reader)
+    for row in rows:
+        for col in fieldnames:
+            row.setdefault(col, "modelled" if col == "measurement" else "")
+    with CSV_PATH.open("w", newline="", encoding="utf-8") as fh:
+        writer = csv.DictWriter(fh, fieldnames=fieldnames, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+    print(f"Migrated historical.csv to new schema ({len(rows)} rows)")
 
 # ------------------------------------------------------------------
 # Time helpers
@@ -166,8 +580,8 @@ def main():
     new_rows = []
     for region in REGIONS:
         for kpi_id, kpi_name, unit, direction in KPIS:
-            value = ADAPTERS[kpi_id](region, kpi_id)
-            src_name, src_url = SOURCES[kpi_id]
+            value, src_name, src_url, measurement = resolve_value(
+                region, kpi_id, week_ending)
             new_rows.append({
                 "iso_week": iso_week,
                 "week_ending": week_ending,
@@ -180,10 +594,12 @@ def main():
                 "direction": direction,
                 "source_name": src_name,
                 "source_url": src_url,
+                "measurement": measurement,
                 "updated_at": generated_at,
             })
 
     fieldnames = list(new_rows[0].keys())
+    migrate_csv_schema(fieldnames)
     file_exists = CSV_PATH.exists()
     with CSV_PATH.open("a", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames)
@@ -191,6 +607,8 @@ def main():
             writer.writeheader()
         writer.writerows(new_rows)
     print(f"Appended {len(new_rows)} rows for {iso_week}")
+    n_measured = sum(1 for r in new_rows if r["measurement"] == "measured")
+    print(f"Measured values this week: {n_measured}/{len(new_rows)}")
 
     # Build new snapshot from current.json shape, refreshed numbers
     new_snapshot = dict(current)
@@ -198,11 +616,16 @@ def main():
     new_snapshot["iso_week"] = iso_week
     new_snapshot["week_ending"] = week_ending
 
-    by_region_kpi = {(r["region_code"], r["kpi_id"]): r["value"] for r in new_rows}
+    by_region_kpi = {(r["region_code"], r["kpi_id"]): r for r in new_rows}
     for region in REGIONS:
         for kpi_id, kpi_name, unit, direction in KPIS:
-            v = by_region_kpi[(region, kpi_id)]
-            new_snapshot["regions"][region]["kpis"][kpi_id]["value"] = v
+            row = by_region_kpi[(region, kpi_id)]
+            node = new_snapshot["regions"][region]["kpis"][kpi_id]
+            node["value"] = row["value"]
+            node["name"] = kpi_name
+            node["source"] = row["source_name"]
+            node["source_url"] = row["source_url"]
+            node["measurement"] = row["measurement"]
         # Also refresh posting_series with the latest 12 weeks
         post_rows = []
         with CSV_PATH.open() as fh:
@@ -210,6 +633,12 @@ def main():
                 if row["region_code"] == region and row["kpi_id"] == "exposed_posting_index":
                     post_rows.append({"iso_week": row["iso_week"], "value": float(row["value"])})
         new_snapshot["regions"][region]["posting_series"] = post_rows[-12:]
+
+    # Refresh the "News & events - AI-attributed" section.
+    # NOTE: narrative/occupations/demographics/gap_chart still carry over
+    # from the previous week - narratives need a manual (or LLM) pass when
+    # their cited figures age out.
+    refresh_feeds(new_snapshot)
 
     snap_path = SNAP / f"{iso_week}.json"
     snap_path.write_text(json.dumps(new_snapshot, indent=2))

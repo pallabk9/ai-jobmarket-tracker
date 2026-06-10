@@ -333,3 +333,44 @@ main.wrap { padding-top: 24px; padding-bottom: 40px; }
   .block h2 { font-size: 18px; }
   .glossary-grid { grid-template-columns: 1fr; }
 }
+
+/* Measured vs modelled badge on KPI tiles */
+.kpi .meas {
+  display: inline-block; margin-left: 6px; padding: 1px 7px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.3px;
+  border-radius: 9px; vertical-align: 1px; text-transform: uppercase;
+  cursor: help;
+}
+.meas-measured { background: #E5F2E6; color: var(--c-good); border: 1px solid #BFDFC2; }
+.meas-modelled { background: #F1F1F4; color: var(--c-faint); border: 1px solid var(--c-line); }
+
+/* Modal popups: glossary & methodology */
+dialog.modal {
+  width: min(960px, 94vw); max-height: 86vh;
+  padding: 0; border: none; border-radius: 12px;
+  box-shadow: 0 12px 48px rgba(20,20,40,0.25);
+  color: var(--c-ink); background: var(--c-card);
+}
+dialog.modal::backdrop {
+  background: rgba(26,26,46,0.45);
+  backdrop-filter: blur(2px);
+}
+.modal-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 16px 22px; border-bottom: 1px solid var(--c-line);
+  position: sticky; top: 0; background: var(--c-card); z-index: 2;
+  border-radius: 12px 12px 0 0;
+}
+.modal-hdr h2 { margin: 0; font-size: 18px; color: var(--c-primary); }
+.modal-close {
+  flex: 0 0 auto; width: 32px; height: 32px; border-radius: 16px;
+  border: 1px solid var(--c-line); background: var(--c-bg);
+  color: var(--c-muted); font-size: 18px; line-height: 1; cursor: pointer;
+}
+.modal-close:hover { background: var(--c-line2); color: var(--c-ink); }
+.modal-body { padding: 18px 22px 24px; overflow-y: auto; max-height: calc(86vh - 65px); }
+.modal-body .block-sub { margin-top: 0; }
+@media (max-width: 640px) {
+  dialog.modal { width: 96vw; max-height: 92vh; }
+  .modal-body { padding: 14px 14px 18px; max-height: calc(92vh - 60px); }
+}

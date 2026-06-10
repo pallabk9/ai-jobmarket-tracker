@@ -40,7 +40,7 @@ const FMT = {
 // Short KPI display labels (more user-friendly than the long ones)
 const KPI_SHORT = {
   ai_layoffs_ytd:        "AI-attributed layoffs (YTD)",
-  topq_unemp_delta:      "Unemployment delta (top quartile)",
+  topq_unemp_delta:      "Early-career unemployment delta",
   hire_rate_22_25:       "Hire rate, 22-25 y/o",
   ai_mention_postings:   "AI-mention posting share",
   capability_gap:        "Capability gap (theoretical - observed)",
@@ -76,9 +76,14 @@ function renderKpis() {
     const deltaText = id === "ai_layoffs_ytd"   ? `${DATA.iso_week} cumulative`
                     : id === "augmentation_share" ? "Claude.ai mix"
                     : "vs prior cadence";
+    const meas = k.measurement === "measured" ? "measured" : "modelled";
+    const measTitle = meas === "measured"
+      ? "Pulled from the named source's published data"
+      : "Synthetic placeholder series - no live source wired for this region yet";
     return `
       <div class="kpi ${dirClass}">
-        <div class="label">${KPI_SHORT[id]}</div>
+        <div class="label">${KPI_SHORT[id]}
+          <span class="meas meas-${meas}" title="${measTitle}">${meas}</span></div>
         <div class="val">${display}</div>
         <div class="delta neutral">${deltaText}</div>
         <div class="src">Source: <a href="${k.source_url}" target="_blank" rel="noopener">${k.source}</a></div>
@@ -300,6 +305,36 @@ try {
     try { localStorage.removeItem("aijmit.cadence"); } catch (e) {}
   }
 } catch (e) {}
+
+// ---------- Modal popups (glossary & methodology) ----------
+function initModals() {
+  document.querySelectorAll("[data-modal]").forEach((trigger) => {
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      const dlg = document.getElementById(trigger.dataset.modal);
+      if (dlg && !dlg.open) dlg.showModal();
+    });
+  });
+  document.querySelectorAll("dialog.modal").forEach((dlg) => {
+    dlg.querySelectorAll("[data-close]").forEach((btn) =>
+      btn.addEventListener("click", () => dlg.close()));
+    // click on the backdrop (outside the dialog box) closes it
+    dlg.addEventListener("click", (e) => {
+      const box = dlg.getBoundingClientRect();
+      const inside = e.clientX >= box.left && e.clientX <= box.right &&
+                     e.clientY >= box.top  && e.clientY <= box.bottom;
+      if (!inside) dlg.close();
+    });
+  });
+  // deep links like /#glossary still work - they open the popup
+  const hashMap = { "#glossary": "glossary-modal", "#methodology": "methodology-modal" };
+  const fromHash = hashMap[location.hash];
+  if (fromHash) {
+    const dlg = document.getElementById(fromHash);
+    if (dlg) dlg.showModal();
+  }
+}
+initModals();
 
 // Chart.js defaults
 if (typeof Chart !== "undefined") {

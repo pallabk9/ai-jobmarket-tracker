@@ -6,7 +6,7 @@
   "regions": {
     "US": {
       "label": "United States",
-      "narrative": "Aggregate unemployment differential for top-quartile exposure remains statistically zero (Massenkoff & McCrory). Leading indicators are moving: job-finding rate for workers aged 22 to 25 in exposed occupations is down 14% vs 2022; 113K tech layoffs YTD with ~48% AI-attributed by the employer.",
+      "narrative": "Aggregate unemployment differential for top-quartile exposure remains statistically zero (Massenkoff & McCrory). Leading indicators are moving: job-finding rate for workers aged 22 to 25 in exposed occupations is down 14% vs 2022; Challenger counts 123.7K tech layoffs YTD and AI as the top cited layoff reason for a third straight month - 40% of May cuts, 22% of 2026 YTD.",
       "kpis": {
         "ai_layoffs_ytd": {
           "name": "AI-attributed layoffs (YTD, thousands)",
@@ -239,38 +239,38 @@
       ],
       "feed": [
         {
-          "headline": "Meta cuts 10% of workforce, redirects compensation budget to AI infrastructure",
-          "date": "2026-04-24",
+          "headline": "AI now the leading reason companies give for cutting jobs - 87,714 AI-cited cuts YTD, topping all of 2025",
+          "date": "2026-06-05",
           "source": "CNBC",
-          "url": "https://www.cnbc.com/2026/04/24/20k-job-cuts-at-meta-microsoft-raise-concern-of-ai-labor-crisis-.html",
-          "conf": 4
-        },
-        {
-          "headline": "Block reduces headcount from 10K to under 6K - largest single AI-attributed cut",
-          "date": "2026-03-07",
-          "source": "Layoffs.fyi",
-          "url": "https://layoffs.fyi/",
-          "conf": 5
-        },
-        {
-          "headline": "Microsoft adds 12K to AI ops while cutting 8K in legacy product groups",
-          "date": "2026-04-21",
-          "source": "Crunchbase News",
-          "url": "https://news.crunchbase.com/startups/tech-layoffs/",
+          "url": "https://www.cnbc.com/2026/06/05/ai-is-now-the-leading-reason-companies-give-for-cutting-jobs-says-new-report-what-that-means-for-workers.html",
           "conf": 3
         },
         {
-          "headline": "BLS Employment Projections 2024-34: exposure correlates with weaker growth",
-          "date": "2025-09-15",
-          "source": "BLS",
-          "url": "https://www.bls.gov/emp/",
-          "conf": 5
+          "headline": "Challenger: May job cuts hit 97,006, highest May since 2020 - AI top cited reason for third straight month (40% of May cuts)",
+          "date": "2026-06-04",
+          "source": "Challenger, Gray & Christmas",
+          "url": "https://www.challengergray.com/blog/challenger-report-may-job-cuts-rise-16-from-april-highest-may-total-since-2020/",
+          "conf": 4
+        },
+        {
+          "headline": "Tech layoffs reach 142K in 2026 as profitable companies cut jobs to fund $700B AI infrastructure",
+          "date": "2026-05-29",
+          "source": "TechTimes",
+          "url": "https://www.techtimes.com/articles/317392/20260529/tech-layoffs-reach-142000-2026-profitable-companies-cut-jobs-fund-700b-ai-infrastructure.htm",
+          "conf": 2
         },
         {
           "headline": "Hiring Lab: AI postings double YoY across the US",
           "date": "2026-05-12",
           "source": "Indeed Hiring Lab",
           "url": "https://www.hiringlab.org/",
+          "conf": 4
+        },
+        {
+          "headline": "Meta cuts 10% of workforce, redirects compensation budget to AI infrastructure",
+          "date": "2026-04-24",
+          "source": "CNBC",
+          "url": "https://www.cnbc.com/2026/04/24/20k-job-cuts-at-meta-microsoft-raise-concern-of-ai-labor-crisis-.html",
           "conf": 4
         }
       ]
@@ -510,18 +510,18 @@
       ],
       "feed": [
         {
-          "headline": "KPMG UK cuts graduate cohort 29% citing AI productivity",
-          "date": "2026-03-20",
-          "source": "People Management",
-          "url": "https://www.peoplemanagement.co.uk/article/1923445/graduate-job-openings-fall-lowest-level-seven-years-research-reveals-%E2%80%93-ai-blame",
-          "conf": 4
+          "headline": "Graduate market check: ISE reports ~140 applications per graduate role; graduate share of postings down 12% YoY",
+          "date": "2026-06-05",
+          "source": "Univ. of Bristol Careers Service",
+          "url": "https://universityofbristolcareers.blogs.bristol.ac.uk/2026/06/05/beyond-the-headlines-what-the-uk-graduate-job-market-really-looks-like-and-where-the-opportunities-are/",
+          "conf": 1
         },
         {
-          "headline": "Bank Underground: GenAI exposure tied to softer vacancy posting growth",
-          "date": "2026-01-22",
-          "source": "Bank of England",
-          "url": "https://bankunderground.co.uk/2026/01/22/generative-ai-degenerative-for-jobs/",
-          "conf": 4
+          "headline": "UK Gov publishes refreshed AI capability assessment",
+          "date": "2026-04-08",
+          "source": "GOV.UK",
+          "url": "https://www.gov.uk/government/publications/assessment-of-ai-capabilities-and-the-impact-on-the-uk-labour-market/assessment-of-ai-capabilities-and-the-impact-on-the-uk-labour-market",
+          "conf": 5
         },
         {
           "headline": "Indeed Hiring Lab UK: AI hiring bucks the cooling trend",
@@ -531,18 +531,18 @@
           "conf": 4
         },
         {
+          "headline": "KPMG UK cuts graduate cohort 29% citing AI productivity",
+          "date": "2026-03-20",
+          "source": "People Management",
+          "url": "https://www.peoplemanagement.co.uk/article/1923445/graduate-job-openings-fall-lowest-level-seven-years-research-reveals-%E2%80%93-ai-blame",
+          "conf": 4
+        },
+        {
           "headline": "IFOW: graduate roles in exposed sectors down 16pp on vacancy posting",
           "date": "2026-03-10",
           "source": "IFOW",
           "url": "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective",
           "conf": 3
-        },
-        {
-          "headline": "UK Gov publishes refreshed AI capability assessment",
-          "date": "2026-04-08",
-          "source": "GOV.UK",
-          "url": "https://www.gov.uk/government/publications/assessment-of-ai-capabilities-and-the-impact-on-the-uk-labour-market/assessment-of-ai-capabilities-and-the-impact-on-the-uk-labour-market",
-          "conf": 5
         }
       ]
     },
@@ -781,6 +781,27 @@
       ],
       "feed": [
         {
+          "headline": "CLSA: AI reshaping India IT hiring - Infosys junior share down to ~30%, under-30 share 51% vs 60% in FY23; TCS plans 40K freshers in FY27",
+          "date": "2026-06-04",
+          "source": "Zee Business / CLSA",
+          "url": "https://www.zeebiz.com/companies/news-it-jobs-134-lakh-global-tech-layoffs-yet-tcs-infosys-and-cognizant-plan-80000-hires-why-396636",
+          "conf": 3
+        },
+        {
+          "headline": "Naukri JobSpeak: AI/ML posting share up 142% YoY in BFSI",
+          "date": "2026-05-02",
+          "source": "Naukri",
+          "url": "https://www.naukri.com/jobspeak",
+          "conf": 4
+        },
+        {
+          "headline": "AI threat exposes cracks in India's growth story for high-paid IT jobs",
+          "date": "2026-04-30",
+          "source": "CNBC",
+          "url": "https://www.cnbc.com/2026/04/30/ai-threat-indias-growth-story-jobs.html",
+          "conf": 3
+        },
+        {
           "headline": "Nasscom: AI-driven restructuring trims fresher hiring 25%",
           "date": "2026-04-05",
           "source": "Nasscom",
@@ -792,27 +813,6 @@
           "date": "2026-03-22",
           "source": "Storyboard18",
           "url": "https://www.storyboard18.com/digital/entry-level-it-jobs-shrink-20-25-as-ai-reshapes-hiring-in-india-ws-l-95225.htm",
-          "conf": 4
-        },
-        {
-          "headline": "AI threat exposes cracks in India's growth story for high-paid IT jobs",
-          "date": "2026-04-30",
-          "source": "CNBC",
-          "url": "https://www.cnbc.com/2026/04/30/ai-threat-indias-growth-story-jobs.html",
-          "conf": 3
-        },
-        {
-          "headline": "Naukri JobSpeak: AI/ML posting share up 142% YoY in BFSI",
-          "date": "2026-05-02",
-          "source": "Naukri",
-          "url": "https://www.naukri.com/jobspeak",
-          "conf": 4
-        },
-        {
-          "headline": "Deloitte-Nasscom: India can address 60% of AI talent gap via GCCs",
-          "date": "2026-02-18",
-          "source": "Deloitte",
-          "url": "https://www.deloitte.com/in/en/about/press-room/bridging-the-ai-talent-gap-to-boost-indias-tech-and-economic-impact-deloitte-nasscom-report.html",
           "conf": 4
         }
       ]
@@ -1052,24 +1052,17 @@
       ],
       "feed": [
         {
-          "headline": "EC launches AI Skills Academy to retrain 1M workers by 2027",
-          "date": "2026-02-14",
-          "source": "European Commission",
-          "url": "https://digital-strategy.ec.europa.eu/en/policies/digital-skills-and-jobs",
-          "conf": 4
-        },
-        {
-          "headline": "CEPR: AI shows no short-run employment reduction in EU once selection-controlled",
-          "date": "2026-02-08",
-          "source": "CEPR / VoxEU",
-          "url": "https://cepr.org/voxeu/columns/how-ai-affecting-productivity-and-jobs-europe",
+          "headline": "First State of Tech Talent Europe report: AI a net driver of IT job creation - organisations expect +27% net hiring effect in 2026",
+          "date": "2026-06-08",
+          "source": "Linux Foundation",
+          "url": "https://www.prnewswire.com/news-releases/new-linux-foundation-report-finds-ai-is-driving-positive-tech-hiring-trends-in-europe-amid-growing-security-and-skills-gaps-302793382.html",
           "conf": 3
         },
         {
-          "headline": "EPC: AI's impact on EU job market - call for a Social Compact",
-          "date": "2026-03-12",
-          "source": "European Policy Centre",
-          "url": "https://www.epc.eu/publication/ais-impact-on-europes-job-market-a-call-for-a-social-compact/",
+          "headline": "Provisional Digital Omnibus deal delays high-risk AI hiring-tool obligations from Aug 2026 to Dec 2027",
+          "date": "2026-05-07",
+          "source": "EU Digital Omnibus (Asanify digest)",
+          "url": "https://asanify.com/blog/news/eu-ai-hiring-rules-june-8-2026/",
           "conf": 3
         },
         {
@@ -1080,10 +1073,17 @@
           "conf": 5
         },
         {
-          "headline": "Cedefop: low-skilled and 15-24 y/o most exposed to routine automation",
-          "date": "2026-02-26",
-          "source": "Cedefop",
-          "url": "https://www.cedefop.europa.eu/en",
+          "headline": "ECB blog: AI - friend or foe for hiring in Europe today?",
+          "date": "2026-03-04",
+          "source": "European Central Bank",
+          "url": "https://www.ecb.europa.eu/press/blog/date/2026/html/ecb.blog20260304~d9e34fc95f.en.html",
+          "conf": 3
+        },
+        {
+          "headline": "EC launches AI Skills Academy to retrain 1M workers by 2027",
+          "date": "2026-02-14",
+          "source": "European Commission",
+          "url": "https://digital-strategy.ec.europa.eu/en/policies/digital-skills-and-jobs",
           "conf": 4
         }
       ]
@@ -1323,24 +1323,31 @@
       ],
       "feed": [
         {
-          "headline": "Singapore MOM: AI adoption rate among SMEs hits 28%",
-          "date": "2026-04-15",
-          "source": "MOM Singapore",
-          "url": "https://www.mom.gov.sg/",
-          "conf": 5
+          "headline": "Shopee cuts hundreds of developer roles globally as parent Sea sharpens focus on AI",
+          "date": "2026-06-10",
+          "source": "Human Resources Online",
+          "url": "https://www.humanresourcesonline.net/shopee-cuts-hundreds-of-developer-roles-globally-as-parent-company-sea-sharpens-focus-on-ai",
+          "conf": 2
         },
         {
-          "headline": "METI Japan announces JPY 1.2T AI workforce reskilling fund",
-          "date": "2026-03-04",
-          "source": "METI",
-          "url": "https://www.meti.go.jp/english/",
+          "headline": "ILO and Singapore renew partnership (2026-28) to help ASEAN navigate AI, platform work and demographic change",
+          "date": "2026-06-08",
+          "source": "MOM Singapore",
+          "url": "https://www.mom.gov.sg/newsroom/press-releases/2026/0608-ilo-and-singapore-renew-partnership-to-support-asean-to-navigate-the-future-of-work",
           "conf": 4
         },
         {
-          "headline": "Korea NIA: AI exposure in admin clerical jobs at 64%",
-          "date": "2026-02-19",
-          "source": "Korea NIA",
-          "url": "https://www.nia.or.kr/site/nia_eng/main.do",
+          "headline": "MAS and IBF launch Young Talent Programme for AI in Finance - 20 firms, 1,000+ placements",
+          "date": "2026-05-21",
+          "source": "Indiplomacy",
+          "url": "https://indiplomacy.com/2026/05/21/singapore-pushes-ai-job-growth/",
+          "conf": 2
+        },
+        {
+          "headline": "JobStreet APAC: AI postings up 47% YoY across SEA",
+          "date": "2026-05-08",
+          "source": "JobStreet",
+          "url": "https://www.jobstreet.com/",
           "conf": 4
         },
         {
@@ -1349,13 +1356,6 @@
           "source": "Anthropic",
           "url": "https://www.anthropic.com/research/how-australia-uses-claude",
           "conf": 5
-        },
-        {
-          "headline": "JobStreet APAC: AI postings up 47% YoY across SEA",
-          "date": "2026-05-08",
-          "source": "JobStreet",
-          "url": "https://www.jobstreet.com/",
-          "conf": 4
         }
       ]
     },
@@ -1594,6 +1594,27 @@
       ],
       "feed": [
         {
+          "headline": "Deloitte Employment Forecasts 'The Year of AI': 82 AI-disrupted occupations face slower growth - 0.5%/yr over next five years with AI factored in",
+          "date": "2026-06-04",
+          "source": "Deloitte Access Economics",
+          "url": "https://www.deloitte.com/au/en/about/press-room/deloitte-access-economics-employment-forecasts.html",
+          "conf": 3
+        },
+        {
+          "headline": "Nice try, AI: Australian graduates are still getting hired - graduate postings stabilise above pre-pandemic levels",
+          "date": "2026-04-22",
+          "source": "Indeed Hiring Lab AU",
+          "url": "https://www.hiringlab.org/au/blog/2026/04/22/nice-try-ai-australian-graduates-are-still-getting-hired/",
+          "conf": 3
+        },
+        {
+          "headline": "Treasury Workforce Outlook flags 6.5% of AU jobs at high exposure",
+          "date": "2026-04-18",
+          "source": "AU Treasury",
+          "url": "https://treasury.gov.au/",
+          "conf": 4
+        },
+        {
           "headline": "Indeed AU: AI mentions in postings reach 8.5%, double last year",
           "date": "2026-04-01",
           "source": "Indeed Hiring Lab",
@@ -1606,29 +1627,9 @@
           "source": "Seek",
           "url": "https://www.seek.com.au/",
           "conf": 4
-        },
-        {
-          "headline": "ACS: AI jobs fastest growing category in Australia",
-          "date": "2026-02-11",
-          "source": "ACS Information Age",
-          "url": "https://ia.acs.org.au/article/2026/ai-jobs-are-the-fastest-growing-in-australia.html",
-          "conf": 4
-        },
-        {
-          "headline": "ABS Job Vacancies - Feb 2026 release: cooling broad-based, AI exempt",
-          "date": "2026-02-27",
-          "source": "ABS",
-          "url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia/latest-release",
-          "conf": 5
-        },
-        {
-          "headline": "Treasury Workforce Outlook flags 6.5% of AU jobs at high exposure",
-          "date": "2026-04-18",
-          "source": "AU Treasury",
-          "url": "https://treasury.gov.au/",
-          "conf": 4
         }
       ]
     }
-  }
+  },
+  "feed_updated_at": "2026-06-10T00:00:00Z"
 }

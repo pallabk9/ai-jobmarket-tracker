@@ -27,6 +27,8 @@ jobs:
           pip install reportlab
 
       - name: Refresh weekly data
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}  # optional; raises BLS rate limits
         run: python scripts/update_data.py
 
       - name: Rebuild user manual (in case methodology was updated)

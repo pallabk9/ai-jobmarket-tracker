@@ -84,22 +84,53 @@ GitHub Actions are enabled by default on public repos. To verify:
 
 The cron is set to `0 6 * * 1` (Mondays at 06:00 UTC). Adjust in `.github/workflows/weekly-update.yml` if you want a different time.
 
-## Wiring real data sources
+## Real data sources (v2, wired 2026-06-10)
 
-`scripts/update_data.py` ships with a v1 deterministic-drift adapter for every KPI so the cron runs end-to-end out of the box. To replace a stub with a real adapter:
+Every KPI tile shows a **measured** or **modelled** badge.
 
-1. Open `scripts/update_data.py`
-2. Find the `ADAPTERS` dict near the top
-3. Write a function `def my_adapter(region, kpi_id): ...` that returns a float
-4. Replace the entry: `ADAPTERS["ai_layoffs_ytd"] = my_adapter`
-5. If the adapter needs an API key, put it in **Settings → Secrets and variables → Actions** on GitHub, then read it in Python via `os.environ["MY_KEY"]`
-6. In `.github/workflows/weekly-update.yml`, expose the secret to the job by adding to the `env:` of the `Refresh weekly data` step
+**Measured pairs** (pulled live by `scripts/update_data.py` each Monday;
+any fetch failure falls back to drift for that week, flagged modelled):
 
-Suggested first three adapters to wire (in priority order):
+| KPI | Regions | Source |
+|---|---|---|
+| `exposed_posting_index` | US, UK (GB), EU (euro area), AU | [Indeed Hiring Lab job_postings_tracker](https://github.com/hiring-lab/job_postings_tracker) - mean postings index across eight high-exposure sectors (Software Development; IT Operations & Helpdesk; Information Design & Documentation; Mathematics; Accounting; Banking & Finance; Administrative Assistance; Media & Communications) |
+| `topq_unemp_delta` | US, UK, EU, AU | BLS CPS (20-24 vs 16+), ONS LMS (YBVQ 18-24 vs MGSX 16+), Eurostat `une_rt_m` (<25 vs total), ABS Labour Force (15-24 vs total). All seasonally adjusted |
+| `ai_layoffs_ytd` | US | Challenger, Gray & Christmas monthly Job Cut Report - AI-cited cuts YTD, parsed from the latest report; manual override via `CHALLENGER_AI_YTD_THOUSANDS` env |
 
-- `ai_layoffs_ytd` → Layoffs.fyi public CSV
-- `ai_mention_postings` → Indeed Hiring Lab API
-- `topq_unemp_delta` → BLS LAUS / CPS API
+**Modelled (still synthetic):** everything else - including all KPIs for
+India and APAC composite, and `ai_mention_postings` everywhere (Hiring Lab
+cites AI-mention shares in blog posts but publishes no machine-readable
+weekly series).
+
+**Methodology notes**
+
+- `topq_unemp_delta` was renamed to **"Early-career unemployment delta
+  (proxy)"**: statistics agencies do not publish unemployment by AI
+  exposure, so the measured series is youth minus overall unemployment
+  rate. This is a deliberate, documented proxy change from the original
+  top-quartile definition (Massenkoff & McCrory), whose cohort can only
+  be computed from CPS microdata.
+- Challenger history anchors (Mar/Apr/May 2026 month-ends) are derived
+  from figures stated in the May 2026 report; the derivation chain is
+  documented in `scripts/backfill_real_history.py`. Weeks before
+  2026-03-31 stay modelled.
+- 2026-06-10: snapshots W10-W23 were rewritten once by
+  `backfill-history.yml` to replace synthetic values with real history
+  for the wired pairs - a deliberate one-time break of the snapshot
+  immutability rule, treated as a bug fix of the seeded data. Snapshots
+  are immutable from W24 onward.
+
+**Optional secret:** add `BLS_API_KEY` (free at
+https://data.bls.gov/registrationEngine/) under **Settings → Secrets and
+variables → Actions** to raise BLS rate limits. Works without it.
+
+**One-time backfill:** Actions tab → "One-time history backfill (real
+sources)" → Run workflow. Safe to re-run.
+
+To wire more pairs: add an entry to `REAL_ADAPTERS` in
+`scripts/update_data.py` - a function `(region, on_date_iso) -> (value,
+source_name, source_url)`. Raise on failure; the caller handles drift
+fallback and the measured/modelled flag.
 
 ## Editing the methodology
 
