@@ -352,8 +352,9 @@ dialog.modal {
   color: var(--c-ink); background: var(--c-card);
 }
 dialog.modal::backdrop {
-  background: rgba(26,26,46,0.45);
-  backdrop-filter: blur(2px);
+  /* NO backdrop-filter here: blur over the Chart.js canvases wedges
+     Chrome's raster pipeline and the page freezes until navigation. */
+  background: rgba(26,26,46,0.55);
 }
 .modal-hdr {
   display: flex; align-items: center; justify-content: space-between;

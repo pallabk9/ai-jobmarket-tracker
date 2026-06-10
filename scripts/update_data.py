@@ -280,16 +280,19 @@ def _abs_discover_key():
         "https://data.api.abs.gov.au/rest/datastructure/ABS/LF?references=codelist")
     root = ET.fromstring(xml_text)
 
-    codelists = {}   # codelist id -> {code id: name}
+    codelists = {}   # codelist id -> {code id: normalised name}
     for cl in root.iter():
         if not cl.tag.endswith("}Codelist"):
             continue
         codes = {}
-        for code in cl:
-            if code.tag.endswith("}Code"):
-                name = next((c.text for c in code
-                             if c.tag.endswith("}Name")), "") or ""
-                codes[code.get("id")] = name
+        for code in cl.iter():                 # any depth, not just children
+            if not code.tag.endswith("}Code") or not code.get("id"):
+                continue
+            name = next((c.text for c in code.iter()
+                         if c.tag.endswith("}Name") and c.text), "") or ""
+            # normalise dashes/spacing so "15–24 years" matches "15-24"
+            codes[code.get("id")] = (name.replace("–", "-")
+                                         .replace("—", "-"))
         codelists[cl.get("id")] = codes
 
     def _enum_ref(dim_el):
@@ -340,9 +343,18 @@ def _abs_discover_key():
             yth = (pick(cl_id, "15-24", "15 to 24")
                    or pick(None, "15-24", "15 to 24") or "")
             if not (tot and yth):
+                # last resort: ABS LF age codelist uses numeric ids
+                age_cl = next((codelists[k] for k in codelists
+                               if k and "AGE" in k.upper()), {})
+                tot = tot or ("1599" if "1599" in age_cl else "")
+                yth = yth or ("1524" if "1524" in age_cl else "")
+            if not (tot and yth):
+                age_cl_id = next((k for k in codelists
+                                  if k and "AGE" in k.upper()), None)
+                sample = dict(list((codelists.get(age_cl_id) or {}).items())[:6])
                 raise ValueError(
                     f"ABS DSD: AGE codes not found (cl={cl_id}; "
-                    f"codelists: {sorted(k for k in codelists if k)[:10]})")
+                    f"age codelist {age_cl_id} sample: {sample})")
             age_codes = (tot, yth)
             parts.append(f"{tot}+{yth}")
             continue
