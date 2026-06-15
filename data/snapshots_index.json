@@ -1,5 +1,6 @@
 {
   "snapshots": [
+    "2026-W24",
     "2026-W23",
     "2026-W22",
     "2026-W21",
@@ -51,7 +52,7 @@
     },
     {
       "id": "topq_unemp_delta",
-      "name": "Top-quartile unemployment delta",
+      "name": "Early-career unemployment delta (proxy)",
       "unit": "pp",
       "direction": "up"
     },
