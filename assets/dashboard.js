@@ -183,6 +183,7 @@ function renderPost() {
   const r = DATA.regions[region];
   const labels = r.posting_series.map((p) => p.iso_week.replace("2026-", ""));
   const values = r.posting_series.map((p) => p.value);
+  const yMin = Math.floor(Math.min(...values) - 3);
   charts.post = new Chart($("postChart").getContext("2d"), {
     type: "line",
     data: { labels, datasets: [{ label: "Index", data: values,
@@ -193,7 +194,7 @@ function renderPost() {
       plugins: { legend: { display: false }, tooltip: { mode: "index", intersect: false } },
       scales: {
         x: { ticks: { font: { size: 9 } }, grid: { display: false } },
-        y: { ticks: { font: { size: 10 } }, grid: { color: "#f0f2f7" }, min: 75 },
+        y: { ticks: { font: { size: 10 } }, grid: { color: "#f0f2f7" }, min: yMin },
       },
     },
   });

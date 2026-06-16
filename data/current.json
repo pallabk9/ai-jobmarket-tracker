@@ -31,18 +31,18 @@
           "value": -14.45,
           "unit": "%",
           "direction": "up",
-          "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "source": "Stanford Digital Economy Lab - Canaries in the Coal Mine (ADP payroll, US; research-derived, not live)",
+          "source_url": "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/",
           "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
-          "value": 8.15,
+          "value": 5.68,
           "unit": "%",
           "direction": "down",
-          "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/",
-          "measurement": "modelled"
+          "source": "Indeed Hiring Lab AI Tracker (AI/GenAI posting share)",
+          "source_url": "https://github.com/hiring-lab/ai-tracker",
+          "measurement": "measured"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -312,18 +312,18 @@
           "value": -12.18,
           "unit": "%",
           "direction": "up",
-          "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "source": "Stanford Digital Economy Lab - Canaries in the Coal Mine (ADP payroll, US; research-derived, not live)",
+          "source_url": "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/",
           "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
-          "value": 7.09,
+          "value": 9.2,
           "unit": "%",
           "direction": "down",
-          "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/",
-          "measurement": "modelled"
+          "source": "Indeed Hiring Lab AI Tracker (AI/GenAI posting share)",
+          "source_url": "https://github.com/hiring-lab/ai-tracker",
+          "measurement": "measured"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -593,8 +593,8 @@
           "value": -21.61,
           "unit": "%",
           "direction": "up",
-          "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "source": "Stanford Digital Economy Lab - Canaries in the Coal Mine (ADP payroll, US; research-derived, not live)",
+          "source_url": "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/",
           "measurement": "modelled"
         },
         "ai_mention_postings": {
@@ -874,18 +874,18 @@
           "value": -9.2,
           "unit": "%",
           "direction": "up",
-          "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "source": "Stanford Digital Economy Lab - Canaries in the Coal Mine (ADP payroll, US; research-derived, not live)",
+          "source_url": "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/",
           "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
-          "value": 6.75,
+          "value": 4.58,
           "unit": "%",
           "direction": "down",
-          "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/",
-          "measurement": "modelled"
+          "source": "Indeed Hiring Lab AI Tracker (AI/GenAI posting share)",
+          "source_url": "https://github.com/hiring-lab/ai-tracker",
+          "measurement": "measured"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
@@ -1155,8 +1155,8 @@
           "value": -7.9,
           "unit": "%",
           "direction": "up",
-          "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "source": "Stanford Digital Economy Lab - Canaries in the Coal Mine (ADP payroll, US; research-derived, not live)",
+          "source_url": "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/",
           "measurement": "modelled"
         },
         "ai_mention_postings": {
@@ -1436,18 +1436,18 @@
           "value": -3.02,
           "unit": "%",
           "direction": "up",
-          "source": "CPS panel / Brynjolfsson 2025",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
+          "source": "Stanford Digital Economy Lab - Canaries in the Coal Mine (ADP payroll, US; research-derived, not live)",
+          "source_url": "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/",
           "measurement": "modelled"
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
-          "value": 8.39,
+          "value": 7.23,
           "unit": "%",
           "direction": "down",
-          "source": "Indeed Hiring Lab",
-          "source_url": "https://www.hiringlab.org/",
-          "measurement": "modelled"
+          "source": "Indeed Hiring Lab AI Tracker (AI/GenAI posting share)",
+          "source_url": "https://github.com/hiring-lab/ai-tracker",
+          "measurement": "measured"
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
