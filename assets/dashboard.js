@@ -222,44 +222,67 @@ function renderPost() {
   });
 }
 
-function renderGap() {
+function buildGapChart(shortLabels, longLabels, rawArr, practicalArr, l1, l2, clickable, axisTitle) {
   destroy("gap");
-  const g = DATA.regions[region].gap_chart;
-  const isModel = !!g.detail;                       // UK task-decomposition model
-  const names = g.names || g.cats;                  // long labels for tooltip
-  const l1 = isModel ? "Raw task exposure (theoretical)" : "Theoretical β (Eloundou)";
-  const l2 = isModel ? "Practical impact (AI-adjusted)"  : "Observed exposure";
-  const hint = $("gap-hint");
-  if (hint) hint.textContent = isModel
-    ? "Bars are SOC 2020 sub-major groups. Click any bar for the underlying occupations (all 412)."
-    : "";
-
   charts.gap = new Chart($("gapChart").getContext("2d"), {
     type: "bar",
     data: {
-      labels: g.cats,
+      labels: shortLabels,
       datasets: [
-        { label: l1, data: g.theoretical, backgroundColor: "rgba(46,117,182,0.45)", borderColor: "#2E75B6", borderWidth: 1 },
-        { label: l2, data: g.observed,    backgroundColor: "#C62828" },
+        { label: l1, data: rawArr,       backgroundColor: "rgba(46,117,182,0.45)", borderColor: "#2E75B6", borderWidth: 1 },
+        { label: l2, data: practicalArr, backgroundColor: "#C62828" },
       ],
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      onHover: (e, els) => { if (isModel) e.native.target.style.cursor = els.length ? "pointer" : "default"; },
-      onClick: (e, els) => {
-        if (!isModel) return;
-        const code = els.length ? g.cats[els[0].index] : null;
-        openOccModal(code);
-      },
+      onHover: (e, els) => { if (clickable && e.native && e.native.target) e.native.target.style.cursor = els.length ? "pointer" : "default"; },
+      onClick: () => { if (clickable) openOccModal(null); },
       plugins: {
         legend: { position: "bottom", labels: { font: { size: 11 } } },
-        tooltip: { callbacks: { title: (items) => names[items[0].dataIndex] || items[0].label } },
+        title:  { display: !!axisTitle, text: axisTitle, font: { size: 11 }, color: "#5a6478", padding: { bottom: 4 } },
+        tooltip: { callbacks: { title: (items) => longLabels[items[0].dataIndex] || items[0].label } },
       },
       scales: {
-        x: { ticks: { font: { size: 10 }, maxRotation: 30, minRotation: 30 }, grid: { display: false } },
-        y: { ticks: { font: { size: 10 }, callback: (v) => v + "%" }, grid: { color: "#f0f2f7" }, max: 100 },
+        x: { ticks: { font: { size: 9 }, maxRotation: 45, minRotation: 45, autoSkip: false }, grid: { display: false } },
+        y: { ticks: { font: { size: 10 }, callback: (v) => v + "%" }, grid: { color: "#f0f2f7" }, max: 100,
+             title: { display: true, text: "% of tasks exposed", font: { size: 10 } } },
       },
     },
+  });
+}
+
+function renderGap() {
+  const g = DATA.regions[region].gap_chart;
+  const isModel = !!g.detail;                       // UK task-decomposition model
+  const hint = $("gap-hint");
+  const btn = $("gap-all-btn");
+  if (btn) btn.style.display = isModel ? "inline-block" : "none";
+
+  if (!isModel) {
+    if (hint) hint.textContent = "";
+    buildGapChart(g.cats, g.names || g.cats, g.theoretical, g.observed,
+      "Theoretical β (Eloundou)", "Observed exposure", false,
+      "Theoretical vs observed exposure by sector (%)");
+    return;
+  }
+
+  if (hint) hint.textContent =
+    "Top 10 most AI-exposed UK occupations (SOC 2020). Click any bar — or “View all 412 occupations” — for the full-screen breakdown.";
+
+  loadUkOcc().then(() => {
+    const top = UK_OCC.occupations.slice().sort((a, b) => b.raw - a.raw).slice(0, 10);
+    const long  = top.map((o) => o.title || o.soc);
+    const short = top.map((o) => (o.title || o.soc).length > 24 ? (o.title || o.soc).slice(0, 23) + "…" : (o.title || o.soc));
+    buildGapChart(short, long,
+      top.map((o) => +(o.raw * 100).toFixed(1)),
+      top.map((o) => +(o.pi  * 100).toFixed(1)),
+      "Raw task exposure (theoretical)", "Practical impact (AI-adjusted)",
+      true, "Top 10 most AI-exposed UK occupations — raw vs practical (%)");
+  }).catch(() => {
+    // fall back to the group-level summary still in current.json
+    buildGapChart(g.cats, g.names || g.cats, g.theoretical, g.observed,
+      "Raw task exposure", "Practical impact", true,
+      "AI exposure by sub-major group (%)");
   });
 }
 
@@ -279,6 +302,32 @@ function loadUkOcc() {
 const fmtInt = (n) => (n == null ? "—" : Math.round(n).toLocaleString("en-GB"));
 const fmtPct = (n) => (n == null ? "—" : (n * 100).toFixed(1) + "%");
 const fmtNum = (n, d = 1) => (n == null ? "—" : n.toFixed(d));
+
+// Full-screen chart of every (filtered) occupation: raw vs practical exposure.
+function renderOccChart(rows) {
+  if (charts.occ) { charts.occ.destroy(); charts.occ = null; }
+  const wrap = $("occ-chart-wrap");
+  if (!wrap) return;
+  wrap.style.height = Math.max(280, rows.length * 17) + "px";
+  charts.occ = new Chart($("occAllChart").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: rows.map((o) => `${o.soc} ${o.title || ""}`.slice(0, 46)),
+      datasets: [
+        { label: "Raw task exposure (theoretical)", data: rows.map((o) => +(o.raw * 100).toFixed(1)), backgroundColor: "rgba(46,117,182,0.5)" },
+        { label: "Practical impact (AI-adjusted)",   data: rows.map((o) => +(o.pi  * 100).toFixed(1)), backgroundColor: "#C62828" },
+      ],
+    },
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: "top", labels: { font: { size: 11 } } } },
+      scales: {
+        x: { max: 100, ticks: { callback: (v) => v + "%", font: { size: 10 } }, position: "top" },
+        y: { ticks: { font: { size: 8 }, autoSkip: false }, grid: { display: false } },
+      },
+    },
+  });
+}
 
 function occRows() {
   if (!UK_OCC) return;
@@ -319,6 +368,8 @@ function occRows() {
   $("occ-modal-foot").textContent =
     `${rows.length} of ${UK_OCC.occupations.length} occupations shown · model as-of ${UK_OCC.as_of} · ${UK_OCC.source}`;
 
+  renderOccChart(rows);
+
   $("occ-modal-body").querySelectorAll(".occ-row").forEach((tr) => {
     tr.addEventListener("click", () => {
       const d = $("occ-modal-body").querySelector(`[data-detail="${tr.dataset.soc}"]`);
@@ -339,9 +390,9 @@ function openOccModal(groupCode) {
       `Practical AI impact on UK occupations from a task-decomposition model: 18 capability-scored task categories, ` +
       `time-weighted across ${UK_OCC.n_occupations} SOC 2020 unit groups and ONS employment. ` +
       `<em>Raw exposure</em> is theoretical task susceptibility; <em>practical impact</em> applies sector adoption discounts. Click a row for its task breakdown.`;
-    occRows();
     const dlg = $("occ-modal");
-    if (dlg && !dlg.open) dlg.showModal();
+    if (dlg && !dlg.open) dlg.showModal();   // open first so the canvas has layout
+    occRows();
   }).catch((e) => {
     const dlg = $("occ-modal");
     $("occ-modal-sub").textContent = "Could not load occupation detail: " + e.message;
@@ -350,18 +401,18 @@ function openOccModal(groupCode) {
 }
 
 function initOccModal() {
-  ["occ-search", "occ-group", "occ-sort"].forEach((id) => {
+  let t = null;
+  const sEl = $("occ-search");
+  if (sEl) sEl.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { if (UK_OCC) occRows(); }, 220); });
+  ["occ-group", "occ-sort"].forEach((id) => {
     const el = $(id);
-    if (el) el.addEventListener("input", () => { if (UK_OCC) occRows(); });
+    if (el) el.addEventListener("change", () => { if (UK_OCC) occRows(); });
   });
+  const allBtn = $("gap-all-btn");
+  if (allBtn) allBtn.addEventListener("click", () => openOccModal(null));
   const dlg = $("occ-modal");
   if (!dlg) return;
   dlg.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => dlg.close()));
-  dlg.addEventListener("click", (e) => {
-    const box = dlg.getBoundingClientRect();
-    const inside = e.clientX >= box.left && e.clientX <= box.right && e.clientY >= box.top && e.clientY <= box.bottom;
-    if (!inside) dlg.close();
-  });
 }
 initOccModal();
 
@@ -501,3 +552,4 @@ if (typeof Chart !== "undefined") {
        </div>`);
   }
 })();
+// end dashboard.js

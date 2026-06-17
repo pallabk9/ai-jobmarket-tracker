@@ -5,7 +5,7 @@
   <title>AI Job Market Impact Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Weekly, monthly and yearly tracking of AI-driven labour market change across six regions. Grounded in the Anthropic Observed Exposure methodology.">
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/styles.css?v=20260617">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' fill='%231F3864'/><text x='12' y='17' text-anchor='middle' font-family='Arial' font-size='14' font-weight='700' fill='white'>AI</text></svg>">
 </head>
 <body>
@@ -228,12 +228,15 @@
 
       <article class="card span-7">
         <header class="card-hdr">
-          <h3>Capability gap by sector &mdash; theoretical vs observed</h3>
-          <details class="src">
-            <summary>Source &amp; method</summary>
-            <p><strong>What this shows:</strong> blue = theoretical &beta; (Eloundou et al.) for tasks in each sector. Red = Observed Exposure (Anthropic usage). The space between is the headroom.</p>
-            <p><strong>Why it matters:</strong> watch the red bar growing toward the blue bar. That movement, not aggregate unemployment, is the earliest signal.</p>
-          </details>
+          <h3>Capability gap &mdash; theoretical vs practical AI exposure</h3>
+          <div class="card-hdr-actions">
+            <button type="button" class="ghost-btn" id="gap-all-btn" style="display:none">View all 412 occupations &rarr;</button>
+            <details class="src">
+              <summary>Source &amp; method</summary>
+              <p><strong>What this shows:</strong> blue = raw task exposure (theoretical AI susceptibility of an occupation's tasks). Red = practical impact after sector adoption discounts. The space between is the headroom.</p>
+              <p><strong>UK:</strong> the top 10 most AI-exposed occupations from the AWA task-decomposition model (SOC 2020). Click any bar or the button for the full-screen view of all 412 occupations. Other regions show sector-level theoretical &beta; (Eloundou) vs observed exposure.</p>
+            </details>
+          </div>
         </header>
         <div class="chart-wrap tall"><canvas id="gapChart"></canvas></div>
         <p class="chart-hint" id="gap-hint"></p>
@@ -319,6 +322,9 @@
           <option value="employment">Sort: employment</option>
           <option value="soc">Sort: SOC code</option>
         </select>
+      </div>
+      <div class="occ-chart-scroll">
+        <div class="occ-chart-wrap" id="occ-chart-wrap"><canvas id="occAllChart"></canvas></div>
       </div>
       <div class="occ-scroll">
         <table class="kpi-table occ-detail">
@@ -409,7 +415,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
-<script src="assets/dashboard.js"></script>
+<script src="assets/dashboard.js?v=20260617"></script>
 
 </body>
 </html>
