@@ -1,0 +1,45 @@
+element_id,element_name,task_id,weight
+4.A.1.a.1,Getting Information,T03,1.0
+4.A.1.a.2,"Monitoring Processes, Materials, or Surroundings",T06,1.0
+4.A.1.b.1,"Identifying Objects, Actions, and Events",T06,1.0
+4.A.1.b.2,"Inspecting Equipment, Structures, or Materials",T17,1.0
+4.A.1.b.3,Estimating the Quantifiable Characteristics of Products Events or Information,T05,1.0
+4.A.2.a.1,"Judging the Qualities of Objects, Services, or People",T06,1.0
+4.A.2.a.2,Processing Information,T01,1.0
+4.A.2.a.3,Evaluating Information to Determine Compliance with Standards,T10,1.0
+4.A.2.a.4,Analyzing Data or Information,T10,1.0
+4.A.2.b.1,Making Decisions and Solving Problems,T12,1.0
+4.A.2.b.2,Thinking Creatively,T11,1.0
+4.A.2.b.3,Updating and Using Relevant Knowledge,T03,1.0
+4.A.2.b.4,Developing Objectives and Strategies,T12,1.0
+4.A.2.b.5,Scheduling Work and Activities,T04,1.0
+4.A.2.b.6,"Organizing, Planning, and Prioritizing Work",T04,1.0
+4.A.3.a.1,Performing General Physical Activities,T18,1.0
+4.A.3.a.2,Handling and Moving Objects,T17,1.0
+4.A.3.a.3,Controlling Machines and Processes,T17,1.0
+4.A.3.a.4,"Operating Vehicles, Mechanized Devices, or Equipment",T18,1.0
+4.A.3.b.1,Working with Computers,T01,1.0
+4.A.3.b.2,"Drafting, Laying Out, and Specifying Technical Devices, Parts, and Equipment",T11,1.0
+4.A.3.b.4,Repairing and Maintaining Mechanical Equipment,T17,1.0
+4.A.3.b.5,Repairing and Maintaining Electronic Equipment,T17,1.0
+4.A.3.b.6,Documenting/Recording Information,T01,0.5
+4.A.3.b.6,Documenting/Recording Information,T07,0.5
+4.A.4.a.1,Interpreting the Meaning of Information for Others,T08,0.6
+4.A.4.a.1,Interpreting the Meaning of Information for Others,T09,0.4
+4.A.4.a.2,"Communicating with Supervisors, Peers, or Subordinates",T08,0.7
+4.A.4.a.2,"Communicating with Supervisors, Peers, or Subordinates",T02,0.3
+4.A.4.a.3,Communicating with People Outside the Organization,T08,1.0
+4.A.4.a.4,Establishing and Maintaining Interpersonal Relationships,T08,1.0
+4.A.4.a.5,Assisting and Caring for Others,T16,1.0
+4.A.4.a.6,Selling or Influencing Others,T13,1.0
+4.A.4.a.7,Resolving Conflicts and Negotiating with Others,T13,1.0
+4.A.4.a.8,Performing for or Working Directly with the Public,T08,1.0
+4.A.4.b.1,Coordinating the Work and Activities of Others,T15,1.0
+4.A.4.b.2,Developing and Building Teams,T15,1.0
+4.A.4.b.3,Training and Teaching Others,T14,1.0
+4.A.4.b.4,"Guiding, Directing, and Motivating Subordinates",T15,1.0
+4.A.4.b.5,Coaching and Developing Others,T14,1.0
+4.A.4.b.6,Providing Consultation and Advice to Others,T10,1.0
+4.A.4.c.1,Performing Administrative Activities,T01,1.0
+4.A.4.c.2,Staffing Organizational Units,T15,1.0
+4.A.4.c.3,Monitoring and Controlling Resources,T15,1.0
