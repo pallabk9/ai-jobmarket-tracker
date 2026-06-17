@@ -1,0 +1,19 @@
+task_id,task_category,ai_susceptibility_may2026
+T01,Structured Data Entry & Processing,0.96
+T02,Routine Text Generation,0.94
+T03,Information Retrieval & Synthesis,0.93
+T04,Scheduling & Coordination,0.90
+T05,Routine Numerical Analysis,0.88
+T06,Classification & Sorting,0.88
+T07,Complex Document Drafting,0.85
+T08,Customer/Client Communication,0.82
+T09,Translation & Language Services,0.82
+T10,Technical Analysis & Problem-Solving,0.78
+T11,Creative Design & Content,0.80
+T12,Strategic Judgement & Decision-Making,0.58
+T13,Negotiation & Persuasion,0.45
+T14,"Teaching, Training & Mentoring",0.60
+T15,Supervision & People Management,0.35
+T16,Physical Care & Personal Service,0.20
+T17,Skilled Manual & Technical Operations,0.13
+T18,Outdoor/Physical Labour,0.07

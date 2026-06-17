@@ -375,3 +375,56 @@ dialog.modal::backdrop {
   dialog.modal { width: 96vw; max-height: 92vh; }
   .modal-body { padding: 14px 14px 18px; max-height: calc(92vh - 60px); }
 }
+
+/* ============ KPI HOVER TOOLTIP (glossary + methodology) ============ */
+.kpi { position: relative; }
+.kpi .label { display: flex; align-items: center; gap: 6px; }
+.kpi-i {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--c-line2); color: var(--c-muted);
+  font-size: 9px; font-weight: 700; font-style: italic; cursor: help; flex: none;
+}
+.kpi-tip {
+  position: absolute; z-index: 60; left: 0; right: 0; top: calc(100% + 6px);
+  background: #1F3864; color: #fff; border-radius: 8px; padding: 11px 13px;
+  font-size: 11.5px; line-height: 1.5; font-weight: 400; text-transform: none; letter-spacing: 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+  opacity: 0; visibility: hidden; transform: translateY(-3px);
+  transition: opacity .12s ease, transform .12s ease, visibility .12s;
+  pointer-events: none;
+}
+.kpi-tip strong { display: block; color: #fff; font-size: 12px; margin-bottom: 4px; }
+.kpi-tip-src { display: block; margin-top: 6px; color: #AFC6E6; font-size: 10.5px; }
+.kpi:hover .kpi-tip, .kpi:focus .kpi-tip, .kpi:focus-within .kpi-tip {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+.kpi-tip::before {
+  content: ""; position: absolute; bottom: 100%; left: 18px;
+  border: 6px solid transparent; border-bottom-color: #1F3864;
+}
+
+/* ============ GAP CHART CLICK HINT ============ */
+.chart-hint { margin: 8px 2px 0; font-size: 11px; color: var(--c-muted); font-style: italic; }
+
+/* ============ UK OCCUPATIONS MODAL ============ */
+.occ-modal { width: min(1040px, 96vw); max-width: 1040px; }
+.occ-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+.occ-controls input, .occ-controls select {
+  font: inherit; font-size: 13px; padding: 7px 10px; border: 1px solid var(--c-line);
+  border-radius: 6px; background: var(--c-card); color: var(--c-ink);
+}
+.occ-controls input { flex: 1 1 240px; }
+.occ-scroll { max-height: 56vh; overflow: auto; border: 1px solid var(--c-line); border-radius: 8px; }
+.occ-detail { font-size: 12.5px; margin: 0; }
+.occ-detail thead th { position: sticky; top: 0; background: var(--c-card); z-index: 1; }
+.occ-detail th.num, .occ-detail td.num { text-align: right; white-space: nowrap; }
+.occ-row { cursor: pointer; }
+.occ-row:hover { background: var(--c-line2); }
+.occ-detail-row > td { background: #f7f9fc; padding: 10px 14px; }
+.occ-task-head { font-size: 11px; font-weight: 700; color: var(--c-primary); margin-bottom: 6px; }
+.occ-tasks { list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 3px 16px; }
+.occ-tasks li { display: flex; justify-content: space-between; gap: 10px; font-size: 11.5px; border-bottom: 1px dotted var(--c-line); padding: 2px 0; }
+.occ-tasks li b { color: var(--c-primary2); }
+@media (max-width: 640px) { .occ-tasks { grid-template-columns: 1fr; } }

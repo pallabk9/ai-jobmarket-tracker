@@ -17,9 +17,7 @@
       <p class="sub">Anthropic Observed Exposure methodology &middot; six regions &middot; weekly refresh</p>
     </div>
     <nav class="topnav">
-      <a href="#glossary" data-modal="glossary-modal">Glossary</a>
       <a href="#dashboard">Dashboard</a>
-      <a href="#methodology" data-modal="methodology-modal">Methodology</a>
       <a href="#downloads">Download data</a>
       <a href="manual.pdf" target="_blank" rel="noopener" class="cta">User manual (PDF)</a>
     </nav>
@@ -238,6 +236,7 @@
           </details>
         </header>
         <div class="chart-wrap tall"><canvas id="gapChart"></canvas></div>
+        <p class="chart-hint" id="gap-hint"></p>
       </article>
 
       <article class="card span-5">
@@ -298,6 +297,43 @@
     </table>
 
     <p style="margin-top:14px">Full methodology, regional crosswalks, and the citation chain are in the <a href="manual.pdf" target="_blank" rel="noopener"><strong>User manual PDF</strong></a>.</p>
+    </div>
+  </dialog>
+
+  <!-- ============== UK OCCUPATIONS DETAIL (popup) ============== -->
+  <dialog id="occ-modal" class="modal occ-modal" aria-labelledby="occ-title">
+    <div class="modal-hdr">
+      <h2 id="occ-title">UK occupations &mdash; AI task-decomposition detail</h2>
+      <button class="modal-close" data-close aria-label="Close occupations detail">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="block-sub" id="occ-modal-sub">Loading the 412-occupation model&hellip;</p>
+      <div class="occ-controls">
+        <input type="search" id="occ-search" placeholder="Search SOC code or occupation title&hellip;" autocomplete="off">
+        <select id="occ-group" aria-label="Filter by sub-major group"></select>
+        <select id="occ-sort" aria-label="Sort occupations">
+          <option value="raw">Sort: raw exposure (high&rarr;low)</option>
+          <option value="pi">Sort: practical impact (high&rarr;low)</option>
+          <option value="hrs_week">Sort: hours freed / week</option>
+          <option value="combined_hrs">Sort: combined hrs (with amplification)</option>
+          <option value="employment">Sort: employment</option>
+          <option value="soc">Sort: SOC code</option>
+        </select>
+      </div>
+      <div class="occ-scroll">
+        <table class="kpi-table occ-detail">
+          <thead>
+            <tr>
+              <th>SOC</th><th>Occupation</th><th class="num">Employment</th>
+              <th class="num">Raw exposure</th><th class="num">Practical impact</th>
+              <th class="num">Hrs/wk freed</th><th class="num">FTE capacity</th>
+              <th class="num">Amplif.</th><th class="num">Combined hrs/wk</th>
+            </tr>
+          </thead>
+          <tbody id="occ-modal-body"></tbody>
+        </table>
+      </div>
+      <p class="block-sub" id="occ-modal-foot"></p>
     </div>
   </dialog>
 

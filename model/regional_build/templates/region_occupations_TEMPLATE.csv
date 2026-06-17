@@ -1,0 +1,6 @@
+occ_code,occ_title,group_code,group_name,employment,adoption_discount,amplification_multiplier,T01,T02,T03,T04,T05,T06,T07,T08,T09,T10,T11,T12,T13,T14,T15,T16,T17,T18
+# one row per occupation in the region's taxonomy.
+# T01..T18 = % of working time on each task category (must sum to 100).
+# adoption_discount in 0.48-0.60 (see adoption_discounts.csv).
+# amplification_multiplier in 1.0-2.5 (see amplification_multipliers.csv).
+# employment = number of workers in that occupation (national stats agency).

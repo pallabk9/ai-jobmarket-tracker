@@ -1,0 +1,413 @@
+occ_code,occ_title,group_code,group_name,employment,adoption_discount,amplification_multiplier,T01,T02,T03,T04,T05,T06,T07,T08,T09,T10,T11,T12,T13,T14,T15,T16,T17,T18
+1111,Chief executives and senior officials,11,Corporate Managers & Directors,167737,0.5,1.8,1,3,8,5,5,1,12,5,0,2,0,28,12,2,14,0,2,0
+1112,Elected officers and representatives,11,Corporate Managers & Directors,167737,0.5,1.8,1,3,8,5,2,1,15,10,0,1,0,20,15,5,10,0,2,2
+1113,Senior police officers,11,Corporate Managers & Directors,167737,0.5,1.8,2,3,5,5,3,3,10,5,0,3,0,20,8,5,15,0,8,5
+1114,Officers in armed forces,11,Corporate Managers & Directors,167737,0.5,1.8,2,3,5,8,3,2,8,5,0,5,0,18,5,8,15,0,8,5
+1115,"Senior officers in fire, ambulance, prison and related services",11,Corporate Managers & Directors,167737,0.5,1.8,2,3,5,5,3,3,10,5,0,3,0,20,5,5,15,0,8,8
+1131,Financial managers and directors,11,Corporate Managers & Directors,167737,0.5,1.8,3,3,5,5,15,3,10,5,0,5,0,18,8,2,12,0,3,3
+1132,"Marketing, sales and advertising directors",11,Corporate Managers & Directors,167737,0.5,1.8,2,5,8,5,5,2,12,8,1,2,5,15,15,3,10,0,2,0
+1133,Purchasing managers and directors,11,Corporate Managers & Directors,167737,0.5,1.8,3,3,5,5,10,5,5,8,0,5,0,15,15,2,12,0,5,2
+1134,Human resource managers and directors,11,Corporate Managers & Directors,167737,0.5,1.8,3,5,5,8,5,5,8,8,0,2,0,12,10,8,15,0,3,3
+1135,Charitable organisation managers and directors,11,Corporate Managers & Directors,167737,0.5,1.8,3,5,8,5,5,2,12,8,0,2,1,15,10,3,12,0,5,4
+1136,Research and development managers,11,Corporate Managers & Directors,167737,0.5,1.8,2,3,15,5,5,3,12,3,0,15,2,15,3,5,10,0,2,0
+1137,Information technology directors,11,Corporate Managers & Directors,167737,0.5,1.8,2,3,8,5,5,2,10,5,0,15,1,18,8,3,12,0,3,0
+1139,Functional managers and directors n.e.c.,11,Corporate Managers & Directors,167737,0.5,1.8,3,5,5,5,8,3,8,5,0,5,1,15,10,3,15,0,5,4
+1140,"Directors in logistics, warehousing and transport",11,Corporate Managers & Directors,167737,0.5,1.8,2,3,5,8,8,3,8,5,0,5,0,18,10,3,15,0,5,2
+1150,Production managers and directors in manufacturing,11,Corporate Managers & Directors,167737,0.5,1.8,2,3,3,5,8,5,5,3,0,10,0,15,5,5,15,0,10,6
+1161,Production managers and directors in construction,11,Corporate Managers & Directors,167737,0.5,1.8,2,3,3,5,8,3,5,5,0,8,0,15,8,3,15,0,10,7
+1162,Production managers and directors in mining and energy,11,Corporate Managers & Directors,167737,0.5,1.8,2,3,5,5,8,3,5,3,0,10,0,18,5,3,15,0,8,7
+1171,Health services and public health managers and directors,11,Corporate Managers & Directors,167737,0.5,1.8,3,5,5,5,5,3,8,5,0,3,0,15,5,3,15,12,4,4
+1172,Social services managers and directors,11,Corporate Managers & Directors,167737,0.5,1.8,3,5,5,5,5,3,8,8,0,2,0,12,5,5,12,15,3,4
+1211,Managers and proprietors in agriculture and horticulture,12,Other Managers & Proprietors,92773,0.55,1.5,3,3,3,5,5,3,3,5,0,5,0,12,8,3,12,0,15,15
+1212,"Managers and proprietors in forestry, fishing and related",12,Other Managers & Proprietors,92773,0.55,1.5,3,3,3,5,5,3,3,5,0,5,0,12,8,3,12,0,15,15
+1221,Hotel and accommodation managers and proprietors,12,Other Managers & Proprietors,92773,0.55,1.5,5,5,3,8,8,3,3,12,0,2,1,10,8,3,12,0,8,9
+1222,Restaurant and catering establishment managers and proprietors,12,Other Managers & Proprietors,92773,0.55,1.5,5,3,2,8,8,3,2,12,0,2,1,10,8,3,12,0,10,11
+1223,Publicans and managers of licensed premises,12,Other Managers & Proprietors,92773,0.55,1.5,5,3,2,8,8,3,2,12,0,2,1,10,8,3,12,0,10,11
+1224,Leisure and sports managers,12,Other Managers & Proprietors,92773,0.55,1.5,3,5,3,8,8,3,5,10,0,2,2,10,8,5,12,0,8,8
+1225,Travel agency managers and proprietors,12,Other Managers & Proprietors,92773,0.55,1.5,5,5,5,8,8,3,5,18,1,2,1,8,10,3,10,0,5,3
+1231,Health services managers,12,Other Managers & Proprietors,92773,0.55,1.5,3,5,5,8,5,3,8,8,0,3,0,15,5,3,15,10,4,0
+1232,"Residential, day and domiciliary care managers and proprietors",12,Other Managers & Proprietors,92773,0.55,1.5,3,5,3,8,5,5,5,8,0,2,0,12,5,5,12,15,4,3
+1233,Early education and childcare services proprietors,12,Other Managers & Proprietors,92773,0.55,1.5,3,5,3,8,5,3,5,10,0,2,0,12,5,8,12,12,4,3
+1241,Managers in transport and distribution,12,Other Managers & Proprietors,92773,0.55,1.5,3,5,3,10,8,5,3,5,0,5,0,12,5,3,15,0,10,8
+1242,Managers in storage and warehousing,12,Other Managers & Proprietors,92773,0.55,1.5,3,5,3,10,8,5,3,5,0,5,0,10,5,3,15,0,10,10
+1243,Managers in logistics,12,Other Managers & Proprietors,92773,0.55,1.5,3,5,5,10,8,5,5,5,0,5,0,12,8,3,15,0,8,3
+1251,"Property, housing and estate managers",12,Other Managers & Proprietors,92773,0.55,1.5,3,5,5,8,8,3,5,10,0,3,0,12,10,2,10,0,10,6
+1252,Garage managers and proprietors,12,Other Managers & Proprietors,92773,0.55,1.5,3,3,3,5,8,3,3,10,0,8,0,10,8,3,12,0,15,6
+1253,Hairdressing and beauty salon managers and proprietors,12,Other Managers & Proprietors,92773,0.55,1.5,3,3,2,8,8,3,2,15,0,2,2,8,8,5,10,15,5,1
+1254,Shopkeepers and owners – retail and wholesale,12,Other Managers & Proprietors,92773,0.55,1.5,5,3,3,5,10,5,2,15,0,2,1,10,10,2,10,0,12,5
+1255,Managers and directors in the creative industries,12,Other Managers & Proprietors,92773,0.55,1.5,3,5,5,8,5,3,10,8,1,3,12,12,8,3,10,0,4,0
+1256,Betting shop and gambling establishment managers,12,Other Managers & Proprietors,92773,0.55,1.5,5,3,2,5,8,5,2,12,0,3,0,10,5,3,12,0,15,10
+1257,Hire services managers and proprietors,12,Other Managers & Proprietors,92773,0.55,1.5,5,5,3,8,8,5,3,12,0,3,0,10,8,3,12,0,10,5
+1258,Directors in consultancy services,12,Other Managers & Proprietors,92773,0.55,1.5,2,3,10,5,5,2,15,8,0,5,2,15,12,3,10,0,3,0
+1259,Managers and proprietors in other services n.e.c.,12,Other Managers & Proprietors,92773,0.55,1.5,3,5,5,8,8,3,5,10,0,3,1,12,8,3,12,0,8,6
+2111,Chemical scientists,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,5,3,18,2,8,5,12,2,1,25,0,8,1,5,3,0,2,0
+2112,Biological scientists,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,5,3,18,2,8,5,12,2,1,25,0,8,1,5,3,0,2,0
+2113,Biochemists and biomedical scientists,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,5,3,15,2,8,5,12,2,1,28,0,8,1,5,3,0,2,0
+2114,Physical scientists,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,5,3,18,2,8,5,12,2,1,25,0,8,1,5,3,0,2,0
+2115,Social and humanities scientists,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,5,20,3,5,3,20,3,2,5,0,10,3,8,5,0,5,0
+2119,Natural and social science professionals n.e.c.,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,5,3,18,2,8,5,12,3,1,22,0,8,2,5,4,0,2,0
+2121,Civil engineers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,10,3,10,3,15,5,0,25,2,8,3,3,5,0,2,0
+2122,Mechanical engineers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,10,3,10,3,12,3,0,30,2,8,2,3,5,0,3,0
+2123,Electrical engineers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,10,3,10,3,12,3,0,30,2,8,2,3,5,0,3,0
+2124,Electronics engineers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,10,3,8,3,12,3,0,32,2,8,2,3,5,0,3,0
+2125,Chemical engineers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,12,3,10,3,12,3,0,28,2,8,2,3,5,0,3,0
+2126,Aerospace engineers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,10,3,10,3,12,3,0,30,2,8,2,3,5,0,3,0
+2127,Engineering project managers and project engineers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,5,8,8,8,3,10,5,0,15,1,12,5,3,10,0,4,0
+2129,Engineering professionals n.e.c.,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,10,3,10,3,12,5,0,25,2,8,3,3,5,0,3,2
+2131,IT project managers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,5,5,10,5,3,10,8,0,15,1,12,5,3,12,0,3,0
+2132,IT managers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,5,5,8,5,3,8,5,0,15,1,15,5,5,12,0,5,0
+2133,"IT business analysts, architects and systems designers",21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,5,10,5,5,3,15,5,0,25,2,10,2,3,5,0,2,0
+2134,Programmers and software development professionals,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,2,2,8,2,3,3,5,3,0,55,2,5,1,3,4,0,2,0
+2135,Cyber security professionals,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,12,3,3,8,10,3,0,35,0,10,2,3,5,0,0,0
+2136,IT quality and testing professionals,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,5,8,3,5,10,8,3,0,35,0,8,2,3,5,0,2,0
+2137,IT network professionals,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,8,3,3,5,5,3,0,40,0,8,2,3,5,0,9,0
+2139,Information technology professionals n.e.c.,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,8,3,5,5,8,5,0,35,2,8,2,5,5,0,3,0
+2141,Web design and development professionals,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,2,2,8,3,2,3,5,5,0,35,20,5,2,3,3,0,2,0
+2142,Graphic and multimedia designers,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,2,2,5,3,2,2,5,8,0,10,40,5,3,3,5,0,5,0
+2151,Conservation professionals,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,15,3,5,5,15,3,0,15,0,10,5,5,5,0,5,3
+2152,Environment professionals,21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,15,3,8,5,18,3,0,15,0,10,5,3,5,0,2,2
+2161,"Actuaries, economists and statisticians",21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,15,3,25,5,15,3,0,15,0,8,2,1,2,0,0,0
+2162,"Other researchers, unspecified discipline",21,"Science, Research, Engineering & Technology Professionals",75214,0.5,2.5,3,3,25,3,8,5,20,3,1,15,0,5,1,3,3,0,2,0
+2211,Generalist medical practitioners,22,Health Professionals,71038,0.55,1.8,5,5,8,3,2,5,5,15,0,10,0,18,2,3,3,15,1,0
+2212,Specialist medical practitioners,22,Health Professionals,71038,0.55,1.8,3,5,10,3,3,3,8,8,0,15,0,18,2,5,3,12,2,0
+2213,Dental practitioners,22,Health Professionals,71038,0.55,1.8,3,3,5,3,2,2,3,10,0,5,0,12,3,3,2,20,22,2
+2221,Physiotherapists,22,Health Professionals,71038,0.55,1.8,5,3,5,5,2,3,5,10,0,8,0,10,2,5,2,25,10,0
+2222,Occupational therapists,22,Health Professionals,71038,0.55,1.8,5,5,5,5,2,5,8,10,0,8,0,10,2,5,2,25,3,0
+2223,Speech and language therapists,22,Health Professionals,71038,0.55,1.8,5,3,5,5,2,3,8,12,0,5,0,10,2,8,2,25,5,0
+2224,Psychotherapists and cognitive behaviour therapists,22,Health Professionals,71038,0.55,1.8,5,5,5,5,2,2,8,15,0,5,0,15,2,5,2,22,2,0
+2225,Clinical psychologists,22,Health Professionals,71038,0.55,1.8,3,5,10,3,5,5,15,8,0,10,0,15,2,5,3,10,1,0
+2226,Other psychologists,22,Health Professionals,71038,0.55,1.8,3,5,12,3,5,5,15,5,0,10,0,12,2,8,5,8,2,0
+2229,Therapy professionals n.e.c.,22,Health Professionals,71038,0.55,1.8,5,3,5,5,2,3,5,12,0,8,0,10,2,5,2,25,5,3
+2231,Midwives,22,Health Professionals,71038,0.55,1.8,5,5,5,5,2,3,5,10,0,5,0,10,1,5,3,30,5,1
+2232,Registered community nurses,22,Health Professionals,71038,0.55,1.8,8,5,5,5,2,5,5,12,0,5,0,8,1,5,3,25,5,1
+2233,Registered specialist nurses,22,Health Professionals,71038,0.55,1.8,5,5,5,3,2,5,5,8,0,8,0,10,1,5,3,30,5,0
+2234,Registered nurse practitioners,22,Health Professionals,71038,0.55,1.8,5,5,5,5,2,5,5,10,0,8,0,10,1,5,3,25,5,1
+2235,Registered mental health nurses,22,Health Professionals,71038,0.55,1.8,8,5,5,5,2,3,5,12,0,3,0,8,1,5,3,30,3,2
+2236,Registered children's nurses,22,Health Professionals,71038,0.55,1.8,5,5,5,5,2,3,5,10,0,5,0,8,1,5,3,30,5,3
+2237,Other registered nursing professionals,22,Health Professionals,71038,0.55,1.8,5,5,5,5,2,5,5,10,0,5,0,10,1,5,3,25,5,4
+2241,Veterinarians,22,Health Professionals,71038,0.55,1.8,3,3,5,3,2,3,5,10,0,10,0,15,3,3,2,15,17,1
+2242,Pharmacists,22,Health Professionals,71038,0.55,1.8,5,3,8,3,2,5,5,15,0,15,0,12,2,3,3,12,5,2
+2243,Ophthalmic opticians,22,Health Professionals,71038,0.55,1.8,5,3,5,5,2,3,3,15,0,12,0,12,5,2,3,18,5,2
+2251,Radiographers,22,Health Professionals,71038,0.55,1.8,5,3,3,3,2,3,3,8,0,20,0,8,1,3,2,25,10,1
+2252,Podiatrists,22,Health Professionals,71038,0.55,1.8,5,3,3,5,2,3,3,12,0,5,0,10,3,3,2,25,15,1
+2253,Health promotion officers,22,Health Professionals,71038,0.55,1.8,5,5,10,5,5,3,15,10,0,3,3,8,5,10,3,5,3,2
+2254,Dietitians,22,Health Professionals,71038,0.55,1.8,5,3,10,5,5,3,10,15,0,8,0,10,2,10,3,8,3,0
+2255,Paramedics,22,Health Professionals,71038,0.55,1.8,5,3,2,3,1,5,2,8,0,10,0,15,1,3,2,25,10,5
+2259,Other health professionals n.e.c.,22,Health Professionals,71038,0.55,1.8,5,3,5,5,2,3,5,10,0,10,0,12,2,5,3,20,5,5
+2311,Higher education teaching professionals,23,Teaching & Educational Professionals,155636,0.58,1.5,3,3,20,3,3,3,18,3,1,5,0,5,1,25,3,0,4,0
+2312,Further education teaching professionals,23,Teaching & Educational Professionals,155636,0.58,1.5,3,3,10,5,3,3,12,5,1,3,2,3,1,35,5,0,5,1
+2313,Secondary education teaching professionals,23,Teaching & Educational Professionals,155636,0.58,1.5,3,5,8,5,3,3,10,5,0,3,1,3,1,40,5,0,4,1
+2314,Primary education teaching professionals,23,Teaching & Educational Professionals,155636,0.58,1.5,3,5,5,5,3,5,8,8,0,1,2,3,1,40,5,0,3,3
+2315,Nursery education teaching professionals,23,Teaching & Educational Professionals,155636,0.58,1.5,3,3,3,5,2,3,5,10,0,1,2,3,1,35,5,12,5,2
+2316,Special needs education teaching professionals,23,Teaching & Educational Professionals,155636,0.58,1.5,3,5,8,5,2,3,8,8,0,2,1,5,1,35,5,5,3,1
+2317,Teachers of English as a foreign language,23,Teaching & Educational Professionals,155636,0.58,1.5,3,5,5,5,2,2,8,10,10,2,2,3,1,38,3,0,1,0
+2319,Teaching professionals n.e.c.,23,Teaching & Educational Professionals,155636,0.58,1.5,3,5,8,5,3,3,10,5,1,3,2,3,2,35,5,0,5,2
+2321,Head teachers and principals,23,Teaching & Educational Professionals,155636,0.58,1.5,2,5,5,8,5,2,10,5,0,2,0,15,5,5,25,0,3,3
+2322,Education managers,23,Teaching & Educational Professionals,155636,0.58,1.5,3,5,5,8,5,3,8,5,0,2,0,12,5,5,25,0,5,4
+2329,Other educational professionals n.e.c.,23,Teaching & Educational Professionals,155636,0.58,1.5,3,5,8,5,5,3,10,5,0,3,1,8,3,25,8,0,5,3
+2411,Barristers and judges,24,"Business, Media & Public Service Professionals",77065,0.5,2,2,3,20,3,1,3,25,5,0,3,0,20,8,2,3,0,2,0
+2412,Solicitors,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,5,18,3,2,3,25,8,0,3,0,12,10,2,3,0,3,0
+2419,Legal professionals n.e.c.,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,5,18,3,2,3,22,8,0,5,0,12,8,3,3,0,3,2
+2421,Chartered and certified accountants,24,"Business, Media & Public Service Professionals",77065,0.5,2,5,3,8,3,25,5,10,5,0,8,0,10,5,2,5,0,3,3
+2422,Finance and investment analysts and advisers,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,15,3,20,3,12,8,0,10,0,10,5,2,3,0,3,0
+2423,Taxation experts,24,"Business, Media & Public Service Professionals",77065,0.5,2,5,3,12,3,20,5,15,5,0,10,0,8,5,2,3,0,2,2
+2424,Management consultants and business analysts,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,15,5,8,3,18,5,0,8,2,12,8,3,5,0,2,0
+2425,Business and financial project management professionals,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,5,8,10,10,3,10,5,0,5,1,12,5,3,15,0,3,2
+2431,Advertising and marketing professionals,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,10,5,5,3,15,8,1,3,12,8,8,3,5,0,5,3
+2432,Marketing and commercial managers,24,"Business, Media & Public Service Professionals",77065,0.5,2,2,5,8,5,8,3,10,8,0,3,5,15,12,3,10,0,3,0
+2433,Public relations professionals,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,5,10,5,2,3,20,12,1,2,3,8,10,3,5,0,5,3
+2434,Business and related research professionals,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,22,3,10,5,20,3,0,10,0,8,2,3,3,0,3,2
+2435,Professional/Chartered company secretaries,24,"Business, Media & Public Service Professionals",77065,0.5,2,5,5,8,8,5,5,15,5,0,3,0,12,5,2,12,0,5,5
+2439,"Business, research and administrative professionals n.e.c.",24,"Business, Media & Public Service Professionals",77065,0.5,2,3,5,12,5,8,3,15,5,0,5,2,12,5,3,8,0,5,4
+2440,Business and financial project management professionals,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,5,8,10,10,3,10,5,0,5,1,12,5,3,15,0,3,2
+2451,Architects,24,"Business, Media & Public Service Professionals",77065,0.5,2,2,2,8,3,3,2,10,5,0,15,30,8,3,2,3,0,4,0
+2452,"Chartered architectural technologists, planning officers and consultants",24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,10,3,3,3,15,5,0,15,10,10,5,3,5,0,5,2
+2453,Quantity surveyors,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,8,3,20,5,12,5,0,15,0,10,8,2,3,0,3,0
+2454,Chartered surveyors,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,8,3,12,5,12,5,0,15,0,12,8,2,3,0,5,4
+2461,Social workers,24,"Business, Media & Public Service Professionals",77065,0.5,2,8,5,8,5,2,5,10,12,0,2,0,8,3,3,3,20,3,3
+2462,Probation officers,24,"Business, Media & Public Service Professionals",77065,0.5,2,8,5,8,5,2,5,10,10,0,2,0,10,5,3,5,15,3,4
+2463,Clergy,24,"Business, Media & Public Service Professionals",77065,0.5,2,2,5,8,5,2,1,10,15,0,1,0,8,5,15,5,15,2,1
+2464,Youth work professionals,24,"Business, Media & Public Service Professionals",77065,0.5,2,5,5,5,5,2,3,5,15,0,2,2,5,3,15,5,18,3,2
+2469,Welfare professionals n.e.c.,24,"Business, Media & Public Service Professionals",77065,0.5,2,8,5,8,5,2,5,8,12,0,2,0,8,3,5,3,18,5,3
+2471,Librarians,24,"Business, Media & Public Service Professionals",77065,0.5,2,5,3,18,5,2,8,5,10,1,3,2,3,1,10,5,0,15,4
+2472,Archivists and curators,24,"Business, Media & Public Service Professionals",77065,0.5,2,5,3,15,3,2,10,8,5,1,5,3,5,2,8,3,0,18,4
+2481,Quality control and planning engineers,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,8,3,10,10,10,3,0,25,0,10,3,3,5,0,4,0
+2482,Environmental health professionals,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,10,5,5,8,12,5,0,12,0,10,5,3,3,0,8,8
+2483,Regulatory professionals,24,"Business, Media & Public Service Professionals",77065,0.5,2,3,3,12,3,5,10,15,5,0,8,0,12,5,3,5,0,5,6
+2491,"Newspaper, periodical and broadcast editors",24,"Business, Media & Public Service Professionals",77065,0.5,2,2,5,10,5,2,5,20,5,1,2,5,10,5,3,8,0,10,2
+2492,Newspaper and periodical journalists and reporters,24,"Business, Media & Public Service Professionals",77065,0.5,2,2,3,15,5,2,3,25,8,1,2,5,5,5,2,3,0,10,4
+3111,Laboratory technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,8,3,8,3,8,8,5,2,0,18,0,3,1,3,3,0,25,2
+3112,Electrical and electronics technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,5,3,5,5,5,3,0,20,0,5,2,3,5,0,28,3
+3113,Engineering technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,5,3,5,5,5,3,0,20,0,5,2,3,5,0,25,6
+3114,Building and civil engineering technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,5,3,5,5,8,3,0,15,2,5,2,3,5,0,20,11
+3115,Quality assurance technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,5,3,5,15,8,3,0,20,0,8,2,3,5,0,15,0
+3116,"Planning, process and production technicians",31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,5,5,8,5,5,3,0,18,0,8,2,3,8,0,15,7
+3119,"Science, engineering and production technicians n.e.c.",31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,5,3,5,5,5,3,0,20,0,5,2,3,5,0,25,6
+3121,Architectural and town planning technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,8,3,5,5,10,3,0,15,12,5,3,3,3,0,12,5
+3122,Draughtspersons,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,3,2,5,2,3,3,3,2,0,15,25,3,1,2,2,0,25,4
+3131,IT operations technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,5,5,3,8,5,8,0,30,0,5,2,5,5,0,11,0
+3132,IT user support technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,5,5,3,5,5,20,0,25,0,3,2,5,5,0,9,0
+3133,Database administrators and web content technicians,31,"Science, Engineering & Technology Associate Professionals",57000,0.5,2,5,3,8,3,5,8,5,3,0,35,3,5,2,3,5,0,7,0
+3211,Dispensing opticians,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,3,3,5,2,3,2,20,0,8,0,5,3,2,2,20,15,2
+3212,Pharmaceutical technicians,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,3,3,5,3,8,2,10,0,10,0,5,1,3,2,12,25,3
+3213,Medical and dental technicians,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,3,3,3,3,5,3,5,0,10,0,5,1,3,2,10,35,4
+3214,Complementary health associate professionals,32,Health & Social Care Associate Professionals,71615,0.55,1.5,3,3,5,5,2,3,3,15,0,5,0,8,3,5,2,25,10,3
+3219,Health associate professionals n.e.c.,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,3,5,5,3,5,5,10,0,8,0,5,2,5,3,20,10,6
+3221,Youth and community workers,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,5,5,5,2,3,5,15,0,2,2,5,3,15,5,18,3,2
+3222,Child and early years officers,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,5,3,5,2,3,5,10,0,2,1,5,2,15,5,25,5,2
+3223,Housing officers,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,5,5,5,3,5,8,15,0,3,0,8,5,2,5,10,10,6
+3224,Counsellors,32,Health & Social Care Associate Professionals,71615,0.55,1.5,3,3,5,5,1,2,5,20,0,3,0,10,2,5,2,30,2,2
+3229,Welfare and housing associate professionals n.e.c.,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,5,5,5,3,5,8,12,0,3,0,8,5,3,5,15,8,5
+3231,Higher level teaching assistants,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,5,3,5,2,3,5,8,0,2,2,3,1,35,5,10,3,3
+3232,Early education and childcare practitioners,32,Health & Social Care Associate Professionals,71615,0.55,1.5,3,3,2,3,1,2,3,8,0,1,2,3,1,20,3,35,5,5
+3240,Veterinary nurses,32,Health & Social Care Associate Professionals,71615,0.55,1.5,5,3,3,3,2,3,2,8,0,8,0,5,1,3,2,30,20,2
+3311,NCOs and other ranks,33,Protective Service Occupations,87600,0.55,1.3,3,3,3,5,2,3,3,5,0,5,0,10,3,8,8,0,20,19
+3312,Police officers (sergeant and below),33,Protective Service Occupations,87600,0.55,1.3,5,5,5,5,3,8,8,10,0,5,0,10,5,3,5,2,10,11
+3313,Fire service officers (watch manager and below),33,Protective Service Occupations,87600,0.55,1.3,3,3,3,5,2,3,5,5,0,5,0,10,2,5,8,5,18,18
+3314,Prison service officers (below principal officer),33,Protective Service Occupations,87600,0.55,1.3,5,5,3,5,2,5,3,10,0,2,0,8,3,3,5,12,15,14
+3319,Protective service associate professionals n.e.c.,33,Protective Service Occupations,87600,0.55,1.3,5,5,5,5,3,5,5,8,0,5,0,10,5,5,8,0,13,13
+3411,Artists,34,"Culture, Media & Sports Occupations",40786,0.5,2,1,1,5,2,1,1,3,5,0,3,50,3,3,5,2,0,10,5
+3412,"Authors, writers and translators",34,"Culture, Media & Sports Occupations",40786,0.5,2,2,5,15,3,1,2,40,3,10,2,2,3,2,3,2,0,3,2
+3413,"Actors, entertainers and presenters",34,"Culture, Media & Sports Occupations",40786,0.5,2,1,2,5,5,1,1,5,10,0,2,5,3,5,3,2,0,39,11
+3414,Dancers and choreographers,34,"Culture, Media & Sports Occupations",40786,0.5,2,1,1,3,5,1,1,3,3,0,2,5,3,3,5,3,0,44,17
+3415,Musicians,34,"Culture, Media & Sports Occupations",40786,0.5,2,1,1,5,5,1,1,3,5,0,3,5,3,3,5,3,0,45,11
+3416,"Arts officers, producers and directors",34,"Culture, Media & Sports Occupations",40786,0.5,2,3,5,5,8,5,3,10,8,0,3,8,12,8,3,10,0,5,4
+3417,"Photographers, audio-visual and broadcasting equipment operators",34,"Culture, Media & Sports Occupations",40786,0.5,2,2,2,3,5,2,2,3,8,0,15,15,3,3,2,2,0,30,3
+3421,Interior designers,34,"Culture, Media & Sports Occupations",40786,0.5,2,2,2,5,5,3,2,8,12,0,5,30,5,5,2,3,0,8,3
+3422,"Clothing, fashion and accessories designers",34,"Culture, Media & Sports Occupations",40786,0.5,2,2,2,5,3,3,2,5,8,0,5,35,5,5,2,3,0,12,3
+3429,Design occupations n.e.c.,34,"Culture, Media & Sports Occupations",40786,0.5,2,2,2,5,3,3,2,8,8,0,8,30,5,5,3,3,0,8,5
+3431,Sports players,34,"Culture, Media & Sports Occupations",40786,0.5,2,1,1,2,3,1,1,1,3,0,3,1,3,3,3,2,0,55,17
+3432,"Sports coaches, instructors and officials",34,"Culture, Media & Sports Occupations",40786,0.5,2,2,3,3,5,2,2,3,10,0,3,1,5,3,25,5,3,15,10
+3433,Fitness instructors,34,"Culture, Media & Sports Occupations",40786,0.5,2,2,2,2,5,2,2,2,15,0,3,1,3,3,20,3,5,20,10
+3434,Sports and leisure assistants,34,"Culture, Media & Sports Occupations",40786,0.5,2,3,2,2,5,2,3,2,15,0,2,1,3,2,5,3,5,20,25
+3511,Aircraft pilots and air traffic controllers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,3,3,5,3,5,2,5,0,20,0,15,1,5,5,0,20,5
+3512,Ship and hovercraft officers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,3,5,5,5,3,3,5,0,15,0,12,2,3,5,0,15,16
+3513,Train and tram drivers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,2,1,1,2,1,2,1,3,0,5,0,5,1,2,2,0,10,62
+3520,Legal associate professionals,35,Business & Public Service Associate Professionals,64618,0.5,1.8,8,5,15,3,3,8,15,5,0,3,0,8,5,2,5,0,10,5
+3531,"Estimators, valuers and assessors",35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,3,8,3,20,8,8,5,0,12,0,10,5,2,5,0,4,2
+3532,Brokers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,3,8,3,10,3,5,15,0,5,0,10,20,2,3,0,5,5
+3533,Insurance underwriters,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,3,8,3,15,12,8,5,0,10,0,12,5,2,5,0,5,2
+3534,Financial administrators,35,Business & Public Service Associate Professionals,64618,0.5,1.8,12,5,5,3,15,8,5,8,0,5,0,8,3,2,5,0,10,6
+3535,Taxation experts (associate professional),35,Business & Public Service Associate Professionals,64618,0.5,1.8,8,5,10,3,18,8,10,5,0,8,0,8,3,2,5,0,5,2
+3536,Importers and exporters,35,Business & Public Service Associate Professionals,64618,0.5,1.8,8,5,5,5,8,5,5,12,2,5,0,8,12,2,5,0,10,3
+3537,Financial and accounting technicians,35,Business & Public Service Associate Professionals,64618,0.5,1.8,10,5,5,3,20,8,5,5,0,8,0,8,3,2,5,0,8,5
+3539,"Business, finance and related associate professionals n.e.c.",35,Business & Public Service Associate Professionals,64618,0.5,1.8,8,5,8,5,12,5,8,8,0,5,0,10,8,3,5,0,5,5
+3541,Buyers and procurement officers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,5,5,5,10,5,5,10,0,5,0,8,18,2,5,0,8,4
+3542,Business sales executives,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,5,5,5,5,3,8,18,0,3,2,5,20,3,5,0,5,5
+3543,Project support officers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,8,8,5,10,5,5,8,5,0,5,1,5,3,3,12,0,10,7
+3544,Data analysts,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,3,10,2,25,8,10,3,0,18,2,5,1,2,3,0,3,0
+3545,Marketing and communications officers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,8,8,5,3,3,15,10,2,3,10,5,5,3,5,0,8,4
+3546,Human resources officers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,8,5,8,5,5,8,12,0,2,0,8,5,8,12,0,5,4
+3547,Careers advisers and vocational guidance specialists,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,5,8,8,2,3,5,20,0,2,1,5,3,18,5,5,3,4
+3549,Business associate professionals n.e.c.,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,5,8,5,8,5,8,8,0,5,2,10,8,3,8,0,8,4
+3551,Conservation and environmental associate professionals,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,3,10,3,5,5,10,3,0,12,0,8,3,5,5,0,12,13
+3552,Estate agents and auctioneers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,5,5,5,5,3,3,25,0,2,2,5,18,2,3,0,10,4
+3553,Merchandisers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,5,5,5,8,8,3,10,0,5,5,5,8,2,5,0,15,6
+3555,Conservation and environmental associate professionals (additional),35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,3,10,3,5,5,10,3,0,12,0,8,3,5,5,0,12,13
+3556,Sales accounts and business development managers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,5,5,5,5,3,8,20,0,3,2,8,18,3,5,0,5,2
+3561,Public services associate professionals,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,5,8,5,5,5,10,8,0,3,0,10,5,5,8,0,10,8
+3562,Human resources and industrial relations officers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,5,5,8,3,5,8,12,0,2,0,8,8,8,12,0,8,3
+3563,Vocational and industrial trainers and instructors,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,3,5,5,2,3,8,5,0,5,2,3,2,35,5,0,8,6
+3564,Careers advisers and vocational guidance specialists (duplicate),35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,5,8,8,2,3,5,20,0,2,1,5,3,18,5,5,3,4
+3565,Inspectors of standards and regulations,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,5,5,5,5,12,8,5,0,10,0,10,5,3,5,0,10,7
+3567,Health and safety officers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,5,5,5,5,5,8,10,5,0,10,0,10,3,5,5,0,10,9
+3571,Vocational and industrial trainers and instructors,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,3,5,5,2,3,8,5,0,5,2,3,2,35,5,0,8,6
+3572,Driving instructors,35,Business & Public Service Associate Professionals,64618,0.5,1.8,2,2,2,5,1,2,2,10,0,3,0,3,2,25,2,0,15,24
+3573,Information technology trainers,35,Business & Public Service Associate Professionals,64618,0.5,1.8,3,3,8,5,2,3,10,8,0,15,2,3,2,25,5,0,6,0
+4111,Civil service executive officers,41,Administrative Occupations,117750,0.48,1.2,8,8,8,5,5,8,10,8,0,2,0,8,3,3,8,0,10,6
+4112,Civil service administrative officers and assistants,41,Administrative Occupations,117750,0.48,1.2,15,10,5,5,5,10,5,8,0,2,0,3,1,2,5,0,15,9
+4113,Local government administrative occupations,41,Administrative Occupations,117750,0.48,1.2,12,10,5,5,5,10,5,10,0,2,0,3,2,2,5,0,15,9
+4114,Officers of non-governmental organisations,41,Administrative Occupations,117750,0.48,1.2,8,8,8,5,5,5,10,10,0,2,1,5,5,3,8,0,12,5
+4121,Credit controllers,41,Administrative Occupations,117750,0.48,1.2,12,8,5,3,15,10,5,15,0,3,0,5,8,2,3,0,3,3
+4122,"Book-keepers, payroll managers and wages clerks",41,Administrative Occupations,117750,0.48,1.2,25,5,3,3,25,5,3,3,0,5,0,3,1,2,5,0,8,4
+4123,Bank and post office clerks,41,Administrative Occupations,117750,0.48,1.2,15,8,3,3,10,10,3,20,0,3,0,3,3,2,3,0,10,4
+4124,Finance administrators,41,Administrative Occupations,117750,0.48,1.2,18,8,5,3,18,8,5,8,0,3,0,3,2,2,5,0,8,4
+4129,Financial administrative occupations n.e.c.,41,Administrative Occupations,117750,0.48,1.2,18,8,5,3,15,8,5,8,0,3,0,3,3,2,5,0,10,4
+4131,Records clerks and assistants,41,Administrative Occupations,117750,0.48,1.2,20,8,5,3,3,15,5,5,0,3,1,2,1,2,3,0,18,6
+4132,Pensions and insurance clerks and assistants,41,Administrative Occupations,117750,0.48,1.2,15,8,5,3,10,12,5,12,0,3,0,5,3,2,3,0,10,4
+4133,Stock control clerks and assistants,41,Administrative Occupations,117750,0.48,1.2,18,5,3,3,8,12,3,5,0,5,0,3,2,2,5,0,18,8
+4134,Transport and distribution clerks and assistants,41,Administrative Occupations,117750,0.48,1.2,15,8,3,10,5,8,3,8,0,3,0,3,2,2,5,0,15,10
+4135,Library clerks and assistants,41,Administrative Occupations,117750,0.48,1.2,10,5,10,5,2,15,3,12,0,3,1,2,1,5,2,0,18,6
+4141,Office managers,41,Administrative Occupations,117750,0.48,1.2,5,8,5,12,8,5,5,8,0,3,1,5,3,3,18,0,8,3
+4142,Office supervisors,41,Administrative Occupations,117750,0.48,1.2,8,8,5,10,5,5,5,8,0,3,1,3,2,3,18,0,10,6
+4143,Customer service managers,41,Administrative Occupations,117750,0.48,1.2,5,5,5,8,5,5,5,18,0,3,1,8,5,5,12,0,5,5
+4151,Sales administrators,41,Administrative Occupations,117750,0.48,1.2,12,10,5,5,8,8,3,18,0,3,1,3,5,2,3,0,10,4
+4152,Data entry administrators,41,Administrative Occupations,117750,0.48,1.2,35,5,3,2,5,12,2,3,0,5,0,1,1,2,2,0,15,7
+4159,Other administrative occupations n.e.c.,41,Administrative Occupations,117750,0.48,1.2,15,10,5,8,5,8,5,10,0,3,1,3,2,3,5,0,12,5
+4211,Medical secretaries,42,Secretarial & Related Occupations,107857,0.48,1.2,15,15,5,15,3,8,5,12,0,2,0,1,1,2,2,5,5,4
+4212,Legal secretaries,42,Secretarial & Related Occupations,107857,0.48,1.2,12,18,8,12,3,5,10,10,0,2,0,1,1,2,2,0,10,4
+4213,School secretaries,42,Secretarial & Related Occupations,107857,0.48,1.2,12,12,5,18,5,5,3,15,0,2,0,1,1,3,3,5,5,5
+4214,Company secretaries and administrators,42,Secretarial & Related Occupations,107857,0.48,1.2,10,12,5,15,5,5,10,10,0,2,1,3,3,2,5,0,8,4
+4215,Personal assistants and other secretaries,42,Secretarial & Related Occupations,107857,0.48,1.2,10,15,5,20,3,5,8,12,0,2,1,2,2,2,3,0,5,5
+4216,Receptionists,42,Secretarial & Related Occupations,107857,0.48,1.2,8,10,3,15,2,5,2,30,0,2,0,1,1,2,2,0,12,5
+4217,Typists and related keyboard occupations,42,Secretarial & Related Occupations,107857,0.48,1.2,25,18,3,5,3,5,8,5,3,2,2,1,1,2,2,0,10,5
+5111,Farmers,51,Skilled Agricultural & Related Trades,42400,0.6,1.1,2,2,3,3,3,2,2,3,0,5,0,10,5,3,8,0,18,31
+5112,Horticultural trades,51,Skilled Agricultural & Related Trades,42400,0.6,1.1,2,2,2,3,2,2,1,5,0,5,1,3,3,3,3,0,25,38
+5113,Gardeners and landscape gardeners,51,Skilled Agricultural & Related Trades,42400,0.6,1.1,2,2,2,3,2,2,1,5,0,3,1,3,3,2,3,0,25,41
+5114,Groundsmen and greenkeepers,51,Skilled Agricultural & Related Trades,42400,0.6,1.1,2,1,1,3,2,2,1,3,0,3,0,3,1,2,3,0,25,48
+5119,Agricultural and fishing trades n.e.c.,51,Skilled Agricultural & Related Trades,42400,0.6,1.1,2,2,2,3,2,2,1,3,0,5,0,5,3,3,3,0,20,44
+5211,"Metal forming, welding and related trades",52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,2,1,2,2,2,3,1,2,0,8,0,3,1,3,3,0,50,17
+5212,"Metal plate workers, smiths, moulders and related",52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,2,1,2,2,2,3,1,2,0,8,0,3,1,3,3,0,50,17
+5213,"Metal machining, fitting and instrument making trades",52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,2,1,2,2,2,3,1,2,0,12,0,3,1,3,3,0,50,13
+5214,Precision instrument makers and repairers,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,2,1,2,2,2,3,1,3,0,12,0,3,1,3,3,0,50,12
+5215,Air-conditioning and refrigeration engineers,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,5,3,3,2,5,0,12,0,5,2,3,5,0,35,12
+5221,Vehicle and vehicle parts technicians and fitters,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,3,2,3,2,5,0,15,0,5,2,3,5,0,40,7
+5222,Vehicle body builders and repairers,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,2,1,2,2,2,2,1,3,0,10,0,3,2,3,3,0,50,14
+5223,Vehicle paint technicians,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,2,1,1,2,2,2,1,3,0,5,0,3,2,3,3,0,50,20
+5224,Aircraft maintenance and related trades,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,5,3,3,5,3,2,0,20,0,8,1,3,5,0,30,7
+5225,Boat and ship builders and repairers,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,2,1,3,2,2,3,2,2,0,10,0,5,2,3,3,0,40,20
+5231,Electricians and electrical fitters,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,5,3,3,2,5,0,12,0,5,2,3,5,0,35,12
+5232,Telecommunications engineers,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,5,3,3,3,5,0,18,0,5,2,3,5,0,30,10
+5233,"TV, video and audio engineers",52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,3,2,3,2,5,0,20,2,5,2,3,3,0,35,7
+5234,IT engineers,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,3,5,5,3,5,3,8,0,25,0,5,2,5,5,0,18,5
+5241,Electricians and electrical fitters (installation),52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,5,3,3,2,5,0,10,0,5,2,3,5,0,35,14
+5242,Telecoms and related string and cable occupations,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,2,5,2,3,2,3,0,8,0,3,1,3,3,0,30,30
+5245,Security system installers and repairers,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,5,3,5,2,8,0,15,0,5,3,3,5,0,28,10
+5246,Electrical service and maintenance mechanics and repairers,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,5,3,3,2,5,0,12,0,5,2,3,5,0,35,12
+5249,Electrical and electronic trades n.e.c.,52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,2,3,5,3,5,2,5,0,15,0,5,2,3,5,0,30,12
+5250,"Skilled metal, electrical and electronic trades supervisors",52,"Skilled Metal, Electrical & Electronic Trades",64200,0.58,1.1,3,3,3,5,5,5,3,5,0,10,0,8,3,5,18,0,15,9
+5311,Steel erectors,53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,1,2,2,2,1,2,0,5,0,3,1,3,3,0,30,42
+5312,Stonemasons and related trades,53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,1,2,2,2,1,2,0,5,1,3,1,3,3,0,40,31
+5313,Bricklayers,53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,1,2,2,2,1,2,0,3,0,3,1,3,3,0,30,44
+5314,"Roofers, roof tilers and slaters",53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,1,2,2,2,1,2,0,3,0,3,1,3,3,0,25,49
+5315,"Plumbers, heating and ventilating engineers",53,Skilled Construction & Building Trades,69250,0.6,1.1,3,2,3,5,3,3,2,5,0,12,0,5,3,3,5,0,35,11
+5316,Carpenters and joiners,53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,2,2,2,2,2,2,0,5,1,3,2,3,3,0,35,33
+5317,"Glaziers, window fabricators and fitters",53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,1,2,2,2,1,3,0,5,0,3,2,3,3,0,39,31
+5319,Construction and building trades n.e.c.,53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,2,3,2,2,2,3,0,5,0,3,2,3,3,0,30,37
+5321,Plasterers,53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,1,2,2,2,1,2,0,3,0,3,1,3,3,0,39,35
+5322,Floorers and wall tilers,53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,1,2,2,2,1,3,0,3,0,3,2,3,3,0,39,33
+5323,Painters and decorators,53,Skilled Construction & Building Trades,69250,0.6,1.1,2,1,1,2,2,2,1,3,0,3,0,3,2,3,3,0,39,33
+5330,Construction and building trades supervisors,53,Skilled Construction & Building Trades,69250,0.6,1.1,3,3,3,5,5,5,3,5,0,8,0,8,3,5,18,0,15,11
+5411,Weavers and knitters,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,2,2,2,1,2,0,5,2,3,1,3,3,0,50,20
+5412,Upholsterers,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,2,2,2,1,3,0,5,3,3,2,3,3,0,45,22
+5413,Footwear and leather trades,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,2,2,2,1,3,0,5,3,3,2,3,3,0,45,22
+5419,"Textiles, garments and related trades n.e.c.",54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,2,2,2,2,3,1,3,0,5,5,3,2,3,3,0,40,22
+5421,Pre-press technicians,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,3,2,3,3,2,3,3,5,0,15,15,3,2,3,3,0,25,10
+5422,Printers,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,3,2,2,3,2,3,2,3,0,10,5,3,2,3,3,0,40,14
+5423,Print finishing and binding workers,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,2,2,3,1,2,0,5,2,2,1,3,3,0,45,25
+5431,Butchers,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,3,2,3,1,5,0,3,0,3,2,3,3,0,40,28
+5432,Bakers and flour confectioners,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,3,2,3,1,3,0,3,2,3,2,3,3,0,40,28
+5433,Fishmongers and poultry dressers,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,3,2,3,1,5,0,3,0,3,2,3,3,0,40,28
+5434,Chefs,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,2,3,2,2,2,5,0,5,3,5,2,5,5,0,35,21
+5435,Cooks,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,3,2,2,1,5,0,3,2,3,1,3,3,0,38,30
+5436,Catering and bar managers,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,3,3,2,8,8,3,2,12,0,2,1,8,5,3,12,0,15,13
+5441,"Glass and ceramics makers, decorators and finishers",54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,2,2,3,1,3,0,5,5,3,2,3,3,0,45,19
+5442,Furniture makers and other craft woodworkers,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,2,2,2,2,1,3,0,5,5,3,2,3,3,0,45,19
+5443,Florists,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,1,1,3,2,2,1,10,0,2,10,3,3,2,3,0,30,25
+5449,Other skilled trades n.e.c.,54,"Textiles, Printing & Other Skilled Trades",42000,0.58,1.1,2,2,2,3,2,3,2,5,0,5,3,3,2,3,3,0,35,25
+6111,Early education and childcare assistants,61,Caring Personal Service Occupations,125267,0.6,1.1,3,2,2,3,1,2,2,8,0,1,2,2,1,15,2,40,5,9
+6112,Teaching assistants,61,Caring Personal Service Occupations,125267,0.6,1.1,5,3,3,3,2,3,3,8,0,2,2,2,1,25,3,20,5,10
+6113,Educational support assistants,61,Caring Personal Service Occupations,125267,0.6,1.1,5,3,5,3,2,3,3,8,0,2,2,3,1,25,3,18,5,9
+6114,Childminders,61,Caring Personal Service Occupations,125267,0.6,1.1,3,2,2,5,2,2,2,10,0,1,2,3,2,15,2,35,5,7
+6115,Playworkers,61,Caring Personal Service Occupations,125267,0.6,1.1,3,2,1,3,1,2,1,8,0,1,2,2,1,15,2,35,10,11
+6116,Nannies and au pairs,61,Caring Personal Service Occupations,125267,0.6,1.1,3,2,1,5,1,2,1,8,0,1,1,2,1,10,2,40,8,12
+6121,Nursing auxiliaries and assistants,61,Caring Personal Service Occupations,125267,0.6,1.1,5,3,2,3,1,3,2,8,0,3,0,3,1,3,2,45,10,6
+6122,Ambulance staff (excluding paramedics),61,Caring Personal Service Occupations,125267,0.6,1.1,5,3,2,3,1,3,2,8,0,5,0,5,1,3,2,30,15,12
+6123,Dental nurses,61,Caring Personal Service Occupations,125267,0.6,1.1,8,3,2,5,1,3,2,8,0,5,0,3,1,3,2,25,25,4
+6124,Healthcare assistants,61,Caring Personal Service Occupations,125267,0.6,1.1,5,3,2,3,1,3,2,8,0,3,0,3,1,3,2,45,10,6
+6131,Care workers and home carers,61,Caring Personal Service Occupations,125267,0.6,1.1,5,3,2,3,1,3,2,8,0,2,0,3,1,3,2,50,5,7
+6132,Senior care workers,61,Caring Personal Service Occupations,125267,0.6,1.1,5,5,2,5,2,3,3,8,0,2,0,5,2,5,10,35,3,5
+6139,Caring personal services n.e.c.,61,Caring Personal Service Occupations,125267,0.6,1.1,5,3,2,3,1,3,2,8,0,2,0,3,1,3,2,48,5,9
+6141,Animal care services occupations,61,Caring Personal Service Occupations,125267,0.6,1.1,3,2,2,3,1,2,1,5,0,5,0,3,2,3,2,25,20,21
+6142,Pest control officers,61,Caring Personal Service Occupations,125267,0.6,1.1,3,2,2,5,2,3,2,5,0,5,0,5,3,3,3,0,20,37
+6211,Hairdressers and barbers,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,2,1,1,5,2,2,1,18,0,2,2,2,5,3,2,15,29,8
+6212,Beauticians and related occupations,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,2,1,1,5,2,2,1,18,0,2,2,2,5,3,2,20,24,8
+6213,Caretakers,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,2,1,1,3,2,3,1,5,0,2,0,3,1,2,5,0,25,44
+6214,Housekeepers and related occupations,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,3,2,1,5,3,3,1,5,0,2,0,3,1,3,10,5,20,33
+6215,"Undertakers, mortuary and crematorium assistants",62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,3,3,2,5,3,2,3,10,0,2,0,5,3,2,3,5,25,24
+6219,Leisure and related personal service occupations n.e.c.,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,3,3,2,5,2,3,2,12,0,2,2,3,3,5,3,10,15,25
+6221,Travel agents,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,5,5,5,10,3,5,3,30,1,2,1,3,8,2,3,0,8,6
+6222,Travel guides,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,3,3,5,5,2,2,3,25,2,2,2,3,3,10,2,0,10,18
+6231,Housekeepers and related occupations (duplicate),62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,3,2,1,5,3,3,1,5,0,2,0,3,1,3,10,5,20,33
+6240,Cleaning and housekeeping managers and supervisors,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,3,3,2,8,5,3,2,8,0,2,0,5,3,3,18,0,15,20
+6250,Bed and breakfast and guest house owners and proprietors,62,"Leisure, Travel & Related Personal Service Occupations",69455,0.55,1.2,5,3,2,8,8,3,2,18,0,2,1,8,5,2,8,5,10,10
+6311,Police community support officers,63,Community & Civil Enforcement Occupations,54000,0.58,1.2,5,5,3,5,2,5,5,15,0,2,0,5,5,3,3,3,15,19
+6312,Parking and civil enforcement occupations,63,Community & Civil Enforcement Occupations,54000,0.58,1.2,5,3,2,3,2,8,2,8,0,2,0,3,3,2,2,0,15,40
+7111,Sales and retail assistants,71,Sales Occupations,109800,0.52,1.3,5,3,2,3,3,5,1,30,0,2,2,2,8,2,2,0,15,15
+7112,Retail cashiers and check-out operators,71,Sales Occupations,109800,0.52,1.3,10,2,1,2,5,5,1,25,0,2,0,1,2,1,1,0,20,22
+7113,Telephone salespersons,71,Sales Occupations,109800,0.52,1.3,5,5,3,3,3,5,3,40,0,2,2,3,15,2,2,0,5,2
+7114,Pharmacy and optical dispensing assistants,71,Sales Occupations,109800,0.52,1.3,8,3,3,3,3,8,2,25,0,5,0,3,3,3,2,10,15,4
+7115,Vehicle and parts salespersons and advisers,71,Sales Occupations,109800,0.52,1.3,3,3,3,3,5,3,3,30,0,5,1,3,15,3,3,0,10,7
+7119,Sales related occupations n.e.c.,71,Sales Occupations,109800,0.52,1.3,5,3,3,3,3,5,2,30,0,3,2,3,12,3,3,0,10,10
+7121,Collector salespersons and credit agents,71,Sales Occupations,109800,0.52,1.3,5,5,3,5,8,5,3,20,0,2,0,5,15,2,3,0,10,9
+7122,"Debt, rent and other cash collectors",71,Sales Occupations,109800,0.52,1.3,8,5,3,5,8,5,3,20,0,2,0,5,15,2,3,0,8,8
+7123,Roundsmen/-women and van salespersons,71,Sales Occupations,109800,0.52,1.3,5,3,2,5,5,3,1,15,0,2,0,3,8,2,2,0,10,34
+7124,Market and street traders and assistants,71,Sales Occupations,109800,0.52,1.3,3,2,2,5,5,3,1,20,0,2,1,3,10,2,2,0,15,24
+7125,Visual merchandisers and related occupations,71,Sales Occupations,109800,0.52,1.3,3,3,3,5,3,3,3,10,0,3,29,3,5,3,3,0,15,6
+7129,Sales occupations n.e.c.,71,Sales Occupations,109800,0.52,1.3,5,3,3,3,3,5,2,25,0,3,2,3,12,3,3,0,12,13
+7130,Shopkeepers and owners – retail and wholesale,71,Sales Occupations,109800,0.52,1.3,5,3,3,5,10,5,2,15,0,2,1,10,10,2,10,0,12,5
+7131,Sales supervisors – retail and wholesale,71,Sales Occupations,109800,0.52,1.3,5,5,3,5,5,5,3,18,0,2,1,5,8,3,15,0,10,7
+7132,Sales supervisors,71,Sales Occupations,109800,0.52,1.3,5,5,3,5,5,5,3,18,0,2,1,5,8,3,18,0,8,6
+7211,Call and contact centre occupations,72,Customer Service Occupations,92667,0.48,1.3,10,10,5,3,3,10,3,40,0,2,0,2,3,2,2,0,3,2
+7212,Customer service occupations n.e.c.,72,Customer Service Occupations,92667,0.48,1.3,10,8,5,5,3,10,3,35,0,3,1,3,3,2,3,0,3,3
+7213,Telephonists,72,Customer Service Occupations,92667,0.48,1.3,5,5,2,5,2,5,2,45,0,2,0,2,2,2,2,0,10,9
+7214,Communication operators,72,Customer Service Occupations,92667,0.48,1.3,5,5,3,5,2,5,3,40,0,5,0,3,2,3,3,0,10,6
+7215,Market research interviewers,72,Customer Service Occupations,92667,0.48,1.3,5,5,3,5,3,5,3,35,0,2,1,2,3,2,2,0,12,12
+7220,Customer service supervisors,72,Customer Service Occupations,92667,0.48,1.3,8,8,5,5,5,8,5,25,0,3,1,5,3,5,8,0,3,3
+8111,"Food, drink and tobacco process operatives",81,"Process, Plant & Machine Operatives",40308,0.6,1,3,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,40,28
+8112,Glass and ceramics process operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,45,24
+8113,Textile process operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,45,24
+8114,Chemical and related process operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,3,1,1,2,3,5,1,2,0,8,0,5,1,3,3,0,40,22
+8115,Metal making and treating process operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,45,24
+8116,Water and sewerage plant operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,3,2,2,3,3,5,2,2,0,8,0,5,1,3,3,0,30,28
+8117,Printing machine assistants,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,3,1,2,0,5,2,2,1,3,3,0,45,25
+8118,Energy plant operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,3,2,2,3,3,5,2,2,0,12,0,8,1,3,5,0,30,19
+8119,Process operatives n.e.c.,81,"Process, Plant & Machine Operatives",40308,0.6,1,3,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,40,28
+8121,Paper and wood machine operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,3,1,2,0,5,0,3,1,3,3,0,48,23
+8122,Mining and quarry workers and related operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,3,1,2,0,5,0,3,1,3,3,0,25,46
+8123,Plant and machine operatives n.e.c.,81,"Process, Plant & Machine Operatives",40308,0.6,1,3,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,40,28
+8124,Metal working machine operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,3,1,2,0,8,0,3,1,3,3,0,50,18
+8125,Water and sewerage plant operatives (duplicate),81,"Process, Plant & Machine Operatives",40308,0.6,1,3,2,2,3,3,5,2,2,0,8,0,5,1,3,3,0,30,28
+8126,Rubber process operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,45,24
+8131,Assemblers (electrical and electronic products),81,"Process, Plant & Machine Operatives",40308,0.6,1,3,1,1,2,2,5,1,2,0,8,0,3,1,3,3,0,48,17
+8132,Assemblers (vehicles and metal goods),81,"Process, Plant & Machine Operatives",40308,0.6,1,3,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,48,20
+8133,Routine inspectors and testers,81,"Process, Plant & Machine Operatives",40308,0.6,1,5,2,2,2,3,15,2,2,0,10,0,5,1,3,3,0,30,15
+8134,"Weighers, graders and sorters",81,"Process, Plant & Machine Operatives",40308,0.6,1,5,1,1,2,3,15,1,2,0,3,0,2,1,3,2,0,30,29
+8135,"Tyre, exhaust and windscreen fitters",81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,3,2,2,1,5,0,5,0,3,2,3,3,0,40,27
+8139,Assemblers and routine operatives n.e.c.,81,"Process, Plant & Machine Operatives",40308,0.6,1,3,1,1,2,2,5,1,2,0,5,0,3,1,3,3,0,45,23
+8141,"Scaffolders, stagers and riggers",81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,1,2,1,2,0,5,0,5,1,3,3,0,25,46
+8142,Road construction operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,1,2,1,2,0,3,0,3,1,3,3,0,20,55
+8143,Rail construction and maintenance operatives,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,3,1,3,1,2,0,5,0,3,1,3,3,0,25,46
+8149,Construction operatives n.e.c.,81,"Process, Plant & Machine Operatives",40308,0.6,1,2,1,1,2,2,2,1,2,0,3,0,3,1,3,3,0,25,49
+8160,"Production, factory and assembly supervisors",81,"Process, Plant & Machine Operatives",40308,0.6,1,3,3,3,5,5,5,3,3,0,8,0,8,3,5,18,0,18,10
+8211,Large goods vehicle drivers,82,Transport & Mobile Machine Drivers & Operatives,143625,0.6,1,2,1,1,2,1,1,1,3,0,2,0,3,1,2,1,0,8,71
+8212,Bus and coach drivers,82,Transport & Mobile Machine Drivers & Operatives,143625,0.6,1,2,1,1,2,1,1,1,5,0,2,0,3,1,2,1,0,8,69
+8213,Taxi and cab drivers and chauffeurs,82,Transport & Mobile Machine Drivers & Operatives,143625,0.6,1,2,1,1,3,1,1,1,12,0,2,0,3,2,2,1,0,5,63
+8214,Delivery drivers and couriers,82,Transport & Mobile Machine Drivers & Operatives,143625,0.6,1,2,1,1,3,1,2,1,5,0,2,0,2,1,2,1,0,8,68
+8219,Road transport drivers n.e.c.,82,Transport & Mobile Machine Drivers & Operatives,143625,0.6,1,2,1,1,2,1,1,1,3,0,2,0,3,1,2,1,0,8,71
+8221,Crane drivers,82,Transport & Mobile Machine Drivers & Operatives,143625,0.6,1,2,1,1,2,1,2,1,2,0,5,0,5,1,3,3,0,25,46
+8222,Fork-lift truck drivers,82,Transport & Mobile Machine Drivers & Operatives,143625,0.6,1,2,1,1,2,1,2,1,2,0,3,0,3,1,2,2,0,20,57
+8229,Mobile machine drivers and operatives n.e.c.,82,Transport & Mobile Machine Drivers & Operatives,143625,0.6,1,2,1,1,2,1,2,1,2,0,3,0,3,1,3,2,0,20,56
+9111,Farm workers,91,Elementary Trades & Related Occupations,59750,0.6,1,2,1,1,2,1,2,1,2,0,2,0,2,1,2,1,0,20,60
+9112,Forestry workers,91,Elementary Trades & Related Occupations,59750,0.6,1,2,1,1,2,1,2,1,2,0,2,0,2,1,2,1,0,20,60
+9119,Fishing and other elementary agriculture occupations n.e.c.,91,Elementary Trades & Related Occupations,59750,0.6,1,2,1,1,2,1,2,1,2,0,2,0,2,1,2,1,0,18,62
+9120,Elementary construction occupations,91,Elementary Trades & Related Occupations,59750,0.6,1,2,1,1,2,1,2,1,2,0,2,0,2,1,2,2,0,20,59
+9121,Groundworkers,91,Elementary Trades & Related Occupations,59750,0.6,1,2,1,1,2,1,2,1,2,0,2,0,2,1,2,2,0,18,61
+9131,Industrial cleaning process occupations,91,Elementary Trades & Related Occupations,59750,0.6,1,2,1,1,2,1,2,1,2,0,2,0,2,1,2,2,0,20,59
+9132,"Packers, bottlers, canners and fillers",91,Elementary Trades & Related Occupations,59750,0.6,1,3,1,1,2,1,5,1,2,0,2,0,2,1,2,2,0,25,50
+9139,Elementary process plant occupations n.e.c.,91,Elementary Trades & Related Occupations,59750,0.6,1,2,1,1,2,1,2,1,2,0,2,0,2,1,2,2,0,22,57
+9211,"Postal workers, mail sorters and messengers",92,Elementary Administration & Service Occupations,94680,0.55,1,5,2,1,3,1,8,1,5,0,2,0,2,1,2,2,0,15,50
+9212,Elementary administration occupations n.e.c.,92,Elementary Administration & Service Occupations,94680,0.55,1,10,5,2,3,2,8,2,8,0,2,0,2,1,2,3,0,15,35
+9221,Hospital porters,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,3,1,2,1,5,0,2,0,2,1,2,2,8,20,47
+9222,Hotel porters,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,3,1,2,1,10,0,2,0,2,1,2,2,5,20,45
+9223,Kitchen and catering assistants,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,2,1,2,1,5,0,2,0,2,1,2,2,0,25,51
+9224,Waiters and waitresses,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,3,1,2,1,20,0,2,0,2,2,2,2,0,15,44
+9225,Bar staff,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,3,2,2,1,18,0,2,0,2,2,2,2,0,15,45
+9226,Leisure and theme park attendants,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,3,1,2,1,15,0,2,1,2,1,2,2,5,18,41
+9229,Elementary personal services occupations n.e.c.,92,Elementary Administration & Service Occupations,94680,0.55,1,3,2,1,3,1,3,1,10,0,2,0,2,1,3,2,5,18,43
+9231,Window cleaners,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,2,1,1,1,5,0,2,0,2,1,2,1,0,15,63
+9232,Cleaners and domestics,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,2,1,2,1,3,0,2,0,2,1,2,2,0,18,60
+9233,Exam invigilators,92,Elementary Administration & Service Occupations,94680,0.55,1,3,2,1,5,1,3,1,5,0,1,0,2,1,5,5,5,10,50
+9234,"Launderers, dry cleaners and pressers",92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,2,1,2,1,3,0,3,0,2,1,2,2,0,30,47
+9241,Security guards and related occupations,92,Elementary Administration & Service Occupations,94680,0.55,1,3,2,1,3,1,3,1,8,0,3,0,5,2,2,3,0,15,48
+9242,School midday and crossing patrol occupations,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,3,1,2,1,8,0,1,0,2,1,3,2,15,12,45
+9249,Elementary security occupations n.e.c.,92,Elementary Administration & Service Occupations,94680,0.55,1,3,2,1,3,1,3,1,5,0,2,0,3,2,2,3,0,15,54
+9251,Elementary storage supervisors,92,Elementary Administration & Service Occupations,94680,0.55,1,3,3,2,5,3,5,2,5,0,2,0,3,2,3,15,0,18,29
+9252,Warehouse operatives,92,Elementary Administration & Service Occupations,94680,0.55,1,3,1,1,2,1,5,1,2,0,2,0,2,1,2,2,0,25,50
+9253,Delivery operatives,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,3,1,3,1,5,0,2,0,2,1,2,1,0,15,60
+9259,Elementary storage occupations n.e.c.,92,Elementary Administration & Service Occupations,94680,0.55,1,3,1,1,2,1,5,1,2,0,2,0,2,1,2,2,0,25,50
+9261,Bar and catering supervisors,92,Elementary Administration & Service Occupations,94680,0.55,1,3,3,2,5,3,3,2,15,0,2,0,5,3,3,15,0,15,21
+9266,Coffee shop workers,92,Elementary Administration & Service Occupations,94680,0.55,1,3,1,1,3,2,2,1,18,0,2,0,2,2,2,2,0,20,39
+9271,Road sweepers,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,2,1,1,1,2,0,1,0,1,1,2,1,0,10,73
+9272,Refuse and salvage occupations,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,2,1,2,1,2,0,1,0,1,1,2,1,0,12,70
+9279,Elementary cleaning occupations n.e.c.,92,Elementary Administration & Service Occupations,94680,0.55,1,2,1,1,2,1,2,1,3,0,2,0,2,1,2,2,0,15,63

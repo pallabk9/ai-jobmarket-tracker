@@ -1,0 +1,6 @@
+discount,sector_band,rationale
+0.48,"Admin, customer service, technology","Fast adopters, enterprise agents deployed"
+0.50,"Professional / knowledge work","Strong tooling, proven ROI"
+0.55,"Health, education, managers (lower)","Partial deployment, regulatory caution"
+0.58,"Health, education, managers (upper) / physical trades (lower)","Partial deployment"
+0.60,"Physical trades, caring, elementary","Limited AI interface"

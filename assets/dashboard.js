@@ -51,6 +51,21 @@ const KPI_SHORT = {
   net_creation:          "Net AI-attributed creation",
 };
 
+// Per-metric glossary + methodology, surfaced on hover over each KPI tile
+// (replaces the old header Glossary/Methodology popups).
+const GLOSS = {
+  ai_layoffs_ytd: "Cumulative roles cut since 1 Jan where the employer cited AI. Measured for the US from the Challenger monthly Job Cut report; other regions modelled pending a comparable source. Refresh: monthly.",
+  topq_unemp_delta: "Youth minus overall unemployment rate (pp, seasonally adjusted) — a published proxy, since no statistics agency reports unemployment by AI exposure. Measured US/UK/EU/AU via BLS, ONS, Eurostat, ABS. Refresh: monthly.",
+  hire_rate_22_25: "Year-on-year change in the monthly job-start rate for 22–25 y/o in exposed occupations. Research-derived from Stanford 'Canaries in the Coal Mine' (ADP payroll, US only); modelled, not a live feed.",
+  ai_mention_postings: "Share of job postings whose text mentions AI/ML/GenAI terms. Measured US/UK/EU(DE+FR)/AU from the Indeed Hiring Lab AI Tracker. India/APAC modelled (outside Indeed coverage). Refresh: monthly.",
+  capability_gap: "Theoretical task exposure minus realised (adoption-adjusted) exposure, employment-weighted. UK is now driven by the AWA task-decomposition model — click the 'Capability gap by sector' chart for all 412 occupations.",
+  augmentation_share: "Share of Claude conversations that are collaborative (augmentation) rather than end-to-end (automation). Source: Anthropic Economic Index. Refresh: quarterly.",
+  exposed_posting_index: "Mean Indeed postings index (Feb 2020 = 100, seasonally adjusted) across eight high-exposure sectors. Measured US/UK/EU(DE+FR)/AU. Refresh: weekly.",
+  ai_skill_premium: "Median advertised salary for AI postings minus comparable non-AI postings (%). Source: Indeed Hiring Lab + Lightcast. Modelled.",
+  graduate_posting: "Year-on-year change in entry-level postings in exposed roles; Big-4 graduate disclosures used where available. Source: Indeed + IFOW + employer filings. Modelled.",
+  net_creation: "New AI/ML/data/security postings minus AI-attributed displacement over the latest 12 months (000s of roles). Source: WEF Future of Jobs 2025 + regional adapters. Modelled.",
+};
+
 // State
 let DATA = null;
 let region = "US";
@@ -80,13 +95,20 @@ function renderKpis() {
     const measTitle = meas === "measured"
       ? "Pulled from the named source's published data"
       : "Synthetic placeholder series - no live source wired for this region yet";
+    const tip = (GLOSS[id] || "").replace(/"/g, "&quot;");
     return `
-      <div class="kpi ${dirClass}">
+      <div class="kpi ${dirClass}" tabindex="0">
         <div class="label">${KPI_SHORT[id]}
-          <span class="meas meas-${meas}" title="${measTitle}">${meas}</span></div>
+          <span class="meas meas-${meas}" title="${measTitle}">${meas}</span>
+          <span class="kpi-i" aria-hidden="true">i</span></div>
         <div class="val">${display}</div>
         <div class="delta neutral">${deltaText}</div>
         <div class="src">Source: <a href="${k.source_url}" target="_blank" rel="noopener">${k.source}</a></div>
+        <div class="kpi-tip" role="tooltip">
+          <strong>${KPI_SHORT[id]}</strong>
+          <span>${tip}</span>
+          <span class="kpi-tip-src">Current source: ${k.source}</span>
+        </div>
       </div>`;
   }).join("");
   $("kpis").innerHTML = cards;
@@ -203,18 +225,36 @@ function renderPost() {
 function renderGap() {
   destroy("gap");
   const g = DATA.regions[region].gap_chart;
+  const isModel = !!g.detail;                       // UK task-decomposition model
+  const names = g.names || g.cats;                  // long labels for tooltip
+  const l1 = isModel ? "Raw task exposure (theoretical)" : "Theoretical β (Eloundou)";
+  const l2 = isModel ? "Practical impact (AI-adjusted)"  : "Observed exposure";
+  const hint = $("gap-hint");
+  if (hint) hint.textContent = isModel
+    ? "Bars are SOC 2020 sub-major groups. Click any bar for the underlying occupations (all 412)."
+    : "";
+
   charts.gap = new Chart($("gapChart").getContext("2d"), {
     type: "bar",
     data: {
       labels: g.cats,
       datasets: [
-        { label: "Theoretical β (Eloundou)", data: g.theoretical, backgroundColor: "rgba(46,117,182,0.45)", borderColor: "#2E75B6", borderWidth: 1 },
-        { label: "Observed exposure",        data: g.observed,    backgroundColor: "#C62828" },
+        { label: l1, data: g.theoretical, backgroundColor: "rgba(46,117,182,0.45)", borderColor: "#2E75B6", borderWidth: 1 },
+        { label: l2, data: g.observed,    backgroundColor: "#C62828" },
       ],
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: "bottom", labels: { font: { size: 11 } } } },
+      onHover: (e, els) => { if (isModel) e.native.target.style.cursor = els.length ? "pointer" : "default"; },
+      onClick: (e, els) => {
+        if (!isModel) return;
+        const code = els.length ? g.cats[els[0].index] : null;
+        openOccModal(code);
+      },
+      plugins: {
+        legend: { position: "bottom", labels: { font: { size: 11 } } },
+        tooltip: { callbacks: { title: (items) => names[items[0].dataIndex] || items[0].label } },
+      },
       scales: {
         x: { ticks: { font: { size: 10 }, maxRotation: 30, minRotation: 30 }, grid: { display: false } },
         y: { ticks: { font: { size: 10 }, callback: (v) => v + "%" }, grid: { color: "#f0f2f7" }, max: 100 },
@@ -222,6 +262,108 @@ function renderGap() {
     },
   });
 }
+
+// ---------- UK occupations detail modal ----------
+let UK_OCC = null;
+let UK_OCC_LOADING = null;
+
+function loadUkOcc() {
+  if (UK_OCC) return Promise.resolve(UK_OCC);
+  if (UK_OCC_LOADING) return UK_OCC_LOADING;
+  UK_OCC_LOADING = fetch("data/uk_occupations.json", { cache: "no-store" })
+    .then((r) => { if (!r.ok) throw new Error("uk_occupations.json missing"); return r.json(); })
+    .then((j) => { UK_OCC = j; return j; });
+  return UK_OCC_LOADING;
+}
+
+const fmtInt = (n) => (n == null ? "—" : Math.round(n).toLocaleString("en-GB"));
+const fmtPct = (n) => (n == null ? "—" : (n * 100).toFixed(1) + "%");
+const fmtNum = (n, d = 1) => (n == null ? "—" : n.toFixed(d));
+
+function occRows() {
+  if (!UK_OCC) return;
+  const q = ($("occ-search").value || "").trim().toLowerCase();
+  const grp = $("occ-group").value;
+  const sort = $("occ-sort").value;
+  let rows = UK_OCC.occupations.slice();
+  if (grp && grp !== "ALL") rows = rows.filter((o) => o.smg_code === grp);
+  if (q) rows = rows.filter((o) => o.soc.includes(q) || (o.title || "").toLowerCase().includes(q));
+  rows.sort((a, b) => sort === "soc" ? a.soc.localeCompare(b.soc) : (b[sort] || 0) - (a[sort] || 0));
+
+  const labels = UK_OCC.task_labels || {};
+  $("occ-modal-body").innerHTML = rows.map((o) => {
+    const tasks = o.tasks || {};
+    const tlist = Object.keys(tasks)
+      .filter((t) => (tasks[t] || 0) > 0)
+      .sort((a, b) => tasks[b] - tasks[a])
+      .map((t) => `<li><span>${labels[t] || t}</span><b>${tasks[t]}%</b></li>`).join("");
+    return `
+      <tr class="occ-row" data-soc="${o.soc}">
+        <td>${o.soc}</td>
+        <td>${o.title || ""}</td>
+        <td class="num">${fmtInt(o.employment)}</td>
+        <td class="num">${fmtPct(o.raw)}</td>
+        <td class="num">${fmtPct(o.pi)}</td>
+        <td class="num">${fmtNum(o.hrs_week)}</td>
+        <td class="num">${fmtInt(o.fte)}</td>
+        <td class="num">${o.mult == null ? "—" : o.mult.toFixed(1) + "×"}</td>
+        <td class="num">${fmtNum(o.combined_hrs)}</td>
+      </tr>
+      <tr class="occ-detail-row" data-detail="${o.soc}" hidden>
+        <td colspan="9">
+          <div class="occ-task-head">${o.title || o.soc} — task-time allocation (% of working week) &amp; AI exposure</div>
+          <ul class="occ-tasks">${tlist || "<li>No task profile available</li>"}</ul>
+        </td>
+      </tr>`;
+  }).join("");
+  $("occ-modal-foot").textContent =
+    `${rows.length} of ${UK_OCC.occupations.length} occupations shown · model as-of ${UK_OCC.as_of} · ${UK_OCC.source}`;
+
+  $("occ-modal-body").querySelectorAll(".occ-row").forEach((tr) => {
+    tr.addEventListener("click", () => {
+      const d = $("occ-modal-body").querySelector(`[data-detail="${tr.dataset.soc}"]`);
+      if (d) d.hidden = !d.hidden;
+    });
+  });
+}
+
+function openOccModal(groupCode) {
+  loadUkOcc().then(() => {
+    const sel = $("occ-group");
+    if (!sel.options.length) {
+      sel.innerHTML = `<option value="ALL">All sub-major groups (412)</option>` +
+        UK_OCC.groups.map((g) => `<option value="${g.code}">${g.code} — ${g.name}</option>`).join("");
+    }
+    sel.value = groupCode || "ALL";
+    $("occ-modal-sub").innerHTML =
+      `Practical AI impact on UK occupations from a task-decomposition model: 18 capability-scored task categories, ` +
+      `time-weighted across ${UK_OCC.n_occupations} SOC 2020 unit groups and ONS employment. ` +
+      `<em>Raw exposure</em> is theoretical task susceptibility; <em>practical impact</em> applies sector adoption discounts. Click a row for its task breakdown.`;
+    occRows();
+    const dlg = $("occ-modal");
+    if (dlg && !dlg.open) dlg.showModal();
+  }).catch((e) => {
+    const dlg = $("occ-modal");
+    $("occ-modal-sub").textContent = "Could not load occupation detail: " + e.message;
+    if (dlg && !dlg.open) dlg.showModal();
+  });
+}
+
+function initOccModal() {
+  ["occ-search", "occ-group", "occ-sort"].forEach((id) => {
+    const el = $(id);
+    if (el) el.addEventListener("input", () => { if (UK_OCC) occRows(); });
+  });
+  const dlg = $("occ-modal");
+  if (!dlg) return;
+  dlg.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => dlg.close()));
+  dlg.addEventListener("click", (e) => {
+    const box = dlg.getBoundingClientRect();
+    const inside = e.clientX >= box.left && e.clientX <= box.right && e.clientY >= box.top && e.clientY <= box.bottom;
+    if (!inside) dlg.close();
+  });
+}
+initOccModal();
 
 function renderFeed() {
   const r = DATA.regions[region];
