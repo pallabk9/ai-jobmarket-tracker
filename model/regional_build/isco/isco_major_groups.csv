@@ -1,0 +1,11 @@
+group_code,group_name,adoption_discount,amplification_multiplier
+0,Armed forces occupations,0.55,1.1
+1,Managers,0.55,1.8
+2,Professionals,0.50,2.0
+3,Technicians and associate professionals,0.52,1.5
+4,Clerical support workers,0.48,1.2
+5,Service and sales workers,0.55,1.3
+6,"Skilled agricultural, forestry and fishery workers",0.60,1.0
+7,Craft and related trades workers,0.58,1.1
+8,"Plant and machine operators, and assemblers",0.58,1.0
+9,Elementary occupations,0.60,1.0
