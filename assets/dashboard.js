@@ -267,10 +267,10 @@ function renderGap() {
   }
 
   if (hint) hint.textContent =
-    "Top 10 most AI-exposed UK occupations (SOC 2020). Click any bar — or “View all 412 occupations” — for the full-screen breakdown.";
+    `Top 10 most AI-exposed ${DATA.regions[region].label} occupations. Click any bar — or the “View all occupations” button — for the full-screen breakdown.`;
 
-  loadUkOcc().then(() => {
-    const top = UK_OCC.occupations.slice().sort((a, b) => b.raw - a.raw).slice(0, 10);
+  loadOcc(g.detail).then(() => {
+    const top = OCC.occupations.slice().sort((a, b) => b.raw - a.raw).slice(0, 10);
     const long  = top.map((o) => o.title || o.soc);
     const short = top.map((o) => (o.title || o.soc).length > 24 ? (o.title || o.soc).slice(0, 23) + "…" : (o.title || o.soc));
     buildGapChart(short, long,
@@ -286,17 +286,15 @@ function renderGap() {
   });
 }
 
-// ---------- UK occupations detail modal ----------
-let UK_OCC = null;
-let UK_OCC_LOADING = null;
+// ---------- Occupation detail modal (per-region, model-driven) ----------
+let OCC = null;                 // currently-loaded occupation dataset
+const OCC_CACHE = {};           // filename -> dataset
 
-function loadUkOcc() {
-  if (UK_OCC) return Promise.resolve(UK_OCC);
-  if (UK_OCC_LOADING) return UK_OCC_LOADING;
-  UK_OCC_LOADING = fetch("data/uk_occupations.json", { cache: "no-store" })
-    .then((r) => { if (!r.ok) throw new Error("uk_occupations.json missing"); return r.json(); })
-    .then((j) => { UK_OCC = j; return j; });
-  return UK_OCC_LOADING;
+function loadOcc(file) {
+  if (OCC_CACHE[file]) { OCC = OCC_CACHE[file]; return Promise.resolve(OCC); }
+  return fetch("data/" + file, { cache: "no-store" })
+    .then((r) => { if (!r.ok) throw new Error(file + " missing"); return r.json(); })
+    .then((j) => { OCC_CACHE[file] = j; OCC = j; return j; });
 }
 
 const fmtInt = (n) => (n == null ? "—" : Math.round(n).toLocaleString("en-GB"));
@@ -330,16 +328,16 @@ function renderOccChart(rows) {
 }
 
 function occRows() {
-  if (!UK_OCC) return;
+  if (!OCC) return;
   const q = ($("occ-search").value || "").trim().toLowerCase();
   const grp = $("occ-group").value;
   const sort = $("occ-sort").value;
-  let rows = UK_OCC.occupations.slice();
+  let rows = OCC.occupations.slice();
   if (grp && grp !== "ALL") rows = rows.filter((o) => o.smg_code === grp);
   if (q) rows = rows.filter((o) => o.soc.includes(q) || (o.title || "").toLowerCase().includes(q));
   rows.sort((a, b) => sort === "soc" ? a.soc.localeCompare(b.soc) : (b[sort] || 0) - (a[sort] || 0));
 
-  const labels = UK_OCC.task_labels || {};
+  const labels = OCC.task_labels || {};
   $("occ-modal-body").innerHTML = rows.map((o) => {
     const tasks = o.tasks || {};
     const tlist = Object.keys(tasks)
@@ -366,7 +364,7 @@ function occRows() {
       </tr>`;
   }).join("");
   $("occ-modal-foot").textContent =
-    `${rows.length} of ${UK_OCC.occupations.length} occupations shown · model as-of ${UK_OCC.as_of} · ${UK_OCC.source}`;
+    `${rows.length} of ${OCC.occupations.length} occupations shown · model as-of ${OCC.as_of} · ${OCC.source}`;
 
   renderOccChart(rows);
 
@@ -379,16 +377,19 @@ function occRows() {
 }
 
 function openOccModal(groupCode) {
-  loadUkOcc().then(() => {
+  const reg = DATA.regions[region];
+  const file = reg.gap_chart && reg.gap_chart.detail;
+  if (!file) return;
+  loadOcc(file).then(() => {
+    const label = reg.label || region;
+    $("occ-title").textContent = `${label} occupations — AI task-decomposition detail`;
     const sel = $("occ-group");
-    if (!sel.options.length) {
-      sel.innerHTML = `<option value="ALL">All sub-major groups (412)</option>` +
-        UK_OCC.groups.map((g) => `<option value="${g.code}">${g.code} — ${g.name}</option>`).join("");
-    }
+    sel.innerHTML = `<option value="ALL">All groups (${OCC.n_occupations})</option>` +
+      OCC.groups.map((g) => `<option value="${g.code}">${g.code} — ${g.name}</option>`).join("");
     sel.value = groupCode || "ALL";
     $("occ-modal-sub").innerHTML =
-      `Practical AI impact on UK occupations from a task-decomposition model: 18 capability-scored task categories, ` +
-      `time-weighted across ${UK_OCC.n_occupations} SOC 2020 unit groups and ONS employment. ` +
+      `Practical AI impact on ${label} occupations from a task-decomposition model: 18 capability-scored task categories, ` +
+      `time-weighted across ${OCC.n_occupations} occupations and national employment. ` +
       `<em>Raw exposure</em> is theoretical task susceptibility; <em>practical impact</em> applies sector adoption discounts. Click a row for its task breakdown.`;
     const dlg = $("occ-modal");
     if (dlg && !dlg.open) dlg.showModal();   // open first so the canvas has layout
@@ -403,10 +404,10 @@ function openOccModal(groupCode) {
 function initOccModal() {
   let t = null;
   const sEl = $("occ-search");
-  if (sEl) sEl.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { if (UK_OCC) occRows(); }, 220); });
+  if (sEl) sEl.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { if (OCC) occRows(); }, 220); });
   ["occ-group", "occ-sort"].forEach((id) => {
     const el = $(id);
-    if (el) el.addEventListener("change", () => { if (UK_OCC) occRows(); });
+    if (el) el.addEventListener("change", () => { if (OCC) occRows(); });
   });
   const allBtn = $("gap-all-btn");
   if (allBtn) allBtn.addEventListener("click", () => openOccModal(null));
