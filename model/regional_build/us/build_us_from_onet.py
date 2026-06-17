@@ -104,7 +104,23 @@ def parse_onet_titles():
     return {r["O*NET-SOC Code"]: r["Title"] for r in rows}
 
 def parse_bls_oes():
-    """{soc6: (title, employment)} for detailed occupations from the OES national xlsx."""
+    """{soc6: (title, employment)} for detailed occupations.
+
+    Preference order: a committed CSV (BLS_OES_CSV, columns occ_code,employment
+    [,occ_title]) -> a local xlsx (BLS_OES_XLSX) -> download the OES national zip.
+    BLS blocks many cloud/CI IPs, so CI runs should use a committed CSV snapshot.
+    """
+    csv_override = os.environ.get("BLS_OES_CSV") or str(HERE / "bls_oes_employment.csv")
+    if Path(csv_override).exists():
+        out = {}
+        for r in csv.DictReader(Path(csv_override).open()):
+            try:
+                out[r["occ_code"].strip()] = (r.get("occ_title", ""), float(str(r["employment"]).replace(",", "")))
+            except (KeyError, TypeError, ValueError):
+                continue
+        if out:
+            print(f"  using committed employment snapshot ({len(out)} rows)")
+            return out
     import openpyxl
     if OES_XLSX:
         wb = openpyxl.load_workbook(OES_XLSX, read_only=True, data_only=True)
@@ -148,8 +164,12 @@ def main():
     titles = parse_onet_titles()
     print(f"  {len(imp)} O*NET-SOC occupations")
     print("Reading BLS OES ...")
-    oes = parse_bls_oes()
-    print(f"  {len(oes)} detailed SOC employment rows")
+    try:
+        oes = parse_bls_oes()
+        print(f"  {len(oes)} detailed SOC employment rows")
+    except Exception as exc:  # BLS blocks cloud/CI IPs - degrade gracefully
+        print(f"  BLS OES unavailable ({exc}); building WITHOUT employment weights")
+        oes = {}
 
     # O*NET importance -> task allocation per O*NET-SOC, then aggregate to SOC6
     soc_alloc = {}   # soc6 -> list of per-onetsoc 18-vectors
@@ -205,19 +225,26 @@ def main():
 
     grp = {}
     for o in occ:
-        g = grp.setdefault(o["smg_code"], {"code": o["smg_code"], "name": o["smg"], "count": 0, "emp": 0.0, "rw": 0.0, "pw": 0.0})
-        g["count"] += 1; g["emp"] += o["employment"]; g["rw"] += o["raw"] * o["employment"]; g["pw"] += o["pi"] * o["employment"]
+        g = grp.setdefault(o["smg_code"], {"code": o["smg_code"], "name": o["smg"], "count": 0,
+                                          "emp": 0.0, "rw": 0.0, "pw": 0.0, "rs": 0.0, "ps": 0.0})
+        g["count"] += 1; g["emp"] += o["employment"]
+        g["rw"] += o["raw"] * o["employment"]; g["pw"] += o["pi"] * o["employment"]
+        g["rs"] += o["raw"]; g["ps"] += o["pi"]
     glist = []
     for g in sorted(grp.values(), key=lambda x: x["code"]):
-        e = g["emp"] or 1
+        if g["emp"] > 0:                       # employment-weighted
+            raw_m, pi_m = g["rw"] / g["emp"], g["pw"] / g["emp"]
+        else:                                  # no employment: simple mean per occupation
+            raw_m, pi_m = g["rs"] / g["count"], g["ps"] / g["count"]
         glist.append({"code": g["code"], "name": g["name"], "count": g["count"],
                       "employment_000": round(g["emp"] / 1000),
-                      "raw": round(g["rw"] / e, 4), "practical": round(g["pw"] / e, 4),
-                      "hrs": round(g["pw"] / e * WEEK_HOURS, 1)})
+                      "raw": round(raw_m, 4), "practical": round(pi_m, 4),
+                      "hrs": round(pi_m * WEEK_HOURS, 1)})
 
     out = {"region": "US", "as_of": "May 2026 frontier (O*NET " + ONET_VER + ")",
            "generated_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-           "source": "AWA AI Impact model (O*NET GWA importance x 18-task crosswalk; BLS OES employment)",
+           "source": "AWA AI Impact model (O*NET GWA importance x 18-task crosswalk; "
+                     + ("BLS OES employment-weighted" if oes else "unweighted - no employment snapshot") + ")",
            "task_labels": label, "total_employment": round(sum(o["employment"] for o in occ)),
            "n_occupations": len(occ), "groups": glist, "occupations": occ}
     (DATA / "us_occupations.json").write_text(json.dumps(out, separators=(",", ":")))
