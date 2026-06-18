@@ -417,7 +417,7 @@ dialog.modal::backdrop {
 .occ-controls input { flex: 1 1 240px; }
 .occ-scroll { max-height: 56vh; overflow: auto; border: 1px solid var(--c-line); border-radius: 8px; }
 .occ-detail { font-size: 12.5px; margin: 0; }
-.occ-detail thead th { position: sticky; top: 0; background: var(--c-card); z-index: 1; }
+.occ-detail thead th { position: sticky; top: 0; background: #eef2f8; color: var(--c-primary); z-index: 1; padding: 9px 10px; border-bottom: 2px solid var(--c-line); font-weight: 700; }
 .occ-detail th.num, .occ-detail td.num { text-align: right; white-space: nowrap; }
 .occ-row { cursor: pointer; }
 .occ-row:hover { background: var(--c-line2); }

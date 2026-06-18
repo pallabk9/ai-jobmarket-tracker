@@ -266,18 +266,24 @@ function renderGap() {
     return;
   }
 
+  const label = DATA.regions[region].label;
   if (hint) hint.textContent =
-    `Top 10 most AI-exposed ${DATA.regions[region].label} occupations. Click any bar — or the “View all occupations” button — for the full-screen breakdown.`;
+    `Most AI-exposed ${label} occupations. Click any bar — or the “View all occupations” button — for the full-screen breakdown.`;
 
   loadOcc(g.detail).then(() => {
+    const n = OCC.occupations.length;
+    if (btn) btn.textContent = `View all ${n} occupations →`;
     const top = OCC.occupations.slice().sort((a, b) => b.raw - a.raw).slice(0, 10);
     const long  = top.map((o) => o.title || o.soc);
     const short = top.map((o) => (o.title || o.soc).length > 24 ? (o.title || o.soc).slice(0, 23) + "…" : (o.title || o.soc));
+    const chartTitle = n <= top.length
+      ? `${label} — AI exposure by occupation group (%)`
+      : `Top 10 most AI-exposed ${label} occupations (%)`;
     buildGapChart(short, long,
       top.map((o) => +(o.raw * 100).toFixed(1)),
       top.map((o) => +(o.pi  * 100).toFixed(1)),
       "Raw task exposure (theoretical)", "Practical impact (AI-adjusted)",
-      true, "Top 10 most AI-exposed UK occupations — raw vs practical (%)");
+      true, chartTitle);
   }).catch(() => {
     // fall back to the group-level summary still in current.json
     buildGapChart(g.cats, g.names || g.cats, g.theoretical, g.observed,
