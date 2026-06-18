@@ -559,4 +559,25 @@ if (typeof Chart !== "undefined") {
        </div>`);
   }
 })();
+
+// ---------- Visitor counter ----------
+// Counts once per browser session via counterapi.dev (no backend needed).
+(function visitorCounter() {
+  const el = document.getElementById("visitor-count");
+  if (!el) return;
+  let cached = null;
+  try { cached = sessionStorage.getItem("aijmt_visits"); } catch (e) {}
+  if (cached) { el.textContent = Number(cached).toLocaleString("en-GB"); return; }
+  fetch("https://api.counterapi.dev/v1/aijmtracker/visits/up")
+    .then((r) => r.json())
+    .then((j) => {
+      if (j && typeof j.count === "number") {
+        el.textContent = j.count.toLocaleString("en-GB");
+        try { sessionStorage.setItem("aijmt_visits", String(j.count)); } catch (e) {}
+      } else {
+        el.textContent = "—";
+      }
+    })
+    .catch(() => { el.textContent = "—"; });
+})();
 // end dashboard.js
