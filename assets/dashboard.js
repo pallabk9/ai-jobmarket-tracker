@@ -150,15 +150,15 @@ function renderCvd() {
     data: {
       labels: labels.map((l, i) => `${l} ↑ / ${dispLabels[i]} ↓`),
       datasets: [
-        { label: "Created (K roles)",   data: created,   backgroundColor: "#2E7D32" },
-        { label: "Displaced (K roles)", data: displaced, backgroundColor: "#C62828" },
+        { label: "Created (K roles)",   data: created,   backgroundColor: "#52D2BC" },
+        { label: "Displaced (K roles)", data: displaced, backgroundColor: "#FF5C39" },
       ],
     },
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
       plugins: { legend: { position: "bottom", labels: { font: { size: 11 } } } },
       scales: {
-        x: { ticks: { font: { size: 10 } }, grid: { color: "#f0f2f7" } },
+        x: { ticks: { font: { size: 10 } }, grid: { color: "#EAEEEF" } },
         y: { ticks: { font: { size: 10 } }, grid: { display: false } },
       },
     },
@@ -172,14 +172,14 @@ function renderDemo() {
   const values = labels.map((k) => r.demographics.age[k]);
   charts.demo = new Chart($("demoChart").getContext("2d"), {
     type: "doughnut",
-    data: { labels, datasets: [{ data: values, backgroundColor: ["#BBDEFB","#90CAF9","#42A5F5","#1E88E5","#1565C0","#0D47A1"] }] },
+    data: { labels, datasets: [{ data: values, backgroundColor: ["#CDEFF4","#9ADBE8","#6FC2D4","#4F9FB4","#3A6E82","#253746"] }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { position: "right", labels: { font: { size: 11 }, boxWidth: 12 } },
         title:  { display: true,
                   text: `${r.demographics.sex.Female}% F / ${r.demographics.sex.Male}% M`,
-                  font: { size: 12, weight: "normal" }, color: "#595959" },
+                  font: { size: 12, weight: "normal" }, color: "#5A6B78" },
       },
     },
   });
@@ -192,7 +192,7 @@ function renderAug() {
   charts.aug = new Chart($("augChart").getContext("2d"), {
     type: "doughnut",
     data: { labels: ["Augmentation", "Automation"],
-            datasets: [{ data: [aug, 100 - aug], backgroundColor: ["#2E75B6", "#1F3864"] }] },
+            datasets: [{ data: [aug, 100 - aug], backgroundColor: ["#52D2BC", "#253746"] }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { position: "right", labels: { font: { size: 11 }, boxWidth: 12 } } },
@@ -209,14 +209,14 @@ function renderPost() {
   charts.post = new Chart($("postChart").getContext("2d"), {
     type: "line",
     data: { labels, datasets: [{ label: "Index", data: values,
-            borderColor: "#1F3864", backgroundColor: "rgba(46,117,182,0.12)",
+            borderColor: "#FF5C39", backgroundColor: "rgba(255,92,57,0.10)",
             fill: true, tension: 0.3, pointRadius: 2 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { mode: "index", intersect: false } },
       scales: {
         x: { ticks: { font: { size: 9 } }, grid: { display: false } },
-        y: { ticks: { font: { size: 10 } }, grid: { color: "#f0f2f7" }, min: yMin },
+        y: { ticks: { font: { size: 10 } }, grid: { color: "#EAEEEF" }, min: yMin },
       },
     },
   });
@@ -229,8 +229,8 @@ function buildGapChart(shortLabels, longLabels, rawArr, practicalArr, l1, l2, cl
     data: {
       labels: shortLabels,
       datasets: [
-        { label: l1, data: rawArr,       backgroundColor: "rgba(46,117,182,0.45)", borderColor: "#2E75B6", borderWidth: 1 },
-        { label: l2, data: practicalArr, backgroundColor: "#C62828" },
+        { label: l1, data: rawArr,       backgroundColor: "rgba(154,219,232,0.55)", borderColor: "#3E94A8", borderWidth: 1 },
+        { label: l2, data: practicalArr, backgroundColor: "#FF5C39" },
       ],
     },
     options: {
@@ -239,12 +239,12 @@ function buildGapChart(shortLabels, longLabels, rawArr, practicalArr, l1, l2, cl
       onClick: () => { if (clickable) openOccModal(null); },
       plugins: {
         legend: { position: "bottom", labels: { font: { size: 11 } } },
-        title:  { display: !!axisTitle, text: axisTitle, font: { size: 11 }, color: "#5a6478", padding: { bottom: 4 } },
+        title:  { display: !!axisTitle, text: axisTitle, font: { size: 11 }, color: "#5A6B78", padding: { bottom: 4 } },
         tooltip: { callbacks: { title: (items) => longLabels[items[0].dataIndex] || items[0].label } },
       },
       scales: {
         x: { ticks: { font: { size: 9 }, maxRotation: 45, minRotation: 45, autoSkip: false }, grid: { display: false } },
-        y: { ticks: { font: { size: 10 }, callback: (v) => v + "%" }, grid: { color: "#f0f2f7" }, max: 100,
+        y: { ticks: { font: { size: 10 }, callback: (v) => v + "%" }, grid: { color: "#EAEEEF" }, max: 100,
              title: { display: true, text: "% of tasks exposed", font: { size: 10 } } },
       },
     },
@@ -318,8 +318,8 @@ function renderOccChart(rows) {
     data: {
       labels: rows.map((o) => `${o.soc} ${o.title || ""}`.slice(0, 46)),
       datasets: [
-        { label: "Raw task exposure (theoretical)", data: rows.map((o) => +(o.raw * 100).toFixed(1)), backgroundColor: "rgba(46,117,182,0.5)" },
-        { label: "Practical impact (AI-adjusted)",   data: rows.map((o) => +(o.pi  * 100).toFixed(1)), backgroundColor: "#C62828" },
+        { label: "Raw task exposure (theoretical)", data: rows.map((o) => +(o.raw * 100).toFixed(1)), backgroundColor: "rgba(154,219,232,0.6)" },
+        { label: "Practical impact (AI-adjusted)",   data: rows.map((o) => +(o.pi  * 100).toFixed(1)), backgroundColor: "#FF5C39" },
       ],
     },
     options: {
@@ -539,8 +539,8 @@ initModals();
 
 // Chart.js defaults
 if (typeof Chart !== "undefined") {
-  Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif";
-  Chart.defaults.color = "#1a1a2e";
+  Chart.defaults.font.family = "Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif";
+  Chart.defaults.color = "#253746";
 }
 
 // Bootstrap
@@ -554,7 +554,7 @@ if (typeof Chart !== "undefined") {
     renderSnapshots();
   } catch (e) {
     document.querySelector("main").insertAdjacentHTML("afterbegin",
-      `<div style="background:#FFEBEE;border-left:3px solid #C62828;padding:14px;border-radius:6px;margin-bottom:18px">
+      `<div style="background:#FFE8E2;border-left:3px solid #FF5C39;padding:14px;border-radius:6px;margin-bottom:18px">
         <strong>Could not load data.</strong> The dashboard expected <code>data/current.json</code> in the same folder as <code>index.html</code>. Error: ${e.message}.
        </div>`);
   }
