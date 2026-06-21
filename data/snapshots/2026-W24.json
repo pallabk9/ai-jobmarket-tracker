@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T04:15:03Z",
+  "generated_at": "2026-06-21T15:02:10Z",
   "iso_week": "2026-W24",
   "week_ending": "2026-06-14",
   "version": "1.0",
@@ -46,25 +46,25 @@
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
-          "value": 42.09,
+          "value": 30.69,
           "unit": "pp",
           "direction": "neutral",
-          "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "source": "AWA AI Impact model (O*NET GWA importance x 18-task crosswalk; unweighted - no employment snapshot)",
+          "source_url": "https://www.onetcenter.org/database.html",
           "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
-          "value": 52.5,
+          "value": 50.9,
           "unit": "%",
           "direction": "neutral",
-          "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
-          "measurement": "modelled"
+          "source": "Anthropic Economic Index (augmentation share)",
+          "source_url": "https://huggingface.co/datasets/Anthropic/EconomicIndex",
+          "measurement": "measured"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
-          "value": 84.02,
+          "value": 83.89,
           "unit": "index",
           "direction": "up",
           "source": "Indeed Hiring Lab (exposed-sector composite)",
@@ -167,35 +167,103 @@
       },
       "gap_chart": {
         "cats": [
-          "Comp & Math",
-          "Office & Admin",
-          "Business",
-          "Sales",
-          "Education",
-          "Healthcare",
-          "Construction",
-          "Production"
+          "11",
+          "13",
+          "15",
+          "17",
+          "19",
+          "21",
+          "23",
+          "25",
+          "27",
+          "29",
+          "31",
+          "33",
+          "35",
+          "37",
+          "39",
+          "41",
+          "43",
+          "45",
+          "47",
+          "49",
+          "51",
+          "53"
+        ],
+        "names": [
+          "Management",
+          "Business and Financial Operations",
+          "Computer and Mathematical",
+          "Architecture and Engineering",
+          "Life, Physical, and Social Science",
+          "Community and Social Service",
+          "Legal",
+          "Educational Instruction and Library",
+          "Arts, Design, Entertainment, Sports, and Media",
+          "Healthcare Practitioners and Technical",
+          "Healthcare Support",
+          "Protective Service",
+          "Food Preparation and Serving Related",
+          "Building and Grounds Cleaning and Maintenance",
+          "Personal Care and Service",
+          "Sales and Related",
+          "Office and Administrative Support",
+          "Farming, Fishing, and Forestry",
+          "Construction and Extraction",
+          "Installation, Maintenance, and Repair",
+          "Production",
+          "Transportation and Material Moving"
         ],
         "theoretical": [
-          94,
-          90,
-          78,
-          65,
-          58,
-          32,
-          12,
-          18
+          69.8,
+          75.2,
+          76.7,
+          72.4,
+          73.2,
+          72.1,
+          79.3,
+          73.0,
+          71.9,
+          68.7,
+          66.8,
+          66.5,
+          63.4,
+          59.9,
+          66.2,
+          70.7,
+          73.6,
+          60.1,
+          58.5,
+          60.7,
+          61.6,
+          61.3
         ],
         "observed": [
-          52,
-          38,
-          31,
-          24,
-          14,
-          8,
-          1,
-          3
-        ]
+          38.4,
+          37.6,
+          36.8,
+          36.2,
+          36.6,
+          39.7,
+          39.6,
+          40.2,
+          35.9,
+          37.8,
+          38.7,
+          38.6,
+          38.1,
+          35.9,
+          38.4,
+          35.4,
+          35.4,
+          36.1,
+          34.0,
+          35.2,
+          35.7,
+          36.8
+        ],
+        "source": "AWA AI Impact model (O*NET GWA importance x 18-task crosswalk; unweighted - no employment snapshot)",
+        "detail": "us_occupations.json"
       },
       "posting_series": [
         {
@@ -244,44 +312,44 @@
         },
         {
           "iso_week": "2026-W24",
-          "value": 84.02
+          "value": 83.89
         }
       ],
       "feed": [
         {
-          "headline": "AI job disruption may be compounded because nearly 75% don't apply for unemployment benefits",
-          "date": "2026-06-14",
-          "source": "Fortune",
-          "url": "https://news.google.com/search?q=AI%20job%20disruption%20may%20be%20compounded%20because%20nearly%2075%25%20don%27t%20apply%20for%20unemployment%20benefits",
-          "conf": 2
+          "headline": "A startup claims it broke through a bottleneck that\u2019s holding back LLMs",
+          "date": "2026-06-19",
+          "source": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/2026/06/19/1139313/a-startup-claims-it-broke-through-a-bottleneck-thats-holding-back-llms/",
+          "conf": 4
         },
         {
-          "headline": "Coinbase layoffs fuel debate over AI's role in job cuts",
-          "date": "2026-06-13",
-          "source": "Axios",
-          "url": "https://news.google.com/search?q=Coinbase%20layoffs%20fuel%20debate%20over%20AI%27s%20role%20in%20job%20cuts",
-          "conf": 2
+          "headline": "Why do South Koreans love AI so much?",
+          "date": "2026-06-15",
+          "source": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/",
+          "conf": 4
         },
         {
-          "headline": "AI and White-Collar Job Losses",
-          "date": "2026-06-13",
-          "source": "Robin J Brooks | Substack",
-          "url": "https://news.google.com/search?q=AI%20and%20White-Collar%20Job%20Losses",
-          "conf": 2
+          "headline": "Google DeepMind is worried about what happens when millions of agents start to interact",
+          "date": "2026-06-11",
+          "source": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/2026/06/11/1138794/google-deepmind-is-worried-about-what-happens-when-millions-of-agents-start-to-interact/",
+          "conf": 4
         },
         {
-          "headline": "Will AI take my job after college? A real talk guide for UC students",
-          "date": "2026-06-12",
-          "source": "University of Cincinnati",
-          "url": "https://news.google.com/search?q=Will%20AI%20take%20my%20job%20after%20college%3F%20A%20real%20talk%20guide%20for%20UC%20students",
-          "conf": 2
+          "headline": "Learning to lead in a hybrid human-AI enterprise",
+          "date": "2026-06-09",
+          "source": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/2026/06/09/1137830/learning-to-lead-in-a-hybrid-human-ai-enterprise/",
+          "conf": 4
         },
         {
-          "headline": "Money managers, pension funds extend AI hiring as adoption accelerates",
-          "date": "2026-06-12",
-          "source": "Pensions & Investments",
-          "url": "https://news.google.com/search?q=Money%20managers%2C%20pension%20funds%20extend%20AI%20hiring%20as%20adoption%20accelerates",
-          "conf": 2
+          "headline": "Five things you need to know about AI",
+          "date": "2026-06-09",
+          "source": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/2026/06/09/1138582/five-things-you-need-to-know-about-ai/",
+          "conf": 4
         }
       ]
     },
@@ -300,7 +368,7 @@
         },
         "topq_unemp_delta": {
           "name": "Early-career unemployment delta (proxy)",
-          "value": 9.7,
+          "value": 9.6,
           "unit": "pp",
           "direction": "up",
           "source": "ONS LFS (18-24 vs 16+, SA)",
@@ -336,16 +404,16 @@
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
-          "value": 53.17,
+          "value": 54.5,
           "unit": "%",
           "direction": "neutral",
-          "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
-          "measurement": "modelled"
+          "source": "Anthropic Economic Index (augmentation share)",
+          "source_url": "https://huggingface.co/datasets/Anthropic/EconomicIndex",
+          "measurement": "measured"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
-          "value": 64.63,
+          "value": 63.83,
           "unit": "index",
           "direction": "up",
           "source": "Indeed Hiring Lab (exposed-sector composite)",
@@ -609,44 +677,44 @@
         },
         {
           "iso_week": "2026-W24",
-          "value": 64.63
+          "value": 63.83
         }
       ],
       "feed": [
         {
-          "headline": "Britain powers ahead on AI with billions of pounds of new investment and thousands of jobs secured as London Tech Week wraps up",
-          "date": "2026-06-12",
-          "source": "GOV.UK",
-          "url": "https://news.google.com/search?q=Britain%20powers%20ahead%20on%20AI%20with%20billions%20of%20pounds%20of%20new%20investment%20and%20thousands%20of%20jobs%20secured%20as%20London%20Tech%20Week%20wraps%20up",
-          "conf": 2
+          "headline": "Why an AI company cleaned my New York City apartment for free",
+          "date": "2026-06-20",
+          "source": "BBC Technology",
+          "url": "https://www.bbc.com/news/articles/cpwerjy20kyo?at_medium=RSS&at_campaign=rss",
+          "conf": 4
         },
         {
-          "headline": "Jeff Bezos rejects fear that AI will take humans\u2019 jobs",
-          "date": "2026-06-12",
-          "source": "The Independent",
-          "url": "https://news.google.com/search?q=Jeff%20Bezos%20rejects%20fear%20that%20AI%20will%20take%20humans%E2%80%99%20jobs",
-          "conf": 2
+          "headline": "Americast",
+          "date": "2026-06-19",
+          "source": "BBC Business",
+          "url": "https://www.bbc.co.uk/sounds/play/w3ct8lz7?at_medium=RSS&at_campaign=rss",
+          "conf": 4
         },
         {
-          "headline": "More than half of UK parents fear AI will stop their children finding jobs",
-          "date": "2026-06-12",
-          "source": "lbc.co.uk",
-          "url": "https://news.google.com/search?q=More%20than%20half%20of%20UK%20parents%20fear%20AI%20will%20stop%20their%20children%20finding%20jobs",
-          "conf": 2
+          "headline": "UK's top data and AI regulator quits after 'inappropriate' humour",
+          "date": "2026-06-19",
+          "source": "BBC Technology",
+          "url": "https://www.bbc.com/news/articles/c0eyq7rnn22o?at_medium=RSS&at_campaign=rss",
+          "conf": 4
         },
         {
-          "headline": "Scottish company develops way to sift through 'sea of AI job applications'",
-          "date": "2026-06-12",
-          "source": "The Herald",
-          "url": "https://news.google.com/search?q=Scottish%20company%20develops%20way%20to%20sift%20through%20%27sea%20of%20AI%20job%20applications%27",
-          "conf": 2
+          "headline": "Apple to raise prices as AI boom pushes up chip costs",
+          "date": "2026-06-18",
+          "source": "BBC Business",
+          "url": "https://www.bbc.com/news/articles/c3wyxvqdx1zo?at_medium=RSS&at_campaign=rss",
+          "conf": 4
         },
         {
-          "headline": "Where is the AI jobs crisis? Why the macro data is the last place you'll find it",
-          "date": "2026-06-12",
-          "source": "Resultsense",
-          "url": "https://news.google.com/search?q=Where%20is%20the%20AI%20jobs%20crisis%3F%20Why%20the%20macro%20data%20is%20the%20last%20place%20you%27ll%20find%20it",
-          "conf": 2
+          "headline": "Business Daily",
+          "date": "2026-06-18",
+          "source": "BBC Business",
+          "url": "https://www.bbc.co.uk/sounds/play/w3ct8g9d?at_medium=RSS&at_campaign=rss",
+          "conf": 4
         }
       ]
     },
@@ -665,12 +733,12 @@
         },
         "topq_unemp_delta": {
           "name": "Early-career unemployment delta (proxy)",
-          "value": 0.41,
+          "value": 13.16,
           "unit": "pp",
           "direction": "up",
-          "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
-          "measurement": "modelled"
+          "source": "ILOSTAT UNE_DEAP (youth 15-24 vs overall, modelled est.)",
+          "source_url": "https://ilostat.ilo.org/",
+          "measurement": "measured"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -692,21 +760,21 @@
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
-          "value": 36.22,
+          "value": 26.37,
           "unit": "pp",
           "direction": "neutral",
-          "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
+          "source_url": "https://ilostat.ilo.org/",
           "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
-          "value": 44.2,
+          "value": 41.7,
           "unit": "%",
           "direction": "neutral",
-          "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
-          "measurement": "modelled"
+          "source": "Anthropic Economic Index (augmentation share)",
+          "source_url": "https://huggingface.co/datasets/Anthropic/EconomicIndex",
+          "measurement": "measured"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
@@ -813,35 +881,51 @@
       },
       "gap_chart": {
         "cats": [
-          "IT Services",
-          "BPO/KPO",
-          "BFSI",
-          "Telecom",
-          "Retail",
-          "Healthcare",
-          "Manufacturing",
-          "Agriculture"
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "names": [
+          "Managers",
+          "Professionals",
+          "Technicians and associate professionals",
+          "Clerical support workers",
+          "Service and sales workers",
+          "Skilled agricultural, forestry and fishery workers",
+          "Craft and related trades workers",
+          "Plant and machine operators, and assemblers",
+          "Elementary occupations"
         ],
         "theoretical": [
-          92,
-          95,
-          78,
-          64,
-          48,
-          32,
-          22,
-          8
+          70.3,
+          73.2,
+          69.7,
+          73.4,
+          65.8,
+          58.6,
+          61.1,
+          59.6,
+          60.4
         ],
         "observed": [
-          58,
-          52,
-          32,
-          24,
-          12,
-          8,
-          4,
-          1
-        ]
+          38.7,
+          36.6,
+          36.3,
+          35.2,
+          36.2,
+          35.1,
+          35.5,
+          34.6,
+          36.2
+        ],
+        "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
+        "detail": "in_occupations.json"
       },
       "posting_series": [
         {
@@ -895,38 +979,38 @@
       ],
       "feed": [
         {
-          "headline": "AI won\u2019t kill work but entry-level jobs may get scarce\u2014here's how India should address it",
-          "date": "2026-06-14",
-          "source": "Mint",
-          "url": "https://news.google.com/search?q=AI%20won%E2%80%99t%20kill%20work%20but%20entry-level%20jobs%20may%20get%20scarce%E2%80%94here%27s%20how%20India%20should%20address%20it",
+          "headline": "AI adoption reshapes jobs as skills gap widens",
+          "date": "2026-06-20",
+          "source": "MSN",
+          "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQS0puQS0xTDU0LWtya2lOajR6UnlmZFpuWEF4LXBidTZxLTJyeERmdWtQNzlVd2hXWWdfZnZYYjI2bU9nN2tBN0NyVXVBNTFGTm5FWmxIUTQtR3oyOWpXQ18zZWFZYkJOYUp6Y1VNeWVBTWJqWURULXdQLTdaUmhjN2JkcHF3dDN4UVQ0T3lZZXlYclJPc3pMTy11bkh3THkyeWY1azlFYWxxWmp5TDkxS3BaRnhlZS1tVDg0ZDV2WEowSk9jbHhYWWF6a1JjOUlaOFZtMmV2dDVnR2FNV01ZQUhB?oc=5",
           "conf": 2
         },
         {
-          "headline": "Opendoor exits India, cuts 250 jobs amid AI-led operational shift",
-          "date": "2026-06-14",
-          "source": "Prop News Time",
-          "url": "https://news.google.com/search?q=Opendoor%20exits%20India%2C%20cuts%20250%20jobs%20amid%20AI-led%20operational%20shift",
-          "conf": 2
-        },
-        {
-          "headline": "AI can be more disruptive as it targets both cognitive and skill-based jobs: CEA Nageswaran",
-          "date": "2026-06-14",
-          "source": "The Tribune",
-          "url": "https://news.google.com/search?q=AI%20can%20be%20more%20disruptive%20as%20it%20targets%20both%20cognitive%20and%20skill-based%20jobs%3A%20CEA%20Nageswaran",
-          "conf": 2
-        },
-        {
-          "headline": "AI Hiring Boom Will Drive 79 Million Sq. Ft of New Offices by 2030",
-          "date": "2026-06-13",
-          "source": "Realty Plus Magazine",
-          "url": "https://news.google.com/search?q=AI%20Hiring%20Boom%20Will%20Drive%2079%20Million%20Sq.%20Ft%20of%20New%20Offices%20by%202030",
-          "conf": 2
-        },
-        {
-          "headline": "Indian workers use head-mounted cameras to train AI for chores, earn Rs 250 hourly",
-          "date": "2026-06-13",
+          "headline": "India beats global average as AI takes over 37% of entry-level jobs",
+          "date": "2026-06-19",
           "source": "India Today",
-          "url": "https://news.google.com/search?q=Indian%20workers%20use%20head-mounted%20cameras%20to%20train%20AI%20for%20chores%2C%20earn%20Rs%20250%20hourly",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOZDdFT2VJTGN6dFBZUjc3UXd3RkNYVV8tcFJoalc2VHY1ZXVQNU8tRmt1Z3ZBZzhWNlFrc3pLZXVKMl9IZnNzUXoxWFVTRW5mM3J0YXJXNllpdWVnbXF3NVJJaHVGSTQzQl9TSmQ0YlNyX0RnSE9FYU12eE1wSVlIMHd1VVpidHRNTnRqdjE0OHRzZFBfelduTEI4blFUbGZRa2YwSzM3aXFKQzY4NlEzaG1TeXJ3MGpZVFZGQlUySGFlQdIBxwFBVV95cUxOeHhOM1FhcnFad3VXZ0l4b2NXZHAtZDNwWE8yMWNjbTJYLXp0bXBtTkdEdzE4Zl9XX1RTLXpORzBoVmVKLUhOLWpUN0tUQ2xTWERCU29ucFBacEdoeDB2di00RF9fQWstQWFZZDlmNHNEd0prd1I1X0J3SnFIbV85WnZTQnZWajZtOGRjVHBmQVBwdXFYUDZDLU5UUDZVLXVCRmF0Z3dCMEthMUV6U3hIa1JUR2x6M3BXa1paZDkyM0ROdC1QeDRj?oc=5",
+          "conf": 2
+        },
+        {
+          "headline": "Transforming home diagnostics in India; Women report salary increase in AI-driven jobs",
+          "date": "2026-06-19",
+          "source": "YourStory.com",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPbjAtZnFCZERZRFF4X3I2OVhzVUlPbUZzcC1VWGVZQWd5UWhlQmFDaHhIbGdoLW5LaFF4eUU2ajNGd0ZlenFCNGZOV1hxVkUySGVMeC1RSDdXaFViVlFHVXNneFNqVDNsR3FpX1MwNE1vcV9EanAxTXgzclEtcHNBVzVaUU1xVzI2eTRsZ3Vxajc4VjFuUjlvWUs3a1M?oc=5",
+          "conf": 2
+        },
+        {
+          "headline": "Women saw 145% salary jump from transition into AI-enabled careers, finds report \u2014 see which jobs gave highest gains",
+          "date": "2026-06-19",
+          "source": "Mint",
+          "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxPT1Mtenlab296WE55VTBUYWV0alNDWmJwc0tNNFhvSnVweHlraFVrdjFFNFZPazZQZ1ZPOEZhbERQWDdZc1gzdmtFYU4taDNYNTBjM3R0b0NKdnkyT2ZyUFJmZnJ5YTRHeno2Q0N1SDR5RHVDVm9xT2VOTkRSckE3M2JTZjVXUmN3NTJQcHdMS1ZZWDJtUFhaeUpnYTY2NFNTblpUTTN3TzhwUmZjYjFfLW52U0RRRS1TWjR6U1Zhbkd2SUdvemhHZG5QbEk2b1RWaE9uRDNWSXZ2YkJnLUFvZmpoZ255TkphX05TZGFGTlJaMXZWX1dWWVoyV0E5emRJSHNHbXBMd1M2SHJVV1BjUmZCMnV0UDjSAZwCQVVfeXFMT0NqeEFYeHp5SjY5ckhQclR6TnVBWG1lbFBldEpYLXFjbFc0OTBfeVUzMjkzYUF3U3YtSEJIVXNkWV9ISXM0bTctOHlqY2JUS2g4YVBlZUtRSFdfRmhXcGtQSzRvN2I1b0k0cG9IeVY1RUMzOTRldmRLNlJLNUtSd2VHM1VycTAzOGFWd1dsc29TMHFxSXFrcUVmZ2k1U3N6SG1tUzZKZXJ2Nlo4Z2l1M1ZON2NVYlV3eGF4T0FUeGFQdkFDT2lVVW5tVTZpVlFFN0xrVGNsX0NwQUYzVDZPemF3QVJ0LUJIRy1GaUlSbF9ycEJXRGxrRjc5eDlveDZqU2h3MjJBYUo0VlJxdG1EUHo1bGpZVGJyOGpQTG4?oc=5",
+          "conf": 2
+        },
+        {
+          "headline": "AI Now Performs 37% of Entry-Level Tasks in India, Reshaping Hiring Priorities: Study",
+          "date": "2026-06-19",
+          "source": "ciol.com",
+          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQRjBCdzdCYzR0T0gwQjJNMmlWcnJ2Q2hmYzdiS2x6cGVkWjVxTkJtWmh1R3J2MUE4LTVzU29GX3pLLXBMTXdNUFdMbDJDbHBRWGdhY1VxeFlVRkdWa09ad0ZLdFdoR3hYWFJhZzk0eW4zaU1uZ3Y2UUNJZVlaZTF4c2dkQnlQRjA0ekpHeWJqOVdOdFNnWjFpamF2VEgxdUhSX1BF0gGjAUFVX3lxTFBGMEJ3N0JjNHRPSDBCMk0yaVZycnZDaGZjN2JLbHpwZWRaNXFOQm1aaHVHcnYxQTgtNXNTb0ZfekstcExNd01QV0xsMkNscFFYZ2FjVXF4WVVGR1ZrT1p3Rkt0V2hHeFhYUmFnOTR5bjNpTW5ndjZRQ0llWVplMXhzZ2RCeVBGMDR6Skd5Ymo5V050U2daMWlqYXZUSDF1SFJfUEU?oc=5",
           "conf": 2
         }
       ]
@@ -973,25 +1057,25 @@
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
-          "value": 46.21,
+          "value": 31.53,
           "unit": "pp",
           "direction": "neutral",
-          "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
+          "source_url": "https://ilostat.ilo.org/",
           "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
-          "value": 55.82,
+          "value": 51.6,
           "unit": "%",
           "direction": "neutral",
-          "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
-          "measurement": "modelled"
+          "source": "Anthropic Economic Index (augmentation share)",
+          "source_url": "https://huggingface.co/datasets/Anthropic/EconomicIndex",
+          "measurement": "measured"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
-          "value": 80.22,
+          "value": 79.81,
           "unit": "index",
           "direction": "up",
           "source": "Indeed Hiring Lab (DE+FR exposed-sector mean, euro-area proxy)",
@@ -1094,35 +1178,51 @@
       },
       "gap_chart": {
         "cats": [
-          "ICT",
-          "Admin",
-          "Finance",
-          "Mgrs & Prof",
-          "Services",
-          "Trades",
-          "Care",
-          "Elementary"
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "names": [
+          "Managers",
+          "Professionals",
+          "Technicians and associate professionals",
+          "Clerical support workers",
+          "Service and sales workers",
+          "Skilled agricultural, forestry and fishery workers",
+          "Craft and related trades workers",
+          "Plant and machine operators, and assemblers",
+          "Elementary occupations"
         ],
         "theoretical": [
-          88,
-          90,
-          76,
-          68,
-          38,
-          18,
-          22,
-          10
+          70.3,
+          73.2,
+          69.7,
+          73.4,
+          65.8,
+          58.6,
+          61.1,
+          59.6,
+          60.4
         ],
         "observed": [
-          40,
-          38,
-          30,
-          24,
-          8,
-          2,
-          4,
-          1
-        ]
+          38.7,
+          36.6,
+          36.3,
+          35.2,
+          36.2,
+          35.1,
+          35.5,
+          34.6,
+          36.2
+        ],
+        "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
+        "detail": "eu_occupations.json"
       },
       "posting_series": [
         {
@@ -1171,44 +1271,44 @@
         },
         {
           "iso_week": "2026-W24",
-          "value": 80.22
+          "value": 79.81
         }
       ],
       "feed": [
         {
-          "headline": "Building Sweden's next chapter: How Amazon's investment fuels jobs, AI, and carbon-free energy",
-          "date": "2026-06-15",
-          "source": "About Amazon Europe",
-          "url": "https://news.google.com/search?q=Building%20Sweden%27s%20next%20chapter%3A%20How%20Amazon%27s%20investment%20fuels%20jobs%2C%20AI%2C%20and%20carbon-free%20energy",
-          "conf": 2
+          "headline": "STS_COLB_A - \"Dataset: updated data\"",
+          "date": "2026-06-21",
+          "source": "Eurostat",
+          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/STS_COLB_A",
+          "conf": 5
         },
         {
-          "headline": "Under the EU AI Act, algorithmic scoring is legal, but how it is being used is not",
-          "date": "2026-06-14",
-          "source": "College Recruiter",
-          "url": "https://news.google.com/search?q=Under%20the%20EU%20AI%20Act%2C%20algorithmic%20scoring%20is%20legal%2C%20but%20how%20it%20is%20being%20used%20is%20not",
-          "conf": 2
+          "headline": "STS_COLB_Q - \"Dataset: updated data\"",
+          "date": "2026-06-21",
+          "source": "Eurostat",
+          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/STS_COLB_Q",
+          "conf": 5
         },
         {
-          "headline": "Hungary faces annual loss of 50,000 workers, AI adoption lags behind Europe, experts warn",
-          "date": "2026-06-14",
-          "source": "Daily News Hungary",
-          "url": "https://news.google.com/search?q=Hungary%20faces%20annual%20loss%20of%2050%2C000%20workers%2C%20AI%20adoption%20lags%20behind%20Europe%2C%20experts%20warn",
-          "conf": 2
+          "headline": "STS_INLB_A - \"Dataset: updated data\"",
+          "date": "2026-06-21",
+          "source": "Eurostat",
+          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/STS_INLB_A",
+          "conf": 5
         },
         {
-          "headline": "WHO says AI use in health care gaining ground across EU",
-          "date": "2026-06-13",
-          "source": "ddnews.gov.in",
-          "url": "https://news.google.com/search?q=WHO%20says%20AI%20use%20in%20health%20care%20gaining%20ground%20across%20EU",
-          "conf": 2
+          "headline": "STS_INLB_Q - \"Dataset: updated data\"",
+          "date": "2026-06-21",
+          "source": "Eurostat",
+          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/STS_INLB_Q",
+          "conf": 5
         },
         {
-          "headline": "Europe turns to India as demand grows for AI-ready talent",
-          "date": "2026-06-13",
-          "source": "MSN",
-          "url": "https://news.google.com/search?q=Europe%20turns%20to%20India%20as%20demand%20grows%20for%20AI-ready%20talent",
-          "conf": 2
+          "headline": "STS_SELB_A - \"Dataset: updated data\"",
+          "date": "2026-06-21",
+          "source": "Eurostat",
+          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/STS_SELB_A",
+          "conf": 5
         }
       ]
     },
@@ -1227,12 +1327,12 @@
         },
         "topq_unemp_delta": {
           "name": "Early-career unemployment delta (proxy)",
-          "value": 0.1,
+          "value": 2.71,
           "unit": "pp",
           "direction": "up",
-          "source": "Massenkoff & McCrory",
-          "source_url": "https://www.anthropic.com/research/labor-market-impacts",
-          "measurement": "modelled"
+          "source": "ILOSTAT UNE_DEAP (youth 15-24 vs overall, modelled est.)",
+          "source_url": "https://ilostat.ilo.org/",
+          "measurement": "measured"
         },
         "hire_rate_22_25": {
           "name": "22-25 hire rate change vs 2022",
@@ -1254,21 +1354,21 @@
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
-          "value": 41.17,
+          "value": 31.32,
           "unit": "pp",
           "direction": "neutral",
-          "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
+          "source_url": "https://ilostat.ilo.org/",
           "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
-          "value": 50.57,
+          "value": 55.6,
           "unit": "%",
           "direction": "neutral",
-          "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
-          "measurement": "modelled"
+          "source": "Anthropic Economic Index (augmentation share)",
+          "source_url": "https://huggingface.co/datasets/Anthropic/EconomicIndex",
+          "measurement": "measured"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
@@ -1375,35 +1475,51 @@
       },
       "gap_chart": {
         "cats": [
-          "ICT",
-          "Finance",
-          "Admin",
-          "Manufacturing",
-          "Retail",
-          "Healthcare",
-          "Construction",
-          "Hospitality"
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "names": [
+          "Managers",
+          "Professionals",
+          "Technicians and associate professionals",
+          "Clerical support workers",
+          "Service and sales workers",
+          "Skilled agricultural, forestry and fishery workers",
+          "Craft and related trades workers",
+          "Plant and machine operators, and assemblers",
+          "Elementary occupations"
         ],
         "theoretical": [
-          90,
-          78,
-          86,
-          24,
-          42,
-          30,
-          14,
-          22
+          70.3,
+          73.2,
+          69.7,
+          73.4,
+          65.8,
+          58.6,
+          61.1,
+          59.6,
+          60.4
         ],
         "observed": [
-          44,
-          32,
-          34,
-          5,
-          10,
-          7,
-          1,
-          3
-        ]
+          38.7,
+          36.6,
+          36.3,
+          35.2,
+          36.2,
+          35.1,
+          35.5,
+          34.6,
+          36.2
+        ],
+        "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
+        "detail": "apac_occupations.json"
       },
       "posting_series": [
         {
@@ -1457,38 +1573,38 @@
       ],
       "feed": [
         {
-          "headline": "AI roles command wage premiums across sectors in Singapore, starting at 32%, underscoring AI as a key driver of talent value: PwC\u2019s AI Job Barometer",
-          "date": "2026-06-15",
-          "source": "Mynewsdesk",
-          "url": "https://news.google.com/search?q=AI%20roles%20command%20wage%20premiums%20across%20sectors%20in%20Singapore%2C%20starting%20at%2032%25%2C%20underscoring%20AI%20as%20a%20key%20driver%20of%20talent%20value%3A%20PwC%E2%80%99s%20AI%20Job%20Barometer",
+          "headline": "Singapore workers embrace AI while keeping human judgment at the centre: Microsoft",
+          "date": "2026-06-21",
+          "source": "The Independent Singapore News",
+          "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPcVhBa010N2VJdnVMUmVnMy01TWt1NXNFRE5rYTQ5S2tTV0MtZTFqR184cks0eTQ1WjlSZ1pBYldtRnF4LXVMVzZoU1VsMG93emw4X21QWUFIMGZMMU1pUWw5RFVOZVVaMGdoMUhQQXNUcDdwNlZVZnQ4cWhDRmg4allQNTlSOHU4N2ZIT1ZXSzVyT2VxazJUZzZBamF6SWozclJRTW9FQm5mZWdK?oc=5",
           "conf": 2
         },
         {
-          "headline": "Global capitalism bets it all on AI future, alarming voters",
-          "date": "2026-06-14",
-          "source": "The Japan Times",
-          "url": "https://news.google.com/search?q=Global%20capitalism%20bets%20it%20all%20on%20AI%20future%2C%20alarming%20voters",
+          "headline": "Microsoft: Singapore workers using AI more actively and responsibly than global peers",
+          "date": "2026-06-20",
+          "source": "The Independent Singapore News",
+          "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQZW9VYWNJZ0RPd2V5Z0U1djQ5UVFELWcyZzRnWW10VFdHdkVsSkVTVW00b2U2WFMtUnpRekkyRzJtSlI1eGxGMEpkRVJoOTgxTEw5U0hpRVZZQ0k2TG1QZGRxSFJXOGJiVjBpNnZ0cFhETE9GdHRqYVVnelgxc0tPOUJxci1NaFlLRE9kY1VPWjJhcmpzbGlwajZZR1Q0Q3lDTkF3TXpzVmJZR0JEd0hqdA?oc=5",
           "conf": 2
         },
         {
-          "headline": "Digital Skills Become New Economic Currency as AI Demand Surges in Asia-Pacific",
-          "date": "2026-06-14",
-          "source": "Devdiscourse",
-          "url": "https://news.google.com/search?q=Digital%20Skills%20Become%20New%20Economic%20Currency%20as%20AI%20Demand%20Surges%20in%20Asia-Pacific",
+          "headline": "Japan plans $65 billion physical AI push by 2040 to offset a shrinking workforce",
+          "date": "2026-06-20",
+          "source": "Bitget",
+          "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5tMDhoV2haNjlYa1Fra1pBaFRHM3FIdmhwYUdHTjVHRzBudFJuLVdjQ2RLRV9TTzlhWm5jTHJyVl9oZG5rdkhMY3NCY29DYUxGZm1QS3VSWm5WX3dWS2xuY09PVdIBY0FVX3lxTE5tMDhoV2haNjlYa1Fra1pBaFRHM3FIdmhwYUdHTjVHRzBudFJuLVdjQ2RLRV9TTzlhWm5jTHJyVl9oZG5rdkhMY3NCY29DYUxGZm1QS3VSWm5WX3dWS2xuY09PVQ?oc=5",
           "conf": 2
         },
         {
-          "headline": "The hottest new AI job: Forward deployed engineers are in demand in Singapore",
-          "date": "2026-06-13",
-          "source": "The Straits Times",
-          "url": "https://news.google.com/search?q=The%20hottest%20new%20AI%20job%3A%20Forward%20deployed%20engineers%20are%20in%20demand%20in%20Singapore",
+          "headline": "Singapore fresh graduates are landing on S$90K salaried AI-related jobs; pay rose 5 times faster than average wages",
+          "date": "2026-06-19",
+          "source": "The Independent Singapore News",
+          "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQanZmdG4xTks5LVhueEpuc1BIYmp3OXd0OTJSUC1VUFk4MUJScjRKbHpLNVdpRmY5ZzVpc1JxR0RNQ2VIZUpzdlpxdW9OMDQ1aW52Ri1BZENtc0F2T083ZlFyVlgtUTkxN3FuMDlLdFhwOTlhc1hZRjlvTzZaR0lUNTJZMWdBZU1nWnhnZWJRQm5mQkJOQWNZbG5zWmNOcmhGc1dyem1Pc2xzZDd2SmduajRGdFBqVkVYQ2xGZkJyMy1fWFFVNEVhYVRRY0ctaTlmeUl1aFhHc0I?oc=5",
           "conf": 2
         },
         {
-          "headline": "Zuckerberg says Meta made 'mistakes' in AI workforce shift",
-          "date": "2026-06-12",
-          "source": "CNA",
-          "url": "https://news.google.com/search?q=Zuckerberg%20says%20Meta%20made%20%27mistakes%27%20in%20AI%20workforce%20shift",
+          "headline": "AI company Plaud plans $10m Singapore expansion and 150-strong local team",
+          "date": "2026-06-19",
+          "source": "AsiaOne",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOZ05TYUs4XzI4UkRyRlViTmpaR1hjc0podE9nZXJUSjBxbmpYOW5sZ01XUUNCQXpnU1g4N1V6UlV3OTE1eTZMWUxreFhYR1JSM1VQWGlsNFhYZDBFQVJkWlNGcmY1cTQwN2NMSFdSVVU2YmhoV3JqWXI2LWctRWRVMnNNNjRjYkJyVGJ6WllQWUZnZkh2NHhnR0VyQUdhNDJ1ekFqY3NQQmQtQQ?oc=5",
           "conf": 2
         }
       ]
@@ -1535,25 +1651,25 @@
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
-          "value": 43.24,
+          "value": 31.65,
           "unit": "pp",
           "direction": "neutral",
-          "source": "Eloundou et al. + Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
+          "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
+          "source_url": "https://ilostat.ilo.org/",
           "measurement": "modelled"
         },
         "augmentation_share": {
           "name": "Augmentation share of Claude usage",
-          "value": 51.01,
+          "value": 54.0,
           "unit": "%",
           "direction": "neutral",
-          "source": "Anthropic Economic Index",
-          "source_url": "https://www.anthropic.com/research/economic-index-march-2026-report",
-          "measurement": "modelled"
+          "source": "Anthropic Economic Index (augmentation share)",
+          "source_url": "https://huggingface.co/datasets/Anthropic/EconomicIndex",
+          "measurement": "measured"
         },
         "exposed_posting_index": {
           "name": "Exposed-occupation posting index",
-          "value": 117.45,
+          "value": 115.53,
           "unit": "index",
           "direction": "up",
           "source": "Indeed Hiring Lab (exposed-sector composite)",
@@ -1656,35 +1772,51 @@
       },
       "gap_chart": {
         "cats": [
-          "ICT",
-          "Finance",
-          "Admin",
-          "Mining",
-          "Construction",
-          "Healthcare",
-          "Education",
-          "Hospitality"
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "names": [
+          "Managers",
+          "Professionals",
+          "Technicians and associate professionals",
+          "Clerical support workers",
+          "Service and sales workers",
+          "Skilled agricultural, forestry and fishery workers",
+          "Craft and related trades workers",
+          "Plant and machine operators, and assemblers",
+          "Elementary occupations"
         ],
         "theoretical": [
-          92,
-          80,
-          85,
-          26,
-          18,
-          30,
-          42,
-          22
+          70.3,
+          73.2,
+          69.7,
+          73.4,
+          65.8,
+          58.6,
+          61.1,
+          59.6,
+          60.4
         ],
         "observed": [
-          48,
-          34,
-          36,
-          5,
-          2,
-          8,
-          12,
-          4
-        ]
+          38.7,
+          36.6,
+          36.3,
+          35.2,
+          36.2,
+          35.1,
+          35.5,
+          34.6,
+          36.2
+        ],
+        "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
+        "detail": "au_occupations.json"
       },
       "posting_series": [
         {
@@ -1733,48 +1865,48 @@
         },
         {
           "iso_week": "2026-W24",
-          "value": 117.45
+          "value": 115.53
         }
       ],
       "feed": [
         {
-          "headline": "Melbourne start-up founders warn Australia is suffering from \u2018brain drain\u2019",
-          "date": "2026-06-11",
-          "source": "Nine.com.au",
-          "url": "https://news.google.com/search?q=Melbourne%20start-up%20founders%20warn%20Australia%20is%20suffering%20from%20%E2%80%98brain%20drain%E2%80%99",
+          "headline": "Australia leads in trusted AI service investment, Salesforce",
+          "date": "2026-06-19",
+          "source": "CFOtech Australia",
+          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOampEaEJyUF9HV0NkSzN0amJYaXZFbnBScE9kTWY0aXhsZU10SkdPVTFBZTByMnVod2I5TEI5TDJ5Sy1VRlNFNFdha18xM0o5UnRMc3hmSTNucWxwS1l5UGhDcXJXQWlDZmtaeHo4elp1Y3ZjcTVVUmdBcm5mME14enBkaEJ2RFFHbEVFcUhiU25QUQ?oc=5",
           "conf": 2
         },
         {
-          "headline": "IT and tech workforce face pay gaps, skills pressure and AI uncertainty",
-          "date": "2026-06-11",
-          "source": "ARNnet",
-          "url": "https://news.google.com/search?q=IT%20and%20tech%20workforce%20face%20pay%20gaps%2C%20skills%20pressure%20and%20AI%20uncertainty",
+          "headline": "AI makes three in five Australians' jobs more stressful",
+          "date": "2026-06-18",
+          "source": "IT Brief Australia",
+          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOSnNCajMweUwzR2ZWN0pMUTE3MmlVOHFPTzhaQU9EbkNkelFBdzk5WGlsSng5amRnT3BQQTJXV3RiRlBqS2FXcjhTLU12ekR4WFEzbjRNcjlNLXhiV2ZZWUlLb1BxVVBNU29VcjBFYVItV0ZLNW4zZmc1bVZCZEVPNmMyWkhERUtFTUhz?oc=5",
           "conf": 2
         },
         {
-          "headline": "AI payroll tools are closing Australia's compliance gap",
-          "date": "2026-06-11",
-          "source": "hcamag.com",
-          "url": "https://news.google.com/search?q=AI%20payroll%20tools%20are%20closing%20Australia%27s%20compliance%20gap",
+          "headline": "Aon study flags Australia's AI workforce gap",
+          "date": "2026-06-18",
+          "source": "Insurance Business",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNOXNLM1NiTjFYODd0REhOQ2I0cmlaQS0yNGpydWczYVVVQVk2VTFIWkd6bk9qOTFlZG1BZWp4dGpUdjZiam1vS1ktMm5FVWsxRFBvMWpncnM0MkJHSDJ0MFhjdFJhWHVxZUkwR0hYd2swZ3NpLUhiNHFRRmVjLVJ1TGtBT1FnRmRFVmZyVnc2ajR2eHFfYnJ3Z1NTRnpjZDRaRkt0Nl9nT2dMTlFJaVc1M3prYWQ?oc=5",
           "conf": 2
         },
         {
-          "headline": "AI driving job growth and higher wages in Australia",
-          "date": "2026-06-10",
-          "source": "hcamag.com",
-          "url": "https://news.google.com/search?q=AI%20driving%20job%20growth%20and%20higher%20wages%20in%20Australia",
+          "headline": "'Sleepwalking into a catastrophe': Proposed data centre raises water fears",
+          "date": "2026-06-18",
+          "source": "Australian Broadcasting Corporation",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQVmVEcGhYYnZUZGJUMjRaWHNrS1dydWFXay1OT2tFZWRGUVdEUUVla2ZyY2gzbHBvUTA1b1phb2pLZXJtQUNJYzliSnctTE9TelRYTzZDbFhiUnUzX2M0eEF1ZjRVb0M5dC1PdFFEbHRyR1NRT0RzdnhxTlRzdmoyRXJEVnpzdUExYV9yZGxBZjBKN0xFUFpUU21XLTFERlRqR0pPN0FEYw?oc=5",
           "conf": 2
         },
         {
-          "headline": "Gartner: AI Gains In Australia Depend On Workforce Confidence",
-          "date": "2026-06-10",
-          "source": "FutureIOT",
-          "url": "https://news.google.com/search?q=Gartner%3A%20AI%20Gains%20In%20Australia%20Depend%20On%20Workforce%20Confidence",
+          "headline": "Aon study finds Australia facing AI skills and benefits gaps as adoption rises",
+          "date": "2026-06-18",
+          "source": "Australian Cyber Security Magazine",
+          "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOYWNjVGRnQ3ZkR3kwZHRBdjFxSlB1aXRVYjFYMVEtdDhRMmlsWGNDeVlERkdtSGhHdmg4ZGhmQ0dONDRlSy1iWG16Y0hETTdfNUNrM3JRSnZCZml0LS1yUklQanhvd3kzc2RjSjZQMXFyaVlrc0QzYURzY05vVm93bU14T3EwN2JEb044Z25IVmxxZk9CR2xmU2VlZnRjRGZzUlc3ME8wd202WUtBLXJoQl9JRkZ4bjY1TktmR0haeHF2ZWtm?oc=5",
           "conf": 2
         }
       ]
     }
   },
-  "feed_updated_at": "2026-06-15T05:46:43Z",
+  "feed_updated_at": "2026-06-21T15:02:35Z",
   "backfilled_at": "2026-06-10T11:28:08Z"
 }
