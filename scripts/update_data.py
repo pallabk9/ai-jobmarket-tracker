@@ -132,6 +132,7 @@ ADAPTERS = {kpi_id: _drift for kpi_id, _, _, _ in KPIS}
 # ------------------------------------------------------------------
 
 import re
+import io
 
 UA = {"User-Agent": "ai-jobmarket-tracker/2.0 (+github actions weekly refresh)"}
 _CACHE = {}
@@ -497,6 +498,95 @@ def _adapter_challenger(region, on_date_iso):
     return v, "Challenger, Gray & Christmas (AI-cited cuts YTD)", \
         "https://www.challengergray.com/blog/category/job-cuts-report/"
 
+# --- Anthropic Economic Index: augmentation share by country -------
+# Long-format CSV; rows with facet=collaboration_automation_augmentation &
+# variable=augmentation_pct carry the per-country (geo_id=ISO3) value (0-100).
+EI_TREE_URL = "https://huggingface.co/api/datasets/Anthropic/EconomicIndex/tree/main?recursive=true"
+EI_RESOLVE  = "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/main/"
+EI_REGION_ISO3 = {"US": ["USA"], "UK": ["GBR"], "IN": ["IND"],
+                  "EU": ["DEU", "FRA", "ITA", "ESP"], "APAC": ["JPN", "KOR", "SGP"], "AU": ["AUS"]}
+_EI_AUG = {}
+
+def fetch_ei_augmentation():
+    """{iso3: augmentation_pct} from the latest Anthropic Economic Index release."""
+    if _EI_AUG:
+        return _EI_AUG
+    tree = json.loads(_http_get(EI_TREE_URL))
+    csvs = sorted(t["path"] for t in tree if t.get("type") == "file"
+                  and "aei_enriched" in t["path"] and t["path"].endswith(".csv"))
+    if not csvs:
+        raise ValueError("EconomicIndex: no aei_enriched CSV in dataset tree")
+    body = _http_get(EI_RESOLVE + csvs[-1] + "?download=true")
+    for r in csv.DictReader(io.StringIO(body)):
+        if r.get("facet") == "collaboration_automation_augmentation" and r.get("variable") == "augmentation_pct":
+            try:
+                _EI_AUG[(r.get("geo_id") or "").upper()] = float(r["value"])
+            except (TypeError, ValueError):
+                continue
+    if not _EI_AUG:
+        raise ValueError("EconomicIndex: no augmentation_pct rows parsed")
+    return _EI_AUG
+
+def _adapter_augmentation(region, on_date_iso):
+    data = fetch_ei_augmentation()
+    vals = [data[c] for c in EI_REGION_ISO3[region] if c in data]
+    if not vals:
+        raise ValueError(f"EconomicIndex: no data for {region}")
+    return round(sum(vals) / len(vals), 1), \
+        "Anthropic Economic Index (augmentation share)", \
+        "https://huggingface.co/datasets/Anthropic/EconomicIndex"
+
+# --- ILOSTAT: youth-minus-overall unemployment (India, APAC) -------
+ILO_UNEMP = ("https://rplumber.ilo.org/data/indicator/"
+             "?id=UNE_DEAP_SEX_AGE_RT_A&sex=SEX_T&format=.csv&timefrom=2018&ref_area=")
+ILO_REGION_AREAS = {"IN": ["IND"], "APAC": ["JPN", "KOR", "SGP"]}
+
+def _ilo_youth_delta(area):
+    rows = list(csv.DictReader(io.StringIO(_http_get(ILO_UNEMP + area))))
+    if not rows:
+        raise ValueError(f"ILOSTAT {area}: empty")
+    latest = max(r["time"] for r in rows)
+    by_cl = {r["classif1"]: r["obs_value"] for r in rows if r["time"] == latest}
+    yth, tot = by_cl.get("AGE_AGGREGATE_Y15-24"), by_cl.get("AGE_AGGREGATE_YGE15")
+    if yth is None or tot is None:
+        raise ValueError(f"ILOSTAT {area}: missing youth/total classif")
+    return float(yth) - float(tot)
+
+def _adapter_ilo_unemp(region, on_date_iso):
+    deltas = [_ilo_youth_delta(a) for a in ILO_REGION_AREAS[region]]
+    return round(sum(deltas) / len(deltas), 2), \
+        "ILOSTAT UNE_DEAP (youth 15-24 vs overall, modelled est.)", \
+        "https://ilostat.ilo.org/"
+
+# --- Indeed Hiring Lab AI Tracker: AI-mention posting share ---------
+AI_TRACKER = "https://raw.githubusercontent.com/hiring-lab/ai-tracker/main/AI_posting.csv"
+AIM_COUNTRY = {"US": ["US"], "UK": ["GB"], "EU": ["DE", "FR"], "AU": ["AU"]}
+_AIM = {}
+
+def fetch_ai_mention():
+    if _AIM:
+        return _AIM
+    for r in csv.DictReader(io.StringIO(_http_get(AI_TRACKER))):
+        try:
+            _AIM.setdefault(r["jobcountry"], {})[r["date"]] = float(r["AI_share_postings"])
+        except (KeyError, ValueError):
+            continue
+    return _AIM
+
+def _adapter_ai_mention(region, on_date_iso):
+    by = fetch_ai_mention()
+    vals = []
+    for cc in AIM_COUNTRY[region]:
+        ser = by.get(cc, {})
+        ds = [d for d in ser if d <= on_date_iso]
+        if ds:
+            vals.append(ser[max(ds)])
+    if not vals:
+        raise ValueError(f"ai-tracker: no data for {region}")
+    return round(sum(vals) / len(vals), 2), \
+        "Indeed Hiring Lab AI Tracker (AI/GenAI posting share)", \
+        "https://github.com/hiring-lab/ai-tracker"
+
 REAL_ADAPTERS = {
     ("ai_layoffs_ytd", "US"): _adapter_challenger,
     ("topq_unemp_delta", "US"): _adapter_unemp,
@@ -507,17 +597,42 @@ REAL_ADAPTERS = {
     ("exposed_posting_index", "UK"): _adapter_hl,
     ("exposed_posting_index", "EU"): _adapter_hl,
     ("exposed_posting_index", "AU"): _adapter_hl,
+    # augmentation share — Anthropic Economic Index, all six regions
+    ("augmentation_share", "US"): _adapter_augmentation,
+    ("augmentation_share", "UK"): _adapter_augmentation,
+    ("augmentation_share", "IN"): _adapter_augmentation,
+    ("augmentation_share", "EU"): _adapter_augmentation,
+    ("augmentation_share", "APAC"): _adapter_augmentation,
+    ("augmentation_share", "AU"): _adapter_augmentation,
+    # youth-minus-overall unemployment — ILOSTAT for the two gap regions
+    ("topq_unemp_delta", "IN"): _adapter_ilo_unemp,
+    ("topq_unemp_delta", "APAC"): _adapter_ilo_unemp,
+    # AI-mention posting share — Indeed Hiring Lab ai-tracker (reproduce earlier patch)
+    ("ai_mention_postings", "US"): _adapter_ai_mention,
+    ("ai_mention_postings", "UK"): _adapter_ai_mention,
+    ("ai_mention_postings", "EU"): _adapter_ai_mention,
+    ("ai_mention_postings", "AU"): _adapter_ai_mention,
 }
 
-def resolve_value(region, kpi_id, on_date_iso):
+CARRY_FORWARD = {"capability_gap"}   # owned by the model-build scripts, not this weekly pipeline
+
+def resolve_value(region, kpi_id, on_date_iso, cur_node=None):
     """Return (value, source_name, source_url, measurement) for the pair."""
+    if kpi_id in CARRY_FORWARD and cur_node:
+        return (cur_node.get("value"), cur_node.get("source"),
+                cur_node.get("source_url"), cur_node.get("measurement", "modelled"))
     fn = REAL_ADAPTERS.get((kpi_id, region))
     if fn:
         try:
             v, src, url = fn(region, on_date_iso)
             return v, src, url, "measured"
         except Exception as exc:  # noqa: BLE001 - fall back, never die
-            print(f"adapter {kpi_id}/{region}: {exc}; falling back to drift")
+            print(f"adapter {kpi_id}/{region}: {exc}; carrying forward last value")
+    # No adapter (or it failed): carry forward the existing value instead of
+    # generating fake drift, so nothing regresses week-to-week.
+    if cur_node and cur_node.get("value") is not None:
+        return (cur_node.get("value"), cur_node.get("source"),
+                cur_node.get("source_url"), cur_node.get("measurement", "modelled"))
     src, url = SOURCES[kpi_id]
     return ADAPTERS[kpi_id](region, kpi_id), src, url, "modelled"
 
@@ -581,6 +696,58 @@ def _parse_rss_items(xml_text):
         })
     return out
 
+# High-confidence authoritative feeds per region (conf 4-5), AI-filtered.
+AUTH_FEEDS = {
+    "US":   [("https://www.bls.gov/feed/bls_latest.rss", "US BLS", 5),
+             ("https://www.technologyreview.com/topic/artificial-intelligence/feed", "MIT Technology Review", 4)],
+    "UK":   [("https://feeds.bbci.co.uk/news/business/rss.xml", "BBC Business", 4),
+             ("https://feeds.bbci.co.uk/news/technology/rss.xml", "BBC Technology", 4)],
+    "IN":   [("https://www.business-standard.com/rss/economy-102.rss", "Business Standard", 4),
+             ("https://www.business-standard.com/rss/technology/artificial-intelligence-10821.rss", "Business Standard AI", 4)],
+    "EU":   [("https://ec.europa.eu/eurostat/api/dissemination/catalogue/rss/en/statistics-update.rss", "Eurostat", 5),
+             ("https://www.technologyreview.com/topic/artificial-intelligence/feed", "MIT Technology Review", 4)],
+    "APAC": [("https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml", "Channel NewsAsia", 4)],
+    "AU":   [("https://www.abc.net.au/news/feed/104217374/rss.xml", "ABC News Business", 4)],
+}
+AI_RELEVANT = re.compile(
+    r"\b(A\.?I\.?|artificial intelligence|machine learning|generative|gen ?ai|chatgpt|"
+    r"automation|automat|layoff|redundanc|hiring|workforce|jobs|employment|labour|labor)\b", re.I)
+
+def _parse_generic_rss(xml_text, source_label, conf):
+    out = []
+    root = ET.fromstring(xml_text)
+    for item in root.iter("item"):
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        pub = (item.findtext("pubDate") or "").strip()
+        desc = (item.findtext("description") or "")
+        if not title or not link:
+            continue
+        if not (AI_RELEVANT.search(title) or AI_RELEVANT.search(desc)):
+            continue  # keep only AI/jobs-relevant stories
+        try:
+            dt = email.utils.parsedate_to_datetime(pub) if pub else datetime.now(timezone.utc)
+        except (TypeError, ValueError):
+            dt = datetime.now(timezone.utc)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        if (datetime.now(timezone.utc) - dt).days > MAX_AGE_DAYS:
+            continue
+        out.append({"headline": re.sub(r"<[^>]+>", "", title)[:160], "date": dt.date().isoformat(),
+                    "source": source_label, "url": link, "conf": conf})
+    return out
+
+def fetch_auth_feeds(region):
+    items = []
+    for url, label, conf in AUTH_FEEDS.get(region, []):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "ai-jobmarket-tracker/2.0"})
+            with urllib.request.urlopen(req, timeout=20) as r:
+                items += _parse_generic_rss(r.read().decode("utf-8", errors="replace"), label, conf)
+        except Exception as exc:  # noqa: BLE001 - never die on a single feed
+            print(f"auth feed {region} {label}: {exc}")
+    return items
+
 def fetch_news_feed(region):
     q, hl, gl, ceid = FEED_QUERIES[region]
     url = ("https://news.google.com/rss/search?q=" + urllib.parse.quote(q)
@@ -590,26 +757,27 @@ def fetch_news_feed(region):
         return _parse_rss_items(r.read().decode("utf-8", errors="replace"))
 
 def refresh_feeds(snapshot):
-    """Replace each region's feed in-place when enough fresh items arrive."""
+    """Merge high-confidence authoritative feeds with Google News breadth,
+    rank by confidence then recency, and replace each region's feed."""
     refreshed = 0
     for region in REGIONS:
+        items = fetch_auth_feeds(region)        # conf 4-5, AI-filtered
         try:
-            items = fetch_news_feed(region)
-        except Exception as exc:  # noqa: BLE001 - cron must never die on news
-            print(f"feed {region}: fetch failed ({exc}); keeping previous items")
-            continue
-        # dedupe by headline, newest first
-        seen, fresh = set(), []
-        for it in sorted(items, key=lambda i: i["date"], reverse=True):
+            items += fetch_news_feed(region)    # conf 2, breadth
+        except Exception as exc:  # noqa: BLE001 - never die on news
+            print(f"feed {region}: google news failed ({exc})")
+        # dedupe by headline; rank high-confidence first, then newest
+        seen, ranked = set(), []
+        for it in sorted(items, key=lambda i: (i["conf"], i["date"]), reverse=True):
             key = it["headline"].lower()
             if key not in seen:
                 seen.add(key)
-                fresh.append(it)
-        if len(fresh) >= MIN_FEED_ITEMS:
-            snapshot["regions"][region]["feed"] = fresh[:MAX_FEED_ITEMS]
+                ranked.append(it)
+        if len(ranked) >= MIN_FEED_ITEMS:
+            snapshot["regions"][region]["feed"] = ranked[:MAX_FEED_ITEMS]
             refreshed += 1
         else:
-            print(f"feed {region}: only {len(fresh)} fresh items; keeping previous items")
+            print(f"feed {region}: only {len(ranked)} items; keeping previous items")
     snapshot["feed_updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     print(f"News feeds refreshed for {refreshed}/{len(REGIONS)} regions")
 
@@ -666,14 +834,24 @@ def main():
     iso_week = _this_iso_week()
     week_ending = _week_ending_iso()
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    force = bool(os.environ.get("FORCE_REFRESH"))
 
-    # Check if we already have this week (idempotent)
-    if CSV_PATH.exists():
+    # Check if we already have this week (idempotent), unless forced
+    if CSV_PATH.exists() and not force:
         with CSV_PATH.open() as fh:
             for row in csv.DictReader(fh):
                 if row["iso_week"] == iso_week:
                     print(f"Already have {iso_week} in historical.csv - exiting cleanly")
                     return 0
+    if force and CSV_PATH.exists():
+        with CSV_PATH.open() as fh:
+            allrows = list(csv.DictReader(fh))
+        kept = [r for r in allrows if r["iso_week"] != iso_week]
+        if len(kept) != len(allrows):
+            with CSV_PATH.open("w", newline="", encoding="utf-8") as fh:
+                w = csv.DictWriter(fh, fieldnames=list(allrows[0].keys()))
+                w.writeheader(); w.writerows(kept)
+            print(f"FORCE_REFRESH: dropped {len(allrows) - len(kept)} existing rows for {iso_week}")
 
     # Load current.json to use as the template for non-numeric data
     if CURRENT.exists():
@@ -686,8 +864,9 @@ def main():
     new_rows = []
     for region in REGIONS:
         for kpi_id, kpi_name, unit, direction in KPIS:
+            cur_node = current["regions"].get(region, {}).get("kpis", {}).get(kpi_id)
             value, src_name, src_url, measurement = resolve_value(
-                region, kpi_id, week_ending)
+                region, kpi_id, week_ending, cur_node)
             new_rows.append({
                 "iso_week": iso_week,
                 "week_ending": week_ending,
