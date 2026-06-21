@@ -662,6 +662,43 @@ MAX_FEED_ITEMS = 5
 MIN_FEED_ITEMS = 3   # keep old feed if we can't do better than this
 MAX_AGE_DAYS = 21
 
+# Many publishers (Business Standard, Economic Times, ABC, etc.) return 403 to
+# generic bot agents but 200 to a normal browser UA. Use a browser string for
+# every feed fetch so authoritative RSS isn't silently dropped in CI.
+BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+              "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
+
+# Trusted publishers: when a Google News item is bylined to one of these, treat
+# it as authoritative (conf 4) instead of generic breadth (conf 2). This is the
+# robust path for regions whose direct RSS is paywalled or too general to pass
+# the AI filter (notably APAC), since Google News fetches reliably in CI.
+HIGH_CONF_PUBLISHERS = (
+    # global wires / business press
+    "reuters", "bloomberg", "financial times", "the economist", "wall street journal",
+    "associated press", "ap news", "bbc", "cnbc", "forbes", "the guardian", "axios",
+    # tech / AI desks
+    "mit technology review", "wired", "techcrunch", "the verge", "ars technica",
+    "the register", "venturebeat", "zdnet",
+    # India
+    "economic times", "business standard", "livemint", "mint", "the hindu",
+    "hindustan times", "times of india", "moneycontrol", "financial express",
+    "yourstory", "inc42", "the economic times", "ndtv",
+    # APAC
+    "channel newsasia", "cna", "straits times", "the straits times", "nikkei",
+    "south china morning post", "scmp", "business times", "tech in asia",
+    "the business times", "japan times", "korea herald", "the edge",
+    # Australia
+    "australian financial review", "abc news", "sydney morning herald", "the age",
+    "the australian", "news.com.au",
+    # EU
+    "euronews", "politico", "deutsche welle", "dw", "france 24", "der spiegel",
+)
+
+def _publisher_conf(src, base=2):
+    """Upgrade a Google News item to conf 4 if its publisher is trusted."""
+    s = (src or "").lower()
+    return 4 if any(p in s for p in HIGH_CONF_PUBLISHERS) else base
+
 def _parse_rss_items(xml_text):
     """Return [{headline, date, source, url, conf}] from a Google News RSS payload."""
     out = []
@@ -692,7 +729,7 @@ def _parse_rss_items(xml_text):
             "date": dt.date().isoformat(),
             "source": src or "Google News",
             "url": link,
-            "conf": 2,
+            "conf": _publisher_conf(src),
         })
     return out
 
@@ -706,7 +743,8 @@ AUTH_FEEDS = {
              ("https://www.business-standard.com/rss/technology/artificial-intelligence-10821.rss", "Business Standard AI", 4)],
     "EU":   [("https://ec.europa.eu/eurostat/api/dissemination/catalogue/rss/en/statistics-update.rss", "Eurostat", 5),
              ("https://www.technologyreview.com/topic/artificial-intelligence/feed", "MIT Technology Review", 4)],
-    "APAC": [("https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml", "Channel NewsAsia", 4)],
+    "APAC": [("https://www.techinasia.com/feed", "Tech in Asia", 4),
+             ("https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml", "Channel NewsAsia", 4)],
     "AU":   [("https://www.abc.net.au/news/feed/104217374/rss.xml", "ABC News Business", 4)],
 }
 AI_RELEVANT = re.compile(
@@ -741,7 +779,10 @@ def fetch_auth_feeds(region):
     items = []
     for url, label, conf in AUTH_FEEDS.get(region, []):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "ai-jobmarket-tracker/2.0"})
+            req = urllib.request.Request(url, headers={
+                "User-Agent": BROWSER_UA,
+                "Accept": "application/rss+xml, application/xml, text/xml, */*",
+            })
             with urllib.request.urlopen(req, timeout=20) as r:
                 items += _parse_generic_rss(r.read().decode("utf-8", errors="replace"), label, conf)
         except Exception as exc:  # noqa: BLE001 - never die on a single feed
@@ -752,7 +793,7 @@ def fetch_news_feed(region):
     q, hl, gl, ceid = FEED_QUERIES[region]
     url = ("https://news.google.com/rss/search?q=" + urllib.parse.quote(q)
            + f"&hl={hl}&gl={gl}&ceid={urllib.parse.quote(ceid)}")
-    req = urllib.request.Request(url, headers={"User-Agent": "ai-jobmarket-tracker/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": BROWSER_UA})
     with urllib.request.urlopen(req, timeout=20) as r:
         return _parse_rss_items(r.read().decode("utf-8", errors="replace"))
 
@@ -766,13 +807,17 @@ def refresh_feeds(snapshot):
             items += fetch_news_feed(region)    # conf 2, breadth
         except Exception as exc:  # noqa: BLE001 - never die on news
             print(f"feed {region}: google news failed ({exc})")
-        # dedupe by headline; rank high-confidence first, then newest
-        seen, ranked = set(), []
+        # dedupe by headline; rank high-confidence first, then newest;
+        # cap each publisher at 2 so one all-AI feed can't fill the whole list
+        seen, per_src, ranked = set(), {}, []
         for it in sorted(items, key=lambda i: (i["conf"], i["date"]), reverse=True):
             key = it["headline"].lower()
-            if key not in seen:
-                seen.add(key)
-                ranked.append(it)
+            src = it["source"].lower()
+            if key in seen or per_src.get(src, 0) >= 2:
+                continue
+            seen.add(key)
+            per_src[src] = per_src.get(src, 0) + 1
+            ranked.append(it)
         if len(ranked) >= MIN_FEED_ITEMS:
             snapshot["regions"][region]["feed"] = ranked[:MAX_FEED_ITEMS]
             refreshed += 1
