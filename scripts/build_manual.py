@@ -15,61 +15,163 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY
 ROOT = Path(__file__).resolve().parent.parent
 OUT  = ROOT / "manual.pdf"
 
-NAVY    = colors.HexColor("#1F3864")
-BLUE    = colors.HexColor("#2E75B6")
-INK     = colors.HexColor("#1a1a2e")
-MUTED   = colors.HexColor("#595959")
-LINE    = colors.HexColor("#e6e8f0")
-LINE2   = colors.HexColor("#f0f2f7")
-GOOD    = colors.HexColor("#2E7D32")
-WARN    = colors.HexColor("#EF6C00")
-BAD     = colors.HexColor("#C62828")
+# ---- AWA brand palette (Brand book, May 2026) ----
+# Coral, Midnight, Mint, Sky, Dusk, Light. White-led layouts; Coral is accent only (<10%).
+MIDNIGHT = colors.HexColor("#253746")   # primary ink, headings, dark grounds (never pure black)
+CORAL    = colors.HexColor("#FF5C39")   # accent: logo, key data, punctuation
+CORAL_D  = colors.HexColor("#E8431F")
+MINT     = colors.HexColor("#11998A")   # readable mint for positive text
+SKY      = colors.HexColor("#3E94A8")   # secondary data accent
+DUSK     = colors.HexColor("#6F58A0")
+LIGHT    = colors.HexColor("#D9E1E2")   # neutral lines / section fills
+LIGHT2   = colors.HexColor("#EAEEEF")
+WHITE    = colors.white
+DARKMUTE = colors.HexColor("#C7D0D6")   # muted text on Midnight grounds
+
+# Legacy aliases mapped onto the AWA palette (keeps downstream references working)
+NAVY  = MIDNIGHT
+BLUE  = MIDNIGHT
+INK   = MIDNIGHT
+MUTED = colors.HexColor("#5A6B78")
+LINE  = LIGHT
+LINE2 = LIGHT2
+GOOD  = MINT
+WARN  = CORAL
+BAD   = CORAL_D
 
 # Styles
 ss = getSampleStyleSheet()
 
-# Cover
-cover_title = ParagraphStyle("cover_title", parent=ss["Title"],
-    fontName="Helvetica-Bold", fontSize=30, textColor=NAVY,
-    leading=36, alignment=TA_CENTER, spaceBefore=200, spaceAfter=12)
-cover_sub = ParagraphStyle("cover_sub", parent=ss["Normal"],
-    fontName="Helvetica", fontSize=14, textColor=MUTED,
-    alignment=TA_CENTER, spaceAfter=300)
-cover_meta = ParagraphStyle("cover_meta", parent=ss["Normal"],
-    fontName="Helvetica", fontSize=11, textColor=INK,
-    alignment=TA_CENTER, leading=16)
+# AWA brand type is Spectral (serif display) + Manrope (sans). Those TTFs are not in the
+# repo, so we use the brand's documented fallbacks: a serif for Spectral, Helvetica for
+# Manrope. If the real fonts are added to assets/fonts, register them and swap the names below.
+SERIF   = "Times-Roman"
+SERIF_B = "Times-Bold"
+SERIF_I = "Times-Italic"
+SANS    = "Helvetica"
+SANS_B  = "Helvetica-Bold"
+SANS_O  = "Helvetica-Oblique"
 
-# Body
+# Body — Spectral (serif) for the section title, Manrope (sans) for everything else.
 h1 = ParagraphStyle("h1", parent=ss["Heading1"],
-    fontName="Helvetica-Bold", fontSize=18, textColor=NAVY,
-    leading=22, spaceBefore=14, spaceAfter=10, keepWithNext=1)
+    fontName=SERIF_B, fontSize=19, textColor=MIDNIGHT,
+    leading=23, spaceBefore=16, spaceAfter=8, keepWithNext=1)
 h2 = ParagraphStyle("h2", parent=ss["Heading2"],
-    fontName="Helvetica-Bold", fontSize=13, textColor=BLUE,
-    leading=18, spaceBefore=12, spaceAfter=6, keepWithNext=1)
+    fontName=SANS_B, fontSize=12.5, textColor=MIDNIGHT,
+    leading=17, spaceBefore=12, spaceAfter=5, keepWithNext=1)
 h3 = ParagraphStyle("h3", parent=ss["Heading3"],
-    fontName="Helvetica-Bold", fontSize=11, textColor=INK,
-    leading=15, spaceBefore=10, spaceAfter=4, keepWithNext=1)
+    fontName=SANS_B, fontSize=10.5, textColor=CORAL,
+    leading=14, spaceBefore=10, spaceAfter=3, keepWithNext=1)
 body = ParagraphStyle("body", parent=ss["Normal"],
-    fontName="Helvetica", fontSize=10, textColor=INK,
-    leading=14, spaceAfter=6, alignment=TA_JUSTIFY)
-bullet_style = ParagraphStyle("bullet", parent=body, leftIndent=14, bulletIndent=4, spaceAfter=3)
+    fontName=SANS, fontSize=10, textColor=MIDNIGHT,
+    leading=14.5, spaceAfter=6, alignment=TA_JUSTIFY)
+bullet_style = ParagraphStyle("bullet", parent=body, leftIndent=16, bulletIndent=4,
+    spaceAfter=3, bulletColor=CORAL, bulletFontName=SANS_B)
 small = ParagraphStyle("small", parent=body, fontSize=9, textColor=MUTED, leading=12)
-note = ParagraphStyle("note", parent=body, fontName="Helvetica-Oblique", textColor=MUTED)
+note = ParagraphStyle("note", parent=body, fontName=SERIF_I, textColor=MUTED)
 mono = ParagraphStyle("mono", parent=body, fontName="Courier", fontSize=9,
-                       textColor=INK, leading=12, leftIndent=10)
+                       textColor=MIDNIGHT, leading=12, leftIndent=10)
 
-# Page templates
+# ---------------- AWA LOGO (vector reproduction of the supplied master lockup) ----------------
+def draw_awa_logo(c, x, y, dia, dark_bg=False):
+    """AWA horizontal lockup: A.W.A coral marque + rule + 'DNA of work'.
+    x = left edge, y = vertical centre, dia = bubble diameter in points."""
+    r = dia / 2.0
+    s = 1.78 * r
+    centers = [x + r + i * s for i in range(3)]
+    c.saveState()
+    c.setFillColor(CORAL)
+    nh = 0.60 * dia
+    for i in range(2):
+        c.rect(centers[i], y - nh / 2.0, centers[i + 1] - centers[i], nh, stroke=0, fill=1)
+    for cx in centers:
+        c.circle(cx, y, r, stroke=0, fill=1)
+    c.setFillColor(WHITE)
+    c.setFont("Helvetica-Bold", dia * 0.58)
+    for cx, ch in zip(centers, ["A", "W", "A"]):
+        c.drawCentredString(cx, y - dia * 0.205, ch)
+    rule_x = centers[-1] + r + 0.55 * dia
+    c.setStrokeColor(WHITE if dark_bg else MIDNIGHT)
+    c.setLineWidth(max(0.7, dia * 0.045))
+    c.line(rule_x, y - 0.72 * r, rule_x, y + 0.72 * r)
+    tx = rule_x + 0.55 * dia
+    ts = dia * 0.72
+    c.setFillColor(WHITE if dark_bg else MIDNIGHT)
+    base = y - ts * 0.34
+    c.setFont("Helvetica-Bold", ts); c.drawString(tx, base, "DNA")
+    tx += c.stringWidth("DNA", "Helvetica-Bold", ts) + ts * 0.22
+    c.setFont("Times-Italic", ts); c.drawString(tx, base, "of")
+    tx += c.stringWidth("of", "Times-Italic", ts) + ts * 0.22
+    c.setFont("Helvetica", ts); c.drawString(tx, base, "work")
+    c.restoreState()
+
+# ---------------- PAGE TEMPLATES ----------------
+def on_cover(canvas, doc):
+    c = canvas
+    W, H = A4
+    M = 1.8 * cm
+    c.saveState()
+    c.setFillColor(MIDNIGHT); c.rect(0, 0, W, H, stroke=0, fill=1)
+    # signature coral dots, descending top-right
+    c.setFillColor(CORAL)
+    for yy in (H - 3.1 * cm, H - 3.95 * cm, H - 4.8 * cm):
+        c.circle(W - 1.5 * cm, yy, 3.0, stroke=0, fill=1)
+    # reversed logo, top-left
+    draw_awa_logo(c, M, H - 2.15 * cm, 15, dark_bg=True)
+    c.setFont("Helvetica", 8.5); c.setFillColor(DARKMUTE)
+    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v1.0     JUNE 2026")
+    # kicker (Spectral italic, coral)
+    c.setFont("Times-Italic", 16); c.setFillColor(CORAL)
+    c.drawString(M, H * 0.63, "The DNA of work")
+    # title (Spectral bold, white)
+    c.setFillColor(WHITE); c.setFont("Times-Bold", 35)
+    c.drawString(M, H * 0.63 - 1.2 * cm, "AI Job Market")
+    c.drawString(M, H * 0.63 - 2.4 * cm, "Impact Tracker")
+    # subtitle
+    c.setFont("Helvetica", 15); c.setFillColor(LIGHT)
+    c.drawString(M, H * 0.63 - 3.5 * cm, "User manual")
+    c.setStrokeColor(CORAL); c.setLineWidth(1.4)
+    c.line(M, H * 0.63 - 3.95 * cm, M + 4.6 * cm, H * 0.63 - 3.95 * cm)
+    # description
+    c.setFont("Helvetica", 10.5); c.setFillColor(DARKMUTE)
+    desc = ["How the dashboard works, what every term means,",
+            "and where every number comes from.",
+            "Grounded in the Anthropic Observed Exposure methodology.",
+            "Six regions  -  weekly refresh."]
+    yy = H * 0.63 - 4.8 * cm
+    for ln in desc:
+        c.drawString(M, yy, ln); yy -= 0.55 * cm
+    # byline
+    c.setFillColor(WHITE); c.setFont("Helvetica-Bold", 13)
+    c.drawString(M, 3.3 * cm, "Developed by AWA")
+    c.setFillColor(DARKMUTE); c.setFont("Helvetica", 9.5)
+    c.drawString(M, 3.3 * cm - 0.52 * cm, "Advanced Workplace Associates     Research instrument")
+    # baseline rule + footer
+    c.setStrokeColor(colors.HexColor("#33485A")); c.setLineWidth(0.8)
+    c.line(M, 2.15 * cm, W - M, 2.15 * cm)
+    c.setFillColor(DARKMUTE); c.setFont("Helvetica", 8)
+    c.drawString(M, 1.65 * cm, "Version 1.0  -  June 2026")
+    c.drawRightString(W - M, 1.65 * cm, "It's in our DNA")
+    c.restoreState()
+
 def on_page(canvas, doc):
-    canvas.saveState()
-    # header
-    canvas.setFont("Helvetica", 8)
-    canvas.setFillColor(MUTED)
-    canvas.drawRightString(A4[0] - 1.5 * cm, A4[1] - 1.0 * cm,
-        "AI Job Market Impact Tracker  |  User manual v1.0")
-    # footer
-    canvas.drawString(1.5 * cm, 1.0 * cm, "Developed by Dr. Pallab Kakoti")
-    canvas.drawRightString(A4[0] - 1.5 * cm, 1.0 * cm, f"Page {doc.page}")
-    canvas.restoreState()
+    c = canvas
+    W, H = A4
+    M = 1.8 * cm
+    c.saveState()
+    # header: small logo left, running title right, hairline under
+    draw_awa_logo(c, M, H - 1.15 * cm, 8.5, dark_bg=False)
+    c.setFont("Helvetica", 8); c.setFillColor(MUTED)
+    c.drawRightString(W - M, H - 1.2 * cm, "AI Job Market Impact Tracker     User manual")
+    c.setStrokeColor(LIGHT); c.setLineWidth(0.8)
+    c.line(M, H - 1.5 * cm, W - M, H - 1.5 * cm)
+    # footer: byline left, tagline centre, page right, hairline above
+    c.line(M, 1.4 * cm, W - M, 1.4 * cm)
+    c.setFont("Helvetica", 8); c.setFillColor(MUTED)
+    c.drawString(M, 1.0 * cm, "Developed by AWA")
+    c.setFillColor(CORAL); c.drawCentredString(W / 2.0, 1.0 * cm, "The DNA of work")
+    c.setFillColor(MUTED); c.drawRightString(W - M, 1.0 * cm, "Page %d" % doc.page)
+    c.restoreState()
 
 def bullets(items):
     paras = [ListItem(Paragraph(t, bullet_style), leftIndent=12) for t in items]
@@ -100,7 +202,7 @@ def header_table(header, rows, col_widths):
         ("TOPPADDING", (0,0), (-1,-1), 5),
         ("LEFTPADDING", (0,0), (-1,-1), 6),
         ("RIGHTPADDING", (0,0), (-1,-1), 6),
-        ("ROWBACKGROUNDS", (0,1), (-1,-1), [colors.HexColor("#fafbfd"), colors.white]),
+        ("ROWBACKGROUNDS", (0,1), (-1,-1), [LIGHT2, colors.white]),
         ("GRID", (0,0), (-1,-1), 0.4, LINE),
     ]))
     return t
@@ -111,20 +213,8 @@ def header_table(header, rows, col_widths):
 
 story = []
 
-# ----- Cover -----
-story.append(Paragraph("AI Job Market Impact Tracker", cover_title))
-story.append(Paragraph("User manual", cover_sub))
-story.append(Paragraph(
-    "How the dashboard works, what every term means,<br/>"
-    "and where every number comes from.<br/><br/>"
-    "Methodology grounded in the Anthropic Economic Index.<br/>"
-    "Six regions. Four cadences. Weekly refresh.",
-    cover_meta))
-story.append(Spacer(1, 2 * cm))
-story.append(Paragraph(
-    "Developed by <b>Dr. Pallab Kakoti</b><br/>"
-    "Version 1.0 &mdash; June 2026",
-    cover_meta))
+# ----- Cover (rendered entirely by on_cover) -----
+story.append(Spacer(1, 2))
 story.append(PageBreak())
 
 # ----- 1. Introduction -----
@@ -477,7 +567,8 @@ refs = [
     'CNBC (2026). <i>20,000 job cuts at Meta, Microsoft raise concern that AI-driven labor crisis is here.</i>',
 ]
 for r in refs:
-    story.append(Paragraph("• " + r, ParagraphStyle("ref", parent=small, leftIndent=10, spaceAfter=4)))
+    story.append(Paragraph('<font color="#FF5C39">&bull;</font>&nbsp; ' + r,
+        ParagraphStyle("ref", parent=small, leftIndent=12, spaceAfter=4)))
 
 story.append(Spacer(1, 1*cm))
 story.append(Paragraph(
@@ -491,9 +582,9 @@ doc = SimpleDocTemplate(
     str(OUT),
     pagesize=A4,
     title="AI Job Market Impact Tracker - User Manual",
-    author="Dr. Pallab Kakoti",
+    author="AWA (Advanced Workplace Associates)",
     leftMargin=1.8*cm, rightMargin=1.8*cm,
     topMargin=2.0*cm, bottomMargin=1.8*cm,
 )
-doc.build(story, onFirstPage=on_page, onLaterPages=on_page)
+doc.build(story, onFirstPage=on_cover, onLaterPages=on_page)
 print(f"Wrote {OUT}  ({OUT.stat().st_size} bytes)")
