@@ -15,6 +15,29 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY
 ROOT = Path(__file__).resolve().parent.parent
 OUT  = ROOT / "manual.pdf"
 
+# ---- Brand fonts: Manrope + Spectral (AWA Brand book), with graceful fallback ----
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+_FONTS = ROOT / "assets" / "fonts"
+try:
+    pdfmetrics.registerFont(TTFont("Spectral", str(_FONTS / "Spectral-Regular.ttf")))
+    pdfmetrics.registerFont(TTFont("Spectral-Bold", str(_FONTS / "Spectral-Bold.ttf")))
+    pdfmetrics.registerFont(TTFont("Spectral-Italic", str(_FONTS / "Spectral-Italic.ttf")))
+    pdfmetrics.registerFont(TTFont("Manrope", str(_FONTS / "Manrope-Regular.ttf")))
+    pdfmetrics.registerFont(TTFont("Manrope-Bold", str(_FONTS / "Manrope-Bold.ttf")))
+    pdfmetrics.registerFont(TTFont("Manrope-SemiBold", str(_FONTS / "Manrope-SemiBold.ttf")))
+    pdfmetrics.registerFont(TTFont("Manrope-ExtraBold", str(_FONTS / "Manrope-ExtraBold.ttf")))
+    pdfmetrics.registerFontFamily("Spectral", normal="Spectral", bold="Spectral-Bold", italic="Spectral-Italic", boldItalic="Spectral-Bold")
+    pdfmetrics.registerFontFamily("Manrope", normal="Manrope", bold="Manrope-Bold", italic="Manrope", boldItalic="Manrope-Bold")
+    SERIF, SERIF_B, SERIF_I = "Spectral", "Spectral-Bold", "Spectral-Italic"
+    SANS, SANS_B, SANS_SB, SANS_XB = "Manrope", "Manrope-Bold", "Manrope-SemiBold", "Manrope-ExtraBold"
+    print("Brand fonts registered: Manrope + Spectral")
+except Exception as _fe:
+    print("Brand fonts unavailable (%s); using Times/Helvetica fallback" % _fe)
+    SERIF, SERIF_B, SERIF_I = "Times-Roman", "Times-Bold", "Times-Italic"
+    SANS, SANS_B, SANS_SB, SANS_XB = "Helvetica", "Helvetica-Bold", "Helvetica-Bold", "Helvetica-Bold"
+
+
 # ---- AWA brand palette (Brand book, May 2026) ----
 # Coral, Midnight, Mint, Sky, Dusk, Light. White-led layouts; Coral is accent only (<10%).
 MIDNIGHT = colors.HexColor("#253746")   # primary ink, headings, dark grounds (never pure black)
@@ -45,12 +68,7 @@ ss = getSampleStyleSheet()
 # AWA brand type is Spectral (serif display) + Manrope (sans). Those TTFs are not in the
 # repo, so we use the brand's documented fallbacks: a serif for Spectral, Helvetica for
 # Manrope. If the real fonts are added to assets/fonts, register them and swap the names below.
-SERIF   = "Times-Roman"
-SERIF_B = "Times-Bold"
-SERIF_I = "Times-Italic"
-SANS    = "Helvetica"
-SANS_B  = "Helvetica-Bold"
-SANS_O  = "Helvetica-Oblique"
+# (font names are defined above with the brand-font registration)
 
 # Body — Spectral (serif) for the section title, Manrope (sans) for everything else.
 h1 = ParagraphStyle("h1", parent=ss["Heading1"],
@@ -72,38 +90,21 @@ note = ParagraphStyle("note", parent=body, fontName=SERIF_I, textColor=MUTED)
 mono = ParagraphStyle("mono", parent=body, fontName="Courier", fontSize=9,
                        textColor=MIDNIGHT, leading=12, leftIndent=10)
 
-# ---------------- AWA LOGO (vector reproduction of the supplied master lockup) ----------------
-def draw_awa_logo(c, x, y, dia, dark_bg=False):
-    """AWA horizontal lockup: A.W.A coral marque + rule + 'DNA of work'.
-    x = left edge, y = vertical centre, dia = bubble diameter in points."""
-    r = dia / 2.0
-    s = 1.78 * r
-    centers = [x + r + i * s for i in range(3)]
-    c.saveState()
-    c.setFillColor(CORAL)
-    nh = 0.60 * dia
-    for i in range(2):
-        c.rect(centers[i], y - nh / 2.0, centers[i + 1] - centers[i], nh, stroke=0, fill=1)
-    for cx in centers:
-        c.circle(cx, y, r, stroke=0, fill=1)
-    c.setFillColor(WHITE)
-    c.setFont("Helvetica-Bold", dia * 0.58)
-    for cx, ch in zip(centers, ["A", "W", "A"]):
-        c.drawCentredString(cx, y - dia * 0.205, ch)
-    rule_x = centers[-1] + r + 0.55 * dia
-    c.setStrokeColor(WHITE if dark_bg else MIDNIGHT)
-    c.setLineWidth(max(0.7, dia * 0.045))
-    c.line(rule_x, y - 0.72 * r, rule_x, y + 0.72 * r)
-    tx = rule_x + 0.55 * dia
-    ts = dia * 0.72
-    c.setFillColor(WHITE if dark_bg else MIDNIGHT)
-    base = y - ts * 0.34
-    c.setFont("Helvetica-Bold", ts); c.drawString(tx, base, "DNA")
-    tx += c.stringWidth("DNA", "Helvetica-Bold", ts) + ts * 0.22
-    c.setFont("Times-Italic", ts); c.drawString(tx, base, "of")
-    tx += c.stringWidth("of", "Times-Italic", ts) + ts * 0.22
-    c.setFont("Helvetica", ts); c.drawString(tx, base, "work")
-    c.restoreState()
+# ---------------- AWA LOGO (official master horizontal lockup) ----------------
+LOGO_COLOR = ROOT / "assets" / "awa-logo-h.png"        # Midnight wordmark, transparent
+LOGO_WHITE = ROOT / "assets" / "awa-logo-h-white.png"  # reversed (white) for dark grounds
+_LOGO_ASPECT = 1171.0 / 428.0
+
+def draw_awa_logo(c, x, y, h, dark_bg=False):
+    """Place the supplied AWA horizontal lockup PNG.
+    x = left edge, y = vertical centre, h = lockup height in points."""
+    w = h * _LOGO_ASPECT
+    path = LOGO_WHITE if dark_bg else LOGO_COLOR
+    try:
+        c.drawImage(str(path), x, y - h / 2.0, width=w, height=h,
+                    preserveAspectRatio=True, mask="auto")
+    except Exception:
+        pass
 
 # ---------------- PAGE TEMPLATES ----------------
 def on_cover(canvas, doc):
@@ -117,23 +118,23 @@ def on_cover(canvas, doc):
     for yy in (H - 3.1 * cm, H - 3.95 * cm, H - 4.8 * cm):
         c.circle(W - 1.5 * cm, yy, 3.0, stroke=0, fill=1)
     # reversed logo, top-left
-    draw_awa_logo(c, M, H - 2.15 * cm, 15, dark_bg=True)
-    c.setFont("Helvetica", 8.5); c.setFillColor(DARKMUTE)
+    draw_awa_logo(c, M, H - 2.15 * cm, 24, dark_bg=True)
+    c.setFont(SANS, 8.5); c.setFillColor(DARKMUTE)
     c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v1.0     JUNE 2026")
     # kicker (Spectral italic, coral)
-    c.setFont("Times-Italic", 16); c.setFillColor(CORAL)
+    c.setFont(SERIF_I, 16); c.setFillColor(CORAL)
     c.drawString(M, H * 0.63, "The DNA of work")
     # title (Spectral bold, white)
-    c.setFillColor(WHITE); c.setFont("Times-Bold", 35)
+    c.setFillColor(WHITE); c.setFont(SERIF_B, 35)
     c.drawString(M, H * 0.63 - 1.2 * cm, "AI Job Market")
     c.drawString(M, H * 0.63 - 2.4 * cm, "Impact Tracker")
     # subtitle
-    c.setFont("Helvetica", 15); c.setFillColor(LIGHT)
+    c.setFont(SANS, 15); c.setFillColor(LIGHT)
     c.drawString(M, H * 0.63 - 3.5 * cm, "User manual")
     c.setStrokeColor(CORAL); c.setLineWidth(1.4)
     c.line(M, H * 0.63 - 3.95 * cm, M + 4.6 * cm, H * 0.63 - 3.95 * cm)
     # description
-    c.setFont("Helvetica", 10.5); c.setFillColor(DARKMUTE)
+    c.setFont(SANS, 10.5); c.setFillColor(DARKMUTE)
     desc = ["How the dashboard works, what every term means,",
             "and where every number comes from.",
             "Grounded in the Anthropic Observed Exposure methodology.",
@@ -142,14 +143,14 @@ def on_cover(canvas, doc):
     for ln in desc:
         c.drawString(M, yy, ln); yy -= 0.55 * cm
     # byline
-    c.setFillColor(WHITE); c.setFont("Helvetica-Bold", 13)
+    c.setFillColor(WHITE); c.setFont(SANS_B, 13)
     c.drawString(M, 3.3 * cm, "Developed by AWA")
-    c.setFillColor(DARKMUTE); c.setFont("Helvetica", 9.5)
+    c.setFillColor(DARKMUTE); c.setFont(SANS, 9.5)
     c.drawString(M, 3.3 * cm - 0.52 * cm, "Advanced Workplace Associates     Research instrument")
     # baseline rule + footer
     c.setStrokeColor(colors.HexColor("#33485A")); c.setLineWidth(0.8)
     c.line(M, 2.15 * cm, W - M, 2.15 * cm)
-    c.setFillColor(DARKMUTE); c.setFont("Helvetica", 8)
+    c.setFillColor(DARKMUTE); c.setFont(SANS, 8)
     c.drawString(M, 1.65 * cm, "Version 1.0  -  June 2026")
     c.drawRightString(W - M, 1.65 * cm, "It's in our DNA")
     c.restoreState()
@@ -160,14 +161,14 @@ def on_page(canvas, doc):
     M = 1.8 * cm
     c.saveState()
     # header: small logo left, running title right, hairline under
-    draw_awa_logo(c, M, H - 1.15 * cm, 8.5, dark_bg=False)
-    c.setFont("Helvetica", 8); c.setFillColor(MUTED)
+    draw_awa_logo(c, M, H - 1.15 * cm, 13, dark_bg=False)
+    c.setFont(SANS, 8); c.setFillColor(MUTED)
     c.drawRightString(W - M, H - 1.2 * cm, "AI Job Market Impact Tracker     User manual")
     c.setStrokeColor(LIGHT); c.setLineWidth(0.8)
     c.line(M, H - 1.5 * cm, W - M, H - 1.5 * cm)
     # footer: byline left, tagline centre, page right, hairline above
     c.line(M, 1.4 * cm, W - M, 1.4 * cm)
-    c.setFont("Helvetica", 8); c.setFillColor(MUTED)
+    c.setFont(SANS, 8); c.setFillColor(MUTED)
     c.drawString(M, 1.0 * cm, "Developed by AWA")
     c.setFillColor(CORAL); c.drawCentredString(W / 2.0, 1.0 * cm, "The DNA of work")
     c.setFillColor(MUTED); c.drawRightString(W - M, 1.0 * cm, "Page %d" % doc.page)
