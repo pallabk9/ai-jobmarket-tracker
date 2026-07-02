@@ -1651,7 +1651,7 @@
         },
         "capability_gap": {
           "name": "Capability gap (theoretical-observed)",
-          "value": 31.65,
+          "value": 31.71,
           "unit": "pp",
           "direction": "neutral",
           "source": "AWA AI Impact model (O*NET task profiles -> ISCO-08; ILOSTAT employment mix)",
