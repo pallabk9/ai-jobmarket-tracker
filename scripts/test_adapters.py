@@ -73,6 +73,55 @@ def eurostat_json(v1, v2):
             {"2026-03": 0, "2026-04": 1}}}},
     })
 
+def abs_slice_json(age_id, age_name, obs):
+    """Single-series ABS SDMX-JSON slice (LF or LF_AGES layout)."""
+    return json.dumps({
+        "structure": {"dimensions": {
+            "series": [
+                {"id": "MEASURE", "values": [{"id": "M13", "name": "Unemployment rate"}]},
+                {"id": "SEX", "values": [{"id": "3", "name": "Persons"}]},
+                {"id": "AGE", "values": [{"id": age_id, "name": age_name}]},
+                {"id": "TSEST", "values": [{"id": "20", "name": "Seasonally Adjusted"}]},
+                {"id": "REGION", "values": [{"id": "AUS", "name": "Australia"}]},
+                {"id": "FREQ", "values": [{"id": "M", "name": "Monthly"}]},
+            ],
+            "observation": [{"id": "TIME_PERIOD", "values": [
+                {"id": "2026-03"}, {"id": "2026-04"}]}],
+        }},
+        "dataSets": [{"series": {
+            "0:0:0:0:0:0": {"observations": {"0": [obs[0]], "1": [obs[1]]}},
+        }}],
+    })
+
+ONS_BEAO_CSV = "\n".join([
+    '"Title","LFS: ILO redundancy level (thousands): UK: All: SA"',
+    '"CDID","BEAO"',
+    '"2026 FEB","104"',
+    '"2026 MAR","106"',
+    '"2026 APR","108"',
+])
+
+EUROSTAT_GRAD_JSON = json.dumps({
+    "value": {"0": 81.3, "1": 81.6},
+    "dimension": {"time": {"category": {"index": {"2024": 0, "2025": 1}}}},
+})
+
+BLS_EMP_JSON = {
+    "status": "REQUEST_SUCCEEDED",
+    "Results": {"series": [
+        {"seriesID": "LNS12000036", "data":
+            [{"year": "2022", "period": f"M{m:02d}", "value": "20000"}
+             for m in range(1, 13)]
+            + [{"year": "2026", "period": "M06", "value": "19000"}]},
+    ]},
+}
+
+def adzuna_search_json(count):
+    return json.dumps({"count": count, "results": []})
+
+def adzuna_history_json(avg):
+    return json.dumps({"month": {"2026-06": avg, "2026-05": avg * 0.99}})
+
 ABS_DSD_XML = """<?xml version="1.0"?>
 <mes:Structure xmlns:mes="http://x/message" xmlns:str="http://x/structure" xmlns:com="http://x/common">
  <str:DataStructure id="LF">
@@ -140,10 +189,32 @@ def build_http_fixtures():
             "&sinceTimePeriod=2025-01&age=")
     fixtures[base + "TOTAL"] = eurostat_json(5.9, 5.8)
     fixtures[base + "Y_LT25"] = eurostat_json(14.4, 14.6)
-    fixtures["https://data.api.abs.gov.au/rest/datastructure/ABS/LF?references=codelist"] = ABS_DSD_XML
-    abs_url = ("https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/"
-               "M13.3.1599+1524.20.AUS.M?startPeriod=2025-01&format=jsondata")
-    fixtures[abs_url] = json.dumps(ABS_JSON)
+    fixtures["https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/"
+             "M13.3.1599.20.AUS.M?startPeriod=2025-01&format=jsondata"] = \
+        abs_slice_json("1599", "Total (age)", (4.0, 4.1))
+    fixtures["https://data.api.abs.gov.au/rest/data/ABS,LF_AGES,1.0.0/"
+             "M13.3.1524.20.AUS.M?startPeriod=2025-01&format=jsondata"] = \
+        abs_slice_json("1524", "15 - 24 years", (9.6, 9.9))
+    # UK redundancy proxy (BEAO), EU graduate proxy (edat_lfse_24)
+    fixtures["https://www.ons.gov.uk/generator?format=csv&uri=/employmentandlabourmarket/"
+             "peoplenotinwork/redundancies/timeseries/beao/lms"] = ONS_BEAO_CSV
+    fixtures["https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
+             "edat_lfse_24?format=JSON&lang=EN&geo=EU27_2020&sex=T&age=Y20-34"
+             "&isced11=ED5-8&duration=Y1-3&unit=PC&lastTimePeriod=2"] = EUROSTAT_GRAD_JSON
+    # Adzuna fixtures (IN mention share + premium sample)
+    import urllib.parse as _up
+    def _adz(cc, path="search/1", **params):
+        qs = _up.urlencode({"app_id": "test-id", "app_key": "test-key",
+                            "results_per_page": 1, **params})
+        return f"{ud.ADZUNA_API}/{cc}/{path}?{qs}"
+    for cc in ("in", "sg"):
+        fixtures[_adz(cc, what_or=ud.ADZUNA_AI_TERMS)] = adzuna_search_json(4200)
+        fixtures[_adz(cc)] = adzuna_search_json(100000)
+        for cat in ud.ADZUNA_EXPOSED_CATS:
+            fixtures[_adz(cc, category=cat)] = adzuna_search_json(5000)
+        fixtures[_adz(cc, path="history", what="artificial intelligence")] = \
+            adzuna_history_json(1300000.0)
+        fixtures[_adz(cc, path="history")] = adzuna_history_json(1000000.0)
     fixtures[ud.CHALLENGER_BLOG] = CHALLENGER_INDEX
     fixtures["https://www.challengergray.com/blog/challenger-report-may-job-cuts-rise-16-from-april-highest-may-total-since-2020/"] = CHALLENGER_POST
     return fixtures
@@ -155,7 +226,12 @@ def build_http_fixtures():
 def run_parser_tests(fixtures):
     ud._CACHE.clear()
     ud._http_get = lambda url, timeout=40: fixtures[url]
-    ud._http_post_json = lambda url, payload, timeout=40: BLS_JSON
+
+    def _bls_dispatch(url, payload, timeout=40):
+        if payload.get("seriesid") == ["LNS12000036"]:
+            return BLS_EMP_JSON
+        return BLS_JSON
+    ud._http_post_json = _bls_dispatch
 
     v, src, _ = ud._adapter_hl("US", "2026-06-07")
     # latest date <= 2026-06-07 is 2026-06-05 (i=13): mean(70+6.5+j for j 0..7)=80
@@ -190,6 +266,47 @@ def run_parser_tests(fixtures):
     v, src, _ = ud._adapter_challenger("US", "2026-06-07")
     assert v == 87.71 and "Challenger" in src
     ok("Challenger: AI-cited YTD parsed to 87.71k")
+
+    # --- new adapters (2026-08 upgrade) ---
+    v, src, _ = ud._adapter_ons_redundancy("UK", "2026-06-07")
+    assert v == 108.0 and "all-cause" in src
+    ok("ONS BEAO: UK redundancy level parsed, all-cause label")
+
+    v, src, _ = ud._adapter_eurostat_graduate("EU", "2026-06-07")
+    assert v == 0.3 and "2025 vs 2024" in src, (v, src)
+    ok("Eurostat edat_lfse_24: graduate-rate YoY delta = +0.3pp")
+
+    v, src, _ = ud._adapter_bls_youth_emp("US", "2026-06-07")
+    assert v == -5.0 and "2022 avg" in src, (v, src)
+    ok("BLS youth employment: 19000 vs 20000 avg = -5.0%")
+
+    import os as _os, tempfile as _tf
+    _os.environ["ADZUNA_APP_ID"] = "test-id"
+    _os.environ["ADZUNA_APP_KEY"] = "test-key"
+    old_state = ud.ADZUNA_STATE
+    ud.ADZUNA_STATE = Path(_tf.mkdtemp(prefix="adz_")) / "adzuna_state.json"
+    try:
+        v, src, _ = ud._adapter_adzuna_mention("IN", "2026-06-07")
+        assert v == 4.2 and "keyword proxy" in src, (v, src)
+        ok("Adzuna mention share: 4200/100000 = 4.2%")
+
+        v, src, _ = ud._adapter_adzuna_posting("IN", "2026-06-07")
+        assert v == 100.0 and "=100" in src, (v, src)
+        ok("Adzuna posting index: first run anchors baseline at 100")
+
+        v, src, _ = ud._adapter_adzuna_premium("APAC", "2026-06-07")
+        assert v == 30.0 and "SG" in src, (v, src)
+        ok("Adzuna premium: 1.3M vs 1.0M = +30% (SG proxy market)")
+    finally:
+        ud.ADZUNA_STATE = old_state
+        del _os.environ["ADZUNA_APP_ID"], _os.environ["ADZUNA_APP_KEY"]
+
+    try:
+        ud._adapter_adzuna_mention("IN", "2026-06-07")
+        raise AssertionError("Adzuna without key should raise")
+    except ValueError as exc:
+        assert "not set" in str(exc)
+    ok("Adzuna adapters raise cleanly when no API key is configured")
 
     # resolve_value: measured path
     val, s, u, m = ud.resolve_value("US", "topq_unemp_delta", "2026-06-07")
@@ -265,7 +382,11 @@ def run_backfill_test(fixtures):
     cur = json.loads((tmp / "data" / "current.json").read_text(encoding="utf-8"))
     assert cur["regions"]["US"]["kpis"]["topq_unemp_delta"]["measurement"] == "measured"
     assert cur["regions"]["US"]["kpis"]["topq_unemp_delta"]["name"].startswith("Early-career")
-    assert cur["regions"]["IN"]["kpis"]["topq_unemp_delta"]["measurement"] == "modelled"
+    # IN topq is wired via ILOSTAT in the weekly cron (2026-07); the backfill
+    # itself can't reproduce its history, so it just preserves whatever badge
+    # the source data carries - assert the field is present and valid.
+    assert cur["regions"]["IN"]["kpis"]["topq_unemp_delta"]["measurement"] in (
+        "measured", "modelled")
     assert "backfilled_at" in cur
     # posting_series rebuilt from measured values for wired regions
     us_series = cur["regions"]["US"]["posting_series"]

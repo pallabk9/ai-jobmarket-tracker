@@ -273,162 +273,68 @@ def fetch_eurostat_unemp():
             raise ValueError(f"Eurostat une_rt_m {age}: empty")
     return out
 
-def _abs_discover_key():
-    """Build the exact SDMX key for 'unemployment rate, persons, AUS, SA,
-    ages total+15-24, monthly' by reading the LF datastructure definition.
-    No guessing: dimension order and codes come from the DSD itself."""
-    xml_text = _http_get(
-        "https://data.api.abs.gov.au/rest/datastructure/ABS/LF?references=codelist")
-    root = ET.fromstring(xml_text)
-
-    codelists = {}   # codelist id -> {code id: normalised name}
-    for cl in root.iter():
-        if not cl.tag.endswith("}Codelist"):
-            continue
-        codes = {}
-        for code in cl.iter():                 # any depth, not just children
-            if not code.tag.endswith("}Code") or not code.get("id"):
-                continue
-            name = next((c.text for c in code.iter()
-                         if c.tag.endswith("}Name") and c.text), "") or ""
-            # normalise dashes/spacing so "15–24 years" matches "15-24"
-            codes[code.get("id")] = (name.replace("–", "-")
-                                         .replace("—", "-"))
-        codelists[cl.get("id")] = codes
-
-    def _enum_ref(dim_el):
-        """Codelist id referenced by a Dimension, across SDMX XML flavours:
-        <Ref class="Codelist" id=..>, <Ref id="CL_..">, or a URN string."""
-        for r in dim_el.iter():
-            if r.tag.endswith("}Ref"):
-                rid = r.get("id")
-                if rid and (r.get("class") == "Codelist" or rid.upper().startswith("CL")):
-                    return rid
-            if r.tag.endswith("}URN") and r.text and "Codelist" in r.text:
-                return r.text.rsplit(".", 1)[-1].rstrip(")")
-        return None
-
-    dims = []        # (position, dim id, codelist id or None)
-    for d in root.iter():
-        if d.tag.endswith("}Dimension") and d.get("id") and d.get("position"):
-            dims.append((int(d.get("position")), d.get("id"), _enum_ref(d)))
-    dims.sort()
-    if not dims:
-        raise ValueError("ABS DSD: no dimensions parsed")
-
-    def pick(cl_id, *needles, exclude=()):
-        """Find a code whose name matches; cl_id=None scans every codelist."""
-        pools = ([codelists[cl_id]] if cl_id in codelists
-                 else list(codelists.values()))
-        for pool in pools:
-            for code, name in pool.items():
-                low = name.lower()
-                if any(n in low for n in needles) and not any(x in low for x in exclude):
-                    return code
-        return None
-
-    WANT = {
-        "MEASURE": (("unemployment rate",), ()),
-        "SEX": (("persons",), ()),
-        "AGE": None,                          # handled specially: total + 15-24
-        "TSEST": (("seasonally adjusted",), ()),
-        "REGION": (("australia",), ("western", "south", "new", "north")),
-        "FREQ": (("monthly",), ()),
-    }
-    parts, age_codes = [], None
-    for _, dim_id, cl_id in dims:
-        if dim_id == "TIME_PERIOD":
-            continue
-        if dim_id == "AGE":
-            tot = pick(cl_id, "all ages", "total") or pick(None, "all ages") or ""
-            yth = (pick(cl_id, "15-24", "15 to 24")
-                   or pick(None, "15-24", "15 to 24") or "")
-            if not (tot and yth):
-                # last resort: ABS LF age codelist uses numeric ids
-                age_cl = next((codelists[k] for k in codelists
-                               if k and "AGE" in k.upper()), {})
-                tot = tot or ("1599" if "1599" in age_cl else "")
-                yth = yth or ("1524" if "1524" in age_cl else "")
-            if not (tot and yth):
-                age_cl_id = next((k for k in codelists
-                                  if k and "AGE" in k.upper()), None)
-                sample = dict(list((codelists.get(age_cl_id) or {}).items())[:6])
-                raise ValueError(
-                    f"ABS DSD: AGE codes not found (cl={cl_id}; "
-                    f"age codelist {age_cl_id} sample: {sample})")
-            age_codes = (tot, yth)
-            parts.append(f"{tot}+{yth}")
-            continue
-        spec = WANT.get(dim_id)
-        if spec:
-            code = pick(cl_id, *spec[0], exclude=spec[1])
-            parts.append(code or "")          # empty = wildcard, filter later
-        else:
-            parts.append("")                  # unknown dimension: wildcard
-    return ".".join(parts), age_codes
-
 def fetch_abs_unemp():
-    """{'total': {YYYY-MM: rate}, 'youth': {...}} from the ABS LF dataflow.
+    """{'total': {YYYY-MM: rate}, 'youth': {...}} from the ABS API.
 
-    The SDMX key is discovered from the datastructure definition at run
-    time, then the (small, server-side filtered) data slice is fetched
-    and matched by dimension names, so code-list drift fails loudly
-    instead of silently returning the wrong series.
+    Source: the LF_AGES dataflow ("Labour Force: Age Groups"), which
+    carries the unemployment rate by age band. The headline LF flow only
+    publishes rates for AGE=Total - that is why the previous
+    LF-flow-with-discovery approach 404'd on the 15-24 slice. Note the
+    ABS API does not honour the SDMX "+" OR-operator on this flow (it
+    returns a single series), so total and youth are fetched as two
+    separate, fully-specified slices. Each response is still verified by
+    dimension *name*, so a code-list change fails loudly instead of
+    silently returning the wrong series.
+
+    Key: MEASURE=M13 (unemployment rate), SEX=3 (persons), AGE in
+    {1599 total, 1524 youth}, TSEST=20 (seasonally adjusted), AUS, M.
     """
-    key, _ = _abs_discover_key()
-    js = json.loads(_http_get(
-        "https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/" + key +
-        "?startPeriod=2025-01&format=jsondata"))
-    # The ABS API has served both SDMX-JSON layouts in the wild:
-    #   v1: {"structure": {...}, "dataSets": [...]}
-    #   v2: {"data": {"structures": [{...}], "dataSets": [...]}}
-    body = js.get("data") if isinstance(js.get("data"), dict) else js
-    struct = (body.get("structure")
-              or (body.get("structures") or [None])[0]
-              or js.get("structure"))
-    datasets = body.get("dataSets") or js.get("dataSets")
-    if not struct or not datasets:
-        raise ValueError("ABS LF: unrecognised response layout "
-                         f"(top-level keys: {sorted(js)[:6]})")
-    dims = struct["dimensions"]["series"]
-    obs_dims = struct["dimensions"]["observation"]
-    time_vals = next(d for d in obs_dims if d["id"] == "TIME_PERIOD")["values"]
+    base = "https://data.api.abs.gov.au/rest/data/"
 
-    def dim_index(did, match):
-        for i, d in enumerate(dims):
-            if d["id"] == did:
-                for j, v in enumerate(d["values"]):
-                    if match(v):
-                        return i, j
-        return None
+    def _norm(name):
+        return (name.lower().replace("\u2013", "-").replace("\u2014", "-")
+                .replace(" ", ""))
 
-    measure = dim_index("MEASURE", lambda v: "unemployment rate" in v["name"].lower())
-    age_tot = dim_index("AGE", lambda v: v["name"].strip().lower() in
-                        ("all ages", "total", "15 years and over", "15+"))
-    age_yth = dim_index("AGE", lambda v: "15-24" in v["name"] or "15 to 24" in v["name"])
-    sex = dim_index("SEX", lambda v: "person" in v["name"].lower())
-    adj = dim_index("TSEST", lambda v: "seasonally adjusted" in v["name"].lower())
-    if not measure or not age_yth:
-        raise ValueError("ABS LF: required dimensions not found")
+    def fetch_slice(flow, age_code, want_age_names):
+        js = json.loads(_http_get(
+            base + f"ABS,{flow},1.0.0/M13.3.{age_code}.20.AUS.M"
+            + "?startPeriod=2025-01&format=jsondata"))
+        body = js.get("data") if isinstance(js.get("data"), dict) else js
+        struct = (body.get("structure")
+                  or (body.get("structures") or [None])[0]
+                  or js.get("structure"))
+        datasets = body.get("dataSets") or js.get("dataSets")
+        if not struct or not datasets:
+            raise ValueError("ABS LF_AGES: unrecognised response layout "
+                             f"(top-level keys: {sorted(js)[:6]})")
+        dims = {d["id"]: d["values"] for d in struct["dimensions"]["series"]}
+        # verify the slice is what we asked for, by name
+        measure_names = [_norm(v["name"]) for v in dims.get("MEASURE", [])]
+        age_names = [_norm(v["name"]) for v in dims.get("AGE", [])]
+        if "unemploymentrate" not in measure_names:
+            raise ValueError(f"ABS LF_AGES: MEASURE mismatch ({measure_names})")
+        if not any(a in age_names for a in want_age_names):
+            raise ValueError(f"ABS LF_AGES: AGE mismatch ({age_names})")
+        time_vals = next(d for d in struct["dimensions"]["observation"]
+                         if d["id"] == "TIME_PERIOD")["values"]
+        series = datasets[0]["series"]
+        if len(series) != 1:
+            raise ValueError(f"ABS LF_AGES: expected 1 series, got {len(series)}")
+        out = {}
+        for t_idx, obs in next(iter(series.values()))["observations"].items():
+            if obs and obs[0] is not None:
+                out[time_vals[int(t_idx)]["id"]] = float(obs[0])
+        if not out:
+            raise ValueError("ABS LF_AGES: no observations parsed")
+        return out
 
-    def series_match(key_str, wanted):
-        parts = [int(p) for p in key_str.split(":")]
-        return all(parts[i] == j for (i, j) in wanted if (i, j) is not None)
-
-    out = {"total": {}, "youth": {}}
-    for tag, age_sel in (("total", age_tot), ("youth", age_yth)):
-        wanted = [w for w in (measure, age_sel, sex, adj) if w]
-        for key_str, series in datasets[0]["series"].items():
-            if not series_match(key_str, wanted):
-                continue
-            for t_idx, obs in series["observations"].items():
-                period = time_vals[int(t_idx)]["id"]   # e.g. "2026-04"
-                if obs and obs[0] is not None:
-                    out[tag][period] = float(obs[0])
-            break
-    if not out["total"] or not out["youth"]:
-        raise ValueError("ABS LF: series not matched")
-    return out
+    # Total (all ages) only exists in the headline LF flow; the age bands
+    # only exist in LF_AGES. Two flows, one slice each.
+    return {
+        "total": fetch_slice("LF", "1599", ("total(age)", "allages", "total")),
+        "youth": fetch_slice("LF_AGES", "1524",
+                             ("15-24years", "15-24", "15to24years")),
+    }
 
 def _latest_common_delta(data, on_date_iso):
     """Youth minus total for the latest month <= on_date_iso present in both."""
@@ -587,6 +493,202 @@ def _adapter_ai_mention(region, on_date_iso):
         "Indeed Hiring Lab AI Tracker (AI/GenAI posting share)", \
         "https://github.com/hiring-lab/ai-tracker"
 
+# --- Adzuna: postings counts, AI-mention share, salary premium -----
+# Free API key required: https://developer.adzuna.com/ (register, then add
+# ADZUNA_APP_ID and ADZUNA_APP_KEY as GitHub Actions secrets). Without the
+# key every Adzuna adapter raises and the pair stays carried-forward
+# (modelled), so the cron never depends on the key existing.
+# ToS note: the free tier is technically a validation trial; sustained
+# production use should be confirmed with Adzuna (see AI_tracker_data_sources.md).
+
+ADZUNA_API = "https://api.adzuna.com/v1/api/jobs"
+# Regional mapping. Adzuna has no IN-adjacent APAC coverage beyond SG/AU/NZ;
+# APAC uses Singapore as the labelled proxy market.
+ADZUNA_CC = {"US": ["us"], "UK": ["gb"], "IN": ["in"],
+             "EU": ["de", "fr"], "APAC": ["sg"], "AU": ["au"]}
+# Whole-word terms Adzuna ORs together for the AI-mention share.
+ADZUNA_AI_TERMS = "ai genai llm chatgpt copilot tensorflow pytorch"
+# Adzuna category tags mirroring the 8 high-exposure sectors used for the
+# Indeed Hiring Lab composite.
+ADZUNA_EXPOSED_CATS = [
+    "it-jobs", "accounting-finance-jobs", "admin-jobs",
+    "customer-services-jobs", "legal-jobs", "hr-jobs",
+    "consultancy-jobs", "marketing-jobs",
+]
+ADZUNA_STATE = DATA / "adzuna_state.json"
+
+def _adzuna_creds():
+    app_id = os.environ.get("ADZUNA_APP_ID")
+    app_key = os.environ.get("ADZUNA_APP_KEY")
+    if not (app_id and app_key):
+        raise ValueError("Adzuna: ADZUNA_APP_ID / ADZUNA_APP_KEY not set")
+    return app_id, app_key
+
+def _adzuna_get(cc, path="search/1", **params):
+    app_id, app_key = _adzuna_creds()
+    qs = urllib.parse.urlencode({"app_id": app_id, "app_key": app_key,
+                                 "results_per_page": 1, **params})
+    return json.loads(_http_get(f"{ADZUNA_API}/{cc}/{path}?{qs}"))
+
+def _adzuna_count(cc, **params):
+    js = _adzuna_get(cc, **params)
+    count = js.get("count")
+    if count is None:
+        raise ValueError(f"Adzuna {cc}: no count in response")
+    return float(count)
+
+def _adzuna_state_load():
+    if ADZUNA_STATE.exists():
+        return json.loads(ADZUNA_STATE.read_text())
+    return {}
+
+def _adzuna_state_save(state):
+    ADZUNA_STATE.write_text(json.dumps(state, indent=2, sort_keys=True))
+
+def _adapter_adzuna_mention(region, on_date_iso):
+    """AI-term share of live postings, %. Keyword proxy - documented as a
+    looser net than Indeed Hiring Lab's curated AI-tracker taxonomy."""
+    shares = []
+    for cc in ADZUNA_CC[region]:
+        ai = _adzuna_count(cc, what_or=ADZUNA_AI_TERMS)
+        total = _adzuna_count(cc)
+        if total <= 0:
+            raise ValueError(f"Adzuna {cc}: zero total postings")
+        shares.append(100.0 * ai / total)
+    market = "+".join(c.upper() for c in ADZUNA_CC[region])
+    return round(sum(shares) / len(shares), 2), \
+        f"Adzuna ({market} keyword proxy: AI-term share of live postings)", \
+        "https://developer.adzuna.com/"
+
+def _adapter_adzuna_posting(region, on_date_iso):
+    """Exposed-sector posting index. Sums live posting counts across the 8
+    high-exposure Adzuna categories; indexed to 100 at the first measured
+    week (baseline persisted in data/adzuna_state.json, committed by the
+    weekly cron). Not comparable to the Indeed Feb-2020=100 base - the
+    source label carries the anchor date."""
+    total = 0.0
+    for cc in ADZUNA_CC[region]:
+        for cat in ADZUNA_EXPOSED_CATS:
+            total += _adzuna_count(cc, category=cat)
+    if total <= 0:
+        raise ValueError(f"Adzuna {region}: zero exposed-category postings")
+    state = _adzuna_state_load()
+    base = state.setdefault("posting_baseline", {}).get(region)
+    if not base:
+        state["posting_baseline"][region] = {"week": on_date_iso, "count": total}
+        _adzuna_state_save(state)
+        base = state["posting_baseline"][region]
+    market = "+".join(c.upper() for c in ADZUNA_CC[region])
+    return round(100.0 * total / float(base["count"]), 2), \
+        f"Adzuna ({market} exposed-category postings, {base['week'][:10]}=100)", \
+        "https://developer.adzuna.com/"
+
+def _adapter_adzuna_premium(region, on_date_iso):
+    """AI-skill salary premium, %: average advertised salary for
+    AI-keyword postings vs all postings, latest month with both."""
+    prems = []
+    for cc in ADZUNA_CC[region]:
+        ai_hist = _adzuna_get(cc, path="history",
+                              what="artificial intelligence").get("month", {})
+        all_hist = _adzuna_get(cc, path="history").get("month", {})
+        common = sorted(set(ai_hist) & set(all_hist))
+        if not common:
+            raise ValueError(f"Adzuna {cc}: no common salary month")
+        m = common[-1]
+        if not all_hist[m]:
+            raise ValueError(f"Adzuna {cc}: zero baseline salary")
+        prems.append(100.0 * (float(ai_hist[m]) / float(all_hist[m]) - 1.0))
+    market = "+".join(c.upper() for c in ADZUNA_CC[region])
+    return round(sum(prems) / len(prems), 2), \
+        f"Adzuna ({market} advertised salary: 'artificial intelligence' vs all postings)", \
+        "https://developer.adzuna.com/"
+
+# --- ONS: UK redundancy level (all-cause proxy for layoffs) --------
+
+def _adapter_ons_redundancy(region, on_date_iso):
+    """UK LFS redundancy level, thousands, all sectors, SA (series BEAO).
+    An all-cause proxy: no UK source attributes layoffs to AI. Labelled
+    as such via NAME_OVERRIDES."""
+    text = _http_get(
+        "https://www.ons.gov.uk/generator?format=csv&uri=/employmentandlabourmarket/"
+        "peoplenotinwork/redundancies/timeseries/beao/lms")
+    rows = list(csv.reader(io.StringIO(text)))
+    title = rows[0][1] if rows and len(rows[0]) > 1 else ""
+    if "redundancy level" not in title.lower() or "all" not in title.lower():
+        raise ValueError(f"ONS BEAO: unexpected series title {title!r}")
+    monthly = [(r[0], r[1]) for r in rows
+               if len(r) >= 2 and re.match(r"^\d{4} [A-Z]{3}$", r[0])]
+    if not monthly:
+        raise ValueError("ONS BEAO: no monthly rows parsed")
+    period, value = monthly[-1]
+    return round(float(value), 2), \
+        f"ONS LFS redundancies (all-cause, thousands, SA, {period})", \
+        "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/redundancies/timeseries/beao/lms"
+
+# --- Eurostat: recent-graduate employment rate (EU graduate proxy) --
+
+def _adapter_eurostat_graduate(region, on_date_iso):
+    """Year-over-year change (pp) in the EU27 employment rate of recent
+    graduates (edat_lfse_24, ISCED 5-8, 20-34, 1-3 yrs since graduation).
+    A published proxy: no open source counts 'graduate postings in
+    exposed roles' for the EU."""
+    js = json.loads(_http_get(
+        "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
+        "edat_lfse_24?format=JSON&lang=EN&geo=EU27_2020&sex=T&age=Y20-34"
+        "&isced11=ED5-8&duration=Y1-3&unit=PC&lastTimePeriod=2"))
+    idx = js["dimension"]["time"]["category"]["index"]
+    vals = js["value"]
+    series = {t: float(vals[str(i)]) for t, i in idx.items() if str(i) in vals}
+    if len(series) < 2:
+        raise ValueError(f"Eurostat edat_lfse_24: need 2 years, got {sorted(series)}")
+    years = sorted(series)
+    delta = series[years[-1]] - series[years[-2]]
+    return round(delta, 2), \
+        f"Eurostat edat_lfse_24 (recent-graduate employment rate, {years[-1]} vs {years[-2]}, pp)", \
+        "https://ec.europa.eu/eurostat/databrowser/view/edat_lfse_24/default/table"
+
+# --- BLS: US youth employment vs 2022 (hire-rate proxy) -------------
+
+def _adapter_bls_youth_emp(region, on_date_iso):
+    """% change in US youth (16-24) employment level vs the 2022 annual
+    average - the closest open proxy for the Stanford/ADP 22-25 hire-rate
+    series, which is research-derived and not machine-readable."""
+    payload = {"seriesid": ["LNS12000036"],
+               "startyear": "2022", "endyear": str(date.today().year)}
+    key = os.environ.get("BLS_API_KEY")
+    if key:
+        payload["registrationkey"] = key
+    js = _http_post_json("https://api.bls.gov/publicAPI/v2/timeseries/data/", payload)
+    if js.get("status") != "REQUEST_SUCCEEDED":
+        raise ValueError(f"BLS API: {js.get('status')} {js.get('message')}")
+    data = js["Results"]["series"][0]["data"]
+    monthly = {}
+    for d in data:
+        if d["period"].startswith("M"):
+            try:
+                monthly[f"{d['year']}-{d['period'][1:]}"] = float(d["value"])
+            except (TypeError, ValueError):
+                continue
+    base_months = [v for k, v in monthly.items() if k.startswith("2022-")]
+    if len(base_months) < 12 or not monthly:
+        raise ValueError("BLS LNS12000036: incomplete 2022 baseline")
+    base = sum(base_months) / len(base_months)
+    latest_month = max(monthly)
+    # sanity: US 16-24 employment level is ~18-22 million (thousands unit)
+    if not 10000 < monthly[latest_month] < 30000:
+        raise ValueError(f"BLS LNS12000036: implausible level {monthly[latest_month]}")
+    return round(100.0 * (monthly[latest_month] / base - 1.0), 2), \
+        f"BLS CPS (16-24 employment level, {latest_month} vs 2022 avg)", \
+        "https://www.bls.gov/cps/"
+
+# Per-region display-name overrides for proxy KPIs, so the dashboard
+# label always says what the number actually is.
+NAME_OVERRIDES = {
+    ("ai_layoffs_ytd", "UK"): "Redundancies, rolling quarter (all-cause proxy)",
+    ("hire_rate_22_25", "US"): "Youth employment vs 2022 (proxy)",
+    ("graduate_posting", "EU"): "Recent-graduate employment rate, YoY (proxy)",
+}
+
 REAL_ADAPTERS = {
     ("ai_layoffs_ytd", "US"): _adapter_challenger,
     ("topq_unemp_delta", "US"): _adapter_unemp,
@@ -612,6 +714,23 @@ REAL_ADAPTERS = {
     ("ai_mention_postings", "UK"): _adapter_ai_mention,
     ("ai_mention_postings", "EU"): _adapter_ai_mention,
     ("ai_mention_postings", "AU"): _adapter_ai_mention,
+    # Adzuna (needs ADZUNA_APP_ID/ADZUNA_APP_KEY secrets; no-op without them):
+    # fills the India + APAC gaps Hiring Lab cannot cover, and derives the
+    # AI-skill salary premium for all six regions.
+    ("ai_mention_postings", "IN"): _adapter_adzuna_mention,
+    ("ai_mention_postings", "APAC"): _adapter_adzuna_mention,
+    ("exposed_posting_index", "IN"): _adapter_adzuna_posting,
+    ("exposed_posting_index", "APAC"): _adapter_adzuna_posting,
+    ("ai_skill_premium", "US"): _adapter_adzuna_premium,
+    ("ai_skill_premium", "UK"): _adapter_adzuna_premium,
+    ("ai_skill_premium", "IN"): _adapter_adzuna_premium,
+    ("ai_skill_premium", "EU"): _adapter_adzuna_premium,
+    ("ai_skill_premium", "APAC"): _adapter_adzuna_premium,
+    ("ai_skill_premium", "AU"): _adapter_adzuna_premium,
+    # Official-statistics proxies (relabelled via NAME_OVERRIDES)
+    ("ai_layoffs_ytd", "UK"): _adapter_ons_redundancy,
+    ("graduate_posting", "EU"): _adapter_eurostat_graduate,
+    ("hire_rate_22_25", "US"): _adapter_bls_youth_emp,
 }
 
 CARRY_FORWARD = {"capability_gap"}   # owned by the model-build scripts, not this weekly pipeline
@@ -912,13 +1031,18 @@ def main():
             cur_node = current["regions"].get(region, {}).get("kpis", {}).get(kpi_id)
             value, src_name, src_url, measurement = resolve_value(
                 region, kpi_id, week_ending, cur_node)
+            # Proxy display names only apply when the proxy value was actually
+            # measured this run - a carried-forward legacy value keeps the
+            # original label so number and name never disagree.
+            display_name = (NAME_OVERRIDES.get((kpi_id, region), kpi_name)
+                            if measurement == "measured" else kpi_name)
             new_rows.append({
                 "iso_week": iso_week,
                 "week_ending": week_ending,
                 "region_code": region,
                 "region": REGION_LABEL[region],
                 "kpi_id": kpi_id,
-                "kpi_name": kpi_name,
+                "kpi_name": display_name,
                 "value": value,
                 "unit": unit,
                 "direction": direction,
@@ -952,7 +1076,7 @@ def main():
             row = by_region_kpi[(region, kpi_id)]
             node = new_snapshot["regions"][region]["kpis"][kpi_id]
             node["value"] = row["value"]
-            node["name"] = kpi_name
+            node["name"] = row["kpi_name"]      # carries any proxy override
             node["source"] = row["source_name"]
             node["source_url"] = row["source_url"]
             node["measurement"] = row["measurement"]

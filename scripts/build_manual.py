@@ -398,6 +398,28 @@ for name, definition, source, refresh, alert in kpis:
 story.append(PageBreak())
 story.append(Paragraph("5. How to read each dashboard panel", h1))
 
+story.append(Paragraph("5.0 Simple and Deep views &mdash; the derived layer (added Aug 2026)", h2))
+story.append(Paragraph(
+    "The dashboard opens in <b>Simple</b> view: one <b>AI Pressure Index</b> (0&ndash;100) per region "
+    "and four plain-language pillar signals &mdash; <i>Job displacement</i> (are jobs being cut?), "
+    "<i>Hiring pullback</i> (are exposed roles being hired less?), <i>Early-career squeeze</i> "
+    "(are young workers feeling it first?), and <i>AI adoption pace</i> (how fast is AI entering work?). "
+    "Each pillar scores its input KPIs against fixed calibration bands (linear 0&ndash;100 between a "
+    "documented floor and ceiling, clamped), then combines them with fixed weights; the composite "
+    "weights the pillars 30/25/25/20%. Status words &mdash; Low (&lt;25), Moderate (25&ndash;50), "
+    "Elevated (50&ndash;70), High (&ge;70) &mdash; always accompany the colour, and every score carries "
+    "a confidence chip: the share of its weight backed by <i>measured</i> (not modelled) sources that week.", body))
+story.append(Paragraph(
+    "Switching to <b>Deep</b> view reveals everything underneath: the ten raw KPI tiles with their "
+    "measured/modelled badges, the full analytical charts, and an \"Under the hood\" panel on every "
+    "pillar card tracing each input's raw value &rarr; calibration band &rarr; normalised score &rarr; "
+    "weight &rarr; contribution, with source links. The derived layer is computed in the browser from "
+    "current.json and historical.csv &mdash; the lineage displayed is the live calculation, so the "
+    "dashboard and its documentation cannot drift apart. Bands, weights and the missing-input rule "
+    "are specified in DERIVED_METRICS.md in the repository. Scores compare a region to itself over "
+    "time and are not cross-country exposure rankings, consistent with the quartile-rank rule in "
+    "section 8.3.", body))
+
 panels = [
     ("Most exposed occupations table",
      "Ten occupations in the selected region with the highest Observed Exposure score. "
@@ -485,6 +507,20 @@ tiers = [
 ]
 story.append(header_table(["Tier", "Sources", "Latency", "Role"], tiers,
     [4.5*cm, 6.5*cm, 2.2*cm, 3.8*cm]))
+
+story.append(Paragraph(
+    "<b>Wired live sources (v3, Aug 2026).</b> Measured pairs pull weekly from: Indeed Hiring Lab "
+    "(exposed-posting index and AI-mention share; US/UK/EU/AU), Adzuna (India and APAC-Singapore "
+    "postings and AI-term share, plus the AI-skill salary premium for all six regions; requires the "
+    "free API key configured as a repository secret), BLS/ONS/Eurostat/ABS/ILOSTAT (early-career "
+    "unemployment delta, all six regions), Challenger Gray &amp; Christmas (US AI-cited layoffs), "
+    "ONS redundancies (UK all-cause proxy), BLS CPS youth employment (US hire-rate proxy), Eurostat "
+    "recent-graduate employment (EU graduate proxy), and the Anthropic Economic Index (augmentation "
+    "share, all six regions). Proxy-fed tiles are renamed on the dashboard to say exactly what they "
+    "measure, and only while the proxy value is live. Where no open machine-readable source exists "
+    "anywhere (net job creation; AI-attributed layoffs outside the US), the tile stays honestly "
+    "<i>modelled</i>. The full per-KPI review lives in SOURCE_REVIEW_2026-08.md in the repository.",
+    body))
 
 story.append(Paragraph("7.1 Refresh cycle", h2))
 story.append(Paragraph(
