@@ -84,23 +84,62 @@ GitHub Actions are enabled by default on public repos. To verify:
 
 The cron is set to `0 6 * * 1` (Mondays at 06:00 UTC). Adjust in `.github/workflows/weekly-update.yml` if you want a different time.
 
-## Real data sources (v2, wired 2026-06-10)
+## Simple / Deep view and derived metrics (added 2026-08-14)
+
+The dashboard has two reading levels, toggled at the top of the Live
+dashboard section (persisted per browser):
+
+- **Simple** (default): one **AI Pressure Index** (0-100) per region plus
+  four plain-language pillar signals - *Job displacement*, *Hiring
+  pullback*, *Early-career squeeze*, *AI adoption pace* - each with a
+  status word, month-over-month delta, sparkline, and a "% measured"
+  confidence chip.
+- **Deep**: everything under the hood - all ten raw KPI tiles with
+  measured/modelled badges, the full analytical charts, and an "Under the
+  hood" lineage panel on every pillar card showing each input's raw value
+  → calibration band → normalized score → weight → contribution, with its
+  source link and provenance badge.
+
+Derived metrics are computed **client-side** in `assets/dashboard.js` from
+`data/current.json` + `data/historical.csv` - the lineage shown *is* the
+calculation, so dashboard and documentation cannot drift apart. Formulas,
+calibration bands and weights are specified in
+[`DERIVED_METRICS.md`](DERIVED_METRICS.md). Scores compare a region to
+itself over time; they are not cross-country exposure rankings (consistent
+with the locked Observed Exposure methodology).
+
+## Real data sources (v3, wired 2026-08-14; v2 2026-06-10)
 
 Every KPI tile shows a **measured** or **modelled** badge.
 
 **Measured pairs** (pulled live by `scripts/update_data.py` each Monday;
-any fetch failure falls back to drift for that week, flagged modelled):
+any fetch failure carries the previous value forward, flagged modelled):
 
 | KPI | Regions | Source |
 |---|---|---|
 | `exposed_posting_index` | US, UK (GB), EU (DE+FR mean - the EA folder has no sector file), AU | [Indeed Hiring Lab job_postings_tracker](https://github.com/hiring-lab/job_postings_tracker) - mean postings index across eight high-exposure sectors (Software Development; IT Operations & Helpdesk; Information Design & Documentation; Mathematics; Accounting; Banking & Finance; Administrative Assistance; Media & Communications) |
-| `topq_unemp_delta` | US, UK, EU, AU | BLS CPS (20-24 vs 16+), ONS LMS (YBVQ 18-24 vs MGSX 16+), Eurostat `une_rt_m` (<25 vs total), ABS Labour Force (15-24 vs total). All seasonally adjusted |
-| `ai_layoffs_ytd` | US | Challenger, Gray & Christmas monthly Job Cut Report - AI-cited cuts YTD, parsed from the latest report; manual override via `CHALLENGER_AI_YTD_THOUSANDS` env |
+| `exposed_posting_index` | IN, APAC (SG proxy) | Adzuna exposed-category posting counts, indexed to 100 at first measured week (requires `ADZUNA_APP_ID`/`ADZUNA_APP_KEY` secrets; baseline persisted in `data/adzuna_state.json`) |
+| `topq_unemp_delta` | US, UK, EU, AU, IN, APAC | BLS CPS (20-24 vs 16+), ONS LMS (YBVQ 18-24 vs MGSX 16+), Eurostat `une_rt_m` (<25 vs total), ABS `LF`+`LF_AGES` (15-24 vs total; two flows - the headline LF flow has no age-band rates), ILOSTAT (IN, APAC). All seasonally adjusted where published |
+| `ai_layoffs_ytd` | US | Challenger, Gray & Christmas monthly Job Cut Report - AI-cited cuts YTD; manual override via `CHALLENGER_AI_YTD_THOUSANDS` env |
+| `ai_layoffs_ytd` | UK | ONS LFS redundancy level (`BEAO`, thousands, all-cause, SA) - displayed as *"Redundancies, rolling quarter (all-cause proxy)"*; no UK source attributes layoffs to AI |
+| `ai_mention_postings` | US, UK, EU, AU | [Indeed Hiring Lab ai-tracker](https://github.com/hiring-lab/ai-tracker) |
+| `ai_mention_postings` | IN, APAC (SG proxy) | Adzuna AI-term share of live postings (keyword proxy; looser net than Hiring Lab's curated taxonomy - labelled as such) |
+| `augmentation_share` | all six | [Anthropic Economic Index](https://huggingface.co/datasets/Anthropic/EconomicIndex) (latest release resolved dynamically) |
+| `ai_skill_premium` | all six | Adzuna advertised salary, AI-keyword postings vs all postings (EU = DE+FR mean, APAC = SG) - requires the Adzuna secrets |
+| `hire_rate_22_25` | US | BLS CPS youth (16-24) employment level vs 2022 average (`LNS12000036`) - displayed as *"Youth employment vs 2022 (proxy)"*; the Stanford/ADP series has no machine-readable feed |
+| `graduate_posting` | EU | Eurostat `edat_lfse_24` recent-graduate employment rate, YoY - displayed as *"Recent-graduate employment rate, YoY (proxy)"* |
 
-**Modelled (still synthetic):** everything else - including all KPIs for
-India and APAC composite, and `ai_mention_postings` everywhere (Hiring Lab
-cites AI-mention shares in blog posts but publishes no machine-readable
-weekly series).
+**Proxy labelling rule:** where a KPI is fed by a proxy series, the
+per-region display name is overridden (`NAME_OVERRIDES` in
+`update_data.py`) *only when the proxy value was actually measured that
+week*, so a carried-forward legacy value never wears a proxy label.
+
+**Modelled (no open machine-readable source exists):** `net_creation`
+everywhere (WEF Future of Jobs is biennial PDF-only - treat as a
+WEF-derived projection); `ai_layoffs_ytd` for IN/EU/APAC/AU;
+`hire_rate_22_25` outside the US; `graduate_posting` outside the EU.
+The full review, endpoint health checks and ranked upgrade path are in
+[`SOURCE_REVIEW_2026-08.md`](SOURCE_REVIEW_2026-08.md).
 
 **Methodology notes**
 
@@ -120,9 +159,16 @@ weekly series).
   immutability rule, treated as a bug fix of the seeded data. Snapshots
   are immutable from W24 onward.
 
-**Optional secret:** add `BLS_API_KEY` (free at
-https://data.bls.gov/registrationEngine/) under **Settings → Secrets and
-variables → Actions** to raise BLS rate limits. Works without it.
+**Optional secrets** (repo → Settings → Secrets and variables → Actions):
+
+- `BLS_API_KEY` - free at https://data.bls.gov/registrationEngine/;
+  raises BLS rate limits. Works without it.
+- `ADZUNA_APP_ID` + `ADZUNA_APP_KEY` - free at
+  https://developer.adzuna.com; enables the Adzuna adapters (IN/APAC
+  postings + AI share, all-region salary premium). Without them those
+  pairs simply stay modelled - the cron never fails on a missing key.
+  ToS note: the free tier is formally a validation trial; confirm
+  sustained production use with Adzuna.
 
 **One-time backfill:** Actions tab → "One-time history backfill (real
 sources)" → Run workflow. Safe to re-run.

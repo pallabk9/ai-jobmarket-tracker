@@ -7,7 +7,7 @@
   <meta name="description" content="Weekly, monthly and yearly tracking of AI-driven labour market change across six regions. Grounded in the Anthropic Observed Exposure methodology.">
   <link rel="preload" href="assets/fonts/Manrope-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Spectral-Bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/styles.css?v=20260621a">
+  <link rel="stylesheet" href="assets/styles.css?v=20260814a">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='5' fill='%23253746'/><text x='12' y='17' text-anchor='middle' font-family='Arial' font-size='13' font-weight='800' fill='%23FF5C39'>AI</text></svg>">
 </head>
 <body>
@@ -112,6 +112,11 @@
       </article>
 
       <article class="gl-card">
+        <h3>AI Pressure Index &amp; pillar signals</h3>
+        <p>The Simple view's headline layer. Four pillar signals &mdash; <strong>Job displacement</strong>, <strong>Hiring pullback</strong>, <strong>Early-career squeeze</strong>, <strong>AI adoption pace</strong> &mdash; each score 0&ndash;100 against fixed calibration bands, and combine (30/25/25/20%) into one AI Pressure Index per region. Computed live in your browser from the raw KPIs; switch to <strong>Deep</strong> view and expand "Under the hood" on any card to see every input, band, weight and source. Each score shows what share of its weight comes from <em>measured</em> sources.</p>
+      </article>
+
+      <article class="gl-card">
         <h3>Measured vs Modelled</h3>
         <p>Each KPI tile carries a badge. <strong>Measured:</strong> the value is pulled weekly from the named source's published data (Indeed Hiring Lab, BLS, ONS, Eurostat, ABS, Challenger). <strong>Modelled:</strong> a synthetic placeholder series &mdash; no public weekly source exists yet for that KPI in that region. The "early-career unemployment delta" uses a published proxy: youth minus overall unemployment rate, since no statistics agency publishes unemployment by AI exposure.</p>
       </article>
@@ -143,6 +148,11 @@
     </div>
 
     <div class="controls">
+      <div class="ctl-grp mode-ctl" role="group" aria-label="Detail level">
+        <span class="ctl-label">View</span>
+        <span class="pill active" data-mode="simple" title="The headline read: one pressure score and four plain-language signals">Simple</span>
+        <span class="pill" data-mode="deep" title="Everything under the hood: all raw KPIs, formulas, charts and provenance">Deep</span>
+      </div>
       <div class="ctl-grp">
         <span class="ctl-label">Region</span>
         <span class="pill active" data-region="US">United States</span>
@@ -163,13 +173,17 @@
       </div>
     </div>
 
-    <div class="kpi-grid" id="kpis"></div>
+    <!-- Derived layer: AI Pressure Index + pillar signals (both modes;
+         per-card "under the hood" lineage panels appear in Deep) -->
+    <div id="derived"></div>
+
+    <div class="kpi-grid deep-only" id="kpis"></div>
 
     <div class="narrative" id="narrative">Loading region narrative&hellip;</div>
 
     <div class="cards-grid">
 
-      <article class="card span-7">
+      <article class="card span-7 deep-only">
         <header class="card-hdr">
           <h3>Most exposed occupations</h3>
           <details class="src">
@@ -192,7 +206,7 @@
         </table>
       </article>
 
-      <article class="card span-5">
+      <article class="card span-5 deep-only">
         <header class="card-hdr">
           <h3>Net job change &mdash; AI-attributed</h3>
           <details class="src">
@@ -205,7 +219,7 @@
         <div class="chart-wrap"><canvas id="cvdChart"></canvas></div>
       </article>
 
-      <article class="card span-4">
+      <article class="card span-4 deep-only">
         <header class="card-hdr">
           <h3>Demographics in the exposed quartile</h3>
           <details class="src">
@@ -217,7 +231,7 @@
         <div class="chart-wrap short"><canvas id="demoChart"></canvas></div>
       </article>
 
-      <article class="card span-4">
+      <article class="card span-4 deep-only">
         <header class="card-hdr">
           <h3>Augmentation vs automation</h3>
           <details class="src">
@@ -229,7 +243,7 @@
         <div class="chart-wrap short"><canvas id="augChart"></canvas></div>
       </article>
 
-      <article class="card span-4">
+      <article class="card span-4 deep-only">
         <header class="card-hdr">
           <h3>Posting volume &mdash; exposed roles</h3>
           <details class="src">
@@ -241,7 +255,7 @@
         <div class="chart-wrap short"><canvas id="postChart"></canvas></div>
       </article>
 
-      <article class="card span-7">
+      <article class="card span-7 deep-only">
         <header class="card-hdr">
           <h3>Capability gap &mdash; theoretical vs practical AI exposure</h3>
           <div class="card-hdr-actions">
@@ -432,7 +446,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
-<script src="assets/dashboard.js?v=20260617d"></script>
+<script src="assets/dashboard.js?v=20260814a"></script>
 
 </body>
 </html>
