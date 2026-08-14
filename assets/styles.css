@@ -507,3 +507,119 @@ dialog.modal.occ-modal {
 }
 .occ-chart-wrap { position: relative; width: 100%; min-height: 280px; }
 .occ-chart-wrap canvas { width: 100% !important; }
+
+/* ============================================================
+   DERIVED LAYER — AI Pressure Index, pillar signals, Simple/Deep
+   (2026-08 upgrade; spec in DERIVED_METRICS.md)
+   ============================================================ */
+
+/* Status scale. Validated (dataviz six-checks, light surface):
+   #11998A / #6F58A0 / #FF5C39 / #8F2408. Never color-alone — every
+   status renders with its word. */
+:root {
+  --st-low:  #11998A;
+  --st-mod:  #6F58A0;
+  --st-elev: #FF5C39;
+  --st-high: #8F2408;
+}
+
+/* --- mode visibility. Default (no JS) = everything visible. --- */
+body.mode-simple .deep-only { display: none !important; }
+.mode-ctl .pill.active { background: var(--midnight); color: #fff; border-color: var(--midnight); }
+
+/* --- composite hero --- */
+.derived-hero {
+  display: flex; align-items: center; gap: 26px; flex-wrap: wrap;
+  background: #fff; border: 1px solid var(--c-line); border-left: 4px solid currentColor;
+  border-radius: var(--radius); padding: 20px 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(37,55,70,0.05);
+}
+.derived-hero.st-low  { color: var(--st-low); }
+.derived-hero.st-mod  { color: var(--st-mod); }
+.derived-hero.st-elev { color: var(--st-elev); }
+.derived-hero.st-high { color: var(--st-high); }
+.dh-gauge { position: relative; flex: 0 0 auto; }
+.dh-score {
+  position: absolute; left: 0; right: 0; bottom: 4px; text-align: center;
+  font-family: var(--font-serif); font-weight: 700; font-size: 40px; color: var(--midnight);
+  line-height: 1;
+}
+.dh-main { flex: 1 1 320px; min-width: 260px; }
+.dh-kicker {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--c-muted); margin-bottom: 2px;
+}
+.dh-status { font-family: var(--font-serif); font-size: 26px; font-weight: 700; color: var(--midnight); }
+.dh-status .pd-delta { font-family: var(--font-sans); font-size: 13px; vertical-align: middle; margin-left: 10px; }
+.dh-read { font-size: 13px; color: var(--c-ink); max-width: 640px; margin: 6px 0 8px; line-height: 1.55; }
+.dh-read b { color: var(--midnight); }
+.dh-spark { display: flex; align-items: center; gap: 10px; color: currentColor; }
+.dh-spark span { font-size: 11px; color: var(--c-faint); }
+.dh-how { align-self: flex-start; }
+
+/* --- pillar cards --- */
+.pillar-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 14px; margin-bottom: 18px;
+}
+.pillar {
+  background: #fff; border: 1px solid var(--c-line); border-top: 3px solid currentColor;
+  border-radius: var(--radius); padding: 14px 16px 12px;
+  box-shadow: 0 1px 2px rgba(37,55,70,0.05);
+}
+.pillar.st-low  { color: var(--st-low); }
+.pillar.st-mod  { color: var(--st-mod); }
+.pillar.st-elev { color: var(--st-elev); }
+.pillar.st-high { color: var(--st-high); }
+.pillar header { display: flex; flex-direction: column; gap: 1px; margin-bottom: 8px; }
+.pillar .p-q { font-size: 11px; color: var(--c-muted); }
+.pillar .p-label { font-size: 15px; font-weight: 800; color: var(--midnight); }
+.p-score-row { display: flex; align-items: baseline; gap: 10px; }
+.p-score { font-family: var(--font-serif); font-size: 34px; font-weight: 700; color: var(--midnight); line-height: 1; }
+.p-status {
+  font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  color: currentColor;
+}
+.p-score-row .spark { margin-left: auto; color: currentColor; opacity: 0.85; align-self: center; }
+.p-meta { display: flex; align-items: center; gap: 10px; margin-top: 6px; font-size: 11px; }
+.pd-delta { font-weight: 700; }
+.pd-delta.up   { color: var(--st-elev); }
+.pd-delta.down { color: var(--st-low); }
+.pd-delta.flat { color: var(--c-muted); }
+.p-conf {
+  color: var(--c-muted); background: var(--light-2); border-radius: 999px;
+  padding: 2px 8px; font-weight: 600; cursor: help;
+}
+
+/* --- deep-mode lineage --- */
+.p-lineage { margin-top: 10px; border-top: 1px dashed var(--c-line); padding-top: 8px; }
+.p-lineage summary {
+  font-size: 11.5px; font-weight: 700; color: var(--sky-d); cursor: pointer; user-select: none;
+}
+.p-lineage summary:hover { color: var(--midnight); }
+.lineage { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 11px; }
+.lineage th {
+  text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--c-muted); padding: 3px 6px; border-bottom: 1px solid var(--c-line);
+}
+.lineage td { padding: 4px 6px; border-bottom: 1px solid var(--light-2); color: var(--c-ink); vertical-align: top; }
+.lineage .num, .lineage th.num { text-align: right; white-space: nowrap; }
+.lineage .lin-band { color: var(--c-faint); }
+.lineage .lin-src { font-size: 10px; margin-top: 1px; }
+.lineage .lin-src a { color: var(--c-faint); }
+.lineage .lin-missing td { color: var(--c-faint); font-style: italic; }
+.lineage tfoot td { border-bottom: none; padding-top: 7px; color: var(--c-muted); font-size: 11px; }
+.lineage tfoot b { color: var(--midnight); font-size: 12px; }
+.derived-note { font-size: 11.5px; color: var(--c-muted); margin: -6px 0 18px; line-height: 1.5; }
+
+@media (max-width: 640px) {
+  .derived-hero { gap: 14px; padding: 16px; }
+  .dh-status { font-size: 21px; }
+}
+
+/* deep mode: wider pillar cards so the lineage tables breathe */
+body.mode-deep .pillar-grid { grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); }
+@media (max-width: 900px) {
+  body.mode-deep .pillar-grid { grid-template-columns: 1fr; }
+}
+.dh-outof { font-size: 15px; color: var(--c-faint); font-family: var(--font-sans); font-weight: 600; }

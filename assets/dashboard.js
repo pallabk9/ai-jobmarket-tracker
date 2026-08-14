@@ -68,9 +68,329 @@ const GLOSS = {
 
 // State
 let DATA = null;
+let HIST = null;               // parsed historical.csv: {week: {region: {kpi: value}}}
+let HIST_WEEKS = [];           // sorted iso weeks
 let region = "US";
 let cadence = "monthly";
+let mode = "simple";           // "simple" | "deep"
 const charts = {};
+
+/* ==================================================================
+   DERIVED METRICS — AI Pressure Index + four pillar signals
+   Spec: DERIVED_METRICS.md (repo root). Computed here, client-side,
+   from current.json + historical.csv, so the Deep-mode lineage below
+   IS the calculation — dashboard and explanation cannot drift apart.
+   ================================================================== */
+
+// Fixed calibration bands: raw value at score 0 (floor) and 100 (ceiling).
+// Linear in between, clamped. Bands are absolute + identical across regions;
+// scores compare a region to itself over time (methodology lock: no absolute
+// cross-country exposure claims).
+const BANDS = {
+  layoffs_pace:   { lo: 0,   hi: 30,  label: "12-week layoff pace (k roles)" },
+  net_creation:   { lo: 50,  hi: -50, label: "Net job creation (k roles)" },
+  graduate:       { lo: 10,  hi: -40, label: "Graduate postings YoY (%)" },
+  posting_level:  { lo: 110, hi: 60,  label: "Posting index level" },
+  posting_trend:  { lo: 10,  hi: -10, label: "Posting index, 12-week change" },
+  unemp_delta:    { lo: 0,   hi: 10,  label: "Early-career unemployment delta (pp)" },
+  hire_rate:      { lo: 10,  hi: -30, label: "Youth hire/employment change (%)" },
+  mention_level:  { lo: 0,   hi: 15,  label: "AI-mention posting share (%)" },
+  mention_trend:  { lo: -1,  hi: 3,   label: "AI-mention share, 12-week change (pp)" },
+  automation:     { lo: 30,  hi: 70,  label: "Automation share of AI use (%)" },
+  gap_closing:    { lo: 40,  hi: 10,  label: "Capability gap (pp; closing = high)" },
+};
+
+// The four pillars. Each input: source KPI, band, weight, and how the raw
+// number is obtained (kind: "level" uses the current value; "change12w" uses
+// current minus the value 12 weeks earlier; "automation" inverts augmentation).
+const PILLARS = [
+  {
+    id: "displacement", label: "Job displacement", icon: "✖",
+    question: "Are jobs being cut?",
+    inputs: [
+      { kpi: "ai_layoffs_ytd",   band: "layoffs_pace",  weight: 0.50, kind: "change12w" },
+      { kpi: "net_creation",     band: "net_creation",  weight: 0.25, kind: "level" },
+      { kpi: "graduate_posting", band: "graduate",      weight: 0.25, kind: "level" },
+    ],
+  },
+  {
+    id: "pullback", label: "Hiring pullback", icon: "▼",
+    question: "Are exposed roles being hired less?",
+    inputs: [
+      { kpi: "exposed_posting_index", band: "posting_level", weight: 0.60, kind: "level" },
+      { kpi: "exposed_posting_index", band: "posting_trend", weight: 0.40, kind: "change12w" },
+    ],
+  },
+  {
+    id: "earlycareer", label: "Early-career squeeze", icon: "◎",
+    question: "Are young workers feeling it first?",
+    inputs: [
+      { kpi: "topq_unemp_delta", band: "unemp_delta", weight: 0.60, kind: "level" },
+      { kpi: "hire_rate_22_25",  band: "hire_rate",   weight: 0.40, kind: "level" },
+    ],
+  },
+  {
+    id: "adoption", label: "AI adoption pace", icon: "⚙",
+    question: "How fast is AI entering work?",
+    inputs: [
+      { kpi: "ai_mention_postings", band: "mention_level", weight: 0.40, kind: "level" },
+      { kpi: "ai_mention_postings", band: "mention_trend", weight: 0.20, kind: "change12w" },
+      { kpi: "augmentation_share",  band: "automation",    weight: 0.20, kind: "automation" },
+      { kpi: "capability_gap",      band: "gap_closing",   weight: 0.20, kind: "level" },
+    ],
+  },
+];
+
+const COMPOSITE_WEIGHTS = { displacement: 0.30, pullback: 0.25, earlycareer: 0.25, adoption: 0.20 };
+
+const STATUS_BANDS = [
+  { max: 25,  word: "Low",      cls: "st-low" },
+  { max: 50,  word: "Moderate", cls: "st-mod" },
+  { max: 70,  word: "Elevated", cls: "st-elev" },
+  { max: 101, word: "High",     cls: "st-high" },
+];
+const statusOf = (score) => STATUS_BANDS.find((b) => score < b.max);
+
+function normBand(bandId, raw) {
+  const b = BANDS[bandId];
+  const t = (raw - b.lo) / (b.hi - b.lo);
+  return Math.max(0, Math.min(100, 100 * t));
+}
+
+// --- historical.csv loader (tiny CSV parser, quote-aware) ---------
+function parseCsv(text) {
+  const rows = [];
+  let row = [], field = "", inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (c === '"') inQ = false;
+      else field += c;
+    } else if (c === '"') inQ = true;
+    else if (c === ",") { row.push(field); field = ""; }
+    else if (c === "\n" || c === "\r") {
+      if (field !== "" || row.length) { row.push(field); rows.push(row); row = []; field = ""; }
+      if (c === "\r" && text[i + 1] === "\n") i++;
+    } else field += c;
+  }
+  if (field !== "" || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+async function loadHistory() {
+  const res = await fetch("data/historical.csv", { cache: "no-store" });
+  if (!res.ok) throw new Error("historical.csv unavailable");
+  const rows = parseCsv(await res.text());
+  const head = rows[0];
+  const ix = Object.fromEntries(head.map((h, i) => [h, i]));
+  HIST = {};
+  for (const r of rows.slice(1)) {
+    if (r.length < head.length) continue;
+    const wk = r[ix.iso_week], rc = r[ix.region_code], kpi = r[ix.kpi_id];
+    const v = parseFloat(r[ix.value]);
+    if (!wk || !rc || !kpi || !isFinite(v)) continue;
+    ((HIST[wk] = HIST[wk] || {})[rc] = HIST[wk][rc] || {})[kpi] = v;
+  }
+  HIST_WEEKS = Object.keys(HIST).sort();
+}
+
+function histValue(week, reg, kpi) {
+  const w = HIST[week];
+  return w && w[reg] ? w[reg][kpi] : undefined;
+}
+
+// Raw input value for one pillar input as of a given week index in HIST_WEEKS.
+// For the newest week, the live current.json value wins over the CSV.
+function rawInput(inp, reg, weekIdx) {
+  const week = HIST_WEEKS[weekIdx];
+  const live = weekIdx === HIST_WEEKS.length - 1
+    ? (DATA.regions[reg].kpis[inp.kpi] || {}).value : undefined;
+  const now = live !== undefined && live !== null ? live : histValue(week, reg, inp.kpi);
+  if (now === undefined) return undefined;
+  if (inp.kind === "automation") return 100 - now;
+  if (inp.kind === "change12w") {
+    const prevWeek = HIST_WEEKS[Math.max(0, weekIdx - 12)];
+    const prev = histValue(prevWeek, reg, inp.kpi);
+    if (prev === undefined) return undefined;
+    return now - prev;
+  }
+  return now;
+}
+
+// Score one pillar for (region, week index). Missing inputs redistribute
+// their weight pro-rata (per spec). Returns {score, inputs:[...]}.
+function scorePillar(pillar, reg, weekIdx) {
+  const inputs = pillar.inputs.map((inp) => {
+    const raw = rawInput(inp, reg, weekIdx);
+    return { ...inp, raw, norm: raw === undefined ? undefined : normBand(inp.band, raw) };
+  });
+  const avail = inputs.filter((i) => i.norm !== undefined);
+  if (!avail.length) return { score: undefined, inputs };
+  const wSum = avail.reduce((s, i) => s + i.weight, 0);
+  const score = avail.reduce((s, i) => s + i.norm * (i.weight / wSum), 0);
+  inputs.forEach((i) => {
+    i.effWeight = i.norm === undefined ? 0 : i.weight / wSum;
+    i.contribution = i.norm === undefined ? 0 : i.norm * i.effWeight;
+  });
+  return { score, inputs };
+}
+
+// Full derived bundle for the selected region at the latest week,
+// plus per-pillar + composite history for sparklines and deltas.
+function computeDerived(reg) {
+  const lastIdx = HIST_WEEKS.length - 1;
+  const pillars = PILLARS.map((p) => {
+    const now = scorePillar(p, reg, lastIdx);
+    const series = HIST_WEEKS.map((_, i) => scorePillar(p, reg, i).score);
+    const prevIdx = Math.max(0, lastIdx - 4);
+    const delta = (now.score !== undefined && series[prevIdx] !== undefined)
+      ? now.score - series[prevIdx] : undefined;
+    // confidence = share of effective weight backed by measured KPIs
+    const kpis = DATA.regions[reg].kpis;
+    const conf = now.inputs.reduce((s, i) =>
+      s + ((kpis[i.kpi] || {}).measurement === "measured" ? i.effWeight || 0 : 0), 0);
+    return { ...p, score: now.score, inputs: now.inputs, series, delta, confidence: conf };
+  });
+  const availP = pillars.filter((p) => p.score !== undefined);
+  const wSum = availP.reduce((s, p) => s + COMPOSITE_WEIGHTS[p.id], 0);
+  const composite = availP.reduce((s, p) => s + p.score * (COMPOSITE_WEIGHTS[p.id] / wSum), 0);
+  const compSeries = HIST_WEEKS.map((_, i) => {
+    const scored = PILLARS.map((p) => ({ id: p.id, s: scorePillar(p, reg, i).score }))
+      .filter((x) => x.s !== undefined);
+    const w = scored.reduce((s, x) => s + COMPOSITE_WEIGHTS[x.id], 0);
+    return scored.length ? scored.reduce((s, x) => s + x.s * (COMPOSITE_WEIGHTS[x.id] / w), 0) : undefined;
+  });
+  const compPrev = compSeries[Math.max(0, lastIdx - 4)];
+  const confidence = availP.reduce((s, p) =>
+    s + p.confidence * (COMPOSITE_WEIGHTS[p.id] / wSum), 0);
+  return { composite, compSeries,
+           compDelta: compPrev !== undefined ? composite - compPrev : undefined,
+           confidence, pillars };
+}
+
+// --- derived renderers --------------------------------------------
+function sparkSvg(series, w, h, cls) {
+  const pts = series.map((v, i) => [i, v]).filter(([, v]) => v !== undefined);
+  if (pts.length < 2) return "";
+  const xs = pts.map(([i]) => i), ys = pts.map(([, v]) => v);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs);
+  const yMin = Math.min(...ys, 0), yMax = Math.max(...ys, 100);
+  const px = (i) => ((i - x0) / (x1 - x0 || 1)) * (w - 4) + 2;
+  const py = (v) => h - 3 - ((v - yMin) / (yMax - yMin || 1)) * (h - 6);
+  const d = pts.map(([i, v], n) => `${n ? "L" : "M"}${px(i).toFixed(1)},${py(v).toFixed(1)}`).join("");
+  const [li, lv] = pts[pts.length - 1];
+  return `<svg class="spark ${cls || ""}" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true">
+    <path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="${px(li).toFixed(1)}" cy="${py(lv).toFixed(1)}" r="3" fill="currentColor"/></svg>`;
+}
+
+const fmtScore = (s) => (s === undefined ? "—" : Math.round(s));
+const fmtDelta = (d) => d === undefined ? "" :
+  `<span class="pd-delta ${d > 1 ? "up" : d < -1 ? "down" : "flat"}">${d > 1 ? "▲" : d < -1 ? "▼" : "▬"} ${Math.abs(d) < 0.5 ? "steady" : (d > 0 ? "+" : "−") + Math.abs(d).toFixed(0) + " vs last month"}</span>`;
+
+function lineageTable(pillar, reg) {
+  const kpis = DATA.regions[reg].kpis;
+  const rows = pillar.inputs.map((i) => {
+    const k = kpis[i.kpi] || {};
+    const b = BANDS[i.band];
+    const meas = k.measurement === "measured" ? "measured" : "modelled";
+    if (i.raw === undefined) {
+      return `<tr class="lin-missing"><td>${b.label}</td><td colspan="4">not available — weight redistributed</td>
+        <td><span class="meas meas-${meas}">${meas}</span></td></tr>`;
+    }
+    return `<tr>
+      <td>${b.label}<div class="lin-src"><a href="${k.source_url || "#"}" target="_blank" rel="noopener">${k.source || i.kpi}</a></div></td>
+      <td class="num">${i.raw.toFixed(1)}</td>
+      <td class="num lin-band">${b.lo} → ${b.hi}</td>
+      <td class="num">${i.norm.toFixed(0)}</td>
+      <td class="num">× ${(i.effWeight * 100).toFixed(0)}% = <b>${i.contribution.toFixed(1)}</b></td>
+      <td><span class="meas meas-${meas}">${meas}</span></td>
+    </tr>`;
+  }).join("");
+  return `<table class="lineage">
+    <thead><tr><th>Input (source)</th><th class="num">Raw</th><th class="num">Band 0→100</th>
+    <th class="num">Score</th><th class="num">Weight × score</th><th>Provenance</th></tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr><td colspan="6">Pillar score = Σ (weight × normalized input) = <b>${fmtScore(pillar.score)}</b>
+    &nbsp;·&nbsp; ${Math.round(pillar.confidence * 100)}% of weight from <em>measured</em> sources</td></tr></tfoot>
+  </table>`;
+}
+
+function renderDerived() {
+  const host = $("derived");
+  if (!host || !HIST) return;
+  const d = computeDerived(region);
+  const st = statusOf(d.composite || 0);
+  const compFormula = PILLARS.map((p) =>
+    `${Math.round(COMPOSITE_WEIGHTS[p.id] * 100)}% ${p.label}`).join(" + ");
+
+  host.innerHTML = `
+  <div class="derived-hero ${st.cls}">
+    <div class="dh-gauge">
+      <svg viewBox="0 0 200 120" width="200" height="120" aria-hidden="true">
+        <path d="M20 105 A85 85 0 0 1 180 105" fill="none" stroke="var(--light-2)" stroke-width="14" stroke-linecap="round"/>
+        <path d="M20 105 A85 85 0 0 1 180 105" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"
+              stroke-dasharray="${(267 * (d.composite || 0) / 100).toFixed(0)} 400"/>
+      </svg>
+      <div class="dh-score">${fmtScore(d.composite)}<span class="dh-outof">/100</span></div>
+    </div>
+    <div class="dh-main">
+      <div class="dh-kicker">AI Pressure Index · ${DATA.regions[region].label}</div>
+      <div class="dh-status">${st.word} pressure ${fmtDelta(d.compDelta)}</div>
+      <p class="dh-read">One number, 0–100, for how much pressure AI is putting on this job market right now
+        — built from ${compFormula}. <b>${Math.round(d.confidence * 100)}%</b> of its weight comes from
+        <em>measured</em> sources this week.</p>
+      <div class="dh-spark">${sparkSvg(d.compSeries, 220, 44, "")}<span>since ${HIST_WEEKS[0] || ""}</span></div>
+    </div>
+    <button type="button" class="ghost-btn dh-how deep-only" data-modal="methodology-modal">Full methodology →</button>
+  </div>
+
+  <div class="pillar-grid">
+    ${d.pillars.map((p) => {
+      const ps = statusOf(p.score || 0);
+      return `
+      <article class="pillar ${ps.cls}">
+        <header>
+          <span class="p-q">${p.question}</span>
+          <span class="p-label">${p.label}</span>
+        </header>
+        <div class="p-score-row">
+          <span class="p-score">${fmtScore(p.score)}</span>
+          <span class="p-status">${ps.word}</span>
+          ${sparkSvg(p.series, 110, 34, "")}
+        </div>
+        <div class="p-meta">${fmtDelta(p.delta)}
+          <span class="p-conf" title="Share of this signal's weight backed by measured (not modelled) sources">
+            ${Math.round(p.confidence * 100)}% measured</span></div>
+        <details class="p-lineage deep-only">
+          <summary>Under the hood — how this number is built</summary>
+          ${lineageTable(p, region)}
+        </details>
+      </article>`;
+    }).join("")}
+  </div>
+  <p class="derived-note deep-only">Derived metrics are computed in your browser from
+    <a href="data/current.json">current.json</a> + <a href="data/historical.csv">historical.csv</a>
+    using fixed calibration bands — spec in
+    <a href="https://github.com/pallabk9/ai-jobmarket-tracker/blob/main/DERIVED_METRICS.md" target="_blank" rel="noopener">DERIVED_METRICS.md</a>.
+    Scores compare a region to itself over time; they are not cross-country exposure rankings.</p>`;
+
+  // the "Full methodology" button reuses the modal opener
+  host.querySelectorAll("[data-modal]").forEach((el) => el.addEventListener("click", (e) => {
+    e.preventDefault();
+    const dlg = document.getElementById(el.dataset.modal);
+    if (dlg && !dlg.open) dlg.showModal();
+  }));
+}
+
+// --- mode toggle ---------------------------------------------------
+function applyMode() {
+  document.body.classList.toggle("mode-simple", mode === "simple");
+  document.body.classList.toggle("mode-deep", mode === "deep");
+  document.querySelectorAll("[data-mode]").forEach((e) =>
+    e.classList.toggle("active", e.dataset.mode === mode));
+}
 
 // ---------- DOM helpers ----------
 const $ = (id) => document.getElementById(id);
@@ -454,6 +774,7 @@ async function renderSnapshots() {
 
 // ---------- Top-level binders ----------
 function renderAll() {
+  renderDerived();
   renderKpis();
   renderNarrative();
   renderOccTable();
@@ -480,6 +801,15 @@ document.querySelectorAll("[data-region]").forEach((el) => {
     renderAll();
   });
 });
+document.querySelectorAll("[data-mode]").forEach((el) => {
+  el.addEventListener("click", () => {
+    mode = el.dataset.mode === "deep" ? "deep" : "simple";
+    try { localStorage.setItem("aijmit.mode", mode); } catch (e) {}
+    applyMode();
+    // charts in previously-hidden deep cards need a fresh layout pass
+    if (mode === "deep" && DATA) renderAll();
+  });
+});
 document.querySelectorAll("[data-cadence]").forEach((el) => {
   el.addEventListener("click", () => {
     document.querySelectorAll("[data-cadence]").forEach((e) => e.classList.remove("active"));
@@ -494,6 +824,8 @@ document.querySelectorAll("[data-cadence]").forEach((el) => {
 try {
   const r = localStorage.getItem("aijmit.region");
   const c = localStorage.getItem("aijmit.cadence");
+  const m = localStorage.getItem("aijmit.mode");
+  if (m === "deep" || m === "simple") mode = m;
   if (r) {
     region = r;
     document.querySelectorAll("[data-region]").forEach((e) => e.classList.toggle("active", e.dataset.region === r));
@@ -546,10 +878,12 @@ if (typeof Chart !== "undefined") {
 // Bootstrap
 (async function init() {
   try {
+    applyMode();
     const res = await fetch("data/current.json", { cache: "no-store" });
     if (!res.ok) throw new Error("could not load data/current.json");
     DATA = await res.json();
     if (!DATA.regions[region]) region = "US";
+    try { await loadHistory(); } catch (e) { HIST = null; }  // derived layer degrades gracefully
     renderAll();
     renderSnapshots();
   } catch (e) {
