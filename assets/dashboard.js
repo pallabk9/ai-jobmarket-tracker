@@ -334,14 +334,14 @@ function renderDerived() {
               stroke-dasharray="${(267 * (d.composite || 0) / 100).toFixed(0)} 400"/>
       </svg>
       <div class="dh-score">${fmtScore(d.composite)}<span class="dh-outof">/100</span></div>
-    </div>
+    </div><!-- gauge svg scales via CSS -->
     <div class="dh-main">
       <div class="dh-kicker">AI Pressure Index · ${DATA.regions[region].label}</div>
       <div class="dh-status">${st.word} pressure ${fmtDelta(d.compDelta)}</div>
       <p class="dh-read">One number, 0–100, for how much pressure AI is putting on this job market right now
         — built from ${compFormula}. <b>${Math.round(d.confidence * 100)}%</b> of its weight comes from
         <em>measured</em> sources this week.</p>
-      <div class="dh-spark">${sparkSvg(d.compSeries, 220, 44, "")}<span>since ${HIST_WEEKS[0] || ""}</span></div>
+      <div class="dh-spark">${sparkSvg(d.compSeries, 280, 54, "")}<span>since ${HIST_WEEKS[0] || ""}</span></div>
     </div>
     <button type="button" class="ghost-btn dh-how deep-only" data-modal="methodology-modal">Full methodology →</button>
   </div>
@@ -358,7 +358,7 @@ function renderDerived() {
         <div class="p-score-row">
           <span class="p-score">${fmtScore(p.score)}</span>
           <span class="p-status">${ps.word}</span>
-          ${sparkSvg(p.series, 110, 34, "")}
+          ${sparkSvg(p.series, 170, 52, "")}
         </div>
         <div class="p-meta">${fmtDelta(p.delta)}
           <span class="p-conf" title="Share of this signal's weight backed by measured (not modelled) sources">

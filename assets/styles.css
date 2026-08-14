@@ -623,3 +623,80 @@ body.mode-deep .pillar-grid { grid-template-columns: repeat(auto-fit, minmax(420
   body.mode-deep .pillar-grid { grid-template-columns: 1fr; }
 }
 .dh-outof { font-size: 15px; color: var(--c-faint); font-family: var(--font-sans); font-weight: 600; }
+
+/* ============================================================
+   2026-08-14b — visual emphasis pass
+   1. AI Pressure Index hero: dark Midnight panel, larger gauge
+   2. Pillar tiles: the four hooks — substantially bigger
+   3. Simple-mode news card: full width, items flow in columns
+   ============================================================ */
+
+/* --- 1. hero: dark highlighted panel --- */
+.derived-hero {
+  background: linear-gradient(135deg, var(--midnight) 0%, var(--midnight-2) 100%);
+  border: none; border-left: 6px solid currentColor;
+  padding: 30px 34px; gap: 34px;
+  box-shadow: 0 10px 28px rgba(37,55,70,0.28);
+}
+.dh-gauge svg { width: 260px; height: 156px; }
+.dh-gauge svg path[stroke^="var(--light-2)"] { stroke: rgba(255,255,255,0.16); }
+.dh-score {
+  bottom: 6px; font-size: 58px; color: #fff;
+}
+.dh-outof { font-size: 18px; color: var(--light); opacity: 0.75; }
+.dh-kicker { color: var(--sky); }
+.derived-hero .dh-status { color: #fff; font-size: 36px; }
+.dh-read { color: var(--light); font-size: 14px; max-width: 720px; }
+.dh-read b, .dh-read em { color: #fff; }
+.dh-spark span { color: rgba(255,255,255,0.55); }
+.derived-hero .ghost-btn {
+  color: #fff; background: transparent; border-color: rgba(255,255,255,0.55);
+}
+.derived-hero .ghost-btn:hover { background: #fff; color: var(--midnight); border-color: #fff; }
+
+/* --- 2. pillar tiles: the four hooks, big --- */
+.pillar-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(430px, 100%), 1fr));
+  gap: 18px; margin-bottom: 22px;
+}
+.pillar {
+  border-top-width: 5px; padding: 24px 28px 20px;
+  box-shadow: 0 3px 14px rgba(37,55,70,0.09);
+}
+.pillar.st-low  { background: linear-gradient(180deg, var(--mint-tint) 0%, #fff 55%); }
+.pillar.st-mod  { background: linear-gradient(180deg, var(--dusk-tint) 0%, #fff 55%); }
+.pillar.st-elev { background: linear-gradient(180deg, var(--coral-tint) 0%, #fff 55%); }
+.pillar.st-high { background: linear-gradient(180deg, var(--coral-tint) 0%, #fff 45%); }
+.pillar .p-q { font-size: 14px; }
+.pillar .p-label { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+.pillar header { margin-bottom: 14px; }
+.p-score { font-size: 64px; }
+.p-status { font-size: 15px; letter-spacing: 0.06em; }
+.p-meta { font-size: 13px; margin-top: 10px; }
+.p-conf { padding: 3px 11px; }
+.pillar .p-lineage summary { font-size: 12.5px; }
+
+/* --- 3. simple mode: news card fills the row, items in columns --- */
+body.mode-simple .cards-grid .card.span-5 { grid-column: span 12; }
+body.mode-simple .feed {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  gap: 4px 26px;
+}
+
+@media (max-width: 640px) {
+  .derived-hero { padding: 20px; gap: 18px; }
+  .derived-hero .dh-status { font-size: 25px; }
+  .dh-gauge svg { width: 200px; height: 120px; }
+  .dh-score { font-size: 44px; }
+  .p-score { font-size: 48px; }
+  .pillar { padding: 18px 20px 16px; }
+}
+
+/* dark-hero color lift: brighter status accents against Midnight */
+.derived-hero.st-low  { color: var(--mint); }
+.derived-hero.st-mod  { color: var(--dusk); }
+.derived-hero.st-elev { color: var(--coral); }
+.derived-hero.st-high { color: #FF7A5C; }
+.derived-hero .pd-delta.up   { color: var(--coral); }
+.derived-hero .pd-delta.down { color: var(--mint); }
+.derived-hero .pd-delta.flat { color: var(--light); }
