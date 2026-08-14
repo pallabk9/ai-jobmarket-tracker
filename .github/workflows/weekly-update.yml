@@ -29,6 +29,10 @@ jobs:
       - name: Refresh weekly data
         env:
           BLS_API_KEY: ${{ secrets.BLS_API_KEY }}  # optional; raises BLS rate limits
+          # optional; enables Adzuna adapters (IN/APAC postings + AI share,
+          # all-region salary premium). Register free at developer.adzuna.com.
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
           FORCE_REFRESH: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}  # manual run re-pulls current week
         run: python scripts/update_data.py
 
