@@ -35,55 +35,6 @@ A live dashboard tracking AI's impact on labour markets across six regions, grou
     └── weekly-update.yml            # Monday 06:00 UTC cron
 ```
 
-## Deployment — one-time setup
-
-### 1. Create the GitHub repo
-
-1. Sign in to https://github.com
-2. Click **+** → **New repository**
-3. Name it `ai-jobmarket-tracker` (or anything you prefer)
-4. Make it **public** (required for the free Netlify and free GitHub Actions tiers)
-5. **Don't** initialise it with a README, .gitignore, or licence — this repo already has those
-6. Create the repo, then on the empty repo page copy the `git push` instructions
-
-### 2. Push this folder to GitHub
-
-From the `netlify-site` folder:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit: AI Job Market Impact Tracker"
-git branch -M main
-git remote add origin https://github.com/<your-username>/ai-jobmarket-tracker.git
-git push -u origin main
-```
-
-If you don't use the command line, you can drag-drop the files directly into the GitHub repo's web UI via the **Add file → Upload files** button.
-
-### 3. Connect Netlify
-
-1. Sign in to https://app.netlify.com
-2. **Add new site** → **Import an existing project** → **GitHub**
-3. Authorise Netlify to read your repos, pick `ai-jobmarket-tracker`
-4. Build settings:
-   - **Build command:** _leave empty_
-   - **Publish directory:** _leave as the repo root (`.`)_
-5. **Deploy site**
-
-Netlify gives you a temporary URL like `https://random-words-12345.netlify.app`. You can change this under **Site settings → Change site name**, or connect a custom domain.
-
-### 4. Confirm the weekly cron is active
-
-GitHub Actions are enabled by default on public repos. To verify:
-
-1. Open the repo's **Actions** tab
-2. You should see the **Weekly data refresh** workflow listed
-3. Click **Run workflow → Run workflow** to do a manual test run now
-4. The workflow runs `scripts/update_data.py`, commits any data changes, and pushes — Netlify auto-redeploys on the push
-
-The cron is set to `0 6 * * 1` (Mondays at 06:00 UTC). Adjust in `.github/workflows/weekly-update.yml` if you want a different time.
-
 ## Simple / Deep view and derived metrics (added 2026-08-14)
 
 The dashboard has two reading levels, toggled at the top of the Live
