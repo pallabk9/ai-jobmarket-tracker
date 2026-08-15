@@ -2,7 +2,7 @@
 
 A live dashboard tracking AI's impact on labour markets across six regions, grounded in the Anthropic Observed Exposure methodology (Massenkoff & McCrory, March 2026).
 
-**Live site:** _(URL set after first Netlify deploy)_
+**Live site:** https://ai-jobmarket-tracker.netlify.app/
 
 ## What this is
 
