@@ -1,0 +1,11 @@
+sector_id,label,isic_section,naics_codes,indeed_sectors,ces_series,notes
+banking,Banking & financial markets,K,522000;523000,Banking & Finance,CES5552000001,ISIC/NACE/SIC/ANZSIC section K combines banking+insurance; split real in US NAICS and EU NACE 2-digit
+insurance,Insurance,K,524000,,CES5552400001,Shares section K exposure where matrix is section-level; Indeed has no insurance sector
+it_software,IT & software,J,513000;518000;519000;541500,"Software Development;IT Infrastructure, Operations & Support;IT Systems & Solutions;Data & Analytics",CES5000000001,Section J combines IT+telecom+media; split real in US NAICS
+telecom_media,Telecom & media,J,512000;516000;517000,Media & Communications,CES5051700001,Shares section J exposure where matrix is section-level
+manufacturing,Manufacturing,C,311000;325000;333000;334000;336000,Production & Manufacturing;Industrial Engineering,CES3000000001,US occupation mix from 5 largest 3-digit manufacturing industries
+healthcare,Healthcare,Q,621000;622000;623000,Nursing;Physicians & Surgeons;Medical Technician;Medical Information;Pharmacy,CES6562000001,
+retail,Retail & consumer,G,441000;445000;449000;455000;456000,Retail;Loading & Stocking,CES4200000001,US retail 3-digit codes are 2022-NAICS; drop any without OEWS data
+professional,Professional services,M,541000,Legal;Accounting;Marketing;Human Resources;Project Management;Scientific Research & Development,CES6054000001,
+education,Education,P,611000,Education & Instruction,CES6561000001,
+government,Government & public,O,999000,Community & Social Service;Security & Public Safety,CES9000000001,US uses OEWS government ownership aggregate 999000
