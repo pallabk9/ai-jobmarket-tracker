@@ -398,6 +398,7 @@ let sectorSel = null;       // selected sector id for the detail panel
 const SEC_BANDS = {
   postings_delta: { lo: 5, hi: -15 },   // 12-week postings change: falling = pressure
   demand_pct:     { lo: 2, hi: -6 },    // vacancies/employment % change vs prior period
+  momentum_yoy:   { lo: 20, hi: -15 },  // YoY hiring % (Naukri IN): shrinking = pressure
 };
 const SEC_WEIGHTS = { exposure: 0.5, postings: 0.3, demand: 0.2 };
 
@@ -416,6 +417,11 @@ function sectorPressure(node) {
     parts.push(["postings", secNorm("postings_delta", sig.postings.delta12w),
       SEC_WEIGHTS.postings,
       `postings ${sig.postings.delta12w >= 0 ? "+" : ""}${sig.postings.delta12w} pts / 12wk (band +5 → −15)`]);
+  else if (sig.momentum && sig.momentum.value != null)
+    // regions without a postings index (IN) use hiring momentum in its slot
+    parts.push(["momentum", secNorm("momentum_yoy", sig.momentum.value),
+      SEC_WEIGHTS.postings,
+      `hiring ${sig.momentum.value >= 0 ? "+" : ""}${sig.momentum.value}% YoY (band +20% → −15%)`]);
   const demand = sig.vacancies || sig.employment;
   if (demand && demand.delta_prev != null && demand.value) {
     const pct = 100 * demand.delta_prev / Math.max(1e-9, demand.value - demand.delta_prev);
@@ -481,8 +487,14 @@ function renderSectorDetail(list) {
   if (sig.vacancies) sigCards.push(`
     <div class="sd-sig">
       <div class="sd-sig-label">Vacancies <span class="meas meas-${sig.vacancies.measurement}">${sig.vacancies.measurement}</span></div>
-      <div class="sd-sig-val">${sig.vacancies.value}<span class="sd-sig-unit"> ${sig.vacancies.unit.replace("k vacancies", "k")}</span></div>
+      <div class="sd-sig-val">${Number(sig.vacancies.value).toLocaleString("en-GB")}<span class="sd-sig-unit"> ${sig.vacancies.unit.replace("k vacancies", "k")}</span></div>
       <div class="sd-sig-sub">${sig.vacancies.delta_prev == null ? "" : (sig.vacancies.delta_prev >= 0 ? "+" : "") + sig.vacancies.delta_prev + " vs prior · "}${sig.vacancies.period}</div>
+    </div>`);
+  if (sig.momentum) sigCards.push(`
+    <div class="sd-sig">
+      <div class="sd-sig-label">Hiring momentum <span class="meas meas-${sig.momentum.measurement}">${sig.momentum.measurement}</span></div>
+      <div class="sd-sig-val">${sig.momentum.value >= 0 ? "+" : ""}${sig.momentum.value}<span class="sd-sig-unit"> ${sig.momentum.unit}</span></div>
+      <div class="sd-sig-sub">${sig.momentum.period}</div>
     </div>`);
 
   const lineageRows = pressure.parts.map((p) => `
@@ -593,8 +605,10 @@ function renderSectors() {
         a fixed-band blend of AI-exposure index (50%), 12-week posting trend (30%) and official
         vacancy/employment momentum (20%). Click a sector for its occupation make-up, live signals
         and (in Deep view) the full lineage.</p>
-        <p><strong>Coverage:</strong> Phase 1 = US, UK, EU, AU. India &amp; APAC arrive in Phase 2.
-        Exposure scores are within-region indexes, not cross-country comparisons.</p>
+        <p><strong>Coverage:</strong> all six regions. India's posting slot uses Naukri JobSpeak
+        hiring momentum (% YoY, text-parsed from the monthly report); APAC pools SGP+JPN+KOR
+        matrices and uses Singapore MOM vacancies as its proxy demand market. Exposure scores
+        are within-region indexes, not cross-country comparisons.</p>
       </details>
     </header>
     <div class="sector-strip">${chips}</div>
