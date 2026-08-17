@@ -36,6 +36,11 @@ jobs:
           FORCE_REFRESH: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}  # manual run re-pulls current week
         run: python scripts/update_data.py
 
+      - name: Refresh sector signals (postings, employment, vacancies)
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+        run: python scripts/update_sectors.py
+
       - name: Rebuild user manual (in case methodology was updated)
         run: python scripts/build_manual.py
 

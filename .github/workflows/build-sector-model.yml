@@ -1,0 +1,51 @@
+name: Sector exposure model (quarterly)
+
+on:
+  schedule:
+    # Quarterly: 2nd of Jan/Apr/Jul/Oct at 08:00 UTC (after the occupation
+    # model builds on the 1st, and after OEWS/LFS quarterly refreshes)
+    - cron: "0 8 2 1,4,7,10 *"
+  workflow_dispatch:  # run manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  build-sectors:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openpyxl
+
+      - name: Build sector exposure model (US, UK, EU, AU)
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}  # needed for the OEWS matrix batch
+        run: python scripts/build_sector_model.py
+
+      - name: Refresh sector signals on the new model
+        env:
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+        run: python scripts/update_sectors.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/sectors.json data/sector_series.csv
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(sectors): quarterly exposure model rebuild $(date -u +'%Y-%m-%d')"
+            git pull --rebase
+            git push
+          fi
