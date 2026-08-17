@@ -89,3 +89,389 @@ run_date,region,sector_id,signal,value,unit,period,source,measurement
 2026-08-17,US,professional,postings,94.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Legal, Accounting…)",measured
 2026-08-17,US,education,postings,110.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Education & Instruction),measured
 2026-08-17,US,government,postings,109.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,UK,banking,postings,84.8,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Banking & Finance),measured
+2026-08-17,UK,banking,employment,1112.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS7, SA)",measured
+2026-08-17,UK,banking,vacancies,32.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9Q, SA)",measured
+2026-08-17,UK,insurance,employment,1112.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS7, SA)",measured
+2026-08-17,UK,insurance,vacancies,32.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9Q, SA)",measured
+2026-08-17,UK,it_software,postings,54.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,UK,it_software,employment,1577.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS6, SA)",measured
+2026-08-17,UK,it_software,vacancies,41.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9P, SA)",measured
+2026-08-17,UK,telecom_media,postings,45.2,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Media & Communications),measured
+2026-08-17,UK,telecom_media,employment,1577.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS6, SA)",measured
+2026-08-17,UK,telecom_media,vacancies,41.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9P, SA)",measured
+2026-08-17,UK,manufacturing,postings,101.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,UK,manufacturing,employment,2482.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWR7, SA)",measured
+2026-08-17,UK,manufacturing,vacancies,48.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9I, SA)",measured
+2026-08-17,UK,healthcare,postings,54.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,UK,healthcare,employment,5090.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWT5, SA)",measured
+2026-08-17,UK,healthcare,vacancies,121.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9W, SA)",measured
+2026-08-17,UK,retail,postings,82.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Retail, Loading & Stocking)",measured
+2026-08-17,UK,retail,employment,4629.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS3, SA)",measured
+2026-08-17,UK,retail,vacancies,87.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9M, SA)",measured
+2026-08-17,UK,professional,postings,66.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Legal, Accounting…)",measured
+2026-08-17,UK,professional,employment,3492.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS9, SA)",measured
+2026-08-17,UK,professional,vacancies,70.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9S, SA)",measured
+2026-08-17,UK,education,postings,117.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Education & Instruction),measured
+2026-08-17,UK,education,vacancies,47.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9V, SA)",measured
+2026-08-17,UK,government,postings,84.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,UK,government,vacancies,29.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9U, SA)",measured
+2026-08-17,AU,banking,postings,111.5,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (AU: Banking & Finance),measured
+2026-08-17,AU,banking,employment,523.7,k persons,2026-Q1,"ABS Labour Account (ANZSIC K, measure M12)",measured
+2026-08-17,AU,banking,vacancies,8.9,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC K),measured
+2026-08-17,AU,insurance,employment,523.7,k persons,2026-Q1,"ABS Labour Account (ANZSIC K, measure M12)",measured
+2026-08-17,AU,insurance,vacancies,8.9,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC K),measured
+2026-08-17,AU,it_software,postings,99.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,AU,it_software,employment,207.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC J, measure M12)",measured
+2026-08-17,AU,it_software,vacancies,3.6,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC J),measured
+2026-08-17,AU,telecom_media,postings,70.9,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (AU: Media & Communications),measured
+2026-08-17,AU,telecom_media,employment,207.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC J, measure M12)",measured
+2026-08-17,AU,telecom_media,vacancies,3.6,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC J),measured
+2026-08-17,AU,manufacturing,postings,148.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,AU,manufacturing,employment,904.3,k persons,2026-Q1,"ABS Labour Account (ANZSIC C, measure M12)",measured
+2026-08-17,AU,manufacturing,vacancies,21.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC C),measured
+2026-08-17,AU,healthcare,postings,136.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,AU,healthcare,employment,2580.6,k persons,2026-Q1,"ABS Labour Account (ANZSIC Q, measure M12)",measured
+2026-08-17,AU,healthcare,vacancies,56.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC Q),measured
+2026-08-17,AU,retail,postings,222.4,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Retail, Loading & Stocking)",measured
+2026-08-17,AU,retail,employment,1522.0,k persons,2026-Q1,"ABS Labour Account (ANZSIC G, measure M12)",measured
+2026-08-17,AU,retail,vacancies,26.0,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC G),measured
+2026-08-17,AU,professional,postings,115.0,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Legal, Accounting…)",measured
+2026-08-17,AU,professional,employment,1323.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC M, measure M12)",measured
+2026-08-17,AU,professional,vacancies,35.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC M),measured
+2026-08-17,AU,education,employment,1344.2,k persons,2026-Q1,"ABS Labour Account (ANZSIC P, measure M12)",measured
+2026-08-17,AU,education,vacancies,11.0,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC P),measured
+2026-08-17,AU,government,postings,161.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,AU,government,employment,891.9,k persons,2026-Q1,"ABS Labour Account (ANZSIC O, measure M12)",measured
+2026-08-17,AU,government,vacancies,21.2,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC O),measured
+2026-08-17,EU,banking,postings,86.0,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Banking & Finance),measured
+2026-08-17,EU,banking,employment,3099.6,k persons,2025-Q4,"Eurostat lfsq_egan22d (K64), EU27",measured
+2026-08-17,EU,banking,vacancies,1.7,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE K, EU27)",measured
+2026-08-17,EU,insurance,employment,1167.5,k persons,2025-Q4,"Eurostat lfsq_egan22d (K65), EU27",measured
+2026-08-17,EU,insurance,vacancies,1.7,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE K, EU27)",measured
+2026-08-17,EU,it_software,postings,64.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,EU,it_software,employment,8007.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE J), EU27",measured
+2026-08-17,EU,it_software,vacancies,2.2,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE J, EU27)",measured
+2026-08-17,EU,telecom_media,postings,57.0,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Media & Communications),measured
+2026-08-17,EU,telecom_media,employment,8007.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE J), EU27",measured
+2026-08-17,EU,telecom_media,vacancies,2.2,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE J, EU27)",measured
+2026-08-17,EU,manufacturing,postings,89.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,EU,manufacturing,employment,31399.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE C), EU27",measured
+2026-08-17,EU,manufacturing,vacancies,1.5,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE C, EU27)",measured
+2026-08-17,EU,healthcare,postings,152.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,EU,healthcare,employment,24095.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE Q), EU27",measured
+2026-08-17,EU,retail,postings,110.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Retail, Loading & Stocking)",measured
+2026-08-17,EU,retail,employment,27991.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE G), EU27",measured
+2026-08-17,EU,retail,vacancies,1.8,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE G, EU27)",measured
+2026-08-17,EU,professional,postings,77.4,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Legal, Accounting…)",measured
+2026-08-17,EU,professional,employment,12806.6,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE M), EU27",measured
+2026-08-17,EU,professional,vacancies,2.4,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE M, EU27)",measured
+2026-08-17,EU,education,postings,109.8,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Education & Instruction),measured
+2026-08-17,EU,education,employment,15960.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE P), EU27",measured
+2026-08-17,EU,government,postings,139.1,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,EU,government,employment,14666.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE O), EU27",measured
+2026-08-17,US,banking,postings,103.5,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Banking & Finance),measured
+2026-08-17,US,it_software,postings,69.0,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,US,telecom_media,postings,70.6,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Media & Communications),measured
+2026-08-17,US,manufacturing,postings,116.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,US,healthcare,postings,126.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,US,retail,postings,97.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Retail, Loading & Stocking)",measured
+2026-08-17,US,professional,postings,94.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Legal, Accounting…)",measured
+2026-08-17,US,education,postings,110.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Education & Instruction),measured
+2026-08-17,US,government,postings,109.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,IN,banking,employment,6085.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, IND)",measured
+2026-08-17,IN,insurance,employment,6085.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, IND)",measured
+2026-08-17,IN,it_software,employment,6854.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, IND)",measured
+2026-08-17,IN,telecom_media,employment,6854.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, IND)",measured
+2026-08-17,IN,manufacturing,employment,60142.5,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC C, IND)",measured
+2026-08-17,IN,healthcare,employment,8441.6,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC Q, IND)",measured
+2026-08-17,IN,retail,employment,52830.4,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC G, IND)",measured
+2026-08-17,IN,professional,employment,4358.7,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC M, IND)",measured
+2026-08-17,IN,education,employment,16320.3,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC P, IND)",measured
+2026-08-17,IN,government,employment,7681.3,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, IND)",measured
+2026-08-17,APAC,banking,employment,825.9,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,insurance,employment,825.9,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,it_software,employment,1174.4,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,telecom_media,employment,1174.4,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,manufacturing,employment,4318.0,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC C, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,manufacturing,vacancies,3500,vacancies (SG),2001-Q3,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,healthcare,employment,3447.5,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC Q, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,retail,employment,3198.9,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC G, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,retail,vacancies,1000,vacancies (SG),2001-Q3,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,professional,employment,1422.4,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC M, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,education,employment,1940.1,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC P, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,government,employment,1358.2,k persons,KOR 2026-Q2,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, pooled SGP+JPN+KOR)",measured
+2026-08-17,UK,banking,postings,84.8,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Banking & Finance),measured
+2026-08-17,UK,banking,employment,1112.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS7, SA)",measured
+2026-08-17,UK,banking,vacancies,32.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9Q, SA)",measured
+2026-08-17,UK,insurance,employment,1112.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS7, SA)",measured
+2026-08-17,UK,insurance,vacancies,32.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9Q, SA)",measured
+2026-08-17,UK,it_software,postings,54.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,UK,it_software,employment,1577.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS6, SA)",measured
+2026-08-17,UK,it_software,vacancies,41.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9P, SA)",measured
+2026-08-17,UK,telecom_media,postings,45.2,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Media & Communications),measured
+2026-08-17,UK,telecom_media,employment,1577.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS6, SA)",measured
+2026-08-17,UK,telecom_media,vacancies,41.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9P, SA)",measured
+2026-08-17,UK,manufacturing,postings,101.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,UK,manufacturing,employment,2482.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWR7, SA)",measured
+2026-08-17,UK,manufacturing,vacancies,48.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9I, SA)",measured
+2026-08-17,UK,healthcare,postings,54.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,UK,healthcare,employment,5090.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWT5, SA)",measured
+2026-08-17,UK,healthcare,vacancies,121.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9W, SA)",measured
+2026-08-17,UK,retail,postings,82.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Retail, Loading & Stocking)",measured
+2026-08-17,UK,retail,employment,4629.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS3, SA)",measured
+2026-08-17,UK,retail,vacancies,87.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9M, SA)",measured
+2026-08-17,UK,professional,postings,66.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Legal, Accounting…)",measured
+2026-08-17,UK,professional,employment,3492.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS9, SA)",measured
+2026-08-17,UK,professional,vacancies,70.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9S, SA)",measured
+2026-08-17,UK,education,postings,117.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Education & Instruction),measured
+2026-08-17,UK,education,vacancies,47.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9V, SA)",measured
+2026-08-17,UK,government,postings,84.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,UK,government,vacancies,29.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9U, SA)",measured
+2026-08-17,AU,banking,postings,111.5,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (AU: Banking & Finance),measured
+2026-08-17,AU,banking,employment,523.7,k persons,2026-Q1,"ABS Labour Account (ANZSIC K, measure M12)",measured
+2026-08-17,AU,banking,vacancies,8.9,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC K),measured
+2026-08-17,AU,insurance,employment,523.7,k persons,2026-Q1,"ABS Labour Account (ANZSIC K, measure M12)",measured
+2026-08-17,AU,insurance,vacancies,8.9,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC K),measured
+2026-08-17,AU,it_software,postings,99.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,AU,it_software,employment,207.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC J, measure M12)",measured
+2026-08-17,AU,it_software,vacancies,3.6,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC J),measured
+2026-08-17,AU,telecom_media,postings,70.9,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (AU: Media & Communications),measured
+2026-08-17,AU,telecom_media,employment,207.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC J, measure M12)",measured
+2026-08-17,AU,telecom_media,vacancies,3.6,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC J),measured
+2026-08-17,AU,manufacturing,postings,148.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,AU,manufacturing,employment,904.3,k persons,2026-Q1,"ABS Labour Account (ANZSIC C, measure M12)",measured
+2026-08-17,AU,manufacturing,vacancies,21.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC C),measured
+2026-08-17,AU,healthcare,postings,136.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,AU,healthcare,employment,2580.6,k persons,2026-Q1,"ABS Labour Account (ANZSIC Q, measure M12)",measured
+2026-08-17,AU,healthcare,vacancies,56.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC Q),measured
+2026-08-17,AU,retail,postings,222.4,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Retail, Loading & Stocking)",measured
+2026-08-17,AU,retail,employment,1522.0,k persons,2026-Q1,"ABS Labour Account (ANZSIC G, measure M12)",measured
+2026-08-17,AU,retail,vacancies,26.0,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC G),measured
+2026-08-17,AU,professional,postings,115.0,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Legal, Accounting…)",measured
+2026-08-17,AU,professional,employment,1323.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC M, measure M12)",measured
+2026-08-17,AU,professional,vacancies,35.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC M),measured
+2026-08-17,AU,education,employment,1344.2,k persons,2026-Q1,"ABS Labour Account (ANZSIC P, measure M12)",measured
+2026-08-17,AU,education,vacancies,11.0,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC P),measured
+2026-08-17,AU,government,postings,161.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,AU,government,employment,891.9,k persons,2026-Q1,"ABS Labour Account (ANZSIC O, measure M12)",measured
+2026-08-17,AU,government,vacancies,21.2,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC O),measured
+2026-08-17,EU,banking,postings,86.0,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Banking & Finance),measured
+2026-08-17,EU,banking,employment,3099.6,k persons,2025-Q4,"Eurostat lfsq_egan22d (K64), EU27",measured
+2026-08-17,EU,banking,vacancies,1.7,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE K, EU27)",measured
+2026-08-17,EU,insurance,employment,1167.5,k persons,2025-Q4,"Eurostat lfsq_egan22d (K65), EU27",measured
+2026-08-17,EU,insurance,vacancies,1.7,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE K, EU27)",measured
+2026-08-17,EU,it_software,postings,64.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,EU,it_software,employment,8007.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE J), EU27",measured
+2026-08-17,EU,it_software,vacancies,2.2,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE J, EU27)",measured
+2026-08-17,EU,telecom_media,postings,57.0,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Media & Communications),measured
+2026-08-17,EU,telecom_media,employment,8007.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE J), EU27",measured
+2026-08-17,EU,telecom_media,vacancies,2.2,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE J, EU27)",measured
+2026-08-17,EU,manufacturing,postings,89.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,EU,manufacturing,employment,31399.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE C), EU27",measured
+2026-08-17,EU,manufacturing,vacancies,1.5,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE C, EU27)",measured
+2026-08-17,EU,healthcare,postings,152.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,EU,healthcare,employment,24095.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE Q), EU27",measured
+2026-08-17,EU,retail,postings,110.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Retail, Loading & Stocking)",measured
+2026-08-17,EU,retail,employment,27991.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE G), EU27",measured
+2026-08-17,EU,retail,vacancies,1.8,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE G, EU27)",measured
+2026-08-17,EU,professional,postings,77.4,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Legal, Accounting…)",measured
+2026-08-17,EU,professional,employment,12806.6,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE M), EU27",measured
+2026-08-17,EU,professional,vacancies,2.4,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE M, EU27)",measured
+2026-08-17,EU,education,postings,109.8,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Education & Instruction),measured
+2026-08-17,EU,education,employment,15960.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE P), EU27",measured
+2026-08-17,EU,government,postings,139.1,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,EU,government,employment,14666.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE O), EU27",measured
+2026-08-17,US,banking,postings,103.5,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Banking & Finance),measured
+2026-08-17,US,banking,employment,6652.2,k jobs,2026-07,"BLS CES (CES5552000001, SA)",measured
+2026-08-17,US,it_software,postings,69.0,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,US,it_software,employment,2780.0,k jobs,2026-07,"BLS CES (CES5000000001, SA)",measured
+2026-08-17,US,telecom_media,postings,70.6,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Media & Communications),measured
+2026-08-17,US,telecom_media,employment,571.8,k jobs,2026-07,"BLS CES (CES5051700001, SA)",measured
+2026-08-17,US,manufacturing,postings,116.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,US,manufacturing,employment,12611.0,k jobs,2026-07,"BLS CES (CES3000000001, SA)",measured
+2026-08-17,US,healthcare,postings,126.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,US,healthcare,employment,23912.2,k jobs,2026-07,"BLS CES (CES6562000001, SA)",measured
+2026-08-17,US,retail,postings,97.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Retail, Loading & Stocking)",measured
+2026-08-17,US,retail,employment,15440.9,k jobs,2026-07,"BLS CES (CES4200000001, SA)",measured
+2026-08-17,US,professional,postings,94.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Legal, Accounting…)",measured
+2026-08-17,US,professional,employment,10837.3,k jobs,2026-07,"BLS CES (CES6054000001, SA)",measured
+2026-08-17,US,education,postings,110.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Education & Instruction),measured
+2026-08-17,US,education,employment,4049.7,k jobs,2026-07,"BLS CES (CES6561000001, SA)",measured
+2026-08-17,US,government,postings,109.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,US,government,employment,23270.0,k jobs,2026-07,"BLS CES (CES9000000001, SA)",measured
+2026-08-17,US,insurance,employment,2935.6,k jobs,2026-07,"BLS CES (CES5552400001, SA)",measured
+2026-08-17,IN,banking,employment,6085.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, IND)",measured
+2026-08-17,IN,banking,momentum,-12.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,insurance,employment,6085.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, IND)",measured
+2026-08-17,IN,insurance,momentum,16.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,it_software,employment,6854.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, IND)",measured
+2026-08-17,IN,it_software,momentum,18.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,telecom_media,employment,6854.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, IND)",measured
+2026-08-17,IN,telecom_media,momentum,6.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,manufacturing,employment,60142.5,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC C, IND)",measured
+2026-08-17,IN,manufacturing,momentum,14.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,healthcare,employment,8441.6,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC Q, IND)",measured
+2026-08-17,IN,healthcare,momentum,4.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,retail,employment,52830.4,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC G, IND)",measured
+2026-08-17,IN,retail,momentum,-12.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,professional,employment,4358.7,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC M, IND)",measured
+2026-08-17,IN,education,employment,16320.3,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC P, IND)",measured
+2026-08-17,IN,education,momentum,-4.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,government,employment,7681.3,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, IND)",measured
+2026-08-17,APAC,banking,employment,1061.3,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,banking,vacancies,8700,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,insurance,employment,1061.3,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,insurance,vacancies,1200,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,it_software,employment,1303.8,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,it_software,vacancies,10500,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,telecom_media,employment,1303.8,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,telecom_media,vacancies,1100,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,manufacturing,employment,4528.2,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC C, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,manufacturing,vacancies,16000,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,healthcare,employment,3630.2,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC Q, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,healthcare,vacancies,10300,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,retail,employment,3535.5,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC G, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,retail,vacancies,4200,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,professional,employment,1615.0,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC M, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,professional,vacancies,13800,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,education,employment,2093.2,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC P, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,government,employment,1515.7,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,government,vacancies,14000,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market incl. education (SSIC grouping)),measured
+2026-08-17,UK,banking,postings,84.8,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Banking & Finance),measured
+2026-08-17,UK,banking,employment,1112.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS7, SA)",measured
+2026-08-17,UK,banking,vacancies,32.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9Q, SA)",measured
+2026-08-17,UK,insurance,employment,1112.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS7, SA)",measured
+2026-08-17,UK,insurance,vacancies,32.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9Q, SA)",measured
+2026-08-17,UK,it_software,postings,54.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,UK,it_software,employment,1577.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS6, SA)",measured
+2026-08-17,UK,it_software,vacancies,41.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9P, SA)",measured
+2026-08-17,UK,telecom_media,postings,45.2,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Media & Communications),measured
+2026-08-17,UK,telecom_media,employment,1577.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS6, SA)",measured
+2026-08-17,UK,telecom_media,vacancies,41.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9P, SA)",measured
+2026-08-17,UK,manufacturing,postings,101.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,UK,manufacturing,employment,2482.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWR7, SA)",measured
+2026-08-17,UK,manufacturing,vacancies,48.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9I, SA)",measured
+2026-08-17,UK,healthcare,postings,54.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,UK,healthcare,employment,5090.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWT5, SA)",measured
+2026-08-17,UK,healthcare,vacancies,121.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9W, SA)",measured
+2026-08-17,UK,retail,postings,82.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Retail, Loading & Stocking)",measured
+2026-08-17,UK,retail,employment,4629.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS3, SA)",measured
+2026-08-17,UK,retail,vacancies,87.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9M, SA)",measured
+2026-08-17,UK,professional,postings,66.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Legal, Accounting…)",measured
+2026-08-17,UK,professional,employment,3492.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS9, SA)",measured
+2026-08-17,UK,professional,vacancies,70.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9S, SA)",measured
+2026-08-17,UK,education,postings,117.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Education & Instruction),measured
+2026-08-17,UK,education,vacancies,47.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9V, SA)",measured
+2026-08-17,UK,government,postings,84.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,UK,government,vacancies,29.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9U, SA)",measured
+2026-08-17,AU,banking,postings,111.5,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (AU: Banking & Finance),measured
+2026-08-17,AU,banking,employment,523.7,k persons,2026-Q1,"ABS Labour Account (ANZSIC K, measure M12)",measured
+2026-08-17,AU,banking,vacancies,8.9,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC K),measured
+2026-08-17,AU,insurance,employment,523.7,k persons,2026-Q1,"ABS Labour Account (ANZSIC K, measure M12)",measured
+2026-08-17,AU,insurance,vacancies,8.9,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC K),measured
+2026-08-17,AU,it_software,postings,99.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,AU,it_software,employment,207.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC J, measure M12)",measured
+2026-08-17,AU,it_software,vacancies,3.6,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC J),measured
+2026-08-17,AU,telecom_media,postings,70.9,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (AU: Media & Communications),measured
+2026-08-17,AU,telecom_media,employment,207.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC J, measure M12)",measured
+2026-08-17,AU,telecom_media,vacancies,3.6,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC J),measured
+2026-08-17,AU,manufacturing,postings,148.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,AU,manufacturing,employment,904.3,k persons,2026-Q1,"ABS Labour Account (ANZSIC C, measure M12)",measured
+2026-08-17,AU,manufacturing,vacancies,21.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC C),measured
+2026-08-17,AU,healthcare,postings,136.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,AU,healthcare,employment,2580.6,k persons,2026-Q1,"ABS Labour Account (ANZSIC Q, measure M12)",measured
+2026-08-17,AU,healthcare,vacancies,56.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC Q),measured
+2026-08-17,AU,retail,postings,222.4,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Retail, Loading & Stocking)",measured
+2026-08-17,AU,retail,employment,1522.0,k persons,2026-Q1,"ABS Labour Account (ANZSIC G, measure M12)",measured
+2026-08-17,AU,retail,vacancies,26.0,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC G),measured
+2026-08-17,AU,professional,postings,115.0,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Legal, Accounting…)",measured
+2026-08-17,AU,professional,employment,1323.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC M, measure M12)",measured
+2026-08-17,AU,professional,vacancies,35.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC M),measured
+2026-08-17,AU,education,employment,1344.2,k persons,2026-Q1,"ABS Labour Account (ANZSIC P, measure M12)",measured
+2026-08-17,AU,education,vacancies,11.0,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC P),measured
+2026-08-17,AU,government,postings,161.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,AU,government,employment,891.9,k persons,2026-Q1,"ABS Labour Account (ANZSIC O, measure M12)",measured
+2026-08-17,AU,government,vacancies,21.2,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC O),measured
+2026-08-17,EU,banking,postings,86.0,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Banking & Finance),measured
+2026-08-17,EU,banking,employment,3099.6,k persons,2025-Q4,"Eurostat lfsq_egan22d (K64), EU27",measured
+2026-08-17,EU,banking,vacancies,1.7,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE K, EU27)",measured
+2026-08-17,EU,insurance,employment,1167.5,k persons,2025-Q4,"Eurostat lfsq_egan22d (K65), EU27",measured
+2026-08-17,EU,insurance,vacancies,1.7,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE K, EU27)",measured
+2026-08-17,EU,it_software,postings,64.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,EU,it_software,employment,8007.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE J), EU27",measured
+2026-08-17,EU,it_software,vacancies,2.2,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE J, EU27)",measured
+2026-08-17,EU,telecom_media,postings,57.0,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Media & Communications),measured
+2026-08-17,EU,telecom_media,employment,8007.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE J), EU27",measured
+2026-08-17,EU,telecom_media,vacancies,2.2,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE J, EU27)",measured
+2026-08-17,EU,manufacturing,postings,89.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,EU,manufacturing,employment,31399.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE C), EU27",measured
+2026-08-17,EU,manufacturing,vacancies,1.5,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE C, EU27)",measured
+2026-08-17,EU,healthcare,postings,152.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,EU,healthcare,employment,24095.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE Q), EU27",measured
+2026-08-17,EU,retail,postings,110.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Retail, Loading & Stocking)",measured
+2026-08-17,EU,retail,employment,27991.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE G), EU27",measured
+2026-08-17,EU,retail,vacancies,1.8,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE G, EU27)",measured
+2026-08-17,EU,professional,postings,77.4,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Legal, Accounting…)",measured
+2026-08-17,EU,professional,employment,12806.6,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE M), EU27",measured
+2026-08-17,EU,professional,vacancies,2.4,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE M, EU27)",measured
+2026-08-17,EU,education,postings,109.8,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Education & Instruction),measured
+2026-08-17,EU,education,employment,15960.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE P), EU27",measured
+2026-08-17,EU,government,postings,139.1,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,EU,government,employment,14666.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE O), EU27",measured
+2026-08-17,US,banking,postings,103.5,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Banking & Finance),measured
+2026-08-17,US,banking,employment,6652.2,k jobs,2026-07,"BLS CES (CES5552000001, SA)",measured
+2026-08-17,US,it_software,postings,69.0,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,US,it_software,employment,2780.0,k jobs,2026-07,"BLS CES (CES5000000001, SA)",measured
+2026-08-17,US,telecom_media,postings,70.6,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Media & Communications),measured
+2026-08-17,US,telecom_media,employment,571.8,k jobs,2026-07,"BLS CES (CES5051700001, SA)",measured
+2026-08-17,US,manufacturing,postings,116.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,US,manufacturing,employment,12611.0,k jobs,2026-07,"BLS CES (CES3000000001, SA)",measured
+2026-08-17,US,healthcare,postings,126.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,US,healthcare,employment,23912.2,k jobs,2026-07,"BLS CES (CES6562000001, SA)",measured
+2026-08-17,US,retail,postings,97.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Retail, Loading & Stocking)",measured
+2026-08-17,US,retail,employment,15440.9,k jobs,2026-07,"BLS CES (CES4200000001, SA)",measured
+2026-08-17,US,professional,postings,94.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Legal, Accounting…)",measured
+2026-08-17,US,professional,employment,10837.3,k jobs,2026-07,"BLS CES (CES6054000001, SA)",measured
+2026-08-17,US,education,postings,110.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Education & Instruction),measured
+2026-08-17,US,education,employment,4049.7,k jobs,2026-07,"BLS CES (CES6561000001, SA)",measured
+2026-08-17,US,government,postings,109.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,US,government,employment,23270.0,k jobs,2026-07,"BLS CES (CES9000000001, SA)",measured
+2026-08-17,US,insurance,employment,2935.6,k jobs,2026-07,"BLS CES (CES5552400001, SA)",measured
+2026-08-17,IN,banking,employment,6085.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, IND)",measured
+2026-08-17,IN,banking,momentum,-12.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,insurance,employment,6085.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, IND)",measured
+2026-08-17,IN,insurance,momentum,16.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,it_software,employment,6854.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, IND)",measured
+2026-08-17,IN,it_software,momentum,18.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,telecom_media,employment,6854.2,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, IND)",measured
+2026-08-17,IN,telecom_media,momentum,6.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,manufacturing,employment,60142.5,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC C, IND)",measured
+2026-08-17,IN,manufacturing,momentum,14.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,healthcare,employment,8441.6,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC Q, IND)",measured
+2026-08-17,IN,healthcare,momentum,4.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,retail,employment,52830.4,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC G, IND)",measured
+2026-08-17,IN,retail,momentum,-12.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,professional,employment,4358.7,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC M, IND)",measured
+2026-08-17,IN,education,employment,16320.3,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC P, IND)",measured
+2026-08-17,IN,education,momentum,-4.0,% YoY hiring,<![CDATA[Naukri JobSpeak: White-collar hiring grows 6% in Ju,Naukri JobSpeak monthly (text-parsed from published report),measured
+2026-08-17,IN,government,employment,7681.3,k persons,IND 2025-Q4,"ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, IND)",measured
+2026-08-17,APAC,banking,employment,1061.3,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,banking,vacancies,8700,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,insurance,employment,1061.3,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,insurance,vacancies,1200,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,it_software,employment,1303.8,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,it_software,vacancies,10500,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,telecom_media,employment,1303.8,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,telecom_media,vacancies,1100,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,manufacturing,employment,4528.2,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC C, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,manufacturing,vacancies,16000,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,healthcare,employment,3630.2,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC Q, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,healthcare,vacancies,10300,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,retail,employment,3535.5,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC G, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,retail,vacancies,4200,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,professional,employment,1615.0,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC M, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,professional,vacancies,13800,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market),measured
+2026-08-17,APAC,education,employment,2093.2,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC P, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,government,employment,1515.7,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, pooled SGP+JPN+KOR)",measured
+2026-08-17,APAC,government,vacancies,14000,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market incl. education (SSIC grouping)),measured
