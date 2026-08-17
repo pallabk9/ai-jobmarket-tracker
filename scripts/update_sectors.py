@@ -358,6 +358,253 @@ def au_signals(regions):
         print(f"AU vacancies: {exc}; keeping previous")
 
 # ------------------------------------------------------------------
+# Phase 2: India + APAC (SG proxy / pooled composites)
+# ------------------------------------------------------------------
+
+APAC_AREAS = ["SGP", "JPN", "KOR"]
+SECTION = EU_SECTION            # same section->sector spine everywhere
+
+def ilo_employment_signals(regions):
+    """Quarterly employment by ISIC section from ILOSTAT for IN (IND) and
+    APAC (SGP+JPN+KOR pooled per-area-latest). Quarters can differ across
+    the pooled areas - the period label says exactly what was summed."""
+    for code, areas in (("IN", ["IND"]), ("APAC", APAC_AREAS)):
+        try:
+            key = "+".join(areas)
+            text = _http_get("https://sdmx.ilo.org/rest/data/"
+                             f"ILO,DF_EMP_TEMP_SEX_ECO_NB,1.0/{key}.Q..SEX_T."
+                             "?lastNObservations=2&format=csv", timeout=120)
+            # per area: {period: {section: value}}
+            per_area = {}
+            for row in csv.DictReader(io.StringIO(text)):
+                eco = row.get("ECO", "")
+                if not eco.startswith("ECO_ISIC4_") or len(eco) != len("ECO_ISIC4_A"):
+                    continue
+                try:
+                    v = float(row["OBS_VALUE"])
+                except (TypeError, ValueError):
+                    continue
+                a = row.get("REF_AREA", "?")
+                per_area.setdefault(a, {}).setdefault(
+                    row.get("TIME_PERIOD", "?"), {})[eco[-1]] = v
+            # areas whose quarterly series carry only aggregates fall back
+            # to the annual series (same flow, FREQ=A)
+            missing = [a for a in areas if a not in per_area]
+            if missing:
+                text_a = _http_get("https://sdmx.ilo.org/rest/data/"
+                                   "ILO,DF_EMP_TEMP_SEX_ECO_NB,1.0/"
+                                   f"{'+'.join(missing)}.A..SEX_T."
+                                   "?lastNObservations=2&format=csv", timeout=120)
+                for row in csv.DictReader(io.StringIO(text_a)):
+                    eco = row.get("ECO", "")
+                    if not eco.startswith("ECO_ISIC4_") or len(eco) != len("ECO_ISIC4_A"):
+                        continue
+                    try:
+                        v = float(row["OBS_VALUE"])
+                    except (TypeError, ValueError):
+                        continue
+                    a = row.get("REF_AREA", "?")
+                    per_area.setdefault(a, {}).setdefault(
+                        row.get("TIME_PERIOD", "?"), {})[eco[-1]] = v
+            if not per_area:
+                raise ValueError("no section rows")
+            # per area latest + previous period
+            latest_sum, prev_sum, labels = {}, {}, []
+            for a, by_p in per_area.items():
+                ps = sorted(by_p)
+                labels.append(f"{a} {ps[-1]}")
+                for sec, v in by_p[ps[-1]].items():
+                    latest_sum[sec] = latest_sum.get(sec, 0.0) + v
+                if len(ps) > 1:
+                    for sec, v in by_p[ps[-2]].items():
+                        prev_sum[sec] = prev_sum.get(sec, 0.0) + v
+            sectors = regions.setdefault(code, {}).setdefault("sectors", {})
+            for sid, sec in SECTION.items():
+                if sec not in latest_sum:
+                    continue
+                v, pv = latest_sum[sec], prev_sum.get(sec)
+                set_signal(sectors, sid, "employment", {
+                    "value": round(v, 1), "unit": "k persons",
+                    "period": ", ".join(sorted(labels)),
+                    "delta_prev": round(v - pv, 1) if pv else None,
+                    "source": f"ILOSTAT EMP_TEMP_SEX_ECO (ISIC {sec}, "
+                              + ("pooled " + "+".join(areas) if len(areas) > 1
+                                 else areas[0]) + ")",
+                    "source_url": "https://ilostat.ilo.org/",
+                    "measurement": "measured", "updated_at": NOW})
+        except Exception as exc:  # noqa: BLE001
+            print(f"{code} ILO employment: {exc}; keeping previous")
+
+SG_VACANCY_DATASET = "d_d3f02543c4d0dd197c56637eefc32624"
+SG_INDUSTRY_MAP = {
+    "financial services": "banking",
+    "insurance services": "insurance",
+    "it and other information services": "it_software",
+    "telecommunications, broadcasting and publishing": "telecom_media",
+    "health and social services": "healthcare",
+    "manufacturing": "manufacturing",
+    "retail trade": "retail",
+    "professional services": "professional",
+    "public administration and education": "government",  # SSIC combines the two
+}
+
+def sg_vacancy_signals(regions):
+    """APAC vacancies proxy: Singapore MOM job vacancies by industry
+    (data.gov.sg, quarterly). Sums across occupation groups per industry;
+    newest two quarters give level + delta."""
+    try:
+        base = ("https://data.gov.sg/api/action/datastore_search"
+                f"?resource_id={SG_VACANCY_DATASET}")
+        total = json.loads(_http_get(base + "&limit=1", timeout=60))["result"]["total"]
+        # rows are appended chronologically; the tail holds the newest quarters
+        js = json.loads(_http_get(
+            base + f"&limit=2000&offset={max(0, int(total) - 2000)}", timeout=90))
+        recs = js["result"]["records"]
+        if not recs:
+            raise ValueError("no records")
+        quarters = sorted({r["quarter"] for r in recs}, reverse=True)[:2]
+        sums = {q: {} for q in quarters}
+        for r in recs:
+            q, ind = r.get("quarter"), (r.get("industry") or "").strip().lower()
+            sid = SG_INDUSTRY_MAP.get(ind)
+            if q not in sums or not sid:
+                continue
+            try:
+                v = float(r.get("job_vacancy"))
+            except (TypeError, ValueError):
+                continue
+            sums[q][sid] = sums[q].get(sid, 0.0) + v
+        latest, prev = quarters[0], (quarters[1] if len(quarters) > 1 else None)
+        if not sums[latest]:
+            raise ValueError(f"no mapped industries in {latest}")
+        sectors = regions.setdefault("APAC", {}).setdefault("sectors", {})
+        for sid, v in sums[latest].items():
+            pv = sums.get(prev, {}).get(sid) if prev else None
+            note = " incl. education (SSIC grouping)" if sid == "government" else ""
+            set_signal(sectors, sid, "vacancies", {
+                "value": round(v), "unit": "vacancies (SG)", "period": latest,
+                "delta_prev": round(v - pv) if pv is not None else None,
+                "source": f"Singapore MOM job vacancies by industry (SG proxy market{note})",
+                "source_url": "https://data.gov.sg/",
+                "measurement": "measured", "updated_at": NOW})
+    except Exception as exc:  # noqa: BLE001
+        print(f"APAC SG vacancies: {exc}; keeping previous")
+
+NAUKRI_RSS = "https://www.naukri.com/blog/tag/naukri-jobspeak/rss/"
+NAUKRI_SECTORS = [
+    (r"insurance", "insurance"),
+    (r"bfsi|banking", "banking"),
+    (r"\bit\b|information technology", "it_software"),
+    (r"telecom", "telecom_media"),
+    (r"manufacturing", "manufacturing"),
+    (r"retail", "retail"),
+    (r"healthcare|pharma", "healthcare"),
+    (r"education", "education"),
+]
+
+def naukri_signals(regions):
+    """India hiring momentum by sector, parsed from the Naukri JobSpeak
+    monthly post (Ghost RSS, full HTML in content:encoded). Text-regex on
+    published copy - deliberately conservative: needs >=2 sector matches
+    or the whole parse is discarded."""
+    import re as _re
+    try:
+        import urllib.request as _ur
+        from update_data import BROWSER_UA
+        req = _ur.Request(NAUKRI_RSS, headers={
+            "User-Agent": BROWSER_UA,
+            "Accept": "application/rss+xml, application/xml, */*"})
+        with _ur.urlopen(req, timeout=90) as r:
+            xml_text = r.read().decode("utf-8", errors="replace")
+        m = _re.search(r"<content:encoded><!\[CDATA\[(.*?)\]\]></content:encoded>",
+                       xml_text, _re.S)
+        title_m = _re.search(r"<item>.*?<title>(.*?)</title>", xml_text, _re.S)
+        if not m:
+            raise ValueError("no content:encoded in RSS")
+        html = _re.sub(r"<[^>]+>", " ", m.group(1))
+        period = (title_m.group(1).strip() if title_m else "latest report")
+        found = {}
+        for pat, sid in NAUKRI_SECTORS:
+            for sm in _re.finditer(pat, html, _re.I):
+                window = html[sm.start():sm.start() + 90]
+                pm = _re.search(r"(\d{1,3})\s*%", window)
+                if not pm:
+                    continue
+                val = float(pm.group(1))
+                # sign words only count BETWEEN the sector name and its figure -
+                # the following sentence may describe a different sector
+                lead = window[:pm.end()]
+                if _re.search(r"down|declin|fell|drop|negative|-\s*\d", lead, _re.I):
+                    val = -val
+                if abs(val) <= 60:            # sanity: YoY hiring % band
+                    found.setdefault(sid, val)
+                break
+        if len(found) < 2:
+            raise ValueError(f"only {len(found)} sector figures parsed")
+        sectors = regions.setdefault("IN", {}).setdefault("sectors", {})
+        for sid, val in found.items():
+            set_signal(sectors, sid, "momentum", {
+                "value": val, "unit": "% YoY hiring", "period": period[:60],
+                "delta_prev": None,
+                "source": "Naukri JobSpeak monthly (text-parsed from published report)",
+                "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
+                "measurement": "measured", "updated_at": NOW})
+    except Exception as exc:  # noqa: BLE001
+        print(f"IN Naukri momentum: {exc}; keeping previous")
+
+ADZUNA_SECTOR_CATS = {
+    "banking": ["accounting-finance-jobs"],
+    "it_software": ["it-jobs"],
+    "manufacturing": ["manufacturing-jobs"],
+    "healthcare": ["healthcare-nursing-jobs"],
+    "retail": ["retail-jobs"],
+    "professional": ["consultancy-jobs", "legal-jobs", "hr-jobs"],
+    "education": ["teaching-jobs"],
+}
+
+def _last_archived(region, sid, signal):
+    """Previous archived value from sector_series.csv, for run-over-run deltas."""
+    if not SERIES_CSV.exists():
+        return None
+    last = None
+    with SERIES_CSV.open(encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            if (row["region"] == region and row["sector_id"] == sid
+                    and row["signal"] == signal):
+                try:
+                    last = float(row["value"])
+                except (TypeError, ValueError):
+                    continue
+    return last
+
+def adzuna_sector_postings(regions):
+    """Live posting counts per sector category for IN and APAC (SG), via
+    Adzuna. Key-gated: silently skipped until ADZUNA_APP_ID/KEY exist."""
+    if not (os.environ.get("ADZUNA_APP_ID") and os.environ.get("ADZUNA_APP_KEY")):
+        return
+    from update_data import _adzuna_count, ADZUNA_CC
+    for code in ("IN", "APAC"):
+        sectors = regions.setdefault(code, {}).setdefault("sectors", {})
+        for sid, cats in ADZUNA_SECTOR_CATS.items():
+            try:
+                total = 0.0
+                for cc in ADZUNA_CC[code]:
+                    for cat in cats:
+                        total += _adzuna_count(cc, category=cat)
+                prev = _last_archived(code, sid, "postings")
+                market = "+".join(c.upper() for c in ADZUNA_CC[code])
+                set_signal(sectors, sid, "postings", {
+                    "value": round(total), "unit": "live postings",
+                    "period": NOW[:10],
+                    "delta_prev": round(total - prev) if prev is not None else None,
+                    "series": [],
+                    "source": f"Adzuna ({market} categories: {', '.join(cats)})",
+                    "source_url": "https://developer.adzuna.com/",
+                    "measurement": "measured", "updated_at": NOW})
+            except Exception as exc:  # noqa: BLE001
+                print(f"{code} Adzuna postings {sid}: {exc}; keeping previous")
+
+# ------------------------------------------------------------------
 # BLS CES (US): monthly employment by sector
 # ------------------------------------------------------------------
 
@@ -440,6 +687,11 @@ def main():
     eu_signals(regions)
     au_signals(regions)
     us_signals(regions, concordance)
+    # Phase 2: India + APAC
+    ilo_employment_signals(regions)
+    sg_vacancy_signals(regions)
+    naukri_signals(regions)
+    adzuna_sector_postings(regions)
 
     doc["generated_at"] = NOW
     SECTORS_JSON.write_text(json.dumps(doc, indent=1), encoding="utf-8")

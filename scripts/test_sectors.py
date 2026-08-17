@@ -126,10 +126,81 @@ finally:
     us._http_get = orig
 ok("failure contract: outage leaves existing signals untouched")
 
+# ---- Phase 2: ILO pooled matrix ----
+def fake_ilo(url, timeout=120):
+    lines = ["DATAFLOW,REF_AREA,FREQ,MEASURE,ECO,OCU,TIME_PERIOD,OBS_VALUE"]
+    for area, mult in (("SGP", 1), ("KOR", 2)):
+        for sec in "ABCDEFGHIJKL":          # >=10 sections to pass sparsity gate
+            for ocu in ("2", "4"):
+                lines.append(f"X,{area},A,EMP,ECO_ISIC4_{sec},OCU_ISCO08_{ocu},2025,{100 * mult}")
+        lines.append(f"X,{area},A,EMP,ECO_AGGREGATE_TOTAL,OCU_ISCO08_2,2025,999")
+        lines.append(f"X,{area},A,EMP,ECO_ISIC4_K,OCU_ISCO08_L,2025,50")   # L = not a major
+    return "\n".join(lines)
+orig = bsm._http_get
+bsm._http_get = fake_ilo
+try:
+    mat, periods = bsm.fetch_ilo_matrix(["SGP", "KOR"])
+    assert mat["K"]["2"] == 300.0 and mat["C"]["4"] == 300.0   # pooled 100+200
+    assert "L" not in mat["K"] and periods == {"SGP": "2025", "KOR": "2025"}
+finally:
+    bsm._http_get = orig
+ok("ILO matrix: pools areas, keeps ISIC sections, drops non-major OCU codes")
+
+# ---- Phase 2: SG vacancy mapping ----
+def fake_sg(url, timeout=90):
+    if "limit=1" in url and "limit=15" not in url and "limit=2000" not in url:
+        return json.dumps({"result": {"total": 4, "records": []}})
+    return json.dumps({"result": {"total": 4, "records": [
+        {"quarter": "2025-Q4", "industry": "financial services",
+         "occupation": "pmet", "job_vacancy": "100"},
+        {"quarter": "2025-Q4", "industry": "financial services",
+         "occupation": "non-pmet", "job_vacancy": "20"},
+        {"quarter": "2025-Q4", "industry": "insurance services",
+         "occupation": "pmet", "job_vacancy": "30"},
+        {"quarter": "2025-Q3", "industry": "financial services",
+         "occupation": "pmet", "job_vacancy": "90"},
+    ]}})
+orig = us._http_get
+us._http_get = fake_sg
+try:
+    regions = {}
+    us.sg_vacancy_signals(regions)
+    b = regions["APAC"]["sectors"]["banking"]["signals"]["vacancies"]
+    assert b["value"] == 120 and b["period"] == "2025-Q4" and b["delta_prev"] == 30
+    assert regions["APAC"]["sectors"]["insurance"]["signals"]["vacancies"]["value"] == 30
+finally:
+    us._http_get = orig
+ok("SG vacancies: sums occupations, latest quarter + delta, industry map")
+
+# ---- Phase 2: Naukri momentum parse ----
+NAUKRI_XML = """<rss><channel><item><title>JobSpeak July 2026</title>
+<content:encoded><![CDATA[<p>Insurance led hiring at 16% YOY growth while
+IT posted 18% gains. Retail declined 12% and Manufacturing grew 14%.</p>]]></content:encoded>
+</item></channel></rss>"""
+import urllib.request as _ur_test
+class _FakeResp:
+    def __init__(self, data): self._d = data
+    def read(self): return self._d
+    def __enter__(self): return self
+    def __exit__(self, *a): return False
+orig_open = _ur_test.urlopen
+_ur_test.urlopen = lambda req, timeout=90: _FakeResp(NAUKRI_XML.encode())
+try:
+    regions = {}
+    us.naukri_signals(regions)
+    sig = regions["IN"]["sectors"]
+    assert sig["insurance"]["signals"]["momentum"]["value"] == 16.0
+    assert sig["it_software"]["signals"]["momentum"]["value"] == 18.0
+    assert sig["retail"]["signals"]["momentum"]["value"] == -12.0
+    assert sig["manufacturing"]["signals"]["momentum"]["value"] == 14.0
+finally:
+    _ur_test.urlopen = orig_open
+ok("Naukri momentum: sector figures parsed, negatives detected, period from title")
+
 # ---- repo data sanity (uses committed sectors.json) ----
 doc = json.loads((HERE.parent / "data" / "sectors.json").read_text())
 assert len(doc["taxonomy"]) == 10
-for reg in ("UK", "EU", "AU"):
+for reg in ("UK", "EU", "AU", "IN", "APAC"):
     secs = doc["regions"][reg]["sectors"]
     rels = [s["exposure_rel"] for s in secs.values() if s.get("exposure_rel")]
     assert rels and max(rels) == 100.0, f"{reg}: top sector must index at 100"

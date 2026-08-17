@@ -253,15 +253,21 @@ def fetch_eu_matrix():
     return out
 
 # ------------------------------------------------------------------
-# AU matrix: ILOSTAT ECO x OCU (ISCO major x ISIC section)
+# AU / IN / APAC matrices: ILOSTAT ECO x OCU (ISCO major x ISIC section)
 # ------------------------------------------------------------------
 
-def fetch_au_matrix():
-    """{section_letter: {isco_major: employment}}"""
+def fetch_ilo_matrix(areas):
+    """{section_letter: {isco_major: employment}} from ILOSTAT ECO x OCU,
+    ANNUAL frequency - the quarterly series carry aggregate categories only
+    for most countries, while the annual series has full ISIC sections
+    (verified: IND/SGP/KOR 2025, JPN 2023, AUS 2025). Multiple areas are
+    POOLED by summing employment per cell - used for the APAC composite
+    (SGP+JPN+KOR). Returns (matrix, periods) with periods per area."""
+    key = "+".join(areas)
     text = _http_get("https://sdmx.ilo.org/rest/data/"
-                     "ILO,DF_EMP_TEMP_ECO_OCU_NB,1.0/AUS....."
-                     "?lastNObservations=1&format=csv", timeout=90)
-    out, period = {}, None
+                     f"ILO,DF_EMP_TEMP_ECO_OCU_NB,1.0/{key}.A...."
+                     "?lastNObservations=1&format=csv", timeout=120)
+    out, periods = {}, {}
     for row in csv.DictReader(io.StringIO(text)):
         eco, ocu = row.get("ECO", ""), row.get("OCU", "")
         if not eco.startswith("ECO_ISIC4_") or len(eco) != len("ECO_ISIC4_A"):
@@ -272,11 +278,12 @@ def fetch_au_matrix():
             v = float(row["OBS_VALUE"])
         except (TypeError, ValueError):
             continue
-        out.setdefault(eco[-1], {})[ocu[-1]] = v
-        period = row.get("TIME_PERIOD") or period
+        out.setdefault(eco[-1], {})
+        out[eco[-1]][ocu[-1]] = out[eco[-1]].get(ocu[-1], 0.0) + v
+        periods[row.get("REF_AREA", "?")] = row.get("TIME_PERIOD", "?")
     if len(out) < 10:
-        raise ValueError(f"ILO AUS matrix too sparse: {sorted(out)}")
-    return out, period
+        raise ValueError(f"ILO {key} matrix too sparse: {sorted(out)}")
+    return out, periods
 
 # ------------------------------------------------------------------
 # Scoring
@@ -405,17 +412,22 @@ def main():
     except Exception as exc:  # noqa: BLE001
         print(f"EU matrix FAILED, keeping previous block: {exc}")
 
-    # AU ---------------------------------------------------------------
-    try:
-        au, au_period = fetch_au_matrix()
-        build_region("AU", au, isco_mean, ISCO_LABEL, {
-            "source": f"ILOSTAT EMP_TEMP_ECO_OCU (ISCO-08 major x ISIC section, AUS {au_period})"
-                      " - SOC->ISCO major approximation",
-            "url": "https://ilostat.ilo.org/", "granularity": "coarse",
-            "built_at": stamp}, section_level=True)
-        print("AU matrix ok: sections", sorted(au))
-    except Exception as exc:  # noqa: BLE001
-        print(f"AU matrix FAILED, keeping previous block: {exc}")
+    # AU / IN / APAC via the same ILO flow ------------------------------
+    for code, areas in (("AU", ["AUS"]), ("IN", ["IND"]),
+                        ("APAC", ["SGP", "JPN", "KOR"])):
+        try:
+            mat, periods = fetch_ilo_matrix(areas)
+            per_str = ", ".join(f"{a} {periods.get(a, '?')}" for a in areas)
+            build_region(code, mat, isco_mean, ISCO_LABEL, {
+                "source": f"ILOSTAT EMP_TEMP_ECO_OCU (ISCO-08 major x ISIC section, {per_str})"
+                          " - SOC->ISCO major approximation"
+                          + (" - APAC composite pools the three markets"
+                             if len(areas) > 1 else ""),
+                "url": "https://ilostat.ilo.org/", "granularity": "coarse",
+                "built_at": stamp}, section_level=True)
+            print(f"{code} matrix ok: sections", "".join(sorted(mat)))
+        except Exception as exc:  # noqa: BLE001
+            print(f"{code} matrix FAILED, keeping previous block: {exc}")
 
     out = {
         "model_built_at": stamp,

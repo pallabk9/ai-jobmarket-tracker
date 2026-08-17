@@ -420,14 +420,14 @@ story.append(Paragraph(
     "time and are not cross-country exposure rankings, consistent with the quartile-rank rule in "
     "section 8.3.", body))
 
-story.append(Paragraph("5.0b Sector pulse (added Aug 2026, Phase 1: US/UK/EU/AU)", h2))
+story.append(Paragraph("5.0b Sector pulse (added Aug 2026; all six regions)", h2))
 story.append(Paragraph(
     "AI impact by sector &mdash; banking &amp; financial markets, insurance, IT &amp; software, telecom "
     "&amp; media, manufacturing, healthcare, retail, professional services, education, government. "
     "Each sector's <b>AI exposure index</b> is the employment-share-weighted mean of the locked "
     "Anthropic Observed Exposure scores across that sector's occupation mix (occupation&times;industry "
     "matrices: BLS OEWS for the US; ONS SOC&times;SIC ad-hoc joined to the AWA UK model; Eurostat "
-    "ISCO&times;NACE; ILOSTAT ISCO&times;ISIC for Australia), displayed within-region only with the top "
+    "ISCO&times;NACE; ILOSTAT ISCO&times;ISIC annual matrices for Australia, India and the APAC composite, which pools Singapore, Japan and Korea), displayed within-region only with the top "
     "sector indexed at 100. <b>Sector pressure</b> blends exposure (50%) with the 12-week Indeed sector "
     "posting trend (30%) and official vacancy/employment momentum (20%) on fixed bands. Where a region's "
     "statistics only publish industry sections, sectors sharing a section (e.g. banking and insurance in "
