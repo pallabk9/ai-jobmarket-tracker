@@ -59,11 +59,18 @@ calibration bands and weights are specified in
 itself over time; they are not cross-country exposure rankings (consistent
 with the locked Observed Exposure methodology).
 
-## Sector pulse (Phase 1, added 2026-08-17)
+## Sector pulse (Phase 1 2026-08-17; Phase 2 same day)
 
 AI impact by sector — banking, insurance, IT & software, telecom & media,
 manufacturing, healthcare, retail, professional services, education,
-government — for **US, UK, EU, AU** (India + APAC arrive in Phase 2).
+government — for **all six regions**. Phase 2 additions: India and APAC
+exposure via ILOSTAT ISCO×ISIC annual matrices (APAC pools SGP+JPN+KOR);
+quarterly ILO sector employment (annual fallback where quarterly carries
+aggregates only); Singapore MOM vacancies by industry as the APAC proxy
+demand market (with a real telecom/IT split); Naukri JobSpeak hiring
+momentum (% YoY, conservatively text-parsed) filling India's posting slot
+in the pressure blend; Adzuna category postings activate for IN/APAC when
+the API keys are configured.
 
 - **Sector AI Exposure Score** = 100 × employment-share-weighted mean of
   Anthropic Observed Exposure across each sector's occupation mix,
@@ -71,7 +78,7 @@ government — for **US, UK, EU, AU** (India + APAC arrive in Phase 2).
   comparison is deliberately not supported, per the locked methodology).
   Occupation×industry matrices: BLS OEWS (US, fine), ONS ad-hoc 3136 ×
   AWA UK model (UK, fine), Eurostat `lfsq_eisn2` (EU, coarse ISCO majors),
-  ILOSTAT `EMP_TEMP_ECO_OCU` (AU, coarse). Built quarterly by
+  ILOSTAT `EMP_TEMP_ECO_OCU` (AU, IN, APAC pooled - coarse). Built quarterly by
   `scripts/build_sector_model.py` (`build-sector-model.yml`).
 - **Weekly signals** per sector via `scripts/update_sectors.py` in the
   Monday cron: Indeed Hiring Lab sector postings (US/GB/DE+FR/AU, weekly),
