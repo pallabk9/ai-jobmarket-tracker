@@ -59,6 +59,33 @@ calibration bands and weights are specified in
 itself over time; they are not cross-country exposure rankings (consistent
 with the locked Observed Exposure methodology).
 
+## Sector pulse (Phase 1, added 2026-08-17)
+
+AI impact by sector — banking, insurance, IT & software, telecom & media,
+manufacturing, healthcare, retail, professional services, education,
+government — for **US, UK, EU, AU** (India + APAC arrive in Phase 2).
+
+- **Sector AI Exposure Score** = 100 × employment-share-weighted mean of
+  Anthropic Observed Exposure across each sector's occupation mix,
+  displayed as a within-region index (top sector = 100; cross-region
+  comparison is deliberately not supported, per the locked methodology).
+  Occupation×industry matrices: BLS OEWS (US, fine), ONS ad-hoc 3136 ×
+  AWA UK model (UK, fine), Eurostat `lfsq_eisn2` (EU, coarse ISCO majors),
+  ILOSTAT `EMP_TEMP_ECO_OCU` (AU, coarse). Built quarterly by
+  `scripts/build_sector_model.py` (`build-sector-model.yml`).
+- **Weekly signals** per sector via `scripts/update_sectors.py` in the
+  Monday cron: Indeed Hiring Lab sector postings (US/GB/DE+FR/AU, weekly),
+  ONS JOBS02 + VACS02 (UK), Eurostat `lfsq_egan2`/`lfsq_egan22d` (incl.
+  the K64 banking / K65 insurance split) + `jvs_q_nace2` (EU), ABS Labour
+  Account + Job Vacancies (AU), BLS CES (US). Any fetch failure leaves
+  the previous signal untouched.
+- **Sector Pressure** (dashboard, client-side): 50% exposure index + 30%
+  12-week posting trend + 20% vacancy/employment momentum, fixed bands,
+  full lineage in Deep view.
+- Data: `data/sectors.json` (current state) + `data/sector_series.csv`
+  (append-only archive). Taxonomy mapping: `model/sector_concordance.csv`.
+  Research + phase plan: `SECTOR_RESEARCH_2026-08.md`.
+
 ## Real data sources (v3, wired 2026-08-14; v2 2026-06-10)
 
 Every KPI tile shows a **measured** or **modelled** badge.

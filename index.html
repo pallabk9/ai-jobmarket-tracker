@@ -7,7 +7,7 @@
   <meta name="description" content="Weekly, monthly and yearly tracking of AI-driven labour market change across six regions. Grounded in the Anthropic Observed Exposure methodology.">
   <link rel="preload" href="assets/fonts/Manrope-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Spectral-Bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/styles.css?v=20260814b">
+  <link rel="stylesheet" href="assets/styles.css?v=20260817a">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='5' fill='%23253746'/><text x='12' y='17' text-anchor='middle' font-family='Arial' font-size='13' font-weight='800' fill='%23FF5C39'>AI</text></svg>">
 </head>
 <body>
@@ -117,6 +117,11 @@
       </article>
 
       <article class="gl-card">
+        <h3>Sector pulse &amp; Sector AI Exposure</h3>
+        <p>AI impact by sector (banking, insurance, IT, manufacturing&hellip;) for US, UK, EU and AU. The <strong>exposure index</strong> weights each sector's occupation mix by the Anthropic Observed Exposure scores &mdash; shown within-region only (top sector = 100). <strong>Sector pressure</strong> blends that with the 12-week posting trend and official vacancy/employment momentum. Click any sector chip for its occupation make-up and live signals; Deep view adds the full lineage and the region heatmap. Section-level statistics combine some sectors (e.g. UK banking + insurance share section K) &mdash; marked "section-level score".</p>
+      </article>
+
+      <article class="gl-card">
         <h3>Measured vs Modelled</h3>
         <p>Each KPI tile carries a badge. <strong>Measured:</strong> the value is pulled weekly from the named source's published data (Indeed Hiring Lab, BLS, ONS, Eurostat, ABS, Challenger). <strong>Modelled:</strong> a synthetic placeholder series &mdash; no public weekly source exists yet for that KPI in that region. The "early-career unemployment delta" uses a published proxy: youth minus overall unemployment rate, since no statistics agency publishes unemployment by AI exposure.</p>
       </article>
@@ -180,6 +185,9 @@
     <div class="kpi-grid deep-only" id="kpis"></div>
 
     <div class="narrative" id="narrative">Loading region narrative&hellip;</div>
+
+    <!-- Sector pulse: AI impact by sector (Phase 1: US, UK, EU, AU) -->
+    <div id="sectors"></div>
 
     <div class="cards-grid">
 
@@ -446,7 +454,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
-<script src="assets/dashboard.js?v=20260814b"></script>
+<script src="assets/dashboard.js?v=20260817a"></script>
 
 </body>
 </html>
