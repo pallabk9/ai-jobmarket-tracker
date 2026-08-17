@@ -700,3 +700,73 @@ body.mode-simple .feed {
 .derived-hero .pd-delta.up   { color: var(--coral); }
 .derived-hero .pd-delta.down { color: var(--mint); }
 .derived-hero .pd-delta.flat { color: var(--light); }
+
+/* ============================================================
+   SECTOR PULSE (Phase 1) — heat strip, detail panel, heatmap
+   ============================================================ */
+.sector-card { margin-bottom: 18px; }
+.sector-strip {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 10px;
+}
+.sec-chip {
+  display: flex; flex-direction: column; gap: 3px; text-align: left;
+  font: inherit; background: #fff; cursor: pointer;
+  border: 1.5px solid var(--c-line); border-left: 4px solid currentColor;
+  border-radius: var(--radius-sm); padding: 10px 12px;
+  transition: box-shadow .15s var(--ease), transform .15s var(--ease);
+}
+.sec-chip:hover { box-shadow: 0 3px 10px rgba(37,55,70,0.12); transform: translateY(-1px); }
+.sec-chip.active { border-color: var(--midnight); border-left-color: currentColor; box-shadow: 0 3px 10px rgba(37,55,70,0.16); }
+.sec-chip.st-low  { color: var(--st-low); }
+.sec-chip.st-mod  { color: var(--st-mod); }
+.sec-chip.st-elev { color: var(--st-elev); }
+.sec-chip.st-high { color: var(--st-high); }
+.sec-name { font-weight: 800; font-size: 13.5px; color: var(--midnight); }
+.sec-meta { font-size: 11.5px; font-weight: 700; color: currentColor; text-transform: uppercase; letter-spacing: 0.04em; }
+.sec-meta b { font-size: 14px; color: var(--midnight); }
+.sec-arrow { color: var(--c-muted); }
+
+.sector-detail {
+  margin-top: 14px; border-top: 1px solid var(--c-line); padding-top: 14px;
+}
+.sd-hdr { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.sd-hdr.st-low  { color: var(--st-low); }
+.sd-hdr.st-mod  { color: var(--st-mod); }
+.sd-hdr.st-elev { color: var(--st-elev); }
+.sd-hdr.st-high { color: var(--st-high); }
+.sd-title { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--midnight); }
+.sd-title .p-status { margin-left: 8px; font-family: var(--font-sans); font-size: 12px; }
+.sd-sub { font-size: 12px; color: var(--c-muted); margin-top: 2px; }
+.sd-sub b { color: var(--midnight); }
+.sd-gran { background: var(--light-2); border-radius: 999px; padding: 1px 8px; font-weight: 600; cursor: help; }
+.sd-body { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 12px; }
+@media (max-width: 760px) { .sd-body { grid-template-columns: 1fr; } }
+.sd-col h4 {
+  margin: 0 0 8px; font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--c-muted);
+}
+.sd-occ { display: grid; grid-template-columns: 190px 1fr; gap: 2px 10px; align-items: center; margin-bottom: 7px; }
+.sd-occ-name { font-size: 12px; font-weight: 600; color: var(--c-ink); }
+.sd-occ-bar { height: 8px; background: var(--light-2); border-radius: 4px; overflow: hidden; }
+.sd-occ-bar div { height: 100%; background: var(--sky-d); border-radius: 4px; }
+.sd-occ-meta { grid-column: 2; font-size: 10.5px; color: var(--c-faint); }
+.sd-none { font-size: 12px; color: var(--c-faint); }
+.sd-sigs { display: flex; flex-wrap: wrap; gap: 12px; }
+.sd-sig {
+  flex: 1 1 140px; background: var(--light-2); border-radius: var(--radius-sm);
+  padding: 10px 12px; min-width: 140px;
+}
+.sd-sig-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-muted); }
+.sd-sig-val { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--midnight); margin-top: 2px; }
+.sd-sig-unit { font-family: var(--font-sans); font-size: 11px; color: var(--c-muted); font-weight: 600; }
+.sd-sig-sub { font-size: 11px; color: var(--c-muted); margin-top: 1px; }
+.sd-sig .spark { color: var(--sky-d); margin-top: 4px; }
+
+.sector-hm { margin-bottom: 18px; }
+.hm { width: 100%; border-collapse: collapse; font-size: 12px; }
+.hm th { text-align: left; padding: 6px 8px; font-size: 11px; color: var(--c-muted); }
+.hm thead th { text-align: center; text-transform: uppercase; letter-spacing: 0.05em; }
+.hm tbody th { font-weight: 600; color: var(--c-ink); white-space: nowrap; }
+.hm td { text-align: center; padding: 7px 8px; font-weight: 700; border: 2px solid #fff; border-radius: 4px; }
+.hm .hm-na { color: var(--c-faint); background: var(--light-2); font-weight: 400; }

@@ -384,6 +384,239 @@ function renderDerived() {
   }));
 }
 
+/* ==================================================================
+   SECTOR PULSE — AI impact by sector (Phase 1: US, UK, EU, AU)
+   Data: data/sectors.json (exposure from build_sector_model.py,
+   signals from update_sectors.py). Sector Pressure is computed HERE,
+   client-side, with fixed bands — lineage shown in Deep mode.
+   ================================================================== */
+
+let SECTORS = null;         // sectors.json payload
+let sectorSel = null;       // selected sector id for the detail panel
+
+// Fixed bands for the sector-pressure blend (same philosophy as pillars)
+const SEC_BANDS = {
+  postings_delta: { lo: 5, hi: -15 },   // 12-week postings change: falling = pressure
+  demand_pct:     { lo: 2, hi: -6 },    // vacancies/employment % change vs prior period
+};
+const SEC_WEIGHTS = { exposure: 0.5, postings: 0.3, demand: 0.2 };
+
+function secNorm(bandId, raw) {
+  const b = SEC_BANDS[bandId];
+  return Math.max(0, Math.min(100, 100 * (raw - b.lo) / (b.hi - b.lo)));
+}
+
+function sectorPressure(node) {
+  const parts = [];  // [key, score, weight, detailText]
+  if (node.exposure_rel != null)
+    parts.push(["exposure", node.exposure_rel, SEC_WEIGHTS.exposure,
+      `exposure index ${node.exposure_rel} (within-region, top sector = 100)`]);
+  const sig = node.signals || {};
+  if (sig.postings && sig.postings.delta12w != null)
+    parts.push(["postings", secNorm("postings_delta", sig.postings.delta12w),
+      SEC_WEIGHTS.postings,
+      `postings ${sig.postings.delta12w >= 0 ? "+" : ""}${sig.postings.delta12w} pts / 12wk (band +5 → −15)`]);
+  const demand = sig.vacancies || sig.employment;
+  if (demand && demand.delta_prev != null && demand.value) {
+    const pct = 100 * demand.delta_prev / Math.max(1e-9, demand.value - demand.delta_prev);
+    parts.push(["demand", secNorm("demand_pct", pct), SEC_WEIGHTS.demand,
+      `${sig.vacancies ? "vacancies" : "employment"} ${pct >= 0 ? "+" : ""}${pct.toFixed(1)}% vs prior period (band +2% → −6%)`]);
+  }
+  if (!parts.length) return { score: null, parts };
+  const wSum = parts.reduce((s, p) => s + p[2], 0);
+  const score = parts.reduce((s, p) => s + p[1] * (p[2] / wSum), 0);
+  return { score, parts };
+}
+
+function sectorList() {
+  const reg = SECTORS && SECTORS.regions && SECTORS.regions[region];
+  if (!reg || !reg.sectors) return null;
+  const tax = SECTORS.taxonomy || [];
+  return tax.map((t) => {
+    const node = reg.sectors[t.id];
+    if (!node) return null;
+    const p = sectorPressure(node);
+    return { id: t.id, label: node.label || t.label, node, pressure: p };
+  }).filter(Boolean);
+}
+
+function measuredShare(node) {
+  const sigs = Object.values(node.signals || {});
+  if (!sigs.length) return null;
+  return sigs.filter((s) => s.measurement === "measured").length / sigs.length;
+}
+
+function renderSectorDetail(list) {
+  const item = list.find((x) => x.id === sectorSel);
+  const host = $("sector-detail");
+  if (!host) return;
+  if (!item) { host.innerHTML = ""; host.hidden = true; return; }
+  const { node, pressure } = item;
+  const st = statusOf(pressure.score || 0);
+  const sig = node.signals || {};
+  const reg = SECTORS.regions[region] || {};
+  const gran = (reg.matrix || {}).granularity;
+
+  const occRows = (node.top_occupations || []).map((o) => `
+    <div class="sd-occ">
+      <span class="sd-occ-name">${o.label}</span>
+      <div class="sd-occ-bar"><div style="width:${Math.min(100, o.share * 300)}%"></div></div>
+      <span class="sd-occ-meta">${(o.share * 100).toFixed(0)}% of jobs · exposure ${o.exposure}</span>
+    </div>`).join("");
+
+  const sigCards = [];
+  if (sig.postings) sigCards.push(`
+    <div class="sd-sig">
+      <div class="sd-sig-label">Postings <span class="meas meas-${sig.postings.measurement}">${sig.postings.measurement}</span></div>
+      <div class="sd-sig-val">${sig.postings.value}<span class="sd-sig-unit"> idx</span></div>
+      <div class="sd-sig-sub">${sig.postings.delta12w >= 0 ? "+" : ""}${sig.postings.delta12w} / 12wk</div>
+      ${sparkSvg((sig.postings.series || []).map((p) => p.value), 120, 30, "")}
+    </div>`);
+  if (sig.employment) sigCards.push(`
+    <div class="sd-sig">
+      <div class="sd-sig-label">Employment <span class="meas meas-${sig.employment.measurement}">${sig.employment.measurement}</span></div>
+      <div class="sd-sig-val">${Number(sig.employment.value).toLocaleString("en-GB")}<span class="sd-sig-unit"> ${sig.employment.unit}</span></div>
+      <div class="sd-sig-sub">${sig.employment.delta_prev == null ? "" : (sig.employment.delta_prev >= 0 ? "+" : "") + sig.employment.delta_prev + " vs prior · "}${sig.employment.period}</div>
+    </div>`);
+  if (sig.vacancies) sigCards.push(`
+    <div class="sd-sig">
+      <div class="sd-sig-label">Vacancies <span class="meas meas-${sig.vacancies.measurement}">${sig.vacancies.measurement}</span></div>
+      <div class="sd-sig-val">${sig.vacancies.value}<span class="sd-sig-unit"> ${sig.vacancies.unit.replace("k vacancies", "k")}</span></div>
+      <div class="sd-sig-sub">${sig.vacancies.delta_prev == null ? "" : (sig.vacancies.delta_prev >= 0 ? "+" : "") + sig.vacancies.delta_prev + " vs prior · "}${sig.vacancies.period}</div>
+    </div>`);
+
+  const lineageRows = pressure.parts.map((p) => `
+    <tr><td>${p[0]}</td><td>${p[3]}</td>
+        <td class="num">${p[1].toFixed(0)}</td>
+        <td class="num">× ${Math.round(100 * p[2] / pressure.parts.reduce((s, q) => s + q[2], 0))}%</td></tr>`).join("");
+
+  host.hidden = false;
+  host.innerHTML = `
+    <div class="sd-hdr ${st.cls}">
+      <div>
+        <div class="sd-title">${node.label} <span class="p-status">${st.word} pressure</span></div>
+        <div class="sd-sub">Exposure index <b>${node.exposure_rel == null ? "—" : node.exposure_rel}</b>
+          ${node.exposure_rank ? `· rank ${node.exposure_rank} of ${list.length} in ${DATA.regions[region].label}` : ""}
+          ${gran ? `· <span class="sd-gran" title="${gran === "fine" ? "Occupation-level employment matrix" : "Occupation-major-group matrix (coarser)"}">${gran} matrix</span>` : ""}
+          ${node.shared_section ? `· <span class="sd-gran" title="This region's statistics combine this sector with others in one industry section; the exposure score is shared">section-level score</span>` : ""}
+        </div>
+      </div>
+      <button type="button" class="modal-close" id="sd-close" aria-label="Close sector detail">&times;</button>
+    </div>
+    <div class="sd-body">
+      <div class="sd-col">
+        <h4>Why this sector is exposed</h4>
+        ${occRows || "<p class='sd-none'>Occupation breakdown arrives with the next quarterly model build.</p>"}
+      </div>
+      <div class="sd-col">
+        <h4>Live signals</h4>
+        <div class="sd-sigs">${sigCards.join("") || "<p class='sd-none'>No live signals yet for this region.</p>"}</div>
+      </div>
+    </div>
+    <details class="p-lineage deep-only">
+      <summary>Under the hood — sector pressure & exposure lineage</summary>
+      <table class="lineage">
+        <thead><tr><th>Input</th><th>Reading</th><th class="num">Score</th><th class="num">Weight</th></tr></thead>
+        <tbody>${lineageRows}</tbody>
+        <tfoot><tr><td colspan="4">
+          Sector pressure = Σ (weight × normalized input) = <b>${pressure.score == null ? "—" : Math.round(pressure.score)}</b>.
+          Exposure = 100 × employment-share-weighted mean of occupation AI exposure
+          (${(SECTORS.exposure_source || {}).name || "Anthropic Observed Exposure"}),
+          shown as a within-region index (top sector = 100).
+          Matrix: ${(reg.matrix || {}).source || "—"}.
+        </td></tr></tfoot>
+      </table>
+    </details>`;
+  const closeBtn = host.querySelector("#sd-close");
+  if (closeBtn) closeBtn.addEventListener("click", () => {
+    sectorSel = null; renderSectors();
+  });
+}
+
+function renderSectorHeatmap() {
+  if (mode !== "deep" || !SECTORS) return "";
+  const regs = Object.keys(SECTORS.regions || {}).filter((r) =>
+    (SECTORS.regions[r].sectors && Object.values(SECTORS.regions[r].sectors)
+      .some((s) => s.exposure_rel != null)));
+  if (!regs.length) return "";
+  const tax = SECTORS.taxonomy || [];
+  // sequential single-hue ramp (light -> dark), per dataviz sequential rule
+  const ramp = ["#F4FAFC", "#D5EDF4", "#9ADBE8", "#5FAABF", "#33657C", "#253746"];
+  const cell = (v) => {
+    if (v == null) return `<td class="hm-na">—</td>`;
+    const i = Math.min(ramp.length - 1, Math.floor(v / (100 / ramp.length)));
+    const dark = i >= 3;
+    return `<td style="background:${ramp[i]};color:${dark ? "#fff" : "var(--midnight)"}">${Math.round(v)}</td>`;
+  };
+  const rows = tax.map((t) => `
+    <tr><th>${t.label}</th>
+      ${regs.map((r) => cell(((SECTORS.regions[r].sectors || {})[t.id] || {}).exposure_rel)).join("")}
+    </tr>`).join("");
+  return `
+  <article class="card span-12 deep-only sector-hm">
+    <header class="card-hdr"><h3>Sector exposure heatmap — within-region index</h3>
+      <details class="src"><summary>Source &amp; method</summary>
+        <p>Each cell is the sector's AI-exposure index <em>within its own region</em> (top sector = 100) —
+        employment-share-weighted Anthropic Observed Exposure across the sector's occupation mix.
+        Values are not comparable across columns (locked methodology: within-country ranks only).</p>
+      </details></header>
+    <table class="hm"><thead><tr><th></th>${regs.map((r) => `<th>${r}</th>`).join("")}</tr></thead>
+      <tbody>${rows}</tbody></table>
+  </article>`;
+}
+
+function renderSectors() {
+  const host = $("sectors");
+  if (!host) return;
+  const list = sectorList();
+  if (!list || !list.length) { host.innerHTML = ""; return; }
+  const ranked = list.slice().sort((a, b) =>
+    (b.pressure.score ?? -1) - (a.pressure.score ?? -1));
+  const chips = ranked.map((x) => {
+    const st = statusOf(x.pressure.score || 0);
+    const arrow = x.node.signals && x.node.signals.postings
+      ? (x.node.signals.postings.delta12w > 1 ? "▲" :
+         x.node.signals.postings.delta12w < -1 ? "▼" : "▬") : "";
+    const ms = measuredShare(x.node);
+    return `<button type="button" class="sec-chip ${st.cls} ${sectorSel === x.id ? "active" : ""}" data-sector="${x.id}"
+      title="${x.label}: ${st.word} pressure${ms != null ? ` · ${Math.round(ms * 100)}% of signals measured` : ""}">
+      <span class="sec-name">${x.label}</span>
+      <span class="sec-meta"><b>${x.pressure.score == null ? "—" : Math.round(x.pressure.score)}</b> ${st.word} <span class="sec-arrow">${arrow}</span></span>
+    </button>`;
+  }).join("");
+  host.innerHTML = `
+  <article class="card span-12 sector-card">
+    <header class="card-hdr">
+      <h3>Sector pulse — AI impact by sector</h3>
+      <details class="src"><summary>Source &amp; method</summary>
+        <p><strong>What this shows:</strong> the ten dashboard sectors ranked by <em>sector pressure</em> —
+        a fixed-band blend of AI-exposure index (50%), 12-week posting trend (30%) and official
+        vacancy/employment momentum (20%). Click a sector for its occupation make-up, live signals
+        and (in Deep view) the full lineage.</p>
+        <p><strong>Coverage:</strong> Phase 1 = US, UK, EU, AU. India &amp; APAC arrive in Phase 2.
+        Exposure scores are within-region indexes, not cross-country comparisons.</p>
+      </details>
+    </header>
+    <div class="sector-strip">${chips}</div>
+    <div id="sector-detail" class="sector-detail" ${sectorSel ? "" : "hidden"}></div>
+  </article>
+  ${renderSectorHeatmap()}`;
+  host.querySelectorAll("[data-sector]").forEach((el) =>
+    el.addEventListener("click", () => {
+      sectorSel = sectorSel === el.dataset.sector ? null : el.dataset.sector;
+      renderSectors();
+    }));
+  renderSectorDetail(list);
+}
+
+async function loadSectors() {
+  try {
+    const res = await fetch("data/sectors.json", { cache: "no-store" });
+    if (!res.ok) throw new Error("no sectors.json");
+    SECTORS = await res.json();
+  } catch (e) { SECTORS = null; }
+}
+
 // --- mode toggle ---------------------------------------------------
 function applyMode() {
   document.body.classList.toggle("mode-simple", mode === "simple");
@@ -775,6 +1008,7 @@ async function renderSnapshots() {
 // ---------- Top-level binders ----------
 function renderAll() {
   renderDerived();
+  renderSectors();
   renderKpis();
   renderNarrative();
   renderOccTable();
@@ -884,6 +1118,7 @@ if (typeof Chart !== "undefined") {
     DATA = await res.json();
     if (!DATA.regions[region]) region = "US";
     try { await loadHistory(); } catch (e) { HIST = null; }  // derived layer degrades gracefully
+    await loadSectors();                                     // sector layer optional too
     renderAll();
     renderSnapshots();
   } catch (e) {
