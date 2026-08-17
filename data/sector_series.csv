@@ -1,0 +1,91 @@
+run_date,region,sector_id,signal,value,unit,period,source,measurement
+2026-08-17,UK,banking,postings,84.8,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Banking & Finance),measured
+2026-08-17,UK,banking,employment,1112.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS7, SA)",measured
+2026-08-17,UK,banking,vacancies,32.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9Q, SA)",measured
+2026-08-17,UK,insurance,employment,1112.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS7, SA)",measured
+2026-08-17,UK,insurance,vacancies,32.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9Q, SA)",measured
+2026-08-17,UK,it_software,postings,54.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,UK,it_software,employment,1577.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS6, SA)",measured
+2026-08-17,UK,it_software,vacancies,41.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9P, SA)",measured
+2026-08-17,UK,telecom_media,postings,45.2,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Media & Communications),measured
+2026-08-17,UK,telecom_media,employment,1577.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS6, SA)",measured
+2026-08-17,UK,telecom_media,vacancies,41.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9P, SA)",measured
+2026-08-17,UK,manufacturing,postings,101.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,UK,manufacturing,employment,2482.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWR7, SA)",measured
+2026-08-17,UK,manufacturing,vacancies,48.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9I, SA)",measured
+2026-08-17,UK,healthcare,postings,54.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,UK,healthcare,employment,5090.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWT5, SA)",measured
+2026-08-17,UK,healthcare,vacancies,121.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9W, SA)",measured
+2026-08-17,UK,retail,postings,82.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Retail, Loading & Stocking)",measured
+2026-08-17,UK,retail,employment,4629.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS3, SA)",measured
+2026-08-17,UK,retail,vacancies,87.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9M, SA)",measured
+2026-08-17,UK,professional,postings,66.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Legal, Accounting…)",measured
+2026-08-17,UK,professional,employment,3492.0,k jobs,2026 Q1,"ONS JOBS02 workforce jobs (JWS9, SA)",measured
+2026-08-17,UK,professional,vacancies,70.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9S, SA)",measured
+2026-08-17,UK,education,postings,117.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (GB: Education & Instruction),measured
+2026-08-17,UK,education,vacancies,47.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9V, SA)",measured
+2026-08-17,UK,government,postings,84.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (GB: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,UK,government,vacancies,29.0,k vacancies,2026 MAY,"ONS VACS02 vacancies (JP9U, SA)",measured
+2026-08-17,AU,banking,postings,111.5,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (AU: Banking & Finance),measured
+2026-08-17,AU,banking,employment,523.7,k persons,2026-Q1,"ABS Labour Account (ANZSIC K, measure M12)",measured
+2026-08-17,AU,banking,vacancies,8.9,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC K),measured
+2026-08-17,AU,insurance,employment,523.7,k persons,2026-Q1,"ABS Labour Account (ANZSIC K, measure M12)",measured
+2026-08-17,AU,insurance,vacancies,8.9,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC K),measured
+2026-08-17,AU,it_software,postings,99.9,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,AU,it_software,employment,207.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC J, measure M12)",measured
+2026-08-17,AU,it_software,vacancies,3.6,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC J),measured
+2026-08-17,AU,telecom_media,postings,70.9,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (AU: Media & Communications),measured
+2026-08-17,AU,telecom_media,employment,207.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC J, measure M12)",measured
+2026-08-17,AU,telecom_media,vacancies,3.6,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC J),measured
+2026-08-17,AU,manufacturing,postings,148.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,AU,manufacturing,employment,904.3,k persons,2026-Q1,"ABS Labour Account (ANZSIC C, measure M12)",measured
+2026-08-17,AU,manufacturing,vacancies,21.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC C),measured
+2026-08-17,AU,healthcare,postings,136.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,AU,healthcare,employment,2580.6,k persons,2026-Q1,"ABS Labour Account (ANZSIC Q, measure M12)",measured
+2026-08-17,AU,healthcare,vacancies,56.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC Q),measured
+2026-08-17,AU,retail,postings,222.4,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Retail, Loading & Stocking)",measured
+2026-08-17,AU,retail,employment,1522.0,k persons,2026-Q1,"ABS Labour Account (ANZSIC G, measure M12)",measured
+2026-08-17,AU,retail,vacancies,26.0,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC G),measured
+2026-08-17,AU,professional,postings,115.0,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Legal, Accounting…)",measured
+2026-08-17,AU,professional,employment,1323.5,k persons,2026-Q1,"ABS Labour Account (ANZSIC M, measure M12)",measured
+2026-08-17,AU,professional,vacancies,35.7,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC M),measured
+2026-08-17,AU,education,employment,1344.2,k persons,2026-Q1,"ABS Labour Account (ANZSIC P, measure M12)",measured
+2026-08-17,AU,education,vacancies,11.0,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC P),measured
+2026-08-17,AU,government,postings,161.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (AU: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,AU,government,employment,891.9,k persons,2026-Q1,"ABS Labour Account (ANZSIC O, measure M12)",measured
+2026-08-17,AU,government,vacancies,21.2,k vacancies,2026-Q2,ABS Job Vacancies (ANZSIC O),measured
+2026-08-17,EU,banking,postings,86.0,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Banking & Finance),measured
+2026-08-17,EU,banking,employment,3099.6,k persons,2025-Q4,"Eurostat lfsq_egan22d (K64), EU27",measured
+2026-08-17,EU,banking,vacancies,1.7,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE K, EU27)",measured
+2026-08-17,EU,insurance,employment,1167.5,k persons,2025-Q4,"Eurostat lfsq_egan22d (K65), EU27",measured
+2026-08-17,EU,insurance,vacancies,1.7,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE K, EU27)",measured
+2026-08-17,EU,it_software,postings,64.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,EU,it_software,employment,8007.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE J), EU27",measured
+2026-08-17,EU,it_software,vacancies,2.2,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE J, EU27)",measured
+2026-08-17,EU,telecom_media,postings,57.0,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Media & Communications),measured
+2026-08-17,EU,telecom_media,employment,8007.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE J), EU27",measured
+2026-08-17,EU,telecom_media,vacancies,2.2,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE J, EU27)",measured
+2026-08-17,EU,manufacturing,postings,89.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,EU,manufacturing,employment,31399.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE C), EU27",measured
+2026-08-17,EU,manufacturing,vacancies,1.5,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE C, EU27)",measured
+2026-08-17,EU,healthcare,postings,152.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,EU,healthcare,employment,24095.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE Q), EU27",measured
+2026-08-17,EU,retail,postings,110.5,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Retail, Loading & Stocking)",measured
+2026-08-17,EU,retail,employment,27991.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE G), EU27",measured
+2026-08-17,EU,retail,vacancies,1.8,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE G, EU27)",measured
+2026-08-17,EU,professional,postings,77.4,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Legal, Accounting…)",measured
+2026-08-17,EU,professional,employment,12806.6,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE M), EU27",measured
+2026-08-17,EU,professional,vacancies,2.4,% vacancy rate,2025-Q4,"Eurostat jvs_q_nace2 JVR (NACE M, EU27)",measured
+2026-08-17,EU,education,postings,109.8,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (DE+FR: Education & Instruction),measured
+2026-08-17,EU,education,employment,15960.8,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE P), EU27",measured
+2026-08-17,EU,government,postings,139.1,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (DE+FR: Community & Social Service, Security & Public Safety)",measured
+2026-08-17,EU,government,employment,14666.3,k persons,2025-Q4,"Eurostat lfsq_egan2 (NACE O), EU27",measured
+2026-08-17,US,banking,postings,103.5,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Banking & Finance),measured
+2026-08-17,US,it_software,postings,69.0,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Software Development, IT Infrastructure, Operations & Support…)",measured
+2026-08-17,US,telecom_media,postings,70.6,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Media & Communications),measured
+2026-08-17,US,manufacturing,postings,116.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Production & Manufacturing, Industrial Engineering)",measured
+2026-08-17,US,healthcare,postings,126.3,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Nursing, Physicians & Surgeons…)",measured
+2026-08-17,US,retail,postings,97.6,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Retail, Loading & Stocking)",measured
+2026-08-17,US,professional,postings,94.2,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Legal, Accounting…)",measured
+2026-08-17,US,education,postings,110.1,index (Feb 2020=100),2026-08-07,Indeed Hiring Lab sectors (US: Education & Instruction),measured
+2026-08-17,US,government,postings,109.8,index (Feb 2020=100),2026-08-07,"Indeed Hiring Lab sectors (US: Community & Social Service, Security & Public Safety)",measured
