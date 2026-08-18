@@ -120,7 +120,7 @@ def on_cover(canvas, doc):
     # reversed logo, top-left
     draw_awa_logo(c, M, H - 2.15 * cm, 24, dark_bg=True)
     c.setFont(SANS, 8.5); c.setFillColor(DARKMUTE)
-    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v1.0     JUNE 2026")
+    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v2.0     AUGUST 2026")
     # kicker (Spectral italic, coral)
     c.setFont(SERIF_I, 16); c.setFillColor(CORAL)
     c.drawString(M, H * 0.63, "The DNA of work")
@@ -151,7 +151,7 @@ def on_cover(canvas, doc):
     c.setStrokeColor(colors.HexColor("#33485A")); c.setLineWidth(0.8)
     c.line(M, 2.15 * cm, W - M, 2.15 * cm)
     c.setFillColor(DARKMUTE); c.setFont(SANS, 8)
-    c.drawString(M, 1.65 * cm, "Version 1.0  -  June 2026")
+    c.drawString(M, 1.65 * cm, "Version 2.0  -  August 2026")
     c.drawRightString(W - M, 1.65 * cm, "It's in our DNA")
     c.restoreState()
 
@@ -225,6 +225,14 @@ story.append(Paragraph(
     "about AI's effect on labour markets into a single, weekly-refreshed evidence base, "
     "viewable as a dashboard and downloadable as raw data. It covers six regions: "
     "the United States, United Kingdom, India, European Union, Asia Pacific, and Australia.",
+    body))
+story.append(Paragraph(
+    "The dashboard opens in a <b>Simple</b> view built for a fast, plain-language read: one "
+    "AI Pressure Index per region, four pillar signals, and a sector pulse ranking ten industry "
+    "sectors by AI pressure. A <b>Deep</b> toggle exposes everything underneath &mdash; the ten "
+    "raw KPIs with measured/modelled provenance, the analytical charts, and \"under the hood\" "
+    "lineage panels that show every input, calibration band and weight behind every derived "
+    "number. Sections 5.1 and 5.2 explain both layers in detail.",
     body))
 story.append(Paragraph(
     "It exists because the public debate about AI and jobs lurches between two extremes "
@@ -364,8 +372,8 @@ kpis = [
      "Quarterly.",
      "Below 45% or above 60%."),
     ("Exposed-occupation posting index",
-     "Volume of job postings in the top-quartile-exposure occupations, indexed to a base of 100 in January 2025.",
-     "Indeed Hiring Lab plus Naukri JobSpeak and Seek; ONS Vacancy Survey for UK validation.",
+     "Mean Indeed postings index across eight high-exposure sectors, seasonally adjusted, indexed to February 2020 = 100. Measured for the US, UK, EU (DE+FR mean) and AU; India and APAC use Adzuna exposed-category counts (indexed to their first measured week) once the API key is configured.",
+     "Indeed Hiring Lab job postings tracker (open GitHub dataset); Adzuna categories for India/APAC.",
      "Weekly.",
      "More than 5% drop on a 4-week rolling basis."),
     ("AI-skill salary premium",
@@ -398,7 +406,7 @@ for name, definition, source, refresh, alert in kpis:
 story.append(PageBreak())
 story.append(Paragraph("5. How to read each dashboard panel", h1))
 
-story.append(Paragraph("5.0 Simple and Deep views &mdash; the derived layer (added Aug 2026)", h2))
+story.append(Paragraph("5.1 Simple and Deep views &mdash; the derived layer (added Aug 2026)", h2))
 story.append(Paragraph(
     "The dashboard opens in <b>Simple</b> view: one <b>AI Pressure Index</b> (0&ndash;100) per region "
     "and four plain-language pillar signals &mdash; <i>Job displacement</i> (are jobs being cut?), "
@@ -420,7 +428,7 @@ story.append(Paragraph(
     "time and are not cross-country exposure rankings, consistent with the quartile-rank rule in "
     "section 8.3.", body))
 
-story.append(Paragraph("5.0b Sector pulse (added Aug 2026; all six regions)", h2))
+story.append(Paragraph("5.2 Sector pulse (added Aug 2026; all six regions)", h2))
 story.append(Paragraph(
     "AI impact by sector &mdash; banking &amp; financial markets, insurance, IT &amp; software, telecom "
     "&amp; media, manufacturing, healthcare, retail, professional services, education, government. "
@@ -434,6 +442,8 @@ story.append(Paragraph(
     "section K) share an exposure score and are marked \"section-level\". Weekly signals and quarterly "
     "matrix rebuilds run in CI; every signal carries the measured/modelled badge, and Deep view exposes "
     "the full lineage. Taxonomy concordance: model/sector_concordance.csv in the repository.", body))
+
+story.append(Paragraph("5.3 Panel-by-panel guide (Deep view)", h2))
 
 panels = [
     ("Most exposed occupations table",
@@ -458,9 +468,8 @@ panels = [
      "share suggests AI is doing more of the work alone. Anthropic's March 2026 release shows "
      "augmentation just over half of Claude.ai conversations."),
     ("Posting volume in exposed roles",
-     "A 12-week indexed line showing how postings in the top-quartile-exposure occupations are moving. "
-     "Base = 100 at the first week shown. A downward slope of more than 5% over a 4-week rolling window "
-     "is the alert band."),
+     "A 12-week line of the exposed-occupation posting index (February 2020 = 100, seasonally "
+     "adjusted). A downward slope of more than 5% over a 4-week rolling window is the alert band."),
     ("Capability gap by sector",
      "Twin bars per sector: blue is theoretical &beta;, red is Observed Exposure. The space between is "
      "headroom. This is the chart to watch over months and quarters &mdash; if red moves toward blue "
@@ -517,8 +526,8 @@ story.append(Paragraph(
 tiers = [
     ["Tier 1 — Methodological anchor", "Anthropic Economic Index releases; Anthropic country briefs; Hugging Face dataset Anthropic/EconomicIndex.", "Quarterly", "Sets Observed Exposure per occupation."],
     ["Tier 2 — Official statistics", "US BLS, UK ONS, Eurostat, India NSO, Australia ABS, Singapore MOM.", "1-3 months", "Baseline employment, unemployment, demographics."],
-    ["Tier 3 — Real-time market", "Indeed Hiring Lab, LinkedIn Economic Graph, Seek, Naukri JobSpeak, Lightcast.", "Weekly", "Postings, AI-mention share, vacancy trends."],
-    ["Tier 4 — Narrative & event", "Layoffs.fyi, WEF Future of Jobs, McKinsey/IFOW/British Progress reports, central-bank notes.", "Weekly-annual", "AI-attributed layoffs, narrative, alternative attributions."],
+    ["Tier 3 — Real-time market", "Indeed Hiring Lab (postings + AI tracker), Adzuna API, Naukri JobSpeak, Singapore MOM vacancies.", "Weekly-quarterly", "Postings, AI-mention share, vacancy trends, sector demand."],
+    ["Tier 4 — Displacement & event", "Challenger, Gray & Christmas (30-industry job-cut table + AI-cited counts), Eurofound European Restructuring Monitor, Layoffs.fyi context, WEF Future of Jobs.", "Monthly-annual", "Sector layoffs, AI-attributed cuts, narrative, alternative attributions."],
 ]
 story.append(header_table(["Tier", "Sources", "Latency", "Role"], tiers,
     [4.5*cm, 6.5*cm, 2.2*cm, 3.8*cm]))
@@ -540,18 +549,24 @@ story.append(Paragraph(
 story.append(Paragraph("7.1 Refresh cycle", h2))
 story.append(Paragraph(
     "The site auto-refreshes every Monday at 06:00 UTC via a GitHub Actions workflow. "
-    "The workflow runs <font face='Courier'>scripts/update_data.py</font>, which pulls the latest "
-    "values from each adapter, appends a new row per region per KPI to <font face='Courier'>data/historical.csv</font>, "
-    "writes a frozen JSON snapshot to <font face='Courier'>data/snapshots/YYYY-Wxx.json</font>, "
-    "and overwrites <font face='Courier'>data/current.json</font>. Netlify auto-deploys on the resulting commit.",
+    "It runs <font face='Courier'>scripts/update_data.py</font> (KPI refresh: new rows in "
+    "<font face='Courier'>data/historical.csv</font>, a frozen snapshot in "
+    "<font face='Courier'>data/snapshots/</font>, a rewritten <font face='Courier'>data/current.json</font>) "
+    "followed by <font face='Courier'>scripts/update_sectors.py</font> (sector postings, employment, "
+    "vacancies and layoffs into <font face='Courier'>data/sectors.json</font> plus the "
+    "<font face='Courier'>data/sector_series.csv</font> archive). Quarterly workflows rebuild the "
+    "occupation models and the sector exposure matrices. Netlify auto-deploys on every commit.",
     body))
 
 story.append(Paragraph("7.2 Open data", h2))
 story.append(Paragraph(
-    "Every value the dashboard has ever shown is downloadable as a single CSV (historical.csv) "
-    "or as individual weekly JSON snapshots. Snapshots are never edited after the fact &mdash; "
-    "if a source revises a figure, the new value enters a future snapshot, not the past one. "
-    "This makes the data store an audit trail as much as a source.",
+    "Every value the dashboard has ever shown is downloadable: <font face='Courier'>historical.csv</font> "
+    "(all KPIs, all regions, all weeks), the weekly JSON snapshots, <font face='Courier'>current.json</font>, "
+    "<font face='Courier'>sectors.json</font> (the sector layer: exposure, signals, provenance), "
+    "<font face='Courier'>sector_series.csv</font> (append-only sector signal archive) and "
+    "<font face='Courier'>uk_occupations.json</font> (the 412-occupation UK model). Snapshots are never "
+    "edited after the fact &mdash; if a source revises a figure, the new value enters a future snapshot, "
+    "not the past one. This makes the data store an audit trail as much as a source.",
     body))
 
 # ----- 8. Limitations and caveats -----
@@ -598,6 +613,22 @@ story.append(Paragraph(
     "that could account for the same observation.",
     body))
 
+story.append(Paragraph("8.6 Derived layers, proxies and parsed sources", h2))
+story.append(Paragraph(
+    "The AI Pressure Index, pillar signals and sector pressure are <b>presentation-layer "
+    "derivations</b>: they add no new measurement, only fixed, documented calibration bands and "
+    "weights over the underlying series, and their full lineage is visible in Deep view. Several "
+    "tiles are honest proxies renamed on the dashboard (UK redundancies for layoffs, US youth "
+    "employment for the hire rate, EU recent-graduate employment for graduate postings). Two "
+    "sector signals are parsed from published text rather than an API &mdash; the Challenger "
+    "industry table (PDF) and Naukri JobSpeak (report copy) &mdash; and are therefore brittle to "
+    "format changes; a failed parse carries the previous value forward rather than inventing one. "
+    "Sector layoff counts are <b>all-cause</b>, not AI-attributed: attribution exists only at the "
+    "headline Challenger AI-cited figure. Where statistics agencies publish only industry "
+    "sections, sectors sharing a section (banking and insurance; IT and telecom/media) share an "
+    "exposure score, marked \"section-level\" on the dashboard.",
+    body))
+
 # ----- 9. References -----
 story.append(Paragraph("9. References", h1))
 refs = [
@@ -615,6 +646,14 @@ refs = [
     'Nasscom (2026). <i>India\'s workforce transformation opportunity in the AI era.</i>',
     'European Commission. <i>Apply AI Strategy and Union of Skills programme.</i>',
     'Indeed Hiring Lab Australia (2026). <i>Nothing artificial about Australian AI adoption.</i>',
+    'Challenger, Gray & Christmas. <i>Monthly Job Cut Announcement Report</i> (industry table + AI-cited counts). https://www.challengergray.com/blog/category/job-cuts-report/',
+    'Eurofound. <i>European Restructuring Monitor events database.</i> https://apps.eurofound.europa.eu/restructuringevents/',
+    'Indeed Hiring Lab. <i>Job postings tracker</i> and <i>AI tracker</i> open datasets. https://github.com/hiring-lab',
+    'ILOSTAT. <i>Employment by occupation and economic activity (EMP_TEMP_ECO_OCU); employment by economic activity (EMP_TEMP_SEX_ECO).</i> https://ilostat.ilo.org/',
+    'ONS ad-hoc 3136 (2025). <i>Employment by occupation and industry section, UK, 2021-2024.</i>',
+    'Felten, E., Raj, M., and Seamans, R. (2021). <i>Occupational, industry, and geographic exposure to artificial intelligence.</i> Strategic Management Journal (industry-aggregation precedent for the sector exposure method).',
+    'Adzuna. <i>Developer API.</i> https://developer.adzuna.com/',
+    'Naukri JobSpeak. <i>Monthly hiring activity report.</i>',
     'Layoffs.fyi tech and startup layoff tracker.',
     'CNBC (2026). <i>20,000 job cuts at Meta, Microsoft raise concern that AI-driven labor crisis is here.</i>',
 ]
@@ -624,7 +663,7 @@ for r in refs:
 
 story.append(Spacer(1, 1*cm))
 story.append(Paragraph(
-    "<i>Prepared June 2026 &mdash; v1.0. Updates to this manual will follow major methodological revisions.</i>",
+    "<i>Prepared June 2026; revised 18 August 2026 &mdash; v2.0. This revision documents the Simple/Deep reading levels, the derived AI Pressure Index and pillar signals, the sector pulse across all six regions including the layoffs layer, and the v3 measured data sources. Updates to this manual follow major methodological revisions.</i>",
     small))
 
 # ------------------------------------------------------------------
