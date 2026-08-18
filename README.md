@@ -86,9 +86,13 @@ the API keys are configured.
   the K64 banking / K65 insurance split) + `jvs_q_nace2` (EU), ABS Labour
   Account + Job Vacancies (AU), BLS CES (US). Any fetch failure leaves
   the previous signal untouched.
-- **Sector Pressure** (dashboard, client-side): 50% exposure index + 30%
-  12-week posting trend + 20% vacancy/employment momentum, fixed bands,
-  full lineage in Deep view.
+- **Sector Pressure** (dashboard, client-side): 45% exposure index + 25%
+  posting trend / hiring momentum + 15% vacancy/employment momentum + 15%
+  announced layoffs as a share of sector workforce (US: Challenger's
+  30-industry monthly table, PDF-parsed; EU: Eurofound ERM announced job
+  losses, trailing 12 months, EU27). Fixed bands; missing components have
+  their weight redistributed pro-rata, and the Deep-view lineage names
+  every input used and every input missing.
 - Data: `data/sectors.json` (current state) + `data/sector_series.csv`
   (append-only archive). Taxonomy mapping: `model/sector_concordance.csv`.
   Research + phase plan: `SECTOR_RESEARCH_2026-08.md`.
