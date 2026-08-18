@@ -770,3 +770,13 @@ body.mode-simple .feed {
 .hm tbody th { font-weight: 600; color: var(--c-ink); white-space: nowrap; }
 .hm td { text-align: center; padding: 7px 8px; font-weight: 700; border: 2px solid #fff; border-radius: 4px; }
 .hm .hm-na { color: var(--c-faint); background: var(--light-2); font-weight: 400; }
+
+/* missing-signal stubs + signal explainer (sector detail) */
+.sd-sig-note {
+  font-size: 11px; color: var(--c-muted); line-height: 1.5;
+  margin: 0 0 10px; max-width: 560px;
+}
+.sd-sig-note b { color: var(--c-ink); }
+.sd-sig-missing { background: transparent; border: 1.5px dashed var(--c-line); cursor: help; }
+.sd-sig-none { font-size: 13px; font-weight: 700; color: var(--c-faint); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+.sd-sig-missing .sd-sig-sub { color: var(--c-faint); font-size: 10px; line-height: 1.4; margin-top: 3px; }

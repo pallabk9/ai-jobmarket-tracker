@@ -488,7 +488,7 @@ function renderSectorDetail(list) {
   const sigCards = [];
   if (sig.postings) sigCards.push(`
     <div class="sd-sig">
-      <div class="sd-sig-label">Postings <span class="meas meas-${sig.postings.measurement}">${sig.postings.measurement}</span></div>
+      <div class="sd-sig-label">Online job ads <span class="meas meas-${sig.postings.measurement}">${sig.postings.measurement}</span></div>
       <div class="sd-sig-val">${sig.postings.value}<span class="sd-sig-unit"> idx</span></div>
       <div class="sd-sig-sub">${sig.postings.delta12w >= 0 ? "+" : ""}${sig.postings.delta12w} / 12wk</div>
       ${sparkSvg((sig.postings.series || []).map((p) => p.value), 120, 30, "")}
@@ -501,13 +501,13 @@ function renderSectorDetail(list) {
     </div>`);
   if (sig.vacancies) sigCards.push(`
     <div class="sd-sig">
-      <div class="sd-sig-label">Vacancies <span class="meas meas-${sig.vacancies.measurement}">${sig.vacancies.measurement}</span></div>
+      <div class="sd-sig-label">Official vacancies <span class="meas meas-${sig.vacancies.measurement}">${sig.vacancies.measurement}</span></div>
       <div class="sd-sig-val">${Number(sig.vacancies.value).toLocaleString("en-GB")}<span class="sd-sig-unit"> ${sig.vacancies.unit.replace("k vacancies", "k")}</span></div>
       <div class="sd-sig-sub">${sig.vacancies.delta_prev == null ? "" : (sig.vacancies.delta_prev >= 0 ? "+" : "") + sig.vacancies.delta_prev + " vs prior · "}${sig.vacancies.period}</div>
     </div>`);
   if (sig.layoffs) sigCards.push(`
     <div class="sd-sig">
-      <div class="sd-sig-label">Layoffs <span class="meas meas-${sig.layoffs.measurement}">${sig.layoffs.measurement}</span></div>
+      <div class="sd-sig-label">Layoffs / job cuts <span class="meas meas-${sig.layoffs.measurement}">${sig.layoffs.measurement}</span></div>
       <div class="sd-sig-val">${Number(sig.layoffs.value).toLocaleString("en-GB")}<span class="sd-sig-unit"> ${sig.layoffs.unit}</span></div>
       <div class="sd-sig-sub">${sig.layoffs.delta_prev == null ? "" : (sig.layoffs.delta_prev >= 0 ? "+" : "") + Number(sig.layoffs.delta_prev).toLocaleString("en-GB") + " " + (sig.layoffs.delta_label || "vs prior") + " · "}${sig.layoffs.period}</div>
     </div>`);
@@ -519,6 +519,23 @@ function renderSectorDetail(list) {
     </div>`);
 
   const wSum = pressure.parts.reduce((s, q) => s + q[2], 0);
+  // explicit stubs for core signals this region does not publish
+  const stubs = [];
+  if (!sig.postings && !sig.momentum) stubs.push(["Online job ads",
+    "no posting index or hiring-momentum source covers this sector here"]);
+  if (!sig.vacancies) stubs.push(["Official vacancies",
+    "no statistical vacancy survey publishes this sector for this region"]);
+  if (!sig.employment) stubs.push(["Employment",
+    "sector employment arrives with the region's next statistical release"]);
+  if (!sig.layoffs) stubs.push(["Layoffs / job cuts",
+    "published for US (Challenger) and EU (Eurofound) only - no per-sector layoff source exists for this region"]);
+  const stubCards = stubs.map(([t, why]) => `
+    <div class="sd-sig sd-sig-missing" title="${why}">
+      <div class="sd-sig-label">${t}</div>
+      <div class="sd-sig-none">not published</div>
+      <div class="sd-sig-sub">${why}</div>
+    </div>`).join("");
+
   const lineageRows = pressure.parts.map((p) => `
     <tr><td>${p[0]}</td><td>${p[3]}</td>
         <td class="num">${p[1].toFixed(0)}</td>
@@ -547,7 +564,11 @@ function renderSectorDetail(list) {
       </div>
       <div class="sd-col">
         <h4>Live signals</h4>
-        <div class="sd-sigs">${sigCards.join("") || "<p class='sd-none'>No live signals yet for this region.</p>"}</div>
+        <p class="sd-sig-note"><b>Online job ads</b> = real-time ads scraped from the web
+          (Indeed index / Adzuna counts) — fast but unofficial. <b>Official vacancies</b> =
+          the statistics agency's survey of unfilled positions — slower but authoritative.
+          Both measure hiring demand from different instruments.</p>
+        <div class="sd-sigs">${(sigCards.join("") + stubCards) || "<p class='sd-none'>No live signals yet for this region.</p>"}</div>
       </div>
     </div>
     <details class="p-lineage deep-only">
