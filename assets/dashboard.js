@@ -399,8 +399,9 @@ const SEC_BANDS = {
   postings_delta: { lo: 5, hi: -15 },   // 12-week postings change: falling = pressure
   demand_pct:     { lo: 2, hi: -6 },    // vacancies/employment % change vs prior period
   momentum_yoy:   { lo: 20, hi: -15 },  // YoY hiring % (Naukri IN): shrinking = pressure
+  layoffs_rate:   { lo: 0, hi: 1.5 },   // announced cuts as % of sector workforce
 };
-const SEC_WEIGHTS = { exposure: 0.5, postings: 0.3, demand: 0.2 };
+const SEC_WEIGHTS = { exposure: 0.45, postings: 0.25, demand: 0.15, layoffs: 0.15 };
 
 function secNorm(bandId, raw) {
   const b = SEC_BANDS[bandId];
@@ -408,10 +409,12 @@ function secNorm(bandId, raw) {
 }
 
 function sectorPressure(node) {
-  const parts = [];  // [key, score, weight, detailText]
+  const parts = [];    // [key, score, weight, detailText]
+  const missing = [];  // absent components, for the lineage panel
   if (node.exposure_rel != null)
     parts.push(["exposure", node.exposure_rel, SEC_WEIGHTS.exposure,
       `exposure index ${node.exposure_rel} (within-region, top sector = 100)`]);
+  else missing.push(["exposure", "no occupation-matrix score yet for this region"]);
   const sig = node.signals || {};
   if (sig.postings && sig.postings.delta12w != null)
     parts.push(["postings", secNorm("postings_delta", sig.postings.delta12w),
@@ -422,16 +425,27 @@ function sectorPressure(node) {
     parts.push(["momentum", secNorm("momentum_yoy", sig.momentum.value),
       SEC_WEIGHTS.postings,
       `hiring ${sig.momentum.value >= 0 ? "+" : ""}${sig.momentum.value}% YoY (band +20% → −15%)`]);
+  else missing.push(["postings / momentum", "no posting index or hiring-momentum source publishes this sector here"]);
   const demand = sig.vacancies || sig.employment;
   if (demand && demand.delta_prev != null && demand.value) {
     const pct = 100 * demand.delta_prev / Math.max(1e-9, demand.value - demand.delta_prev);
     parts.push(["demand", secNorm("demand_pct", pct), SEC_WEIGHTS.demand,
       `${sig.vacancies ? "vacancies" : "employment"} ${pct >= 0 ? "+" : ""}${pct.toFixed(1)}% vs prior period (band +2% → −6%)`]);
+  } else missing.push(["demand momentum", "no vacancy/employment change published yet for this sector"]);
+  // layoffs enter the blend only when employment exists to rate them against
+  if (sig.layoffs && sig.layoffs.value != null && sig.employment && sig.employment.value) {
+    const rate = 100 * sig.layoffs.value / (sig.employment.value * 1000);
+    parts.push(["layoffs", secNorm("layoffs_rate", rate), SEC_WEIGHTS.layoffs,
+      `${Number(sig.layoffs.value).toLocaleString("en-GB")} ${sig.layoffs.unit} ≈ ${rate.toFixed(2)}% of sector workforce (band 0% → 1.5%)`]);
+  } else if (sig.layoffs && sig.layoffs.value != null) {
+    missing.push(["layoffs (in blend)", "cuts are shown below but not scored - no employment figure to rate them against"]);
+  } else {
+    missing.push(["layoffs", "no per-sector layoff source publishes this region (US: Challenger; EU: Eurofound ERM)"]);
   }
-  if (!parts.length) return { score: null, parts };
+  if (!parts.length) return { score: null, parts, missing };
   const wSum = parts.reduce((s, p) => s + p[2], 0);
   const score = parts.reduce((s, p) => s + p[1] * (p[2] / wSum), 0);
-  return { score, parts };
+  return { score, parts, missing };
 }
 
 function sectorList() {
@@ -458,6 +472,7 @@ function renderSectorDetail(list) {
   if (!host) return;
   if (!item) { host.innerHTML = ""; host.hidden = true; return; }
   const { node, pressure } = item;
+  const title = node.label || item.label;
   const st = statusOf(pressure.score || 0);
   const sig = node.signals || {};
   const reg = SECTORS.regions[region] || {};
@@ -490,6 +505,12 @@ function renderSectorDetail(list) {
       <div class="sd-sig-val">${Number(sig.vacancies.value).toLocaleString("en-GB")}<span class="sd-sig-unit"> ${sig.vacancies.unit.replace("k vacancies", "k")}</span></div>
       <div class="sd-sig-sub">${sig.vacancies.delta_prev == null ? "" : (sig.vacancies.delta_prev >= 0 ? "+" : "") + sig.vacancies.delta_prev + " vs prior · "}${sig.vacancies.period}</div>
     </div>`);
+  if (sig.layoffs) sigCards.push(`
+    <div class="sd-sig">
+      <div class="sd-sig-label">Layoffs <span class="meas meas-${sig.layoffs.measurement}">${sig.layoffs.measurement}</span></div>
+      <div class="sd-sig-val">${Number(sig.layoffs.value).toLocaleString("en-GB")}<span class="sd-sig-unit"> ${sig.layoffs.unit}</span></div>
+      <div class="sd-sig-sub">${sig.layoffs.delta_prev == null ? "" : (sig.layoffs.delta_prev >= 0 ? "+" : "") + Number(sig.layoffs.delta_prev).toLocaleString("en-GB") + " " + (sig.layoffs.delta_label || "vs prior") + " · "}${sig.layoffs.period}</div>
+    </div>`);
   if (sig.momentum) sigCards.push(`
     <div class="sd-sig">
       <div class="sd-sig-label">Hiring momentum <span class="meas meas-${sig.momentum.measurement}">${sig.momentum.measurement}</span></div>
@@ -497,16 +518,20 @@ function renderSectorDetail(list) {
       <div class="sd-sig-sub">${sig.momentum.period}</div>
     </div>`);
 
+  const wSum = pressure.parts.reduce((s, q) => s + q[2], 0);
   const lineageRows = pressure.parts.map((p) => `
     <tr><td>${p[0]}</td><td>${p[3]}</td>
         <td class="num">${p[1].toFixed(0)}</td>
-        <td class="num">× ${Math.round(100 * p[2] / pressure.parts.reduce((s, q) => s + q[2], 0))}%</td></tr>`).join("");
+        <td class="num">× ${Math.round(100 * p[2] / wSum)}%</td></tr>`).join("")
+    + (pressure.missing || []).map((m) => `
+    <tr class="lin-missing"><td>${m[0]}</td>
+        <td colspan="3">${m[1]} — its weight is redistributed across the inputs above</td></tr>`).join("");
 
   host.hidden = false;
   host.innerHTML = `
     <div class="sd-hdr ${st.cls}">
       <div>
-        <div class="sd-title">${node.label} <span class="p-status">${st.word} pressure</span></div>
+        <div class="sd-title">${title} <span class="p-status">${st.word} pressure</span></div>
         <div class="sd-sub">Exposure index <b>${node.exposure_rel == null ? "—" : node.exposure_rel}</b>
           ${node.exposure_rank ? `· rank ${node.exposure_rank} of ${list.length} in ${DATA.regions[region].label}` : ""}
           ${gran ? `· <span class="sd-gran" title="${gran === "fine" ? "Occupation-level employment matrix" : "Occupation-major-group matrix (coarser)"}">${gran} matrix</span>` : ""}
@@ -602,9 +627,12 @@ function renderSectors() {
       <h3>Sector pulse — AI impact by sector</h3>
       <details class="src"><summary>Source &amp; method</summary>
         <p><strong>What this shows:</strong> the ten dashboard sectors ranked by <em>sector pressure</em> —
-        a fixed-band blend of AI-exposure index (50%), 12-week posting trend (30%) and official
-        vacancy/employment momentum (20%). Click a sector for its occupation make-up, live signals
-        and (in Deep view) the full lineage.</p>
+        a fixed-band blend of AI-exposure index (45%), posting trend or hiring momentum (25%),
+        vacancy/employment momentum (15%) and announced layoffs as a share of the sector's
+        workforce (15%, where published: US via Challenger, EU via Eurofound ERM). When a
+        component isn't published for a sector, its weight is redistributed across the available
+        ones — the Deep-view lineage lists exactly what was used and what was missing.
+        Click a sector for its occupation make-up and live signals.</p>
         <p><strong>Coverage:</strong> all six regions. India's posting slot uses Naukri JobSpeak
         hiring momentum (% YoY, text-parsed from the monthly report); APAC pools SGP+JPN+KOR
         matrices and uses Singapore MOM vacancies as its proxy demand market. Exposure scores
