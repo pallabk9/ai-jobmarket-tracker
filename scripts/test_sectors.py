@@ -197,6 +197,63 @@ finally:
     _ur_test.urlopen = orig_open
 ok("Naukri momentum: sector figures parsed, negatives detected, period from title")
 
+# ---- Phase 3: Challenger industry table parse ----
+CHALLENGER_TXT = """
+        Industry         Jul-25       Jun-26        Jul-26      YTD 2025    YTD 2026
+Financial                    1,096        1,120        3,157       26,894      18,626
+FinTech                        581          719                     1,813       7,122
+Insurance                      474          209           89        3,430       6,908
+Legal                                                                 403
+Technology                 13,037        15,503        9,867       89,251     149,023
+Media                        5,044           98          940        9,796       4,428
+Telecommunications          4,383          262        1,064       19,277       3,333
+Retail                         622        1,055          210       80,487      12,946
+Health Care/Products         2,323        2,761        1,251       32,399      34,426
+Education                    2,458           58           13       14,116      15,499
+Government                   3,666        1,872        2,962      292,294      20,752
+TOTAL                      62,075        45,849       33,429      806,383     477,033
+"""
+table = us.parse_challenger_industry_table(CHALLENGER_TXT)
+assert table["banking"]["ytd"] == 18626 + 7122          # Financial + FinTech
+assert table["banking"]["ytd_prev"] == 26894 + 1813
+assert table["insurance"]["ytd"] == 6908
+assert table["telecom_media"]["ytd"] == 4428 + 3333     # Media + Telecom
+assert "professional" not in table                       # Legal row: 1 number, skipped
+ok("Challenger table: industry sums, sparse-row skip, TOTAL stops the parse")
+
+# ---- Phase 3: ERM job-loss aggregation ----
+def fake_erm(url, timeout=120):
+    import io as _io, csv as _csv
+    rows = [["Id", "Announcement date", "Country", "Company", "Sector",
+             "Restructuring type", "Employment Change"]]
+    rows += [["1", "2026-05-01", "France", "A", "Manufacturing", "Closure", "-500"],
+             ["2", "2026-06-01", "Germany", "B", "Manufacturing", "Internal restructuring", "-250"],
+             ["3", "2026-06-02", "Germany", "C", "Manufacturing", "Business expansion", "+900"],
+             ["4", "2026-07-01", "Norway", "D", "Manufacturing", "Closure", "-999"],
+             ["5", "2020-01-01", "France", "E", "Manufacturing", "Closure", "-999"],
+             ["6", "2026-07-05", "Spain", "F", "Information / Computing", "Closure", "-120"],
+             ["7", "2026-07-06", "Italy", "G", "Financial / Insurance/ Estate", "Closure", "-80"],
+             ["8", "2026-07-07", "Poland", "H", "Wholesale / Retail", "Closure", "-60"],
+             ["9", "2026-07-08", "Ireland", "I", "Health / Social work", "Closure", "-40"]]
+    # pad row count past the plausibility gate
+    rows += [["x", "2019-01-01", "France", "Z", "Manufacturing", "Closure", "-1"]] * 1000
+    buf = _io.StringIO()
+    _csv.writer(buf).writerows(rows)
+    return buf.getvalue()
+orig = us._http_get
+us._http_get = fake_erm
+try:
+    regions = {}
+    us.eu_layoffs_signals(regions)
+    secs = regions["EU"]["sectors"]
+    assert secs["manufacturing"]["signals"]["layoffs"]["value"] == 750   # 500+250; +900, Norway, 2020 excluded
+    assert secs["it_software"]["signals"]["layoffs"]["value"] == 120
+    assert secs["banking"]["signals"]["layoffs"]["value"] == 80
+    assert "insurance" not in secs        # ERM folds insurance into the Financial bucket
+finally:
+    us._http_get = orig
+ok("ERM: 12mo window, EU27 filter, expansions excluded, losses summed per sector")
+
 # ---- repo data sanity (uses committed sectors.json) ----
 doc = json.loads((HERE.parent / "data" / "sectors.json").read_text())
 assert len(doc["taxonomy"]) == 10

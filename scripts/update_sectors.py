@@ -605,6 +605,175 @@ def adzuna_sector_postings(regions):
                 print(f"{code} Adzuna postings {sid}: {exc}; keeping previous")
 
 # ------------------------------------------------------------------
+# Layoffs layer: US Challenger industry table + EU Eurofound ERM
+# ------------------------------------------------------------------
+
+# Challenger industry -> dashboard sector. All-cause job cuts; the AI-cited
+# share exists only at the total level (tracked by the ai_layoffs_ytd KPI).
+CHALLENGER_SECTOR = {
+    "Financial": "banking", "FinTech": "banking",
+    "Insurance": "insurance",
+    "Technology": "it_software",
+    "Telecommunications": "telecom_media", "Media": "telecom_media",
+    "Aerospace/Defense": "manufacturing", "Apparel": "manufacturing",
+    "Automotive": "manufacturing", "Chemical": "manufacturing",
+    "Consumer Products": "manufacturing", "Electronics": "manufacturing",
+    "Industrial Goods": "manufacturing",
+    "Health Care/Products": "healthcare", "Pharmaceutical": "healthcare",
+    "Retail": "retail",
+    "Services": "professional", "Legal": "professional",
+    "Education": "education",
+    "Government": "government",
+}
+
+def parse_challenger_industry_table(text):
+    """{sector_id: {'ytd': cuts, 'ytd_prev': cuts}} from the pdftotext
+    -layout dump of the monthly report. Industry rows carry up to five
+    numbers; the last is YTD current year, second-to-last YTD prior year.
+    Rows with fewer than two numbers (sparse industries) are skipped."""
+    import re as _re
+    out = {}
+    in_table = False
+    for line in text.splitlines():
+        s = line.strip()
+        if _re.match(r"Industry\s+\w{3}-\d{2}", s):
+            in_table = True
+            continue
+        if in_table and s.startswith("TOTAL"):
+            break
+        if not in_table or not s:
+            continue
+        nums = [n.replace(",", "") for n in _re.findall(r"[\d,]+", s)]
+        label = _re.split(r"\s{2,}", s)[0].strip()
+        sid = CHALLENGER_SECTOR.get(label)
+        if not sid or len(nums) < 2:
+            continue
+        try:
+            ytd, ytd_prev = float(nums[-1]), float(nums[-2])
+        except ValueError:
+            continue
+        node = out.setdefault(sid, {"ytd": 0.0, "ytd_prev": 0.0})
+        node["ytd"] += ytd
+        node["ytd_prev"] += ytd_prev
+    if len(out) < 6:
+        raise ValueError(f"Challenger table: only {sorted(out)} parsed")
+    return out
+
+def us_layoffs_signals(regions):
+    """US per-sector job cuts YTD from the Challenger monthly report PDF.
+    Needs pdftotext (poppler-utils) - the weekly workflow installs it;
+    absence degrades to carry-forward like any other outage."""
+    import re as _re
+    import subprocess
+    import tempfile
+    try:
+        from update_data import CHALLENGER_BLOG
+        idx = _http_get(CHALLENGER_BLOG, timeout=45)
+        posts = _re.findall(
+            r'href="(https://www\.challengergray\.com/blog/[^"]*challenger-report[^"]*)"', idx)
+        if not posts:
+            raise ValueError("no report post on index")
+        post = _http_get(posts[0], timeout=45)
+        pdfs = _re.findall(r'href="([^"]+\.pdf[^"]*)"', post)
+        if not pdfs:
+            raise ValueError("no PDF link in report post")
+        import urllib.request
+        from update_data import UA
+        req = urllib.request.Request(pdfs[0], headers=UA)
+        with urllib.request.urlopen(req, timeout=90) as r:
+            raw = r.read()
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as fh:
+            fh.write(raw)
+            pdf_path = fh.name
+        txt = subprocess.run(["pdftotext", "-layout", pdf_path, "-"],
+                             capture_output=True, text=True, timeout=120)
+        if txt.returncode != 0:
+            raise ValueError(f"pdftotext rc={txt.returncode}")
+        table = parse_challenger_industry_table(txt.stdout)
+        period = _re.search(r"Challenger-Report-([A-Za-z]+-\d{4})", pdfs[0])
+        period = period.group(1).replace("-", " ") if period else "latest report"
+        sectors = regions.setdefault("US", {}).setdefault("sectors", {})
+        for sid, v in table.items():
+            set_signal(sectors, sid, "layoffs", {
+                "value": round(v["ytd"]), "unit": "cuts YTD",
+                "period": period,
+                "delta_prev": round(v["ytd"] - v["ytd_prev"]),
+                "delta_label": "vs same YTD last year",
+                "source": "Challenger, Gray & Christmas job cuts by industry "
+                          "(all-cause; AI-cited share tracked at the headline KPI)",
+                "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
+                "measurement": "measured", "updated_at": NOW})
+    except Exception as exc:  # noqa: BLE001
+        print(f"US layoffs: {exc}; keeping previous")
+
+# ERM sector -> dashboard sector. The Financial bucket includes insurance
+# and real estate (one ERM grouping) - assigned to banking, labelled.
+ERM_SECTOR = {
+    "Manufacturing": "manufacturing",
+    "Wholesale / Retail": "retail",
+    "Information / Computing": "it_software",
+    "Financial / Insurance/ Estate": "banking",
+    "Health / Social work": "healthcare",
+    "Professional Services": "professional",
+    "Public Administration / Defence": "government",
+    "Media": "telecom_media",
+    "Education": "education",
+}
+EU27 = {"Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czechia",
+        "Denmark", "Estonia", "Finland", "France", "Germany", "Greece",
+        "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg",
+        "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia",
+        "Slovenia", "Spain", "Sweden"}
+
+def eu_layoffs_signals(regions):
+    """EU announced job losses per sector, trailing 12 months, from the
+    Eurofound European Restructuring Monitor events export."""
+    try:
+        text = _http_get("https://apps.eurofound.europa.eu/"
+                         "restructuring-events/factsheetscsv", timeout=120)
+        rows = list(csv.DictReader(io.StringIO(text)))
+        if len(rows) < 1000:
+            raise ValueError(f"ERM export suspiciously small ({len(rows)})")
+        cutoff = (datetime.now(timezone.utc)
+                  .replace(day=1)).strftime("%Y-%m")
+        year, month = int(cutoff[:4]) - 1, cutoff[5:7]
+        start = f"{year}-{month}"
+        losses, events = {}, {}
+        for r in rows:
+            d = (r.get("Announcement date") or "")
+            if d[:7] < start or r.get("Country") not in EU27:
+                continue
+            sid = ERM_SECTOR.get((r.get("Sector") or "").strip())
+            if not sid:
+                continue
+            try:
+                change = float((r.get("Employment Change") or "")
+                               .replace("+", "").replace(",", ""))
+            except ValueError:
+                continue
+            if change >= 0:
+                continue                      # only announced job losses
+            losses[sid] = losses.get(sid, 0.0) + (-change)
+            events[sid] = events.get(sid, 0) + 1
+        if len(losses) < 4:
+            raise ValueError(f"only {sorted(losses)} sectors matched")
+        sectors = regions.setdefault("EU", {}).setdefault("sectors", {})
+        for sid, v in losses.items():
+            note = (" - ERM's Financial bucket includes insurance & real estate"
+                    if sid == "banking" else "")
+            set_signal(sectors, sid, "layoffs", {
+                "value": round(v), "unit": "announced job losses (12mo)",
+                "period": f"{start} onward",
+                "delta_prev": None,
+                "events": events[sid],
+                "source": f"Eurofound European Restructuring Monitor, EU27, "
+                          f"{events[sid]} announcements{note}",
+                "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
+                "measurement": "measured", "updated_at": NOW})
+    except Exception as exc:  # noqa: BLE001
+        print(f"EU layoffs: {exc}; keeping previous")
+
+# ------------------------------------------------------------------
 # BLS CES (US): monthly employment by sector
 # ------------------------------------------------------------------
 
@@ -692,6 +861,9 @@ def main():
     sg_vacancy_signals(regions)
     naukri_signals(regions)
     adzuna_sector_postings(regions)
+    # Phase 3: layoffs layer (US Challenger industries, EU ERM events)
+    us_layoffs_signals(regions)
+    eu_layoffs_signals(regions)
 
     doc["generated_at"] = NOW
     SECTORS_JSON.write_text(json.dumps(doc, indent=1), encoding="utf-8")

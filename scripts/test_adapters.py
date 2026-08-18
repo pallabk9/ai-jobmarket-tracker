@@ -366,8 +366,12 @@ def run_backfill_test(fixtures):
     assert ("exposed_posting_index", "EU") in pairs
     assert ("topq_unemp_delta", "AU") in pairs
     assert ("ai_layoffs_ytd", "US") in pairs
-    assert ("ai_layoffs_ytd", "UK") not in pairs   # unwired stays modelled
-    assert ("exposed_posting_index", "IN") not in pairs
+    # Pairs the backfill cannot recompute (latest-only adapters like the UK
+    # ONS proxy or Adzuna) keep whatever badge the repo data already carries
+    # - the invariant is that the backfill itself never MEASURES them, which
+    # is covered by weekly_value raising "not wired" for those pairs. The
+    # old "not in pairs" assertions went stale as the weekly cron measured
+    # them for real, so they are intentionally gone.
     ok(f"backfill CSV: {len(measured)} measured rows, wired pairs only")
 
     # Challenger anchor logic: weeks before 2026-03-31 stay modelled
