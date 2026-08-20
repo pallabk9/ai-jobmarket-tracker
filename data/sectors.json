@@ -62,7 +62,7 @@
    "section": "D+E"
   }
  ],
- "generated_at": "2026-08-20T11:05:30Z",
+ "generated_at": "2026-08-20T11:51:45Z",
  "regions": {
   "UK": {
    "sectors": {
@@ -4416,6 +4416,17 @@
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 20053,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (IN categories: accounting-finance-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -4528,6 +4539,17 @@
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 101006,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (IN categories: it-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -4640,6 +4662,17 @@
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 2987,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (IN categories: manufacturing-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -4696,6 +4729,17 @@
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 2593,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (IN categories: healthcare-nursing-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -4752,6 +4796,17 @@
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 1913,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (IN categories: retail-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -4798,6 +4853,17 @@
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 9408,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (IN categories: consultancy-jobs, legal-jobs, hr-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -4854,6 +4920,17 @@
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 2322,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (IN categories: teaching-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -4946,6 +5023,17 @@
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 1368,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (IN categories: energy-oil-gas-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     }
@@ -5012,6 +5100,17 @@
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 7450,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (SG categories: accounting-finance-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -5124,6 +5223,17 @@
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 13347,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (SG categories: it-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -5236,6 +5346,17 @@
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 631,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (SG categories: manufacturing-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -5292,6 +5413,17 @@
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 940,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (SG categories: healthcare-nursing-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -5348,6 +5480,17 @@
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 767,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (SG categories: retail-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -5404,6 +5547,17 @@
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 3136,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (SG categories: consultancy-jobs, legal-jobs, hr-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -5450,6 +5604,17 @@
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 912,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (SG categories: teaching-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     },
@@ -5552,6 +5717,17 @@
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
        "updated_at": "2026-08-20T11:05:30Z"
+      },
+      "postings": {
+       "value": 372,
+       "unit": "live postings",
+       "period": "2026-08-20",
+       "delta_prev": null,
+       "series": [],
+       "source": "Adzuna (SG categories: energy-oil-gas-jobs)",
+       "source_url": "https://developer.adzuna.com/",
+       "measurement": "measured",
+       "updated_at": "2026-08-20T11:51:45Z"
       }
      }
     }

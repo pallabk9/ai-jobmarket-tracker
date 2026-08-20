@@ -776,3 +776,19 @@ run_date,region,sector_id,signal,value,unit,period,source,measurement
 2026-08-20,APAC,government,employment,1515.7,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, pooled SGP+JPN+KOR)",measured
 2026-08-20,APAC,government,vacancies,14000,vacancies (SG),2025-Q4,Singapore MOM job vacancies by industry (SG proxy market incl. education (SSIC grouping)),measured
 2026-08-20,APAC,power_utilities,employment,279.1,k persons,"KOR 2026-Q2, SGP 2025","ILOSTAT EMP_TEMP_SEX_ECO (ISIC D+E, pooled SGP+JPN+KOR)",measured
+2026-08-20,IN,banking,postings,20053,live postings,2026-08-20,Adzuna (IN categories: accounting-finance-jobs),measured
+2026-08-20,IN,it_software,postings,101006,live postings,2026-08-20,Adzuna (IN categories: it-jobs),measured
+2026-08-20,IN,manufacturing,postings,2987,live postings,2026-08-20,Adzuna (IN categories: manufacturing-jobs),measured
+2026-08-20,IN,healthcare,postings,2593,live postings,2026-08-20,Adzuna (IN categories: healthcare-nursing-jobs),measured
+2026-08-20,IN,retail,postings,1913,live postings,2026-08-20,Adzuna (IN categories: retail-jobs),measured
+2026-08-20,IN,professional,postings,9408,live postings,2026-08-20,"Adzuna (IN categories: consultancy-jobs, legal-jobs, hr-jobs)",measured
+2026-08-20,IN,education,postings,2322,live postings,2026-08-20,Adzuna (IN categories: teaching-jobs),measured
+2026-08-20,IN,power_utilities,postings,1368,live postings,2026-08-20,Adzuna (IN categories: energy-oil-gas-jobs),measured
+2026-08-20,APAC,banking,postings,7450,live postings,2026-08-20,Adzuna (SG categories: accounting-finance-jobs),measured
+2026-08-20,APAC,it_software,postings,13347,live postings,2026-08-20,Adzuna (SG categories: it-jobs),measured
+2026-08-20,APAC,manufacturing,postings,631,live postings,2026-08-20,Adzuna (SG categories: manufacturing-jobs),measured
+2026-08-20,APAC,healthcare,postings,940,live postings,2026-08-20,Adzuna (SG categories: healthcare-nursing-jobs),measured
+2026-08-20,APAC,retail,postings,767,live postings,2026-08-20,Adzuna (SG categories: retail-jobs),measured
+2026-08-20,APAC,professional,postings,3136,live postings,2026-08-20,"Adzuna (SG categories: consultancy-jobs, legal-jobs, hr-jobs)",measured
+2026-08-20,APAC,education,postings,912,live postings,2026-08-20,Adzuna (SG categories: teaching-jobs),measured
+2026-08-20,APAC,power_utilities,postings,372,live postings,2026-08-20,Adzuna (SG categories: energy-oil-gas-jobs),measured
