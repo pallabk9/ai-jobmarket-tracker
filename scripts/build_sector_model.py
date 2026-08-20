@@ -231,7 +231,9 @@ def fetch_eu_matrix():
     """{section_letter: {isco_major: employment_thousands}} - the EU27
     aggregate lags, so pull the last 4 quarters and keep the newest
     populated one per section."""
-    sections = sorted(set(SECTION_SECTORS.values()))
+    # expand compound sectors ('D+E') into their component sections
+    sections = sorted({p for s in SECTION_SECTORS.values()
+                       for p in s.split("+")})
     out = {}
     for sec in sections:
         url = ("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/"
@@ -349,7 +351,17 @@ def main():
         for row in concordance:
             sid = row["sector_id"]
             if section_level:
-                mat = matrix_by_sector_or_section.get(row["isic_section"], {})
+                # 'D+E' marks a sector spanning two sections: merge their
+                # occupation employment before scoring
+                parts = row["isic_section"].split("+")
+                if len(parts) == 1:
+                    mat = matrix_by_sector_or_section.get(parts[0], {})
+                else:
+                    mat = {}
+                    for sc in parts:
+                        for occ, emp in (matrix_by_sector_or_section.get(sc)
+                                         or {}).items():
+                            mat[occ] = mat.get(occ, 0.0) + emp
             else:
                 mat = matrix_by_sector_or_section.get(sid, {})
             score, top = saes(mat, exposure_vec)

@@ -120,7 +120,7 @@ def on_cover(canvas, doc):
     # reversed logo, top-left
     draw_awa_logo(c, M, H - 2.15 * cm, 24, dark_bg=True)
     c.setFont(SANS, 8.5); c.setFillColor(DARKMUTE)
-    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v2.0     AUGUST 2026")
+    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v2.1     AUGUST 2026")
     # kicker (Spectral italic, coral)
     c.setFont(SERIF_I, 16); c.setFillColor(CORAL)
     c.drawString(M, H * 0.63, "The DNA of work")
@@ -228,11 +228,23 @@ story.append(Paragraph(
     body))
 story.append(Paragraph(
     "The dashboard opens in a <b>Simple</b> view built for a fast, plain-language read: one "
-    "AI Pressure Index per region, four pillar signals, and a sector pulse ranking ten industry "
-    "sectors by AI pressure. A <b>Deep</b> toggle exposes everything underneath &mdash; the ten "
-    "raw KPIs with measured/modelled provenance, the analytical charts, and \"under the hood\" "
-    "lineage panels that show every input, calibration band and weight behind every derived "
-    "number. Sections 5.1 and 5.2 explain both layers in detail.",
+    "AI Impact Index per region, five plain-language indexes (four risk indexes plus a "
+    "positive-direction AI Job Creation Index that pulls the composite down), and a sector "
+    "pulse ranking eleven industry sectors by AI pressure. A <b>Deep</b> toggle exposes "
+    "everything underneath &mdash; the ten raw KPIs with measured/modelled provenance, the "
+    "analytical charts, and \"under the hood\" lineage panels that show every input, "
+    "calibration band and weight behind every derived number. A data-provenance narrative at "
+    "the top of the page states the sourcing contract: measured values come from authoritative "
+    "primary sources; where none exists, reliable, fully cited models grounded in peer-reviewed "
+    "and institutional research stand in, always labelled. Sections 5.1 and 5.2 explain both "
+    "layers in detail.",
+    body))
+story.append(Paragraph(
+    "<b>Terminology (August 2026 review).</b> For a corporate-leadership audience the dashboard "
+    "now uses <b>AI Footprint</b> as its plain-language term for the formal research construct "
+    "<i>Observed Exposure</i> (the research term is retained in citations and formulas), and "
+    "<b>Untapped AI Potential</b> for what was previously labelled the <i>capability gap</i> "
+    "&mdash; what AI could theoretically do minus what it is observed doing.",
     body))
 story.append(Paragraph(
     "It exists because the public debate about AI and jobs lurches between two extremes "
@@ -361,11 +373,11 @@ kpis = [
      "Indeed Hiring Lab feeds, supplemented by Naukri JobSpeak (India) and Seek (Australia).",
      "Weekly.",
      "Doubling YoY."),
-    ("Capability gap",
-     "Theoretical &beta; (Eloundou) minus Observed Exposure, averaged across the region's occupations weighted by current employment. Expressed in percentage points.",
+    ("Untapped AI Potential (formerly capability gap)",
+     "Theoretical &beta; (Eloundou) minus AI Footprint (Observed Exposure), averaged across the region's occupations weighted by current employment. Expressed in percentage points &mdash; the headroom AI has not yet converted into practice.",
      "Eloundou et al. 2023 plus Anthropic Economic Index.",
      "Monthly.",
-     "Gap closes by more than 3 pp."),
+     "Potential converts (gap closes) by more than 3 pp."),
     ("Augmentation share",
      "Percentage of Claude conversations in the region's traffic mix classified as collaborative (augmentative) rather than end-to-end (automated).",
      "Anthropic Economic Index quarterly release.",
@@ -406,50 +418,83 @@ for name, definition, source, refresh, alert in kpis:
 story.append(PageBreak())
 story.append(Paragraph("5. How to read each dashboard panel", h1))
 
-story.append(Paragraph("5.1 Simple and Deep views &mdash; the derived layer (added Aug 2026)", h2))
+story.append(Paragraph("5.1 Simple and Deep views &mdash; the derived layer (added Aug 2026; five-index composite Aug 2026)", h2))
 story.append(Paragraph(
-    "The dashboard opens in <b>Simple</b> view: one <b>AI Pressure Index</b> (0&ndash;100) per region "
-    "and four plain-language pillar signals &mdash; <i>Job displacement</i> (are jobs being cut?), "
-    "<i>Hiring pullback</i> (are exposed roles being hired less?), <i>Early-career squeeze</i> "
-    "(are young workers feeling it first?), and <i>AI adoption pace</i> (how fast is AI entering work?). "
-    "Each pillar scores its input KPIs against fixed calibration bands (linear 0&ndash;100 between a "
-    "documented floor and ceiling, clamped), then combines them with fixed weights; the composite "
-    "weights the pillars 30/25/25/20%. Status words &mdash; Low (&lt;25), Moderate (25&ndash;50), "
-    "Elevated (50&ndash;70), High (&ge;70) &mdash; always accompany the colour, and every score carries "
-    "a confidence chip: the share of its weight backed by <i>measured</i> (not modelled) sources that week.", body))
+    "The dashboard opens in <b>Simple</b> view: one <b>AI Impact Index</b> (0&ndash;100) per region "
+    "and five plain-language indexes. Four are risk indexes that push the composite up &mdash; the "
+    "<i>Job Cut Index</i> (are jobs being cut? &mdash; announced layoffs and redundancies over the "
+    "last 12 weeks), the <i>Job Opportunity Decline Index</i> (are AI-exposed roles being advertised "
+    "less? &mdash; posting level and 12-week trend in high-AI-footprint occupations), the "
+    "<i>Graduate Unemployment Index</i> (are young workers feeling it first? &mdash; the youth-vs-"
+    "overall unemployment gap, youth hiring, and recent-graduate outcomes), and the <i>AI Adoption "
+    "Index</i> (how fast is AI entering work? &mdash; shown as a full-width context tile). The fifth, "
+    "the <i>AI Job Creation Index</i> (is AI creating new jobs?), is a <b>positive-direction</b> "
+    "index: it enters the composite inverted, so stronger AI-attributed job creation pulls the AI "
+    "Impact Index <b>down</b>. Composite weights: 25% Job Cut + 25% Opportunity Decline + 20% "
+    "Graduate Unemployment + 15% Adoption + 15% &times; (100 &minus; Job Creation).", body))
+story.append(Paragraph(
+    "The Graduate Unemployment Index carries an explicit caveat on its tile: it is an <b>inference "
+    "indicator</b> &mdash; it tends to move with AI pressure, but graduate unemployment can also "
+    "reflect the wider economic cycle and other causes. Each index scores its input KPIs against "
+    "fixed calibration bands (linear 0&ndash;100 between a documented floor and ceiling, clamped). "
+    "Status words &mdash; Low (&lt;25), Moderate (25&ndash;50), Elevated (50&ndash;70), High (&ge;70); "
+    "the positive-direction creation index instead reads Weak / Moderate / Encouraging / Strong with "
+    "an inverted colour scale &mdash; always accompany the colour, and every score carries a "
+    "confidence chip: the share of its weight backed by <i>measured</i> (not modelled) sources that "
+    "week. Every index tile shows an explainer line stating what it means, and every mini sparkline "
+    "(including the AI Impact Index's own, on the right of the hero panel) is clickable: it opens a "
+    "full history chart with the index on the y-axis and the weekly timeline on the x-axis.", body))
 story.append(Paragraph(
     "Switching to <b>Deep</b> view reveals everything underneath: the ten raw KPI tiles with their "
     "measured/modelled badges, the full analytical charts, and an \"Under the hood\" panel on every "
-    "pillar card tracing each input's raw value &rarr; calibration band &rarr; normalised score &rarr; "
-    "weight &rarr; contribution, with source links. The derived layer is computed in the browser from "
+    "index card tracing each input's raw value &rarr; calibration band &rarr; normalised score &rarr; "
+    "weight &rarr; contribution, with source links (the creation card's lineage also prints the "
+    "100&nbsp;&minus;&nbsp;score inversion). The derived layer is computed in the browser from "
     "current.json and historical.csv &mdash; the lineage displayed is the live calculation, so the "
     "dashboard and its documentation cannot drift apart. Bands, weights and the missing-input rule "
     "are specified in DERIVED_METRICS.md in the repository. Scores compare a region to itself over "
-    "time and are not cross-country exposure rankings, consistent with the quartile-rank rule in "
+    "time and are not cross-country footprint rankings, consistent with the quartile-rank rule in "
     "section 8.3.", body))
 
-story.append(Paragraph("5.2 Sector pulse (added Aug 2026; all six regions)", h2))
+story.append(Paragraph("5.2 Sector pulse (added Aug 2026; all six regions; eleven sectors)", h2))
 story.append(Paragraph(
     "AI impact by sector &mdash; banking &amp; financial markets, insurance, IT &amp; software, telecom "
-    "&amp; media, manufacturing, healthcare, retail, professional services, education, government. "
-    "Each sector's <b>AI exposure index</b> is the employment-share-weighted mean of the locked "
+    "&amp; media, manufacturing, healthcare, retail, professional services, education, government, and "
+    "power &amp; utilities (ISIC sections D+E merged; added Aug 2026). "
+    "Each sector's <b>AI Footprint index</b> is the employment-share-weighted mean of the locked "
     "Anthropic Observed Exposure scores across that sector's occupation mix (occupation&times;industry "
     "matrices: BLS OEWS for the US; ONS SOC&times;SIC ad-hoc joined to the AWA UK model; Eurostat "
-    "ISCO&times;NACE; ILOSTAT ISCO&times;ISIC annual matrices for Australia, India and the APAC composite, which pools Singapore, Japan and Korea), displayed within-region only with the top "
-    "sector indexed at 100. <b>Sector pressure</b> blends exposure (50%) with the 12-week Indeed sector "
-    "posting trend (30%) and official vacancy/employment momentum (20%) on fixed bands. Where a region's "
-    "statistics only publish industry sections, sectors sharing a section (e.g. banking and insurance in "
-    "section K) share an exposure score and are marked \"section-level\". Weekly signals and quarterly "
-    "matrix rebuilds run in CI; every signal carries the measured/modelled badge, and Deep view exposes "
-    "the full lineage. Taxonomy concordance: model/sector_concordance.csv in the repository.", body))
+    "ISCO&times;NACE; ILOSTAT ISCO&times;ISIC annual matrices for Australia, India and the APAC "
+    "composite, which pools Singapore, Japan and Korea), displayed within-region only with the top "
+    "sector indexed at 100. <b>Sector pressure</b> blends the AI Footprint index (45%) with the "
+    "posting trend or hiring momentum (25%), official vacancy/employment momentum (15%), and announced "
+    "layoffs as a share of the sector's workforce (15%, where published: US via the Challenger "
+    "30-industry monthly table, EU via the Eurofound European Restructuring Monitor, trailing 12 "
+    "months) on fixed bands. Components a region does not publish have their weight redistributed "
+    "pro-rata, and the Deep-view lineage names every input used and every input missing.", body))
+story.append(Paragraph(
+    "The live-signal cards distinguish <b>online job ads</b> (real-time ads scraped from the web "
+    "&mdash; the Indeed sector index or Adzuna counts; fast but unofficial) from <b>official "
+    "vacancies</b> (the statistics agency's survey of unfilled positions; slower but authoritative) "
+    "&mdash; two different instruments for the same demand question, labelled and explained on the "
+    "panel. Signals no source publishes for a region appear as explicit \"not published\" stubs "
+    "rather than silently missing. Where a region's statistics only publish industry sections, "
+    "sectors sharing a section (e.g. banking and insurance in section K) share an AI Footprint score "
+    "and are marked \"section-level\"; power &amp; utilities merges sections D and E before scoring "
+    "(UK employment and vacancies sum the ONS D and E series; EU employment sums NACE D+E; Australia "
+    "uses ANZSIC division D, which spans both; US layoffs sum Challenger's Energy and Utility rows; "
+    "EU layoffs sum the ERM's Electricity and Water/Waste sectors; Indeed and Singapore MOM publish "
+    "no utilities category, so those cards show \"not published\"). Weekly signals and quarterly "
+    "matrix rebuilds run in CI; every signal carries the measured/modelled badge, and Deep view "
+    "exposes the full lineage. Taxonomy concordance: model/sector_concordance.csv in the repository.", body))
 
 story.append(Paragraph("5.3 Panel-by-panel guide (Deep view)", h2))
 
 panels = [
-    ("Most exposed occupations table",
-     "Ten occupations in the selected region with the highest Observed Exposure score. "
-     "The blue bar is the score itself, 0 to 100%. The red bar is the capability gap "
-     "&mdash; how much room the score has to grow before reaching theoretical &beta; ceiling. "
+    ("Occupations with the largest AI Footprint (table)",
+     "Ten occupations in the selected region with the highest AI Footprint (Observed Exposure) "
+     "score. The blue bar is the score itself, 0 to 100%. The red bar is the Untapped AI Potential "
+     "&mdash; how much room the score has to grow before reaching the theoretical &beta; ceiling. "
      "When the red bar shrinks week on week without the blue bar staying flat, that is the "
      "earliest signal AI is moving deeper into that occupation."),
     ("Net job change (created vs displaced)",
@@ -470,10 +515,11 @@ panels = [
     ("Posting volume in exposed roles",
      "A 12-week line of the exposed-occupation posting index (February 2020 = 100, seasonally "
      "adjusted). A downward slope of more than 5% over a 4-week rolling window is the alert band."),
-    ("Capability gap by sector",
-     "Twin bars per sector: blue is theoretical &beta;, red is Observed Exposure. The space between is "
-     "headroom. This is the chart to watch over months and quarters &mdash; if red moves toward blue "
-     "in a sector, that sector is converting capability into deployment."),
+    ("Untapped AI Potential by sector",
+     "Twin bars per sector: blue is theoretical potential (&beta;), red is the AI Footprint "
+     "(Observed Exposure). The space between is the Untapped AI Potential. This is the chart to "
+     "watch over months and quarters &mdash; if red moves toward blue in a sector, that sector is "
+     "converting potential into deployment."),
     ("News &amp; events feed",
      "Most recent AI-attributed events in the region. Each is tagged with an attribution-confidence "
      "score: 5 = company filing or direct statement; 4 = first-party data such as Indeed or Naukri; "
@@ -615,7 +661,7 @@ story.append(Paragraph(
 
 story.append(Paragraph("8.6 Derived layers, proxies and parsed sources", h2))
 story.append(Paragraph(
-    "The AI Pressure Index, pillar signals and sector pressure are <b>presentation-layer "
+    "The AI Impact Index, the five indexes and sector pressure are <b>presentation-layer "
     "derivations</b>: they add no new measurement, only fixed, documented calibration bands and "
     "weights over the underlying series, and their full lineage is visible in Deep view. Several "
     "tiles are honest proxies renamed on the dashboard (UK redundancies for layoffs, US youth "
@@ -663,7 +709,7 @@ for r in refs:
 
 story.append(Spacer(1, 1*cm))
 story.append(Paragraph(
-    "<i>Prepared June 2026; revised 18 August 2026 &mdash; v2.0. This revision documents the Simple/Deep reading levels, the derived AI Pressure Index and pillar signals, the sector pulse across all six regions including the layoffs layer, and the v3 measured data sources. Updates to this manual follow major methodological revisions.</i>",
+    "<i>Prepared June 2026; revised 20 August 2026 &mdash; v2.1. This revision renames the derived layer for a corporate audience (AI Impact Index; AI Footprint; Untapped AI Potential), documents the five-index composite with the positive-direction AI Job Creation Index, the clickable index-history charts, the data-provenance narrative, and the eleventh sector (power &amp; utilities). Updates to this manual follow major methodological revisions.</i>",
     small))
 
 # ------------------------------------------------------------------

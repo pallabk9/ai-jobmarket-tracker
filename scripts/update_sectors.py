@@ -49,11 +49,13 @@ HL_MARKETS = {"US": ["US"], "UK": ["GB"], "EU": ["DE", "FR"], "AU": ["AU"]}
 ONS_TS = ("https://www.ons.gov.uk/employmentandlabourmarket/{path}/"
           "timeseries/{cdid}/lms/data")
 # JOBS02 workforce jobs by SIC section (SA, thousands) - verified CDIDs.
+# A list means the sector spans several sections; values are summed.
 UK_EMPLOYMENT_CDIDS = {
     "banking": "JWS7", "insurance": "JWS7",          # K combined
     "it_software": "JWS6", "telecom_media": "JWS6",  # J combined
     "manufacturing": "JWR7", "healthcare": "JWT5",
     "retail": "JWS3", "professional": "JWS9",
+    "power_utilities": ["JWR8", "JWR9"],             # D electricity + E water
     # education (P) / government (O) JOBS02 CDIDs not verified - omitted v1
 }
 # VACS02 vacancies by SIC section (SA, thousands) - verified CDID map.
@@ -63,12 +65,19 @@ UK_VACANCY_CDIDS = {
     "manufacturing": "JP9I", "healthcare": "JP9W",
     "retail": "JP9M", "professional": "JP9S",
     "education": "JP9V", "government": "JP9U",
+    "power_utilities": ["JP9J", "JP9K"],             # D electricity + E water
 }
 
+# "D+E" marks a sector spanning two sections - components are fetched
+# individually and summed (all parts required, else the signal is skipped).
 EU_SECTION = {"banking": "K", "insurance": "K", "it_software": "J",
               "telecom_media": "J", "manufacturing": "C", "healthcare": "Q",
               "retail": "G", "professional": "M", "education": "P",
-              "government": "O"}
+              "government": "O", "power_utilities": "D+E"}
+
+def _secs(section):
+    """Expand a possibly-compound section code ('D+E') to its parts."""
+    return section.split("+")
 # 2-digit NACE refinements where the split is real.
 EU_NACE2 = {"banking": ["K64"], "insurance": ["K65"],
             "it_software": ["J62_J63"],
@@ -77,7 +86,9 @@ EU_NACE2 = {"banking": ["K64"], "insurance": ["K65"],
 AU_DIVISION = {"banking": "K", "insurance": "K", "it_software": "J",
                "telecom_media": "J", "manufacturing": "C", "healthcare": "Q",
                "retail": "G", "professional": "M", "education": "P",
-               "government": "O"}
+               "government": "O",
+               # ANZSIC division D = Electricity, Gas, Water & Waste (one code)
+               "power_utilities": "D"}
 
 NOW = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -162,28 +173,46 @@ def _ons_latest(cdid, path):
                     float(prev["value"]) if prev else None)
     raise ValueError(f"ONS {cdid}: no data points")
 
+def _ons_latest_sum(cdid_or_list, path):
+    """_ons_latest for one CDID or a list (multi-section sector: values
+    summed; every component must resolve or the whole lookup raises)."""
+    cdids = cdid_or_list if isinstance(cdid_or_list, list) else [cdid_or_list]
+    tot_v, tot_prev, period = 0.0, 0.0, None
+    have_prev = True
+    for c in cdids:
+        v, p, prev = _ons_latest(c, path)
+        tot_v += v
+        period = period or p
+        if prev is None:
+            have_prev = False
+        else:
+            tot_prev += prev
+    return tot_v, period, (tot_prev if have_prev else None)
+
 def uk_signals(regions):
     sectors = regions.setdefault("UK", {}).setdefault("sectors", {})
     for sid, cdid in UK_EMPLOYMENT_CDIDS.items():
         try:
-            v, period, prev = _ons_latest(
+            v, period, prev = _ons_latest_sum(
                 cdid, "peopleinwork/employmentandemployeetypes")
+            label = "+".join(cdid) if isinstance(cdid, list) else cdid
             set_signal(sectors, sid, "employment", {
-                "value": v, "unit": "k jobs", "period": period,
+                "value": round(v, 1), "unit": "k jobs", "period": period,
                 "delta_prev": round(v - prev, 1) if prev is not None else None,
-                "source": f"ONS JOBS02 workforce jobs ({cdid}, SA)",
+                "source": f"ONS JOBS02 workforce jobs ({label}, SA)",
                 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
                 "measurement": "measured", "updated_at": NOW})
         except Exception as exc:  # noqa: BLE001
             print(f"UK employment {sid}: {exc}; keeping previous")
     for sid, cdid in UK_VACANCY_CDIDS.items():
         try:
-            v, period, prev = _ons_latest(
+            v, period, prev = _ons_latest_sum(
                 cdid, "peopleinwork/employmentandemployeetypes")
+            label = "+".join(cdid) if isinstance(cdid, list) else cdid
             set_signal(sectors, sid, "vacancies", {
-                "value": v, "unit": "k vacancies", "period": period,
+                "value": round(v, 1), "unit": "k vacancies", "period": period,
                 "delta_prev": round(v - prev, 1) if prev is not None else None,
-                "source": f"ONS VACS02 vacancies ({cdid}, SA)",
+                "source": f"ONS VACS02 vacancies ({label}, SA)",
                 "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
                 "measurement": "measured", "updated_at": NOW})
         except Exception as exc:  # noqa: BLE001
@@ -223,7 +252,7 @@ def eu_signals(regions):
         cur2, prev2, p2 = {}, {}, None
         print(f"EU egan22d: {exc}")
     try:
-        secs = sorted(set(EU_SECTION.values()))
+        secs = sorted({p for s in EU_SECTION.values() for p in _secs(s)})
         curS, prevS, pS = _eurostat_latest(
             "lfsq_egan2", "&sex=T&age=Y_GE15&unit=THS_PER", codes=secs)
     except Exception as exc:  # noqa: BLE001
@@ -231,13 +260,16 @@ def eu_signals(regions):
         print(f"EU egan2: {exc}")
     for sid, section in EU_SECTION.items():
         try:
+            parts = _secs(section)
             if sid in EU_NACE2 and cur2 and all(c in cur2 for c in EU_NACE2[sid]):
                 v = sum(cur2[c] for c in EU_NACE2[sid])
                 pv = (sum(prev2.get(c, 0) for c in EU_NACE2[sid])
                       if prev2 else None)
                 period, src = p2, f"Eurostat lfsq_egan22d ({'+'.join(EU_NACE2[sid])})"
-            elif curS and section in curS:
-                v, pv = curS[section], (prevS or {}).get(section)
+            elif curS and all(p in curS for p in parts):
+                v = sum(curS[p] for p in parts)
+                pv = (sum((prevS or {}).get(p, 0) for p in parts)
+                      if prevS and all(p in (prevS or {}) for p in parts) else None)
                 period, src = pS, f"Eurostat lfsq_egan2 (NACE {section})"
             else:
                 continue
@@ -253,9 +285,11 @@ def eu_signals(regions):
     try:
         curV, prevV, pV = _eurostat_latest(
             "jvs_q_nace2", "&s_adj=NSA&sizeclas=TOTAL&indic_em=JVR",
-            codes=sorted(set(EU_SECTION.values())))
+            codes=sorted({p for s in EU_SECTION.values() for p in _secs(s)}))
         for sid, section in EU_SECTION.items():
-            if section not in curV:
+            if "+" in section or section not in curV:
+                # vacancy RATES can't be summed across sections - compound
+                # sectors (D+E) skip the EU vacancy signal
                 continue
             v, pv = curV[section], (prevV or {}).get(section)
             set_signal(sectors, sid, "vacancies", {
@@ -420,9 +454,12 @@ def ilo_employment_signals(regions):
                         prev_sum[sec] = prev_sum.get(sec, 0.0) + v
             sectors = regions.setdefault(code, {}).setdefault("sectors", {})
             for sid, sec in SECTION.items():
-                if sec not in latest_sum:
+                parts = _secs(sec)
+                if not all(p in latest_sum for p in parts):
                     continue
-                v, pv = latest_sum[sec], prev_sum.get(sec)
+                v = sum(latest_sum[p] for p in parts)
+                pv = (sum(prev_sum.get(p, 0) for p in parts)
+                      if all(p in prev_sum for p in parts) else None)
                 set_signal(sectors, sid, "employment", {
                     "value": round(v, 1), "unit": "k persons",
                     "period": ", ".join(sorted(labels)),
@@ -500,6 +537,7 @@ NAUKRI_SECTORS = [
     (r"retail", "retail"),
     (r"healthcare|pharma", "healthcare"),
     (r"education", "education"),
+    (r"oil\s*&?\s*gas|energy|power|utilit", "power_utilities"),
 ]
 
 def naukri_signals(regions):
@@ -560,6 +598,7 @@ ADZUNA_SECTOR_CATS = {
     "retail": ["retail-jobs"],
     "professional": ["consultancy-jobs", "legal-jobs", "hr-jobs"],
     "education": ["teaching-jobs"],
+    "power_utilities": ["energy-oil-gas-jobs"],
 }
 
 def _last_archived(region, sid, signal):
@@ -624,6 +663,7 @@ CHALLENGER_SECTOR = {
     "Services": "professional", "Legal": "professional",
     "Education": "education",
     "Government": "government",
+    "Energy": "power_utilities", "Utility": "power_utilities",
 }
 
 def parse_challenger_industry_table(text):
@@ -718,6 +758,8 @@ ERM_SECTOR = {
     "Public Administration / Defence": "government",
     "Media": "telecom_media",
     "Education": "education",
+    "Electricity": "power_utilities",
+    "Water / Waste": "power_utilities",
 }
 EU27 = {"Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czechia",
         "Denmark", "Estonia", "Finland", "France", "Germany", "Greece",

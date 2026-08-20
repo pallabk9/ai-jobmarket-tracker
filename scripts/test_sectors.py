@@ -21,13 +21,30 @@ def ok(label):
 
 # ---- concordance ----
 rows = bsm.load_concordance()
-assert len(rows) == 10, len(rows)
+assert len(rows) == 11, len(rows)
 ids = [r["sector_id"] for r in rows]
 assert ids[0] == "banking" and "insurance" in ids and "it_software" in ids
+assert "power_utilities" in ids
+pu = next(r for r in rows if r["sector_id"] == "power_utilities")
+assert pu["isic_section"] == "D+E", pu["isic_section"]
 it = next(r for r in rows if r["sector_id"] == "it_software")
 assert "IT Infrastructure, Operations & Support" in it["indeed_sectors"], \
     "quoted comma in indeed_sectors must survive CSV parsing"
-ok("concordance: 10 sectors, quoted Indeed names parse correctly")
+ok("concordance: 11 sectors incl. power_utilities (D+E), quoted Indeed names parse")
+
+# ---- compound-section merge (D+E) in build_region ----
+# saes over a merged D+E matrix must equal saes over the manual sum
+mD, mE = {"3": 60.0, "8": 40.0}, {"3": 20.0, "9": 30.0}
+merged = {}
+for m in (mD, mE):
+    for k, v in m.items():
+        merged[k] = merged.get(k, 0.0) + v
+assert merged == {"3": 80.0, "8": 40.0, "9": 30.0}
+expo_de = {"3": 0.30, "8": 0.10, "9": 0.05}
+s_merged, _ = bsm.saes(merged, expo_de)
+assert s_merged is not None and abs(
+    s_merged - 100 * (80 * .30 + 40 * .10 + 30 * .05) / 150) < 0.01, s_merged
+ok("compound section D+E: matrices merge by summed employment before SAES")
 
 # ---- SAES math ----
 matrix = {"15": 100.0, "43": 100.0}          # even split
@@ -256,13 +273,16 @@ ok("ERM: 12mo window, EU27 filter, expansions excluded, losses summed per sector
 
 # ---- repo data sanity (uses committed sectors.json) ----
 doc = json.loads((HERE.parent / "data" / "sectors.json").read_text())
-assert len(doc["taxonomy"]) == 10
+assert len(doc["taxonomy"]) == 11
+assert any(t["id"] == "power_utilities" for t in doc["taxonomy"])
 for reg in ("UK", "EU", "AU", "IN", "APAC"):
     secs = doc["regions"][reg]["sectors"]
     rels = [s["exposure_rel"] for s in secs.values() if s.get("exposure_rel")]
     assert rels and max(rels) == 100.0, f"{reg}: top sector must index at 100"
     ranks = sorted(s["exposure_rank"] for s in secs.values() if s.get("exposure_rank"))
     assert ranks == list(range(1, len(ranks) + 1)), f"{reg}: ranks not contiguous"
-ok("sectors.json: taxonomy, relative index tops at 100, contiguous ranks")
+    assert secs["power_utilities"].get("exposure_rel"), \
+        f"{reg}: power_utilities must carry an AI Footprint index"
+ok("sectors.json: 11-sector taxonomy incl. power_utilities, tops at 100, contiguous ranks")
 
 print(f"\nALL {PASS} SECTOR CHECKS PASSED")
