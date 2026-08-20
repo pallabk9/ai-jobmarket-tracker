@@ -780,3 +780,75 @@ body.mode-simple .feed {
 .sd-sig-missing { background: transparent; border: 1.5px dashed var(--c-line); cursor: help; }
 .sd-sig-none { font-size: 13px; font-weight: 700; color: var(--c-faint); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
 .sd-sig-missing .sd-sig-sub { color: var(--c-faint); font-size: 10px; line-height: 1.4; margin-top: 3px; }
+
+/* ============================================================
+   2026-08-20a — Andrew's review pass
+   1. Data-provenance narrative band at the top
+   2. Five-index composite: creation tile (positive), adoption wide
+   3. Index blurbs + caveats on every tile
+   4. Click-to-expand history charts (spark modal)
+   ============================================================ */
+
+/* --- 1. provenance narrative --- */
+.provenance {
+  background: var(--c-card);
+  border: 1px solid var(--c-line2);
+  border-left: 6px solid var(--sky-d);
+  border-radius: 12px;
+  padding: 22px 28px;
+  margin: 26px 0 8px;
+  box-shadow: 0 3px 14px rgba(37,55,70,0.06);
+}
+.provenance h2 {
+  font-size: 17px; margin: 0 0 8px; color: var(--c-primary);
+  letter-spacing: -0.01em;
+}
+.provenance p { font-size: 13.5px; line-height: 1.65; color: var(--c-muted); margin: 0 0 8px; }
+.provenance p:last-child { margin-bottom: 0; }
+.provenance strong { color: var(--c-ink); }
+.provenance .meas { vertical-align: 1px; }
+
+/* --- 2. hero right-hand spark column --- */
+.dh-sparkcol {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  justify-content: center; min-width: 260px;
+}
+.dh-spark-cap { font-size: 11px; color: rgba(255,255,255,0.55); }
+.dh-sparkcol .dh-how { align-self: flex-end; margin-top: 6px; }
+@media (max-width: 900px) {
+  .dh-sparkcol { align-items: flex-start; min-width: 0; }
+}
+
+/* --- 3. clickable sparklines --- */
+.spark-btn {
+  background: none; border: 0; padding: 4px; margin: 0;
+  color: currentColor; cursor: zoom-in; border-radius: 8px;
+  display: inline-flex; line-height: 0;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.spark-btn:hover, .spark-btn:focus-visible {
+  background: rgba(37,55,70,0.06);
+  box-shadow: 0 0 0 1.5px currentColor inset;
+  outline: none;
+}
+.derived-hero .spark-btn:hover, .derived-hero .spark-btn:focus-visible {
+  background: rgba(255,255,255,0.10);
+}
+.p-score-row .spark-btn { margin-left: auto; align-self: center; }
+.p-score-row .spark-btn .spark { opacity: 0.85; }
+
+/* --- 4. index tile blurbs + caveat --- */
+.p-blurb {
+  font-size: 13px; line-height: 1.55; color: var(--c-muted);
+  margin: 10px 0 0; max-width: 560px;
+}
+.p-caveat { display: block; font-size: 12px; color: var(--c-faint); margin-top: 4px; }
+
+/* --- 5. full-width AI Adoption tile --- */
+.pillar-wide { margin-bottom: 22px; }
+.pillar-wide .p-blurb { max-width: 900px; }
+
+/* --- 6. spark modal --- */
+dialog.spark-modal { width: min(920px, 94vw); }
+.spark-chart-wrap { position: relative; height: min(430px, 58vh); }
+.spark-chart-wrap canvas { width: 100% !important; height: 100% !important; }

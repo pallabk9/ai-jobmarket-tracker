@@ -43,7 +43,7 @@ const KPI_SHORT = {
   topq_unemp_delta:      "Early-career unemployment delta",
   hire_rate_22_25:       "Hire rate, 22-25 y/o",
   ai_mention_postings:   "AI-mention posting share",
-  capability_gap:        "Capability gap (theoretical - observed)",
+  capability_gap:        "Untapped AI Potential (could do − doing)",
   augmentation_share:    "Augmentation share",
   exposed_posting_index: "Exposed-occupation posting index",
   ai_skill_premium:      "AI-skill salary premium",
@@ -58,7 +58,7 @@ const GLOSS = {
   topq_unemp_delta: "Youth minus overall unemployment rate (pp, seasonally adjusted) — a published proxy, since no statistics agency reports unemployment by AI exposure. Measured US/UK/EU/AU via BLS, ONS, Eurostat, ABS. Refresh: monthly.",
   hire_rate_22_25: "Year-on-year change in the monthly job-start rate for 22–25 y/o in exposed occupations. Research-derived from Stanford 'Canaries in the Coal Mine' (ADP payroll, US only); modelled, not a live feed.",
   ai_mention_postings: "Share of job postings whose text mentions AI/ML/GenAI terms. Measured US/UK/EU(DE+FR)/AU from the Indeed Hiring Lab AI Tracker. India/APAC modelled (outside Indeed coverage). Refresh: monthly.",
-  capability_gap: "Theoretical task exposure minus realised (adoption-adjusted) exposure, employment-weighted. UK is now driven by the AWA task-decomposition model — click the 'Capability gap by sector' chart for all 412 occupations.",
+  capability_gap: "Untapped AI Potential: what AI could theoretically do in this region's work minus what it is observed doing today (pp, employment-weighted). A big number = plenty of headroom left; a closing number = adoption catching up with capability. UK is driven by the AWA task-decomposition model — click the 'Untapped AI Potential' chart for all 412 occupations.",
   augmentation_share: "Share of Claude conversations that are collaborative (augmentation) rather than end-to-end (automation). Source: Anthropic Economic Index. Refresh: quarterly.",
   exposed_posting_index: "Mean Indeed postings index (Feb 2020 = 100, seasonally adjusted) across eight high-exposure sectors. Measured US/UK/EU(DE+FR)/AU. Refresh: weekly.",
   ai_skill_premium: "Median advertised salary for AI postings minus comparable non-AI postings (%). Source: Indeed Hiring Lab + Lightcast. Modelled.",
@@ -88,7 +88,7 @@ const charts = {};
 // cross-country exposure claims).
 const BANDS = {
   layoffs_pace:   { lo: 0,   hi: 30,  label: "12-week layoff pace (k roles)" },
-  net_creation:   { lo: 50,  hi: -50, label: "Net job creation (k roles)" },
+  creation_idx:   { lo: -50, hi: 150, label: "Net AI-attributed job creation (k roles)" },
   graduate:       { lo: 10,  hi: -40, label: "Graduate postings YoY (%)" },
   posting_level:  { lo: 110, hi: 60,  label: "Posting index level" },
   posting_trend:  { lo: 10,  hi: -10, label: "Posting index, 12-week change" },
@@ -97,41 +97,56 @@ const BANDS = {
   mention_level:  { lo: 0,   hi: 15,  label: "AI-mention posting share (%)" },
   mention_trend:  { lo: -1,  hi: 3,   label: "AI-mention share, 12-week change (pp)" },
   automation:     { lo: 30,  hi: 70,  label: "Automation share of AI use (%)" },
-  gap_closing:    { lo: 40,  hi: 10,  label: "Capability gap (pp; closing = high)" },
+  gap_closing:    { lo: 40,  hi: 10,  label: "Untapped AI Potential (pp; closing = high)" },
 };
 
-// The four pillars. Each input: source KPI, band, weight, and how the raw
-// number is obtained (kind: "level" uses the current value; "change12w" uses
-// current minus the value 12 weeks earlier; "automation" inverts augmentation).
+// The five index pillars. Four risk indexes push the AI Impact Index UP;
+// the AI Job Creation Index (positive: true) pulls it DOWN — its score
+// enters the composite inverted (100 − score). Each input: source KPI,
+// band, weight, and how the raw number is obtained (kind: "level" uses the
+// current value; "change12w" uses current minus the value 12 weeks earlier;
+// "automation" inverts augmentation).
 const PILLARS = [
   {
-    id: "displacement", label: "Job displacement", icon: "✖",
+    id: "displacement", label: "Job Cut Index", icon: "✖",
     question: "Are jobs being cut?",
+    blurb: "How fast jobs are being cut right now — announced layoffs and redundancies over the last 12 weeks. Higher = heavier cutting.",
     inputs: [
-      { kpi: "ai_layoffs_ytd",   band: "layoffs_pace",  weight: 0.50, kind: "change12w" },
-      { kpi: "net_creation",     band: "net_creation",  weight: 0.25, kind: "level" },
-      { kpi: "graduate_posting", band: "graduate",      weight: 0.25, kind: "level" },
+      { kpi: "ai_layoffs_ytd",   band: "layoffs_pace",  weight: 1.00, kind: "change12w" },
     ],
   },
   {
-    id: "pullback", label: "Hiring pullback", icon: "▼",
-    question: "Are exposed roles being hired less?",
+    id: "pullback", label: "Job Opportunity Decline Index", icon: "▼",
+    question: "Are exposed roles being advertised less?",
+    blurb: "Whether openings in AI-exposed occupations are shrinking — the level and 12-week trend of job postings in high-AI-footprint roles. Higher = fewer opportunities.",
     inputs: [
       { kpi: "exposed_posting_index", band: "posting_level", weight: 0.60, kind: "level" },
       { kpi: "exposed_posting_index", band: "posting_trend", weight: 0.40, kind: "change12w" },
     ],
   },
   {
-    id: "earlycareer", label: "Early-career squeeze", icon: "◎",
+    id: "earlycareer", label: "Graduate Unemployment Index", icon: "◎",
     question: "Are young workers feeling it first?",
+    blurb: "How early-career workers are faring: the youth-vs-overall unemployment gap, youth hiring, and recent-graduate outcomes.",
+    caveat: "An inference indicator — it tends to move with AI pressure, but graduate unemployment can also reflect the wider economic cycle and other causes.",
     inputs: [
-      { kpi: "topq_unemp_delta", band: "unemp_delta", weight: 0.60, kind: "level" },
-      { kpi: "hire_rate_22_25",  band: "hire_rate",   weight: 0.40, kind: "level" },
+      { kpi: "topq_unemp_delta", band: "unemp_delta", weight: 0.50, kind: "level" },
+      { kpi: "hire_rate_22_25",  band: "hire_rate",   weight: 0.30, kind: "level" },
+      { kpi: "graduate_posting", band: "graduate",    weight: 0.20, kind: "level" },
     ],
   },
   {
-    id: "adoption", label: "AI adoption pace", icon: "⚙",
+    id: "creation", label: "AI Job Creation Index", icon: "✚", positive: true,
+    question: "Is AI creating new jobs?",
+    blurb: "The positive side of the ledger — net new AI-attributed roles (new AI/ML/data roles minus AI-attributed displacement). A higher score here pulls the AI Impact Index down.",
+    inputs: [
+      { kpi: "net_creation", band: "creation_idx", weight: 1.00, kind: "level" },
+    ],
+  },
+  {
+    id: "adoption", label: "AI Adoption Index", icon: "⚙", wide: true,
     question: "How fast is AI entering work?",
+    blurb: "How quickly AI is actually entering work: AI mentions in job ads, the automation share of AI use, and how fast Untapped AI Potential is being converted into practice. Context for the four indexes above — rapid adoption without job creation is what turns footprint into impact.",
     inputs: [
       { kpi: "ai_mention_postings", band: "mention_level", weight: 0.40, kind: "level" },
       { kpi: "ai_mention_postings", band: "mention_trend", weight: 0.20, kind: "change12w" },
@@ -141,7 +156,10 @@ const PILLARS = [
   },
 ];
 
-const COMPOSITE_WEIGHTS = { displacement: 0.30, pullback: 0.25, earlycareer: 0.25, adoption: 0.20 };
+// Composite weights. The creation pillar enters INVERTED (100 − score):
+// strong AI job creation pulls the AI Impact Index down.
+const COMPOSITE_WEIGHTS = { displacement: 0.25, pullback: 0.25,
+                            earlycareer: 0.20, adoption: 0.15, creation: 0.15 };
 
 const STATUS_BANDS = [
   { max: 25,  word: "Low",      cls: "st-low" },
@@ -150,6 +168,21 @@ const STATUS_BANDS = [
   { max: 101, word: "High",     cls: "st-high" },
 ];
 const statusOf = (score) => STATUS_BANDS.find((b) => score < b.max);
+
+// Positive-direction pillars (AI Job Creation): high = good, so the status
+// words differ and the colour scale is inverted (high score = green).
+const POSITIVE_WORDS = [
+  { max: 25,  word: "Weak" },
+  { max: 50,  word: "Moderate" },
+  { max: 70,  word: "Encouraging" },
+  { max: 101, word: "Strong" },
+];
+const statusOfPositive = (score) => ({
+  word: POSITIVE_WORDS.find((b) => score < b.max).word,
+  cls: statusOf(100 - score).cls,
+});
+const pillarStatus = (p) =>
+  p.positive ? statusOfPositive(p.score || 0) : statusOf(p.score || 0);
 
 function normBand(bandId, raw) {
   const b = BANDS[bandId];
@@ -252,14 +285,20 @@ function computeDerived(reg) {
       s + ((kpis[i.kpi] || {}).measurement === "measured" ? i.effWeight || 0 : 0), 0);
     return { ...p, score: now.score, inputs: now.inputs, series, delta, confidence: conf };
   });
+  // Positive pillars (AI Job Creation) enter the composite inverted:
+  // strong creation pulls the AI Impact Index down.
+  const cScore = (p, s) => (p.positive ? 100 - s : s);
   const availP = pillars.filter((p) => p.score !== undefined);
   const wSum = availP.reduce((s, p) => s + COMPOSITE_WEIGHTS[p.id], 0);
-  const composite = availP.reduce((s, p) => s + p.score * (COMPOSITE_WEIGHTS[p.id] / wSum), 0);
+  const composite = availP.reduce((s, p) =>
+    s + cScore(p, p.score) * (COMPOSITE_WEIGHTS[p.id] / wSum), 0);
   const compSeries = HIST_WEEKS.map((_, i) => {
-    const scored = PILLARS.map((p) => ({ id: p.id, s: scorePillar(p, reg, i).score }))
+    const scored = PILLARS.map((p) => ({ id: p.id, positive: p.positive,
+                                         s: scorePillar(p, reg, i).score }))
       .filter((x) => x.s !== undefined);
     const w = scored.reduce((s, x) => s + COMPOSITE_WEIGHTS[x.id], 0);
-    return scored.length ? scored.reduce((s, x) => s + x.s * (COMPOSITE_WEIGHTS[x.id] / w), 0) : undefined;
+    return scored.length ? scored.reduce((s, x) =>
+      s + cScore(x, x.s) * (COMPOSITE_WEIGHTS[x.id] / w), 0) : undefined;
   });
   const compPrev = compSeries[Math.max(0, lastIdx - 4)];
   const confidence = availP.reduce((s, p) =>
@@ -286,8 +325,10 @@ function sparkSvg(series, w, h, cls) {
 }
 
 const fmtScore = (s) => (s === undefined ? "—" : Math.round(s));
-const fmtDelta = (d) => d === undefined ? "" :
-  `<span class="pd-delta ${d > 1 ? "up" : d < -1 ? "down" : "flat"}">${d > 1 ? "▲" : d < -1 ? "▼" : "▬"} ${Math.abs(d) < 0.5 ? "steady" : (d > 0 ? "+" : "−") + Math.abs(d).toFixed(0) + " vs last month"}</span>`;
+// invert=true flips the good/bad colour classes (positive-direction pillars:
+// a rising AI Job Creation score is good news) while keeping the arrow.
+const fmtDelta = (d, invert) => d === undefined ? "" :
+  `<span class="pd-delta ${d > 1 ? (invert ? "down" : "up") : d < -1 ? (invert ? "up" : "down") : "flat"}">${d > 1 ? "▲" : d < -1 ? "▼" : "▬"} ${Math.abs(d) < 0.5 ? "steady" : (d > 0 ? "+" : "−") + Math.abs(d).toFixed(0) + " vs last month"}</span>`;
 
 function lineageTable(pillar, reg) {
   const kpis = DATA.regions[reg].kpis;
@@ -312,9 +353,100 @@ function lineageTable(pillar, reg) {
     <thead><tr><th>Input (source)</th><th class="num">Raw</th><th class="num">Band 0→100</th>
     <th class="num">Score</th><th class="num">Weight × score</th><th>Provenance</th></tr></thead>
     <tbody>${rows}</tbody>
-    <tfoot><tr><td colspan="6">Pillar score = Σ (weight × normalized input) = <b>${fmtScore(pillar.score)}</b>
-    &nbsp;·&nbsp; ${Math.round(pillar.confidence * 100)}% of weight from <em>measured</em> sources</td></tr></tfoot>
+    <tfoot><tr><td colspan="6">Index score = Σ (weight × normalized input) = <b>${fmtScore(pillar.score)}</b>
+    &nbsp;·&nbsp; ${Math.round(pillar.confidence * 100)}% of weight from <em>measured</em> sources${
+    pillar.positive ? `<br>This is a <em>positive-direction</em> index: it enters the AI Impact Index inverted
+    (100 − ${fmtScore(pillar.score)} = ${pillar.score === undefined ? "—" : Math.round(100 - pillar.score)}), so stronger AI job creation pulls the headline index <b>down</b>.` : ""}</td></tr></tfoot>
   </table>`;
+}
+
+// Series registry + full-chart popup for the mini sparklines --------
+let SPARKS = {};          // key -> {label, series, positive}
+let sparkChart = null;    // live Chart.js instance inside the modal
+
+function openSparkModal(key) {
+  const item = SPARKS[key];
+  const dlg = document.getElementById("spark-modal");
+  if (!item || !dlg) return;
+  const title = document.getElementById("spark-modal-title");
+  const sub = document.getElementById("spark-modal-sub");
+  if (title) title.textContent = `${item.label} — ${DATA.regions[region].label}`;
+  if (sub) sub.textContent = item.positive
+    ? "Weekly history, 0–100. Positive-direction index: higher = more AI-attributed job creation (pulls the AI Impact Index down)."
+    : "Weekly history, 0–100 against fixed calibration bands. Higher = more pressure on this job market.";
+  if (!dlg.open) dlg.showModal();
+  const pts = HIST_WEEKS.map((w, i) => ({ w, v: item.series[i] }))
+    .filter((p) => p.v !== undefined);
+  const wrap = dlg.querySelector(".spark-chart-wrap");
+  if (typeof Chart === "undefined") {
+    // CDN unavailable: fall back to a large inline SVG of the same series
+    if (wrap) wrap.innerHTML = sparkSvg(item.series, 860, 380, "spark-fallback");
+    return;
+  }
+  if (wrap && !wrap.querySelector("canvas")) {
+    wrap.innerHTML = '<canvas id="sparkModalChart"></canvas>';
+  }
+  if (sparkChart) { sparkChart.destroy(); sparkChart = null; }
+  const ctx = document.getElementById("sparkModalChart");
+  if (!ctx) return;
+  sparkChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: pts.map((p) => p.w),
+      datasets: [{
+        label: item.label,
+        data: pts.map((p) => +p.v.toFixed(1)),
+        borderColor: item.positive ? "#2E7D32" : "#FF5C39",
+        backgroundColor: item.positive ? "rgba(46,125,50,0.10)" : "rgba(255,92,57,0.10)",
+        fill: true, tension: 0.25, pointRadius: 2, pointHitRadius: 8, borderWidth: 2.5,
+      }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: (c) => `${item.label}: ${c.parsed.y}` } } },
+      scales: {
+        y: { min: 0, max: 100,
+             title: { display: true, text: `${item.label} (0–100)` } },
+        x: { title: { display: true, text: "ISO week" },
+             ticks: { maxTicksLimit: 12 } },
+      },
+    },
+  });
+}
+
+function bindSparkButtons(host) {
+  host.querySelectorAll("[data-spark]").forEach((el) =>
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      openSparkModal(el.dataset.spark);
+    }));
+}
+
+function pillarCard(p, reg) {
+  const ps = pillarStatus(p);
+  return `
+  <article class="pillar ${ps.cls} ${p.positive ? "p-positive" : ""} ${p.wide ? "pillar-wide" : ""}">
+    <header>
+      <span class="p-q">${p.question}</span>
+      <span class="p-label">${p.label}</span>
+    </header>
+    <div class="p-score-row">
+      <span class="p-score">${fmtScore(p.score)}</span>
+      <span class="p-status">${ps.word}</span>
+      <button type="button" class="spark-btn" data-spark="${p.id}"
+        title="Click for the full ${p.label} history chart"
+        aria-label="Expand ${p.label} history chart">${sparkSvg(p.series, 170, 52, "")}</button>
+    </div>
+    <p class="p-blurb">${p.blurb || ""}${p.caveat ? ` <em class="p-caveat">${p.caveat}</em>` : ""}</p>
+    <div class="p-meta">${fmtDelta(p.delta, p.positive)}
+      <span class="p-conf" title="Share of this signal's weight backed by measured (not modelled) sources">
+        ${Math.round(p.confidence * 100)}% measured</span></div>
+    <details class="p-lineage deep-only">
+      <summary>Under the hood — how this number is built</summary>
+      ${lineageTable(p, reg)}
+    </details>
+  </article>`;
 }
 
 function renderDerived() {
@@ -322,8 +454,17 @@ function renderDerived() {
   if (!host || !HIST) return;
   const d = computeDerived(region);
   const st = statusOf(d.composite || 0);
-  const compFormula = PILLARS.map((p) =>
-    `${Math.round(COMPOSITE_WEIGHTS[p.id] * 100)}% ${p.label}`).join(" + ");
+  // "25% Job Cut + 25% Job Opportunity Decline + … − 15% AI Job Creation"
+  const compFormula = PILLARS.map((p, i) =>
+    `${i ? (p.positive ? " − " : " + ") : (p.positive ? "− " : "")}` +
+    `${Math.round(COMPOSITE_WEIGHTS[p.id] * 100)}% ${p.label.replace(/ Index$/, "")}`).join("");
+
+  // register series for the click-to-expand popups
+  SPARKS = { composite: { label: "AI Impact Index", series: d.compSeries } };
+  d.pillars.forEach((p) => { SPARKS[p.id] = { label: p.label, series: p.series, positive: p.positive }; });
+
+  const gridPillars = d.pillars.filter((p) => !p.wide);
+  const widePillars = d.pillars.filter((p) => p.wide);
 
   host.innerHTML = `
   <div class="derived-hero ${st.cls}">
@@ -336,45 +477,31 @@ function renderDerived() {
       <div class="dh-score">${fmtScore(d.composite)}<span class="dh-outof">/100</span></div>
     </div><!-- gauge svg scales via CSS -->
     <div class="dh-main">
-      <div class="dh-kicker">AI Pressure Index · ${DATA.regions[region].label}</div>
-      <div class="dh-status">${st.word} pressure ${fmtDelta(d.compDelta)}</div>
-      <p class="dh-read">One number, 0–100, for how much pressure AI is putting on this job market right now
-        — built from ${compFormula}. <b>${Math.round(d.confidence * 100)}%</b> of its weight comes from
+      <div class="dh-kicker">AI Impact Index · ${DATA.regions[region].label}</div>
+      <div class="dh-status">${st.word} impact ${fmtDelta(d.compDelta)}</div>
+      <p class="dh-read">One number, 0–100, for AI's net impact on this job market right now.
+        Four risk indexes push it up; AI job creation pulls it down:
+        ${compFormula} (creation inverted). <b>${Math.round(d.confidence * 100)}%</b> of its weight comes from
         <em>measured</em> sources this week.</p>
-      <div class="dh-spark">${sparkSvg(d.compSeries, 280, 54, "")}<span>since ${HIST_WEEKS[0] || ""}</span></div>
     </div>
-    <button type="button" class="ghost-btn dh-how deep-only" data-modal="methodology-modal">Full methodology →</button>
+    <div class="dh-sparkcol">
+      <button type="button" class="spark-btn dh-spark-btn" data-spark="composite"
+        title="Click for the full AI Impact Index history chart"
+        aria-label="Expand AI Impact Index history chart">${sparkSvg(d.compSeries, 260, 64, "")}</button>
+      <span class="dh-spark-cap">weekly since ${HIST_WEEKS[0] || ""} · click to expand</span>
+      <button type="button" class="ghost-btn dh-how deep-only" data-modal="methodology-modal">Full methodology →</button>
+    </div>
   </div>
 
   <div class="pillar-grid">
-    ${d.pillars.map((p) => {
-      const ps = statusOf(p.score || 0);
-      return `
-      <article class="pillar ${ps.cls}">
-        <header>
-          <span class="p-q">${p.question}</span>
-          <span class="p-label">${p.label}</span>
-        </header>
-        <div class="p-score-row">
-          <span class="p-score">${fmtScore(p.score)}</span>
-          <span class="p-status">${ps.word}</span>
-          ${sparkSvg(p.series, 170, 52, "")}
-        </div>
-        <div class="p-meta">${fmtDelta(p.delta)}
-          <span class="p-conf" title="Share of this signal's weight backed by measured (not modelled) sources">
-            ${Math.round(p.confidence * 100)}% measured</span></div>
-        <details class="p-lineage deep-only">
-          <summary>Under the hood — how this number is built</summary>
-          ${lineageTable(p, region)}
-        </details>
-      </article>`;
-    }).join("")}
+    ${gridPillars.map((p) => pillarCard(p, region)).join("")}
   </div>
+  ${widePillars.map((p) => pillarCard(p, region)).join("")}
   <p class="derived-note deep-only">Derived metrics are computed in your browser from
     <a href="data/current.json">current.json</a> + <a href="data/historical.csv">historical.csv</a>
     using fixed calibration bands — spec in
     <a href="https://github.com/pallabk9/ai-jobmarket-tracker/blob/main/DERIVED_METRICS.md" target="_blank" rel="noopener">DERIVED_METRICS.md</a>.
-    Scores compare a region to itself over time; they are not cross-country exposure rankings.</p>`;
+    Scores compare a region to itself over time; they are not cross-country footprint rankings.</p>`;
 
   // the "Full methodology" button reuses the modal opener
   host.querySelectorAll("[data-modal]").forEach((el) => el.addEventListener("click", (e) => {
@@ -382,6 +509,7 @@ function renderDerived() {
     const dlg = document.getElementById(el.dataset.modal);
     if (dlg && !dlg.open) dlg.showModal();
   }));
+  bindSparkButtons(host);
 }
 
 /* ==================================================================
@@ -412,9 +540,9 @@ function sectorPressure(node) {
   const parts = [];    // [key, score, weight, detailText]
   const missing = [];  // absent components, for the lineage panel
   if (node.exposure_rel != null)
-    parts.push(["exposure", node.exposure_rel, SEC_WEIGHTS.exposure,
-      `exposure index ${node.exposure_rel} (within-region, top sector = 100)`]);
-  else missing.push(["exposure", "no occupation-matrix score yet for this region"]);
+    parts.push(["AI footprint", node.exposure_rel, SEC_WEIGHTS.exposure,
+      `AI Footprint index ${node.exposure_rel} (within-region, top sector = 100)`]);
+  else missing.push(["AI footprint", "no occupation-matrix footprint score yet for this region"]);
   const sig = node.signals || {};
   if (sig.postings && sig.postings.delta12w != null)
     parts.push(["postings", secNorm("postings_delta", sig.postings.delta12w),
@@ -482,7 +610,7 @@ function renderSectorDetail(list) {
     <div class="sd-occ">
       <span class="sd-occ-name">${o.label}</span>
       <div class="sd-occ-bar"><div style="width:${Math.min(100, o.share * 300)}%"></div></div>
-      <span class="sd-occ-meta">${(o.share * 100).toFixed(0)}% of jobs · exposure ${o.exposure}</span>
+      <span class="sd-occ-meta">${(o.share * 100).toFixed(0)}% of jobs · footprint ${o.exposure}</span>
     </div>`).join("");
 
   const sigCards = [];
@@ -549,17 +677,17 @@ function renderSectorDetail(list) {
     <div class="sd-hdr ${st.cls}">
       <div>
         <div class="sd-title">${title} <span class="p-status">${st.word} pressure</span></div>
-        <div class="sd-sub">Exposure index <b>${node.exposure_rel == null ? "—" : node.exposure_rel}</b>
+        <div class="sd-sub">AI Footprint index <b>${node.exposure_rel == null ? "—" : node.exposure_rel}</b>
           ${node.exposure_rank ? `· rank ${node.exposure_rank} of ${list.length} in ${DATA.regions[region].label}` : ""}
           ${gran ? `· <span class="sd-gran" title="${gran === "fine" ? "Occupation-level employment matrix" : "Occupation-major-group matrix (coarser)"}">${gran} matrix</span>` : ""}
-          ${node.shared_section ? `· <span class="sd-gran" title="This region's statistics combine this sector with others in one industry section; the exposure score is shared">section-level score</span>` : ""}
+          ${node.shared_section ? `· <span class="sd-gran" title="This region's statistics combine this sector with others in one industry section; the AI Footprint score is shared">section-level score</span>` : ""}
         </div>
       </div>
       <button type="button" class="modal-close" id="sd-close" aria-label="Close sector detail">&times;</button>
     </div>
     <div class="sd-body">
       <div class="sd-col">
-        <h4>Why this sector is exposed</h4>
+        <h4>Why AI's footprint is large here</h4>
         ${occRows || "<p class='sd-none'>Occupation breakdown arrives with the next quarterly model build.</p>"}
       </div>
       <div class="sd-col">
@@ -572,13 +700,13 @@ function renderSectorDetail(list) {
       </div>
     </div>
     <details class="p-lineage deep-only">
-      <summary>Under the hood — sector pressure & exposure lineage</summary>
+      <summary>Under the hood — sector pressure & AI Footprint lineage</summary>
       <table class="lineage">
         <thead><tr><th>Input</th><th>Reading</th><th class="num">Score</th><th class="num">Weight</th></tr></thead>
         <tbody>${lineageRows}</tbody>
         <tfoot><tr><td colspan="4">
           Sector pressure = Σ (weight × normalized input) = <b>${pressure.score == null ? "—" : Math.round(pressure.score)}</b>.
-          Exposure = 100 × employment-share-weighted mean of occupation AI exposure
+          AI Footprint = 100 × employment-share-weighted mean of occupation-level AI footprint
           (${(SECTORS.exposure_source || {}).name || "Anthropic Observed Exposure"}),
           shown as a within-region index (top sector = 100).
           Matrix: ${(reg.matrix || {}).source || "—"}.
@@ -612,9 +740,9 @@ function renderSectorHeatmap() {
     </tr>`).join("");
   return `
   <article class="card span-12 deep-only sector-hm">
-    <header class="card-hdr"><h3>Sector exposure heatmap — within-region index</h3>
+    <header class="card-hdr"><h3>Sector AI Footprint heatmap — within-region index</h3>
       <details class="src"><summary>Source &amp; method</summary>
-        <p>Each cell is the sector's AI-exposure index <em>within its own region</em> (top sector = 100) —
+        <p>Each cell is the sector's AI Footprint index <em>within its own region</em> (top sector = 100) —
         employment-share-weighted Anthropic Observed Exposure across the sector's occupation mix.
         Values are not comparable across columns (locked methodology: within-country ranks only).</p>
       </details></header>
@@ -647,8 +775,8 @@ function renderSectors() {
     <header class="card-hdr">
       <h3>Sector pulse — AI impact by sector</h3>
       <details class="src"><summary>Source &amp; method</summary>
-        <p><strong>What this shows:</strong> the ten dashboard sectors ranked by <em>sector pressure</em> —
-        a fixed-band blend of AI-exposure index (45%), posting trend or hiring momentum (25%),
+        <p><strong>What this shows:</strong> the dashboard sectors ranked by <em>sector pressure</em> —
+        a fixed-band blend of AI Footprint index (45%), posting trend or hiring momentum (25%),
         vacancy/employment momentum (15%) and announced layoffs as a share of the sector's
         workforce (15%, where published: US via Challenger, EU via Eurofound ERM). When a
         component isn't published for a sector, its weight is redistributed across the available
@@ -656,7 +784,7 @@ function renderSectors() {
         Click a sector for its occupation make-up and live signals.</p>
         <p><strong>Coverage:</strong> all six regions. India's posting slot uses Naukri JobSpeak
         hiring momentum (% YoY, text-parsed from the monthly report); APAC pools SGP+JPN+KOR
-        matrices and uses Singapore MOM vacancies as its proxy demand market. Exposure scores
+        matrices and uses Singapore MOM vacancies as its proxy demand market. AI Footprint scores
         are within-region indexes, not cross-country comparisons.</p>
       </details>
     </header>
@@ -877,8 +1005,8 @@ function renderGap() {
   if (!isModel) {
     if (hint) hint.textContent = "";
     buildGapChart(g.cats, g.names || g.cats, g.theoretical, g.observed,
-      "Theoretical β (Eloundou)", "Observed exposure", false,
-      "Theoretical vs observed exposure by sector (%)");
+      "Theoretical potential (Eloundou β)", "AI Footprint (observed)", false,
+      "Untapped AI Potential by sector — could do vs doing (%)");
     return;
   }
 
@@ -893,18 +1021,18 @@ function renderGap() {
     const long  = top.map((o) => o.title || o.soc);
     const short = top.map((o) => (o.title || o.soc).length > 24 ? (o.title || o.soc).slice(0, 23) + "…" : (o.title || o.soc));
     const chartTitle = n <= top.length
-      ? `${label} — AI exposure by occupation group (%)`
-      : `Top 10 most AI-exposed ${label} occupations (%)`;
+      ? `${label} — AI Footprint by occupation group (%)`
+      : `Top 10 ${label} occupations by AI Footprint (%)`;
     buildGapChart(short, long,
       top.map((o) => +(o.raw * 100).toFixed(1)),
       top.map((o) => +(o.pi  * 100).toFixed(1)),
-      "Raw task exposure (theoretical)", "Practical impact (AI-adjusted)",
+      "Theoretical potential (raw tasks)", "Practical impact (AI-adjusted)",
       true, chartTitle);
   }).catch(() => {
     // fall back to the group-level summary still in current.json
     buildGapChart(g.cats, g.names || g.cats, g.theoretical, g.observed,
-      "Raw task exposure", "Practical impact", true,
-      "AI exposure by sub-major group (%)");
+      "Theoretical potential", "Practical impact", true,
+      "AI Footprint by sub-major group (%)");
   });
 }
 
@@ -934,7 +1062,7 @@ function renderOccChart(rows) {
     data: {
       labels: rows.map((o) => `${o.soc} ${o.title || ""}`.slice(0, 46)),
       datasets: [
-        { label: "Raw task exposure (theoretical)", data: rows.map((o) => +(o.raw * 100).toFixed(1)), backgroundColor: "rgba(154,219,232,0.6)" },
+        { label: "Theoretical potential (raw tasks)", data: rows.map((o) => +(o.raw * 100).toFixed(1)), backgroundColor: "rgba(154,219,232,0.6)" },
         { label: "Practical impact (AI-adjusted)",   data: rows.map((o) => +(o.pi  * 100).toFixed(1)), backgroundColor: "#FF5C39" },
       ],
     },
@@ -1012,7 +1140,7 @@ function openOccModal(groupCode) {
     $("occ-modal-sub").innerHTML =
       `Practical AI impact on ${label} occupations from a task-decomposition model: 18 capability-scored task categories, ` +
       `time-weighted across ${OCC.n_occupations} occupations and national employment. ` +
-      `<em>Raw exposure</em> is theoretical task susceptibility; <em>practical impact</em> applies sector adoption discounts. Click a row for its task breakdown.`;
+      `<em>Theoretical potential</em> is raw task susceptibility to AI; <em>practical impact</em> applies sector adoption discounts — the space between is the Untapped AI Potential. Click a row for its task breakdown.`;
     const dlg = $("occ-modal");
     if (dlg && !dlg.open) dlg.showModal();   // open first so the canvas has layout
     occRows();
