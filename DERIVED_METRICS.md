@@ -1,42 +1,75 @@
-# Derived metrics specification — AI Pressure Index & pillar signals
+# Derived metrics specification — AI Impact Index & the five indexes
 
-**Added:** 2026-08-14 · **Computed:** client-side in `assets/dashboard.js` (function `computeDerived`)
+**Added:** 2026-08-14 · **Revised:** 2026-08-20 (five-index composite, renamed layer) ·
+**Computed:** client-side in `assets/dashboard.js` (function `computeDerived`)
 from `data/current.json` + `data/historical.csv`. Nothing is stored; the lineage shown in Deep mode
 is the live calculation, so the dashboard and its explanation can never drift apart.
 
 ## Why derived metrics
 
 The ten raw KPIs are precise but demand context to read. The derived layer answers the reader's
-actual question — *"how much pressure is AI putting on this job market right now, and which way is
-it moving?"* — in one number per region plus four named pillars, while Deep mode exposes every
+actual question — *"what net impact is AI having on this job market right now, and which way is
+it moving?"* — in one number per region plus five named indexes, while Deep mode exposes every
 input, band, and weight so the translation is fully auditable.
 
-## The four pillars (each scored 0–100 within-region)
+## Naming (2026-08-20 review)
 
-| Pillar | Question it answers | Input KPIs (weight within pillar) |
-|---|---|---|
-| **Displacement** | Are jobs being cut? | `ai_layoffs_ytd` pace vs 12wk ago (50%), `net_creation` (25%), `graduate_posting` (25%) |
-| **Hiring pullback** | Are exposed roles being hired less? | `exposed_posting_index` level (60%), its 12-week trend (40%) |
-| **Early-career squeeze** | Are young workers feeling it first? | `topq_unemp_delta` level (60%), `hire_rate_22_25` (40%) |
-| **AI adoption** | How fast is AI entering work? | `ai_mention_postings` level (40%) + 12wk trend (20%), automation share `100−augmentation_share` (20%), `capability_gap` closing headroom (20%) |
+The layer was renamed for a corporate-leadership audience. Old → new:
+
+| Old term | New term |
+|---|---|
+| AI Pressure Index | **AI Impact Index** |
+| Job displacement (pillar) | **Job Cut Index** |
+| Hiring pullback (pillar) | **Job Opportunity Decline Index** |
+| Early-career squeeze (pillar) | **Graduate Unemployment Index** |
+| AI adoption pace (pillar) | **AI Adoption Index** |
+| — (new) | **AI Job Creation Index** (positive direction) |
+| exposure / Observed Exposure (dashboard label) | **AI Footprint** (formal research term unchanged in citations) |
+| capability gap | **Untapped AI Potential** |
+
+## The five indexes (each scored 0–100 within-region)
+
+| Index | Direction | Question it answers | Input KPIs (weight within index) |
+|---|---|---|---|
+| **Job Cut Index** | risk (up) | Are jobs being cut? | `ai_layoffs_ytd` pace vs 12wk ago (100%) |
+| **Job Opportunity Decline Index** | risk (up) | Are exposed roles advertised less? | `exposed_posting_index` level (60%), its 12-week trend (40%) |
+| **Graduate Unemployment Index** | risk (up) | Are young workers feeling it first? | `topq_unemp_delta` level (50%), `hire_rate_22_25` (30%), `graduate_posting` (20%) |
+| **AI Job Creation Index** | **positive (down)** | Is AI creating new jobs? | `net_creation` level (100%) |
+| **AI Adoption Index** | risk (up) | How fast is AI entering work? | `ai_mention_postings` level (40%) + 12wk trend (20%), automation share `100−augmentation_share` (20%), `capability_gap` (Untapped AI Potential) closing headroom (20%) |
+
+The **Graduate Unemployment Index is an inference indicator**: it tends to move with AI pressure,
+but graduate unemployment can also reflect the wider economic cycle and other causes — the
+dashboard tile carries this caveat verbatim.
 
 ## Composite
 
-**AI Pressure Index** = 0.30·Displacement + 0.25·Hiring pullback + 0.25·Early-career + 0.20·Adoption
+**AI Impact Index** = 0.25·JobCut + 0.25·OpportunityDecline + 0.20·GraduateUnemployment
++ 0.15·Adoption + **0.15·(100 − JobCreation)**
 
-Status bands: **0–25 Low · 25–50 Moderate · 50–70 Elevated · 70–100 High**.
+Four risk indexes push the composite **up**; the AI Job Creation Index is a positive-direction
+index and enters **inverted** — strong AI-attributed job creation pulls the AI Impact Index
+**down**. On the tiles the creation index reads naturally (higher = more creation, tinted green);
+the inversion happens only inside the composite, and the Deep-mode lineage prints it explicitly.
+
+Status bands (composite and risk indexes): **0–25 Low · 25–50 Moderate · 50–70 Elevated ·
+70–100 High**. The creation index uses positive wording instead: **Weak · Moderate ·
+Encouraging · Strong** (colour scale inverted: high = green).
+
+In the dashboard layout, the four 2×2 hook tiles are Job Cut, Job Opportunity Decline, Graduate
+Unemployment and AI Job Creation; the AI Adoption Index renders as a full-width context tile
+below them (it remains a weighted composite input).
 
 ## Normalization — fixed calibration bands, not cross-region ranks
 
 Each input maps linearly onto 0–100 between a documented floor and ceiling, clamped. Bands are
 absolute and identical across regions so a region's score is comparable to *itself over time*;
 cross-region comparison remains a within-country reading, consistent with the locked Anthropic
-Observed Exposure methodology (no absolute cross-country exposure claims).
+Observed Exposure methodology (no absolute cross-country footprint claims).
 
 | Input | Floor (score 0) | Ceiling (score 100) | Orientation |
 |---|---|---|---|
 | `ai_layoffs_ytd` 12wk pace | 0 k roles / 12wk | 30 k roles / 12wk | more cuts = higher |
-| `net_creation` | +50 k (net creation) | −50 k (net loss) | net loss = higher |
+| `net_creation` (creation index) | −50 k (net loss) | +150 k (strong creation) | more creation = higher (inverted in composite) |
 | `graduate_posting` | +10 % YoY | −40 % YoY | fewer grad postings = higher |
 | `exposed_posting_index` | 110 (boom) | 60 (bust) | fewer postings = higher |
 | posting index 12wk trend | +10 pts | −10 pts | falling = higher |
@@ -45,25 +78,41 @@ Observed Exposure methodology (no absolute cross-country exposure claims).
 | `ai_mention_postings` | 0 % | 15 % | more AI postings = higher adoption |
 | mention 12wk trend | −1 pp | +3 pp | rising = higher |
 | automation share (100−aug) | 30 % | 70 % | more automation = higher |
-| `capability_gap` | 40 pp (wide gap) | 10 pp (gap closing) | closing gap = higher |
+| `capability_gap` (Untapped AI Potential) | 40 pp (wide) | 10 pp (closing) | closing potential gap = higher |
 
 Trend inputs use the value 12 weeks before the current snapshot in `historical.csv`
 (or the oldest available week when history is shorter).
 
+Change log 2026-08-20: `net_creation` was promoted from a 25% input inside the old Displacement
+pillar to its own positive-direction index (band recalibrated −50→+150 k for the standalone
+reading); `graduate_posting` moved from Displacement into the Graduate Unemployment Index; the
+old Displacement pillar became the single-input Job Cut Index. Composite weights moved from
+30/25/25/20 (four pillars) to 25/25/20/15/15 (five indexes, creation inverted).
+
 ## Confidence
 
 Every derived metric carries **confidence = Σ weight of inputs whose KPI is `measured`** for that
-region, shown as a percentage on the card. A pillar built mostly on modelled inputs says so
+region, shown as a percentage on the card. An index built mostly on modelled inputs says so
 up front — the badge system of the raw tiles propagates upward instead of being averaged away.
+Note: `net_creation` is currently modelled everywhere (WEF-derived), so adding the creation index
+lowers headline confidence by design — honesty over cosmetics.
 
 ## Missing inputs
 
-If a KPI value is absent for a region, its weight is redistributed pro-rata across the pillar's
+If a KPI value is absent for a region, its weight is redistributed pro-rata across the index's
 remaining inputs, and the input is listed as "not available" in the Deep-mode lineage panel.
+If an entire index is unscorable, its composite weight redistributes across the remaining indexes.
+
+## History popups
+
+Every index tile's mini sparkline — and the AI Impact Index sparkline in the hero — is a button:
+clicking it opens a full Chart.js line chart (y = the index, 0–100; x = ISO weeks) built from the
+same client-side series that drew the sparkline.
 
 ## Deep mode
 
-A global Simple/Deep toggle (persisted in `localStorage`, default Simple). Deep reveals, per pillar:
-each input's raw value → band → normalized score → weight → contribution, the pillar formula, the
-composite weights, and each input's measured/modelled badge and source link — plus all ten raw KPI
-tiles and the full analytical charts, tables and downloads exactly as before.
+A global Simple/Deep toggle (persisted in `localStorage`, default Simple). Deep reveals, per index:
+each input's raw value → band → normalized score → weight → contribution, the index formula, the
+composite weights (including the creation inversion), and each input's measured/modelled badge and
+source link — plus all ten raw KPI tiles and the full analytical charts, tables and downloads
+exactly as before.

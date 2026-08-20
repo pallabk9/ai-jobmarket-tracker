@@ -35,35 +35,55 @@ A live dashboard tracking AI's impact on labour markets across six regions, grou
     └── weekly-update.yml            # Monday 06:00 UTC cron
 ```
 
-## Simple / Deep view and derived metrics (added 2026-08-14)
+## Simple / Deep view and derived metrics (2026-08-14; renamed + five-index composite 2026-08-20)
 
 The dashboard has two reading levels, toggled at the top of the Live
 dashboard section (persisted per browser):
 
-- **Simple** (default): one **AI Pressure Index** (0-100) per region plus
-  four plain-language pillar signals - *Job displacement*, *Hiring
-  pullback*, *Early-career squeeze*, *AI adoption pace* - each with a
-  status word, month-over-month delta, sparkline, and a "% measured"
-  confidence chip.
+- **Simple** (default): one **AI Impact Index** (0-100) per region plus
+  five plain-language indexes - *Job Cut Index*, *Job Opportunity Decline
+  Index*, *Graduate Unemployment Index* (an inference indicator, caveated
+  on the tile), *AI Job Creation Index* (positive direction - pulls the
+  composite **down**; enters inverted), and a full-width *AI Adoption
+  Index* context tile - each with a status word, an explainer line,
+  month-over-month delta, a clickable sparkline (opens a full history
+  chart), and a "% measured" confidence chip. A data-provenance narrative
+  at the top of the page explains the authoritative-sources /
+  measured-vs-modelled contract.
 - **Deep**: everything under the hood - all ten raw KPI tiles with
   measured/modelled badges, the full analytical charts, and an "Under the
-  hood" lineage panel on every pillar card showing each input's raw value
+  hood" lineage panel on every index card showing each input's raw value
   → calibration band → normalized score → weight → contribution, with its
   source link and provenance badge.
+
+Composite: 25% Job Cut + 25% Opportunity Decline + 20% Graduate
+Unemployment + 15% Adoption + 15% × (100 − Job Creation).
+
+**Terminology (2026-08-20):** the dashboard's plain-language term for
+Observed Exposure is now **AI Footprint** (the formal research term is
+kept in citations), and the capability gap is now **Untapped AI
+Potential**. Old names appear in the glossary for continuity.
 
 Derived metrics are computed **client-side** in `assets/dashboard.js` from
 `data/current.json` + `data/historical.csv` - the lineage shown *is* the
 calculation, so dashboard and documentation cannot drift apart. Formulas,
 calibration bands and weights are specified in
 [`DERIVED_METRICS.md`](DERIVED_METRICS.md). Scores compare a region to
-itself over time; they are not cross-country exposure rankings (consistent
+itself over time; they are not cross-country footprint rankings (consistent
 with the locked Observed Exposure methodology).
 
-## Sector pulse (Phase 1 2026-08-17; Phase 2 same day)
+## Sector pulse (Phase 1 2026-08-17; Phase 2 same day; power & utilities 2026-08-20)
 
 AI impact by sector — banking, insurance, IT & software, telecom & media,
 manufacturing, healthcare, retail, professional services, education,
-government — for **all six regions**. Phase 2 additions: India and APAC
+government, **power & utilities** — for **all six regions**. Power &
+utilities spans ISIC sections D+E (merged in section-level matrices; the
+concordance marks it `D+E`): UK employment/vacancies sum ONS CDIDs
+JWR8+JWR9 / JP9J+JP9K, EU employment sums NACE D+E, AU uses ANZSIC
+division D, US layoffs sum Challenger's Energy + Utility rows, EU layoffs
+sum ERM's Electricity + Water/Waste sectors. Indeed and Singapore MOM have
+no utilities category, so those signals show as explicit "not published"
+stubs with weight redistribution. Phase 2 additions: India and APAC
 exposure via ILOSTAT ISCO×ISIC annual matrices (APAC pools SGP+JPN+KOR);
 quarterly ILO sector employment (annual fallback where quarterly carries
 aggregates only); Singapore MOM vacancies by industry as the APAC proxy
@@ -72,10 +92,11 @@ momentum (% YoY, conservatively text-parsed) filling India's posting slot
 in the pressure blend; Adzuna category postings activate for IN/APAC when
 the API keys are configured.
 
-- **Sector AI Exposure Score** = 100 × employment-share-weighted mean of
-  Anthropic Observed Exposure across each sector's occupation mix,
-  displayed as a within-region index (top sector = 100; cross-region
-  comparison is deliberately not supported, per the locked methodology).
+- **Sector AI Footprint Score** (formerly Sector AI Exposure Score) = 100 ×
+  employment-share-weighted mean of Anthropic Observed Exposure across each
+  sector's occupation mix, displayed as a within-region index (top sector =
+  100; cross-region comparison is deliberately not supported, per the
+  locked methodology).
   Occupation×industry matrices: BLS OEWS (US, fine), ONS ad-hoc 3136 ×
   AWA UK model (UK, fine), Eurostat `lfsq_eisn2` (EU, coarse ISCO majors),
   ILOSTAT `EMP_TEMP_ECO_OCU` (AU, IN, APAC pooled - coarse). Built quarterly by
@@ -86,7 +107,7 @@ the API keys are configured.
   the K64 banking / K65 insurance split) + `jvs_q_nace2` (EU), ABS Labour
   Account + Job Vacancies (AU), BLS CES (US). Any fetch failure leaves
   the previous signal untouched.
-- **Sector Pressure** (dashboard, client-side): 45% exposure index + 25%
+- **Sector Pressure** (dashboard, client-side): 45% AI Footprint index + 25%
   posting trend / hiring momentum + 15% vacancy/employment momentum + 15%
   announced layoffs as a share of sector workforce (US: Challenger's
   30-industry monthly table, PDF-parsed; EU: Eurofound ERM announced job
