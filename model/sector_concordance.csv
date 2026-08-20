@@ -9,3 +9,4 @@ retail,Retail & consumer,G,441000;445000;449000;455000;456000,Retail;Loading & S
 professional,Professional services,M,541000,Legal;Accounting;Marketing;Human Resources;Project Management;Scientific Research & Development,CES6054000001,
 education,Education,P,611000,Education & Instruction,CES6561000001,
 government,Government & public,O,999000,Community & Social Service;Security & Public Safety,CES9000000001,US uses OEWS government ownership aggregate 999000
+power_utilities,Power & utilities,D+E,221000,,CES4422000001,ISIC D (electricity/gas) + E (water/waste) merged; ANZSIC division D covers both in AU; Indeed and SG MOM have no utilities category
