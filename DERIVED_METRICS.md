@@ -83,6 +83,23 @@ Observed Exposure methodology (no absolute cross-country footprint claims).
 Trend inputs use the value 12 weeks before the current snapshot in `historical.csv`
 (or the oldest available week when history is shorter).
 
+**Regime-break guard (2026-08-20).** A 12-week-change input is only computed when both
+endpoints share the same measurement basis (`measured` vs `modelled` in `historical.csv`).
+When a KPI switches from a modelled placeholder to a measured source mid-window, differencing
+across the break produces a spurious "trend" (the defect that pinned the UK Job Cut Index at
+100 while ONS redundancies were falling). A mixed-basis window is treated as *input not
+available* — its weight redistributes and the lineage says so — until 12 weeks of the new
+basis accrue. Historical rows for series whose real history exists at the source (UK BEAO
+redundancies; Indeed AI-tracker mention shares for US/UK/EU/AU; ABS youth-gap for AU; the
+constant ILO annual youth-gap for IN/APAC) were backfilled with that real history
+(`scripts/backfill_uk_redundancy.py`, `scripts/backfill_history_regimes.py`), so their
+trends stay live.
+
+**Basis-aware band (2026-08-20).** The Adzuna keyword AI-mention proxy (IN/APAC) is a
+deliberately looser net than the Hiring Lab curated taxonomy (~20%+ vs ~5–9% shares), so
+the mention *level* input uses its own calibration band (0 → 40%) whenever the KPI's source
+is Adzuna. The lineage table shows which band applied.
+
 Change log 2026-08-20: `net_creation` was promoted from a 25% input inside the old Displacement
 pillar to its own positive-direction index (band recalibrated −50→+150 k for the standalone
 reading); `graduate_posting` moved from Displacement into the Graduate Unemployment Index; the

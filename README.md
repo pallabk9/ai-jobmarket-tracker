@@ -177,6 +177,27 @@ The full review, endpoint health checks and ranked upgrade path are in
   redundancies were falling (FEB 126 -> MAY 106). Snapshots untouched;
   the derived layer reads `historical.csv`. Same repair class as the
   June backfill.
+- 2026-08-20 (full-number audit, same day): the same regime-break class
+  was found and repaired for `ai_mention_postings` (US/UK/EU/AU -
+  backfilled from the Indeed AI-tracker's real history) and
+  `topq_unemp_delta` (AU from ABS history; IN/APAC from the constant
+  ILO annual value) via `scripts/backfill_history_regimes.py`; the
+  dashboard also gained a structural guard - 12-week-change inputs are
+  skipped (weight redistributed) whenever the window mixes modelled and
+  measured rows - plus an Adzuna-basis calibration band for the looser
+  IN/APAC keyword mention proxy (spec: DERIVED_METRICS.md). Three
+  adapter bugs fixed the same day: the OEWS series id used a 6-zero
+  area code (24-char ids -> empty US matrix in the quarterly CI build;
+  now 7 zeros/25 chars), Adzuna's `marketing-jobs` category tag does
+  not exist (`pr-advertising-marketing-jobs` does), and Adzuna's
+  `/history` endpoint rejects `results_per_page` (now only sent on
+  search paths). Salary-premium coverage note: Adzuna publishes
+  AI-filtered salary history only for US and GB, so `ai_skill_premium`
+  is measured there and stays modelled elsewhere.
+- `current.json` is refreshed in place by manual workflow runs
+  (FORCE_REFRESH), while `historical.csv` keeps the values recorded at
+  each Monday snapshot; small deltas between the two for the same week
+  are expected until the next Monday run.
 
 **Optional secrets** (repo → Settings → Secrets and variables → Actions):
 
