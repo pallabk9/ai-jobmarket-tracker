@@ -87,10 +87,18 @@ const charts = {};
 // scores compare a region to itself over time (methodology lock: no absolute
 // cross-country exposure claims).
 const BANDS = {
-  // Two-sided: −10 (cuts easing sharply) → 0 change scores 25 (pace
-  // unchanged) → +30 (sharp acceleration). A momentum gauge: 0 means
-  // "easing", NOT "no cuts" — the tile shows the absolute level alongside.
-  layoffs_pace:   { lo: -10, hi: 30,  label: "12-week change in layoff/redundancy pace (k roles)" },
+  // Job Cut Index is LEVEL-GROUNDED (per design review 2026-08-21): the
+  // score reflects how much cutting is happening now, and the timeline
+  // shows that volume over time. Two bases, each with its own fixed band:
+  //  * cumulative YTD series (US Challenger AI-cited + modelled regions):
+  //    the 12-week flow of cuts. 0 = none; 80k = comfortably above the
+  //    heaviest 12-week episode observed in the 2026 US series (~64k),
+  //    leaving headroom so worse episodes remain distinguishable.
+  layoffs_flow:    { lo: 0,  hi: 80,  label: "Job cuts announced, last 12 weeks (k roles)" },
+  //  * level series (UK all-cause rolling-quarter redundancy level): the
+  //    level itself. 60k ≈ the post-1995 record low; 250k ≈ severe
+  //    recession (2009 peaked ~310k, COVID ~400k).
+  layoffs_level_q: { lo: 60, hi: 250, label: "Redundancies per rolling quarter (k, all-cause)" },
   creation_idx:   { lo: -50, hi: 150, label: "Net AI-attributed job creation (k roles)" },
   graduate:       { lo: 10,  hi: -40, label: "Graduate postings YoY (%)" },
   posting_level:  { lo: 110, hi: 60,  label: "Posting index level" },
@@ -115,11 +123,13 @@ const BANDS = {
 const PILLARS = [
   {
     id: "displacement", label: "Job Cut Index", icon: "✖",
-    question: "Are job cuts accelerating?",
-    blurb: "The momentum of job cutting — how the pace of announced layoffs and redundancies compares with 12 weeks ago. Around 25 = pace unchanged; higher = accelerating; towards 0 = easing. A low score means cutting is slowing, not that no jobs are being cut — the line below shows how much cutting is still happening.",
+    question: "How heavy are job cuts right now?",
+    blurb: "Grounded in the current volume of job cutting — announced layoffs and redundancies in the most recent period — scored against a fixed band for the region's series. The mini-graph is the timeline: how that volume has changed week by week; the arrow shows the direction of travel.",
     contextKpi: "ai_layoffs_ytd",
     inputs: [
-      { kpi: "ai_layoffs_ytd",   band: "layoffs_pace",  weight: 1.00, kind: "pace12w" },
+      { kpi: "ai_layoffs_ytd",
+        bandByBasis: { cumulative: "layoffs_flow", level: "layoffs_level_q" },
+        band: "layoffs_flow", weight: 1.00, kind: "flow12w" },
     ],
   },
   {
@@ -259,38 +269,30 @@ function rawInput(inp, reg, weekIdx) {
   const now = live !== undefined && live !== null ? live : histValue(week, reg, inp.kpi);
   if (now === undefined) return undefined;
   if (inp.kind === "automation") return 100 - now;
-  if (inp.kind === "pace12w") {
-    // Change in the PACE of job cutting, per 12 weeks - consistent across
-    // the two series bases:
-    //  * level series (UK redundancy level - name without "YTD"): the level
-    //    IS the pace, so pace change = first difference;
-    //  * cumulative YTD series (US Challenger + modelled regions): first
-    //    difference is the pace itself (always >= 0), so pace change =
-    //    second difference (recent 12-wk pace minus the prior 12-wk pace).
-    // Windows are rate-scaled to 12 weeks; each endpoint walks forward to
-    // the first week on the SAME measurement basis (regime-break safe).
+  if (inp.kind === "flow12w") {
+    // The CURRENT VOLUME of job cutting, per series basis:
+    //  * level series (UK rolling-quarter redundancy level - name without
+    //    "YTD"): the level itself IS the recent-cuts volume;
+    //  * cumulative YTD series (US Challenger + modelled regions): the
+    //    12-week flow = current YTD minus 12 weeks ago, rate-scaled to 12
+    //    weeks, with the baseline walked forward to the first week on the
+    //    SAME measurement basis (regime-break safe).
+    // The score is grounded in this volume; the sparkline shows it over
+    // time; momentum lives in the delta arrow and the context line.
     const curNode = DATA.regions[reg].kpis[inp.kpi] || {};
+    const cumulative = /ytd/i.test(curNode.name || "");
+    if (!cumulative) return now;
     const mNow = live !== undefined && live !== null
       ? (curNode.measurement || "")
       : (histMeas(week, reg, inp.kpi) || "");
-    const walk = (from, upto) => {
-      for (let i = from; i <= upto; i++) {
-        if ((histMeas(HIST_WEEKS[i], reg, inp.kpi) || "") === mNow
-            && histValue(HIST_WEEKS[i], reg, inp.kpi) !== undefined) return i;
+    for (let i = Math.max(0, weekIdx - 12); i <= weekIdx - 1; i++) {
+      if ((histMeas(HIST_WEEKS[i], reg, inp.kpi) || "") === mNow
+          && histValue(HIST_WEEKS[i], reg, inp.kpi) !== undefined) {
+        const prev = histValue(HIST_WEEKS[i], reg, inp.kpi);
+        return (now - prev) / (weekIdx - i) * 12;
       }
-      return -1;
-    };
-    const iPrev = walk(Math.max(0, weekIdx - 12), weekIdx - 1);
-    if (iPrev < 0) return undefined;
-    const prev = histValue(HIST_WEEKS[iPrev], reg, inp.kpi);
-    const paceNow = (now - prev) / (weekIdx - iPrev) * 12;
-    const cumulative = /ytd/i.test(curNode.name || "");
-    if (!cumulative) return paceNow;
-    const iPrev2 = walk(Math.max(0, weekIdx - 24), iPrev - 1);
-    if (iPrev2 < 0) return undefined;
-    const prev2 = histValue(HIST_WEEKS[iPrev2], reg, inp.kpi);
-    const pacePrior = (prev - prev2) / (iPrev - iPrev2) * 12;
-    return paceNow - pacePrior;
+    }
+    return undefined;
   }
   if (inp.kind === "change12w") {
     const prevWeek = HIST_WEEKS[Math.max(0, weekIdx - 12)];
@@ -316,9 +318,16 @@ function rawInput(inp, reg, weekIdx) {
 function scorePillar(pillar, reg, weekIdx) {
   const inputs = pillar.inputs.map((inp) => {
     const raw = rawInput(inp, reg, weekIdx);
-    // basis-aware band: the Adzuna keyword proxy uses its own calibration
-    const src = ((DATA.regions[reg].kpis[inp.kpi] || {}).source || "");
-    const band = inp.altBand && src.includes("Adzuna") ? inp.altBand : inp.band;
+    // basis-aware bands: the Adzuna keyword proxy and the two layoff-series
+    // bases (cumulative YTD vs level) each use their own calibration
+    const node = DATA.regions[reg].kpis[inp.kpi] || {};
+    let band = inp.band;
+    if (inp.bandByBasis) {
+      band = /ytd/i.test(node.name || "")
+        ? inp.bandByBasis.cumulative : inp.bandByBasis.level;
+    } else if (inp.altBand && (node.source || "").includes("Adzuna")) {
+      band = inp.altBand;
+    }
     return { ...inp, band, raw, norm: raw === undefined ? undefined : normBand(band, raw) };
   });
   const avail = inputs.filter((i) => i.norm !== undefined);
@@ -494,14 +503,27 @@ function pillarContext(p, reg) {
   const k = DATA.regions[reg].kpis[p.contextKpi];
   if (!k || k.value == null) return "";
   const t = (p.inputs || []).find((i) =>
-    (i.kind === "pace12w" || i.kind === "change12w") && i.kpi === p.contextKpi);
-  const ch = t && t.raw !== undefined ? t.raw : undefined;
+    (i.kind === "flow12w" || i.kind === "change12w") && i.kpi === p.contextKpi);
+  const raw = t && t.raw !== undefined ? t.raw : undefined;
   const cum = /ytd/i.test(k.name || "");
-  const unit = cum ? "k/12wk vs the prior 12 wk" : "k vs 12 wk ago";
-  const word = ch === undefined ? " · <i>pace change not yet computable on this basis</i>" :
-    ch > 1 ? ` · <b>accelerating</b> (pace +${ch.toFixed(1)}${unit})` :
-    ch < -1 ? ` · <b>easing</b> (pace −${Math.abs(ch).toFixed(1)}${unit})` :
-    " · <b>pace unchanged</b>";
+  let word = "";
+  if (cum) {
+    // score is grounded in the 12-week flow; show it explicitly
+    word = raw === undefined ? "" :
+      ` · <b>${raw >= 0 ? "+" : "−"}${Math.abs(raw).toFixed(1)}k announced in the last 12 weeks</b>`;
+  } else {
+    // level basis: direction of the level vs 12 weeks ago
+    const li = HIST_WEEKS.length - 1;
+    const prevW = HIST_WEEKS[Math.max(0, li - 12)];
+    const prev = histValue(prevW, reg, p.contextKpi);
+    const sameBasis = (histMeas(prevW, reg, p.contextKpi) || "") === (k.measurement || "");
+    if (prev !== undefined && sameBasis) {
+      const d = k.value - prev;
+      word = d > 1 ? ` · <b>rising</b> (+${d.toFixed(1)}k vs 12 wk ago)` :
+             d < -1 ? ` · <b>falling</b> (−${Math.abs(d).toFixed(1)}k vs 12 wk ago)` :
+             " · <b>flat</b> vs 12 wk ago";
+    }
+  }
   const meas = k.measurement === "measured" ? "measured" : "modelled";
   const disp = FMT[p.contextKpi] ? FMT[p.contextKpi](k.value) : k.value;
   return `<p class="p-context">Latest level: <b>${disp}</b> — ${k.name}${word}
