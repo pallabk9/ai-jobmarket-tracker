@@ -95,6 +95,9 @@ const BANDS = {
   unemp_delta:    { lo: 0,   hi: 10,  label: "Early-career unemployment delta (pp)" },
   hire_rate:      { lo: 10,  hi: -30, label: "Youth hire/employment change (%)" },
   mention_level:  { lo: 0,   hi: 15,  label: "AI-mention posting share (%)" },
+  // Adzuna keyword proxy (IN/APAC) is a deliberately looser net than the
+  // Hiring Lab curated taxonomy - it needs its own, wider calibration
+  mention_level_adz: { lo: 0, hi: 40, label: "AI-mention share, Adzuna keyword basis (%)" },
   mention_trend:  { lo: -1,  hi: 3,   label: "AI-mention share, 12-week change (pp)" },
   automation:     { lo: 30,  hi: 70,  label: "Automation share of AI use (%)" },
   gap_closing:    { lo: 40,  hi: 10,  label: "Untapped AI Potential (pp; closing = high)" },
@@ -148,7 +151,7 @@ const PILLARS = [
     question: "How fast is AI entering work?",
     blurb: "How quickly AI is actually entering work: AI mentions in job ads, the automation share of AI use, and how fast Untapped AI Potential is being converted into practice. Context for the four indexes above — rapid adoption without job creation is what turns footprint into impact.",
     inputs: [
-      { kpi: "ai_mention_postings", band: "mention_level", weight: 0.40, kind: "level" },
+      { kpi: "ai_mention_postings", band: "mention_level", altBand: "mention_level_adz", weight: 0.40, kind: "level" },
       { kpi: "ai_mention_postings", band: "mention_trend", weight: 0.20, kind: "change12w" },
       { kpi: "augmentation_share",  band: "automation",    weight: 0.20, kind: "automation" },
       { kpi: "capability_gap",      band: "gap_closing",   weight: 0.20, kind: "level" },
@@ -223,14 +226,24 @@ async function loadHistory() {
     const wk = r[ix.iso_week], rc = r[ix.region_code], kpi = r[ix.kpi_id];
     const v = parseFloat(r[ix.value]);
     if (!wk || !rc || !kpi || !isFinite(v)) continue;
-    ((HIST[wk] = HIST[wk] || {})[rc] = HIST[wk][rc] || {})[kpi] = v;
+    // keep the measurement flag: trend inputs must not difference across
+    // a modelled->measured basis switch (regime break)
+    ((HIST[wk] = HIST[wk] || {})[rc] = HIST[wk][rc] || {})[kpi] =
+      { v, m: r[ix.measurement] || "" };
   }
   HIST_WEEKS = Object.keys(HIST).sort();
 }
 
 function histValue(week, reg, kpi) {
   const w = HIST[week];
-  return w && w[reg] ? w[reg][kpi] : undefined;
+  const node = w && w[reg] ? w[reg][kpi] : undefined;
+  return node ? node.v : undefined;
+}
+
+function histMeas(week, reg, kpi) {
+  const w = HIST[week];
+  const node = w && w[reg] ? w[reg][kpi] : undefined;
+  return node ? node.m : undefined;
 }
 
 // Raw input value for one pillar input as of a given week index in HIST_WEEKS.
@@ -246,6 +259,16 @@ function rawInput(inp, reg, weekIdx) {
     const prevWeek = HIST_WEEKS[Math.max(0, weekIdx - 12)];
     const prev = histValue(prevWeek, reg, inp.kpi);
     if (prev === undefined) return undefined;
+    // Regime-break guard: never difference a measured value against a
+    // modelled baseline (or vice versa) - a basis switch inside the
+    // window produces a spurious "trend". The input is treated as not
+    // available and its weight redistributes until 12 weeks of the new
+    // basis accrue.
+    const mNow = live !== undefined && live !== null
+      ? ((DATA.regions[reg].kpis[inp.kpi] || {}).measurement || "")
+      : (histMeas(week, reg, inp.kpi) || "");
+    const mPrev = histMeas(prevWeek, reg, inp.kpi) || "";
+    if (mNow && mPrev && mNow !== mPrev) return undefined;
     return now - prev;
   }
   return now;
@@ -256,7 +279,10 @@ function rawInput(inp, reg, weekIdx) {
 function scorePillar(pillar, reg, weekIdx) {
   const inputs = pillar.inputs.map((inp) => {
     const raw = rawInput(inp, reg, weekIdx);
-    return { ...inp, raw, norm: raw === undefined ? undefined : normBand(inp.band, raw) };
+    // basis-aware band: the Adzuna keyword proxy uses its own calibration
+    const src = ((DATA.regions[reg].kpis[inp.kpi] || {}).source || "");
+    const band = inp.altBand && src.includes("Adzuna") ? inp.altBand : inp.band;
+    return { ...inp, band, raw, norm: raw === undefined ? undefined : normBand(band, raw) };
   });
   const avail = inputs.filter((i) => i.norm !== undefined);
   if (!avail.length) return { score: undefined, inputs };
