@@ -68,7 +68,7 @@ Observed Exposure methodology (no absolute cross-country footprint claims).
 
 | Input | Floor (score 0) | Ceiling (score 100) | Orientation |
 |---|---|---|---|
-| `ai_layoffs_ytd` 12wk pace | 0 k roles / 12wk | 30 k roles / 12wk | more cuts = higher |
+| `ai_layoffs_ytd` 12wk pace change | −10 k / 12wk (easing sharply) | +30 k / 12wk (sharp acceleration) | accelerating = higher; unchanged pace ≈ 25 |
 | `net_creation` (creation index) | −50 k (net loss) | +150 k (strong creation) | more creation = higher (inverted in composite) |
 | `graduate_posting` | +10 % YoY | −40 % YoY | fewer grad postings = higher |
 | `exposed_posting_index` | 110 (boom) | 60 (bust) | fewer postings = higher |
@@ -94,6 +94,23 @@ redundancies; Indeed AI-tracker mention shares for US/UK/EU/AU; ABS youth-gap fo
 constant ILO annual youth-gap for IN/APAC) were backfilled with that real history
 (`scripts/backfill_uk_redundancy.py`, `scripts/backfill_history_regimes.py`), so their
 trends stay live.
+
+**Job Cut Index is a momentum gauge (clarified 2026-08-21).** Its single input (`pace12w`)
+is the change in the *pace* of job cutting per 12 weeks, computed per series basis so both
+underlying definitions mean the same thing:
+
+- *level series* (UK: rolling-quarter redundancy level — the level **is** the pace):
+  first difference vs 12 weeks ago;
+- *cumulative YTD series* (US Challenger and the modelled regions — a first difference is
+  always ≥ 0 and only measures the pace itself): **second difference** — the last 12 weeks'
+  pace minus the prior 12 weeks' pace, each window rate-scaled to 12 weeks, with endpoints
+  walked forward to the first week on the same measurement basis (regime-break safe).
+
+A low score therefore means cutting is *easing*, never that no jobs are being cut (the UK's
+~106k redundancies per rolling quarter score 0 while the level falls; the US scores high
+because AI-cited cutting is genuinely accelerating). The band is two-sided (−10 → +30:
+unchanged pace ≈ 25, easing below, accelerating above) and the tile prints the region's
+absolute layoff/redundancy level with an accelerating/easing word next to the score.
 
 **Basis-aware band (2026-08-20).** The Adzuna keyword AI-mention proxy (IN/APAC) is a
 deliberately looser net than the Hiring Lab curated taxonomy (~20%+ vs ~5–9% shares), so

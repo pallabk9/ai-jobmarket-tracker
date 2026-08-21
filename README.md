@@ -198,6 +198,21 @@ The full review, endpoint health checks and ranked upgrade path are in
   (FORCE_REFRESH), while `historical.csv` keeps the values recorded at
   each Monday snapshot; small deltas between the two for the same week
   are expected until the next Monday run.
+- 2026-08-21: the Job Cut Index was clarified as a **momentum gauge**
+  after the UK correctly dropped to 0 but read as "no cuts": the band is
+  now two-sided (−10 → +30; unchanged pace ≈ 25, easing < 25,
+  accelerating > 25), the input is a per-basis pace change (`pace12w`:
+  first difference on level series, rate-scaled second difference on
+  cumulative YTD series - a plain 12-week change on a cumulative series
+  can never ease), and the tile prints the absolute layoff/redundancy
+  level with an easing/accelerating word, so a low score can never be
+  mistaken for zero job cutting.
+- 2026-08-21: Challenger changed its report phrasing in June ("cited in
+  N *job cut announcements*"), silently freezing the US `ai_layoffs_ytd`
+  parse at the May figure (87.71k) for 12 weeks of carry-forward. The
+  patterns now accept both phrasings, and W27-W33 were corrected from
+  the June/July reports' own YTD anchors (101.74k / 112.71k) by
+  `scripts/backfill_us_challenger.py`.
 
 **Optional secrets** (repo → Settings → Secrets and variables → Actions):
 
