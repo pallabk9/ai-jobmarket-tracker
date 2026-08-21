@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T12:04:46Z",
+  "generated_at": "2026-08-21T10:32:29Z",
   "iso_week": "2026-W33",
   "week_ending": "2026-08-16",
   "version": "1.0",
@@ -317,10 +317,24 @@
       ],
       "feed": [
         {
-          "headline": "Hays Shifts to Hard-to-Replace Roles as AI Reshapes Hiring",
+          "headline": "Debates over AI consciousness are a trap",
           "date": "2026-08-20",
-          "source": "Bloomberg.com",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQRnBHUncwdHk2NkNHSzZvRVh6RElsNFNNeDZ3VmItQk1yMkRoXzk1UzVwWUsyNjR2bEJ4WlJhRVMxTXhhcjYwNjJYbURjYkxub3h4V0FuRDZfRWRaWXdyd1RqeDh2enNOaWQ0Vk1ucFpOeC1sVUpuSEljWnFmLWhEUjVYa1lNYjVXMDJaeE4yN0dMSXV1MW45XzBzcG1FaUpGSG5kejZQTEJQbkJldkE?oc=5",
+          "source": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/2026/08/20/1142571/ai-consciousness-debate-trap/",
+          "conf": 4
+        },
+        {
+          "headline": "CEOs shift messaging around AI and layoffs",
+          "date": "2026-08-20",
+          "source": "Axios",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNMGZvSWQzX3RMZkc2WUk2MVVoQU4xX0w2SUx2OERVZzg5ZzlpaG5LeE9oOVNMTTFySndEU3pGZk50NF9DYkstc08wUWtvd21pN2RZZGh6T1ZyUl9Xa0tuRWltNXBiMmh4dGNYazZYM0VNeHpzdm9sNy1BVnU3MHdEbQ?oc=5",
+          "conf": 4
+        },
+        {
+          "headline": "AI reshapes India's IT services sector contracts as clients demand more for less",
+          "date": "2026-08-20",
+          "source": "Reuters",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPMUNrcEw1LWRMcThiZ3U3bzRtZ3ItREZlaXdRaEdWb3FfS09ndHZvcXhQMnlCWDVsLTAyUGNoQTM0TW9ESDVPbkxIaHRxTVFuZDRhYzlpR2Rxb2hiVnlDWHhMQ2F4NWx2c2k3VTZiOFZ3dFc4Z0lPOWVOM3k1d21wbGpJWWpTRGVFejRPdHpWdlhVSnJYQ0w1a1J3TDBmdGFKMExtZVM2c0w0ZTJrcV9HRTI4YjZPUUdnY2xjUg?oc=5",
           "conf": 4
         },
         {
@@ -335,20 +349,6 @@
           "date": "2026-08-19",
           "source": "The Guardian",
           "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOcEp5dXlsN1RjTGpNNXo4QUZJUlFTMjFTVjRpV21BcURFeFNobWx0ZTRFNGNJMjZXaWZ6bFZON0V5OE5IMzc5MzhZNlJxLUxWUVB4elFuQVFfT0MzYmcyYnZjRXhFQmZNV0dsUU0xVFlqUHJsSGxqU2xuTFJlRTlyUnBLWEY5M1JL?oc=5",
-          "conf": 4
-        },
-        {
-          "headline": "Goldman studied where AI is squeezing labor markets. Here's what it found",
-          "date": "2026-08-19",
-          "source": "CNBC",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE53dEREYXBrV1VORWo3VGRpZUVURzk0WFcwVU9Rc0Jpb1hCSUd0OER1Q2o2cGxERGgtTjhReXBYcXBGZUhieGVkNkxrdjNQUElidk0weDZOdVMtdUg5SnJVWUhEa0o2NDRKRXlpamtxRlJBSlBDd0o3bjVn0gF_QVVfeXFMT050cFEyWHJPT3VfRzlQOFY1c1VleFRTYU41T0V3dFdVRmJDVjRCNktNcWpCZWd5Si1McmFIb2FNYWtoajFhdXg1emhNRTBvWGZ2S0t1SHQwTTg1SHI0ZjhRV2Fnc1pxSlhjNGFWeG4xZDI0ZlNTSllPZFBKbV9DOA?oc=5",
-          "conf": 4
-        },
-        {
-          "headline": "Is AI really responsible for recent job cuts?",
-          "date": "2026-08-19",
-          "source": "Financial Times",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQSHI2bE84MHJUVDVQWTF1SVozV3ZadDJ4OFcxaHVxSFRkZUw3U3hyZF92WlVDczFJTV9SMG12bmhyS2FENUxxVkVYeDdTTWEwQ2RhTGQtRDlTQTJnWFpzQks5ZnM5a2RJZkEwb1J2OFlHa3VhdUpKUGw1cFlSN2pIWHk2QmU?oc=5",
           "conf": 4
         }
       ]
@@ -689,17 +689,17 @@
           "conf": 4
         },
         {
+          "headline": "Will AI give you the job? Automated hiring tools spark discrimination and secrecy lawsuits",
+          "date": "2026-08-19",
+          "source": "The Guardian",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOcEp5dXlsN1RjTGpNNXo4QUZJUlFTMjFTVjRpV21BcURFeFNobWx0ZTRFNGNJMjZXaWZ6bFZON0V5OE5IMzc5MzhZNlJxLUxWUVB4elFuQVFfT0MzYmcyYnZjRXhFQmZNV0dsUU0xVFlqUHJsSGxqU2xuTFJlRTlyUnBLWEY5M1JL?oc=5",
+          "conf": 4
+        },
+        {
           "headline": "AI Job Shock Hits Young Workers First as Goldman Finds Entry-Level Jobs Face 3 Times Greater Employment Drag",
           "date": "2026-08-19",
           "source": "International Business Times UK",
           "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQdDVvenJWSEh4U3gtbGw2Y1JEVG9DS3dvdktRWF9CWGF4dENnODdsRFl6MXg1LUdYdUNIT3lIQ2xZS1M3M3FpVk80LUx5ZVFTczNLX3AwdUYxWXF2XzVrVUhHOVdMNFFWSUpQOVFTcXRyOUliQWJZRHM3MkZSbXVQWExmU0hVZw?oc=5",
-          "conf": 4
-        },
-        {
-          "headline": "Global borrowing costs hit fresh highs over oil, AI and inflation concerns",
-          "date": "2026-08-18",
-          "source": "BBC Business",
-          "url": "https://www.bbc.co.uk/news/articles/c1k1x1zdywdo?at_medium=RSS&at_campaign=rss",
           "conf": 4
         },
         {
@@ -751,7 +751,7 @@
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
-          "value": 22.79,
+          "value": 22.75,
           "unit": "%",
           "direction": "down",
           "source": "Adzuna (IN keyword proxy: AI-term share of live postings)",
@@ -979,38 +979,38 @@
       ],
       "feed": [
         {
-          "headline": "AI firms sharpen privacy pitch as enterprises demand control over data",
-          "date": "2026-08-20",
+          "headline": "How Meta decides when AI can remove posts and when humans step in",
+          "date": "2026-08-21",
           "source": "Business Standard AI",
-          "url": "https://www.business-standard.com/technology/artificial-intelligence/openai-data-privacy-ai-safety-enterprise-api-126082000704_1.html",
+          "url": "https://www.business-standard.com/technology/artificial-intelligence/how-meta-decides-when-ai-can-remove-posts-and-when-humans-step-in-126082100642_1.html",
           "conf": 4
         },
         {
-          "headline": "AI adoption in India will augment, not replace jobs broadly: Goldman Sachs",
-          "date": "2026-08-20",
-          "source": "CNBC",
-          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQQU9xeWxQN3lSaFI3RDdySGtMWUVuOU0zMUw4Q0FPNWlhLVB5M01RalBWOXN1UmZHajA0NDQ2TnA2YkJtM2xhNGlXTUQzTHVvcFU5eTcybHhhSlB2Ul80T3dVdHhhbThwYWF6MFVVaGdkSUtLYWF4NDAxNVZ4R3E3X2R2RzhXWlpBdWY1RGhfWXhhR09icVRwNHJSLTJ5Z3ZIVHNVNTltbw?oc=5",
-          "conf": 4
-        },
-        {
-          "headline": "Freshers lose ground as short-tenure jobs reshape organised workforce",
-          "date": "2026-08-19",
-          "source": "Business Standard",
-          "url": "https://www.business-standard.com/economy/news/freshers-lose-ground-as-shorter-job-tenures-gain-traction-in-india-report-126081901290_1.html",
-          "conf": 4
-        },
-        {
-          "headline": "Indian startup Murf AI aims to compete with OpenAI in crowded voice arena",
-          "date": "2026-08-19",
+          "headline": "ChatGPT can now access iMessage, SMS, RCS on Apple Silicon Macs: What's new",
+          "date": "2026-08-21",
           "source": "Business Standard AI",
-          "url": "https://www.business-standard.com/technology/artificial-intelligence/indian-startup-murf-ai-aims-to-compete-with-openai-in-crowded-voice-arena-126081901405_1.html",
+          "url": "https://www.business-standard.com/technology/tech-news/chatgpt-apple-messages-imessage-sms-rcs-mac-126082100321_1.html",
           "conf": 4
         },
         {
-          "headline": "Datanomics: AI hiring rises in India, legislative mentions remain limited",
-          "date": "2026-08-18",
-          "source": "Business Standard",
-          "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxNbDltcmQ3LUpnS0dzM0E0ZWQzMFBxSDN6b3l0bWVpTXFUN2JYQlM3S1FXLURNM1NyZndOS1YzU3hNM2VRQWFsRlh4UGVoRWg3aEYyRGM2WXJlMnpnalZySDNjNFJabjRab0dZWFBDTXZCNGtid3ppeEd5MzIwSFR3ekdJWUphNTJEdU9mYkwwakRwalJDMHUtWFB6aVJKYXNvUi1rWGVmNkhVVDE5SF95NG9RcjdVR1U4UVlMS3g4QnlMcFB0UjBxbXpOOFhUUHpxNklycE5SbDhSTzFxUXJmQmNoUVJ6d9IB5gFBVV95cUxNbDltcmQ3LUpnS0dzM0E0ZWQzMFBxSDN6b3l0bWVpTXFUN2JYQlM3S1FXLURNM1NyZndOS1YzU3hNM2VRQWFsRlh4UGVoRWg3aEYyRGM2WXJlMnpnalZySDNjNFJabjRab0dZWFBDTXZCNGtid3ppeEd5MzIwSFR3ekdJWUphNTJEdU9mYkwwakRwalJDMHUtWFB6aVJKYXNvUi1rWGVmNkhVVDE5SF95NG9RcjdVR1U4UVlMS3g4QnlMcFB0UjBxbXpOOFhUUHpxNklycE5SbDhSTzFxUXJmQmNoUVJ6dw?oc=5",
+          "headline": "AI, jobs and leadership: How businesses can prepare for the next decade | ET WLF 2026",
+          "date": "2026-08-21",
+          "source": "The Economic Times",
+          "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxQOXBMRk1qV25hdnhVWXo3NVpfT1dHWlBCRURBc2h3Z01kVkZvbzRCci03LVVrVnR1M1RBOTJPa0o1WVAyUVZXRF9qU1kwWGUzaGpDR0pPX0JtMzQ1cG5vMUdGWmtFSlRpdXdydjZYOUxjaWs0emFIX05BMFk1MEluTUNEMlZnRHhGekpSRmM2aVJSaDhUNlY4MmhRVTRfXzJnbGFJWTNDSlRuUDV5eXpvdFdOM1FoUGNtd0pJUTdTYUEwVjBVWGZ6ZWNLRHNxU2NtcDgzenJjcHhVRnhweWxRU3FYbjAtRUZHS202cU1mbDFkVklwOEHSAfsBQVVfeXFMTlR3OEFDRHgtcmdabWZReVhFV1d5Z0phc2NIVV9BblF3VmNGaFpSTEVpd0liS2UtOW5oUm8zNGc0cXFPN0ZxV2Y0VTJweG1qQl9yY2FTdXc0UTVBa3JDcU53SW1DM3diTFl1Zml4U0JJRzRmQTJqakVjY1hfSXBEOUpIcTlMU1VTSmVnUE8wYi1tb25fTEJybTNLdkUyZkZ2VjY5TFJ1RGtwaWtTWjhNeXRQWG5hdXp0M1gyaThhYVMzTWNVUnlxQnA3TTlSX1BuQ0ZWS0xSWDJoVGRLd01WUndlcDlFT0JPY1pBQVJsQUZhaThUMlRTYjh5a2s?oc=5",
+          "conf": 4
+        },
+        {
+          "headline": "ET WLF 2026: India can emerge as an AI middle power, says BCG CEO Christoph Schweizer",
+          "date": "2026-08-21",
+          "source": "The Economic Times",
+          "url": "https://news.google.com/rss/articles/CBMigwJBVV95cUxNQVZZZVM4MnNkR2RKbVBEQzNVVzdoSkU2cXU1THhPbVlJMll1OVNfMjRTWjUyOFUtOUppVy1sSElmdW1pb1RDbVBpMWJFcGxUcjZ1Znc5bnlTMHkxSWpKOVRubGdyenByeXd1dWxWQmxHOHNSZ0NvSUNaVmF6STE2WU9kVzNFYURONmhaWWNlLVpHbURaMlRFRWZQeWNhd1hrQ2c5aEdJWGhUU0dlWHNQOHdWTEdHT2ppOWt3Q281OThmaDJPdHV5NVRZZXZwTnN6OHpiV25OeGNxTlJYbTVfMWMxZTRxX2IxcERmeFhaSV9KUzZCOThTVWZhaUpaQ2lxZ2dj0gGIAkFVX3lxTE9ZdFFuSlptZkstbk1OeklUNThTZTRGVGppdTBqY2hJUjRlU01rUGRqWHZTUHdORVlKZ0w1eXRfdTB2YXlTZDVnc1pscGZTMVBBT0MwX2VmYjA3UjNyMGo4dTV4ZUFJRnh4dlYxckJJcmFzSE1fU1d1bGNFSlAwMjAxWVk5enVXeFdUblA0a3UtV0VOdGFXeXh4NXVjUDNZNE42NmF1Z2trdUNTd1FpQ0szWjlwdHlnUjRIMGtjWF9kZWQwNEdUUXlwemZJMlhCdW5NUVRrU1Z4SmJUX2hhaDM0S2hLMFZ0cHp4MW44a1JJZ3I2WFpSS0xaUEtLOWRkQjFwd01PMmVwUA?oc=5",
+          "conf": 4
+        },
+        {
+          "headline": "AI reshapes India's IT services sector contracts as clients demand more for less",
+          "date": "2026-08-20",
+          "source": "Reuters",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPMUNrcEw1LWRMcThiZ3U3bzRtZ3ItREZlaXdRaEdWb3FfS09ndHZvcXhQMnlCWDVsLTAyUGNoQTM0TW9ESDVPbkxIaHRxTVFuZDRhYzlpR2Rxb2hiVnlDWHhMQ2F4NWx2c2k3VTZiOFZ3dFc4Z0lPOWVOM3k1d21wbGpJWWpTRGVFejRPdHpWdlhVSnJYQ0w1a1J3TDBmdGFKMExtZVM2c0w0ZTJrcV9HRTI4YjZPUUdnY2xjUg?oc=5",
           "conf": 4
         }
       ]
@@ -1276,18 +1276,25 @@
       ],
       "feed": [
         {
-          "headline": "STS_SELB_A - \"Dataset: updated data\"",
-          "date": "2026-08-20",
+          "headline": "NAMA_10_LP_A21 - \"Dataset: updated data\"",
+          "date": "2026-08-21",
           "source": "Eurostat",
-          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/STS_SELB_A",
+          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/NAMA_10_LP_A21",
           "conf": 5
         },
         {
-          "headline": "STS_SELB_M - \"Dataset: updated data\"",
-          "date": "2026-08-20",
+          "headline": "NAMA_10_LP_ULC - \"Dataset: updated data\"",
+          "date": "2026-08-21",
           "source": "Eurostat",
-          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/STS_SELB_M",
+          "url": "https://ec.europa.eu/eurostat/databrowser/product/page/NAMA_10_LP_ULC",
           "conf": 5
+        },
+        {
+          "headline": "Debates over AI consciousness are a trap",
+          "date": "2026-08-20",
+          "source": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/2026/08/20/1142571/ai-consciousness-debate-trap/",
+          "conf": 4
         },
         {
           "headline": "Europe AI data centres seek cheaper, quicker energy and land",
@@ -1297,17 +1304,10 @@
           "conf": 4
         },
         {
-          "headline": "We still don\u2019t know how people are really using AI",
-          "date": "2026-08-18",
-          "source": "MIT Technology Review",
-          "url": "https://www.technologyreview.com/2026/08/18/1142226/how-people-use-ai/",
-          "conf": 4
-        },
-        {
-          "headline": "AI\u2019s recursive self-improvement might not come so quickly after all",
-          "date": "2026-08-18",
-          "source": "MIT Technology Review",
-          "url": "https://www.technologyreview.com/2026/08/18/1142188/ai-recursive-self-improvement/",
+          "headline": "Lagarde Says Europe Can\u2019t Afford to Miss Out on AI Revolution",
+          "date": "2026-08-19",
+          "source": "Bloomberg.com",
+          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQdWhHVFo2aDN1NXBWVUVVV2VBSnRtUXNGQ185NGthZE9KVVpUc1R2WWlnNVFaX3R1bVBYZkdQRzRJaHlaa3JEYUhVbkdtamNsWWs0czBYdTVkakxSaVhmMXRQTG1wcU1kY0xXNkNnWFNUaXJFak9OMFdlS3h0bEVzNTl2T18yaWZhZUJHTDM4ckxNVDVjY2c3RzZ6VjFLdkNaN1hCQV9SbHdscEpRckdIUkZ3?oc=5",
           "conf": 4
         }
       ]
@@ -1345,7 +1345,7 @@
         },
         "ai_mention_postings": {
           "name": "AI-mention posting share",
-          "value": 21.15,
+          "value": 21.31,
           "unit": "%",
           "direction": "down",
           "source": "Adzuna (SG keyword proxy: AI-term share of live postings)",
@@ -1573,38 +1573,38 @@
       ],
       "feed": [
         {
-          "headline": "Singapore\u2019s Dyna.Ai to test auto insurance AI in Japan",
-          "date": "2026-08-20",
+          "headline": "Salesforce expands AI agent access via MCP, Slack",
+          "date": "2026-08-21",
           "source": "Tech in Asia",
-          "url": "https://www.techinasia.com/news/singapores-dynaai-test-auto-insurance-ai-japan",
+          "url": "https://www.techinasia.com/news/salesforce-expands-ai-agent-access-mcp-slack",
           "conf": 4
         },
         {
-          "headline": "Why AI marketing fails without a brand playbook",
-          "date": "2026-08-20",
+          "headline": "South Korea plans $72b fund for AI, youth programs",
+          "date": "2026-08-21",
           "source": "Tech in Asia",
-          "url": "https://www.techinasia.com/why-ai-marketing-fails-without-a-brand-playbook",
+          "url": "https://www.techinasia.com/news/south-korea-plans-72b-fund-ai-youth-programs",
           "conf": 4
         },
         {
-          "headline": "Gains in AI company stakes juice second-quarter earnings for S&P 500",
-          "date": "2026-08-20",
+          "headline": "Analysis:US corporate AI debt surge tests investor limits as fatigue emerges",
+          "date": "2026-08-21",
           "source": "Channel NewsAsia",
-          "url": "https://www.channelnewsasia.com/business/gains-in-ai-company-stakes-juice-second-quarter-earnings-sp-500-6330896",
+          "url": "https://www.channelnewsasia.com/business/analysisus-corporate-ai-debt-surge-tests-investor-limits-fatigue-emerges-6333251",
           "conf": 4
         },
         {
-          "headline": "Exclusive-How a Texas student blew the whistle on a rogue AI hacking attempt",
+          "headline": "2,000 tech roles and training for fresh grads, mid-career workers in Singapore",
           "date": "2026-08-20",
-          "source": "Channel NewsAsia",
-          "url": "https://www.channelnewsasia.com/business/exclusive-how-texas-student-blew-whistle-rogue-ai-hacking-attempt-6330841",
+          "source": "The Straits Times",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOSzVwbFlVR0FxWlQ3STNxWkl5MXk0UGFWSS0zQjl2ZTFrVmkyX3RHMWstOFdTS0Q1RHN0MWc4TjJfcDVkbVVWMTBsN1FybUtETmRoWXFKUnY5aUp5QUZhRXBUWjgxTFFoYTk5eUI5TnROS19nSmlvT3VuQjczNnRIQWNycnV0MWlwcVUxU2JJcGl3alMxd2pNdDJEMTVDblVVVFo2U3NWWDVkcDZtSktqT09KRi1TQQ?oc=5",
           "conf": 4
         },
         {
-          "headline": "Singapore\u2019s AI anxiety needs workplace evidence",
+          "headline": "SCS launches AI skills pathway; IMDA introduces legal sector AI fluency programmes, more tech jobs",
           "date": "2026-08-20",
           "source": "The Business Times",
-          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPTjlFRHFDc2lLV3haYWNNN3B5cENtSU15R0sySVFGUi1QZzlIa19DS3lsM0ZyNWVueWpHeHJuUTFhRUw3aFllTnRmUjB0ekczb0tjTksyRURmT0NJREhYMnNJUXNYY19TVVA1OExBOXY4YXhSc1hHU2phSDB5TEVKblpFczQ0VWp5T3FmdEVIdnIxdXFpR2czeHJmdlk?oc=5",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQSm16c3pCUjNLaVBIUFJzaVRiVVBTa2w1UlZ3b09VeDhZUFFjb1JQWWh0T1JGSFYtRkVoTkhMRDdYMmxTd2lKYTRaSTdHbjNPYWNwMjM1Z2FnVXctRjVkWlItRjJQZUx2bXRleHd4c3lQbU1aWVIzS2QtTjFBRzZUdW4wQ1JUVDhhSGhDemhfbFEwcGFtYUx1SzJKSFRkS2RqUFVwVnZKZkMwT2pQdDFOMS13UWxselcxYVk0S2tTdG9SR0t4VnlYSl9RZEJRSEVPRjRpSC13?oc=5",
           "conf": 4
         }
       ]
@@ -1907,6 +1907,6 @@
       ]
     }
   },
-  "feed_updated_at": "2026-08-20T12:05:22Z",
+  "feed_updated_at": "2026-08-21T10:33:04Z",
   "backfilled_at": "2026-06-10T11:28:08Z"
 }
