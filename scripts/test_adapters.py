@@ -204,8 +204,11 @@ def build_http_fixtures():
     # Adzuna fixtures (IN mention share + premium sample)
     import urllib.parse as _up
     def _adz(cc, path="search/1", **params):
-        qs = _up.urlencode({"app_id": "test-id", "app_key": "test-key",
-                            "results_per_page": 1, **params})
+        base = {"app_id": "test-id", "app_key": "test-key"}
+        if path.startswith("search"):
+            # mirrors _adzuna_get: /history rejects results_per_page
+            base["results_per_page"] = 1
+        qs = _up.urlencode({**base, **params})
         return f"{ud.ADZUNA_API}/{cc}/{path}?{qs}"
     for cc in ("in", "sg"):
         fixtures[_adz(cc, what_or=ud.ADZUNA_AI_TERMS)] = adzuna_search_json(4200)

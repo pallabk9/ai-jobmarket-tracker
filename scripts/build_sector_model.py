@@ -118,7 +118,12 @@ def fetch_exposure():
 # ------------------------------------------------------------------
 
 def _oews_series_id(industry6, soc_major):
-    return f"OEUN000000{industry6}{soc_major}000001"
+    # OEWS id: OE + U(seasonal) + N(national areatype) + 7-digit area
+    # + 6-digit industry + 6-digit occupation + 2-digit datatype (01 =
+    # employment). The area code is SEVEN zeros - a 6-zero prefix makes
+    # every id 24 chars and the API silently returns no data
+    # (bug found 2026-08-20 via the quarterly CI run's "too sparse: []").
+    return f"OEUN0000000{industry6}{soc_major}000001"
 
 def fetch_us_matrix(concordance):
     """{sector_id: {soc_major: employment}} via batched OEWS API calls."""

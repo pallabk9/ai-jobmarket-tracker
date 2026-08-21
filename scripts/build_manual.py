@@ -452,7 +452,14 @@ story.append(Paragraph(
     "100&nbsp;&minus;&nbsp;score inversion). The derived layer is computed in the browser from "
     "current.json and historical.csv &mdash; the lineage displayed is the live calculation, so the "
     "dashboard and its documentation cannot drift apart. Bands, weights and the missing-input rule "
-    "are specified in DERIVED_METRICS.md in the repository. Scores compare a region to itself over "
+    "are specified in DERIVED_METRICS.md in the repository. Two integrity safeguards apply "
+    "(added Aug 2026): a <b>regime-break guard</b> - a 12-week-change input is only computed when "
+    "both endpoints share the same measured/modelled basis, so a KPI switching from a modelled "
+    "placeholder to a measured source can never manufacture a spurious trend (the input's weight "
+    "redistributes until the new basis accrues 12 weeks of history) - and <b>basis-aware "
+    "calibration</b>: the Adzuna keyword AI-mention proxy used for India and APAC scores against "
+    "its own, wider band, since it is a deliberately looser net than the Indeed Hiring Lab "
+    "taxonomy. Scores compare a region to itself over "
     "time and are not cross-country footprint rankings, consistent with the quartile-rank rule in "
     "section 8.3.", body))
 

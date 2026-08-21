@@ -46,6 +46,12 @@ assert s_merged is not None and abs(
     s_merged - 100 * (80 * .30 + 40 * .10 + 30 * .05) / 150) < 0.01, s_merged
 ok("compound section D+E: matrices merge by summed employment before SAES")
 
+# ---- OEWS series id format (25 chars: OE+U+N + 7-digit area + 6+6+2) ----
+sid = bsm._oews_series_id("522000", "13")
+assert sid == "OEUN000000052200013000001", sid
+assert len(sid) == 25, len(sid)
+ok("OEWS id: 7-zero national area code, 25 chars (24-char ids return no data)")
+
 # ---- SAES math ----
 matrix = {"15": 100.0, "43": 100.0}          # even split
 expo = {"15": 0.20, "43": 0.10}

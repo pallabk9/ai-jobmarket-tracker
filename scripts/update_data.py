@@ -513,7 +513,9 @@ ADZUNA_AI_TERMS = "ai genai llm chatgpt copilot tensorflow pytorch"
 ADZUNA_EXPOSED_CATS = [
     "it-jobs", "accounting-finance-jobs", "admin-jobs",
     "customer-services-jobs", "legal-jobs", "hr-jobs",
-    "consultancy-jobs", "marketing-jobs",
+    # Adzuna's marketing tag is pr-advertising-marketing-jobs
+    # ("marketing-jobs" 400s - fixed 2026-08-20)
+    "consultancy-jobs", "pr-advertising-marketing-jobs",
 ]
 ADZUNA_STATE = DATA / "adzuna_state.json"
 
@@ -526,8 +528,11 @@ def _adzuna_creds():
 
 def _adzuna_get(cc, path="search/1", **params):
     app_id, app_key = _adzuna_creds()
-    qs = urllib.parse.urlencode({"app_id": app_id, "app_key": app_key,
-                                 "results_per_page": 1, **params})
+    base = {"app_id": app_id, "app_key": app_key}
+    # /history rejects results_per_page (400) - only search paths take it
+    if path.startswith("search"):
+        base["results_per_page"] = 1
+    qs = urllib.parse.urlencode({**base, **params})
     return json.loads(_http_get(f"{ADZUNA_API}/{cc}/{path}?{qs}"))
 
 def _adzuna_count(cc, **params):
