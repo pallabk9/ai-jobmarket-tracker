@@ -348,9 +348,15 @@ def _latest_common_delta(data, on_date_iso):
 # --- Challenger, Gray & Christmas: AI-cited layoffs YTD (US) -------
 
 CHALLENGER_BLOG = "https://www.challengergray.com/blog/category/job-cuts-report/"
+# Challenger's phrasing drifts between reports: "cited in 87,711 cuts"
+# (May 2026) vs "cited in 112,713 job cut announcements" (June/July 2026).
+# The June change silently froze the parse for 12 weeks (carry-forward),
+# so the patterns now accept both forms. The "this year" guard keeps the
+# since-2023 cumulative sentence from matching.
 _AI_YTD_PATTERNS = [
-    re.compile(r"AI has been cited in ([\d,]+) cuts", re.I),
-    re.compile(r"Artificial Intelligence[^.]{0,120}?cited in ([\d,]+) (?:cuts|job cuts)", re.I),
+    re.compile(r"this year,? AI has been cited in ([\d,]+) (?:job[- ])?cut", re.I),
+    re.compile(r"AI has been cited in ([\d,]+) (?:job[- ])?cuts?\b", re.I),
+    re.compile(r"Artificial Intelligence[^.]{0,120}?cited in ([\d,]+) (?:job[- ])?cut", re.I),
 ]
 
 def fetch_challenger_ai_ytd():

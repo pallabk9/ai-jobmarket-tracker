@@ -422,8 +422,11 @@ story.append(Paragraph("5.1 Simple and Deep views &mdash; the derived layer (add
 story.append(Paragraph(
     "The dashboard opens in <b>Simple</b> view: one <b>AI Impact Index</b> (0&ndash;100) per region "
     "and five plain-language indexes. Four are risk indexes that push the composite up &mdash; the "
-    "<i>Job Cut Index</i> (are jobs being cut? &mdash; announced layoffs and redundancies over the "
-    "last 12 weeks), the <i>Job Opportunity Decline Index</i> (are AI-exposed roles being advertised "
+    "<i>Job Cut Index</i> (are job cuts <i>accelerating</i>? &mdash; a momentum gauge of the 12-week "
+    "change in announced layoffs and redundancies: an unchanged pace scores about 25, acceleration "
+    "pushes towards 100 and easing towards 0, and the tile always prints the absolute "
+    "layoff/redundancy level so a low score is never mistaken for zero job cutting), the "
+    "<i>Job Opportunity Decline Index</i> (are AI-exposed roles being advertised "
     "less? &mdash; posting level and 12-week trend in high-AI-footprint occupations), the "
     "<i>Graduate Unemployment Index</i> (are young workers feeling it first? &mdash; the youth-vs-"
     "overall unemployment gap, youth hiring, and recent-graduate outcomes), and the <i>AI Adoption "
