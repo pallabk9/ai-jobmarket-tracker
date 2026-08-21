@@ -10,7 +10,7 @@
    "kpis": {
     "ai_layoffs_ytd": {
      "name": "AI-attributed layoffs (YTD, thousands)",
-     "value": 87.71,
+     "value": 112.71,
      "unit": "k roles",
      "direction": "up",
      "source": "Challenger, Gray & Christmas (AI-cited cuts YTD)",
