@@ -68,7 +68,8 @@ Observed Exposure methodology (no absolute cross-country footprint claims).
 
 | Input | Floor (score 0) | Ceiling (score 100) | Orientation |
 |---|---|---|---|
-| `ai_layoffs_ytd` 12wk pace change | −10 k / 12wk (easing sharply) | +30 k / 12wk (sharp acceleration) | accelerating = higher; unchanged pace ≈ 25 |
+| `ai_layoffs_ytd` 12wk flow (cumulative basis) | 0 k / 12wk | 80 k / 12wk | more cuts now = higher |
+| `ai_layoffs_ytd` quarterly level (UK level basis) | 60 k (post-1995 record low) | 250 k (severe recession) | more cuts now = higher |
 | `net_creation` (creation index) | −50 k (net loss) | +150 k (strong creation) | more creation = higher (inverted in composite) |
 | `graduate_posting` | +10 % YoY | −40 % YoY | fewer grad postings = higher |
 | `exposed_posting_index` | 110 (boom) | 60 (bust) | fewer postings = higher |
@@ -95,22 +96,25 @@ constant ILO annual youth-gap for IN/APAC) were backfilled with that real histor
 (`scripts/backfill_uk_redundancy.py`, `scripts/backfill_history_regimes.py`), so their
 trends stay live.
 
-**Job Cut Index is a momentum gauge (clarified 2026-08-21).** Its single input (`pace12w`)
-is the change in the *pace* of job cutting per 12 weeks, computed per series basis so both
-underlying definitions mean the same thing:
+**Job Cut Index is level-grounded (design review 2026-08-21).** The score reflects **how
+much job cutting is happening right now**, and the sparkline/timeline shows that volume
+changing over time; momentum lives in the trend arrow and the context line, not in the
+score. (An earlier same-day iteration scored momentum instead; the design review settled on
+the grounded-value reading.) The single input (`flow12w`) resolves per series basis, each
+with its own fixed band:
 
-- *level series* (UK: rolling-quarter redundancy level — the level **is** the pace):
-  first difference vs 12 weeks ago;
-- *cumulative YTD series* (US Challenger and the modelled regions — a first difference is
-  always ≥ 0 and only measures the pace itself): **second difference** — the last 12 weeks'
-  pace minus the prior 12 weeks' pace, each window rate-scaled to 12 weeks, with endpoints
+- *cumulative YTD series* (US Challenger AI-cited cuts and the modelled regions): the
+  **12-week flow** — current YTD minus 12 weeks ago, rate-scaled to 12 weeks, baseline
   walked forward to the first week on the same measurement basis (regime-break safe).
+  Band `layoffs_flow` 0 → 80k (80k comfortably above the heaviest 12-week episode observed
+  in the 2026 US series, ~64k, leaving headroom for worse).
+- *level series* (UK: all-cause rolling-quarter redundancy level — already a per-period
+  volume): the level itself. Band `layoffs_level_q` 60k → 250k (60k ≈ the post-1995 record
+  low; 250k ≈ severe recession — 2009 peaked ~310k, COVID ~400k).
 
-A low score therefore means cutting is *easing*, never that no jobs are being cut (the UK's
-~106k redundancies per rolling quarter score 0 while the level falls; the US scores high
-because AI-cited cutting is genuinely accelerating). The band is two-sided (−10 → +30:
-unchanged pace ≈ 25, easing below, accelerating above) and the tile prints the region's
-absolute layoff/redundancy level with an accelerating/easing word next to the score.
+The tile prints the exact latest figure alongside the score — the US shows its YTD total
+plus the last-12-weeks flow; the UK shows the rolling-quarter level with a rising/falling
+word — so the score is always anchored to a real number.
 
 **Basis-aware band (2026-08-20).** The Adzuna keyword AI-mention proxy (IN/APAC) is a
 deliberately looser net than the Hiring Lab curated taxonomy (~20%+ vs ~5–9% shares), so
