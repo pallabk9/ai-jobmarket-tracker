@@ -168,6 +168,15 @@ The full review, endpoint health checks and ranked upgrade path are in
   for the wired pairs - a deliberate one-time break of the snapshot
   immutability rule, treated as a bug fix of the seeded data. Snapshots
   are immutable from W24 onward.
+- 2026-08-20: UK `ai_layoffs_ytd` rows in `historical.csv` (W10-W32)
+  were backfilled with the real ONS BEAO redundancy series
+  (`scripts/backfill_uk_redundancy.py`). The old modelled placeholder
+  (~4k, a different definition) sat next to the measured BEAO proxy
+  (~108k) that started in W33, so the Job Cut Index's 12-week change
+  differenced across the regime break and pinned at 100 while actual UK
+  redundancies were falling (FEB 126 -> MAY 106). Snapshots untouched;
+  the derived layer reads `historical.csv`. Same repair class as the
+  June backfill.
 
 **Optional secrets** (repo → Settings → Secrets and variables → Actions):
 
