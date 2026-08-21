@@ -87,7 +87,10 @@ const charts = {};
 // scores compare a region to itself over time (methodology lock: no absolute
 // cross-country exposure claims).
 const BANDS = {
-  layoffs_pace:   { lo: 0,   hi: 30,  label: "12-week layoff pace (k roles)" },
+  // Two-sided: −10 (cuts easing sharply) → 0 change scores 25 (pace
+  // unchanged) → +30 (sharp acceleration). A momentum gauge: 0 means
+  // "easing", NOT "no cuts" — the tile shows the absolute level alongside.
+  layoffs_pace:   { lo: -10, hi: 30,  label: "12-week change in layoff/redundancy pace (k roles)" },
   creation_idx:   { lo: -50, hi: 150, label: "Net AI-attributed job creation (k roles)" },
   graduate:       { lo: 10,  hi: -40, label: "Graduate postings YoY (%)" },
   posting_level:  { lo: 110, hi: 60,  label: "Posting index level" },
@@ -112,10 +115,11 @@ const BANDS = {
 const PILLARS = [
   {
     id: "displacement", label: "Job Cut Index", icon: "✖",
-    question: "Are jobs being cut?",
-    blurb: "How fast jobs are being cut right now — announced layoffs and redundancies over the last 12 weeks. Higher = heavier cutting.",
+    question: "Are job cuts accelerating?",
+    blurb: "The momentum of job cutting — how the pace of announced layoffs and redundancies compares with 12 weeks ago. Around 25 = pace unchanged; higher = accelerating; towards 0 = easing. A low score means cutting is slowing, not that no jobs are being cut — the line below shows how much cutting is still happening.",
+    contextKpi: "ai_layoffs_ytd",
     inputs: [
-      { kpi: "ai_layoffs_ytd",   band: "layoffs_pace",  weight: 1.00, kind: "change12w" },
+      { kpi: "ai_layoffs_ytd",   band: "layoffs_pace",  weight: 1.00, kind: "pace12w" },
     ],
   },
   {
@@ -255,6 +259,39 @@ function rawInput(inp, reg, weekIdx) {
   const now = live !== undefined && live !== null ? live : histValue(week, reg, inp.kpi);
   if (now === undefined) return undefined;
   if (inp.kind === "automation") return 100 - now;
+  if (inp.kind === "pace12w") {
+    // Change in the PACE of job cutting, per 12 weeks - consistent across
+    // the two series bases:
+    //  * level series (UK redundancy level - name without "YTD"): the level
+    //    IS the pace, so pace change = first difference;
+    //  * cumulative YTD series (US Challenger + modelled regions): first
+    //    difference is the pace itself (always >= 0), so pace change =
+    //    second difference (recent 12-wk pace minus the prior 12-wk pace).
+    // Windows are rate-scaled to 12 weeks; each endpoint walks forward to
+    // the first week on the SAME measurement basis (regime-break safe).
+    const curNode = DATA.regions[reg].kpis[inp.kpi] || {};
+    const mNow = live !== undefined && live !== null
+      ? (curNode.measurement || "")
+      : (histMeas(week, reg, inp.kpi) || "");
+    const walk = (from, upto) => {
+      for (let i = from; i <= upto; i++) {
+        if ((histMeas(HIST_WEEKS[i], reg, inp.kpi) || "") === mNow
+            && histValue(HIST_WEEKS[i], reg, inp.kpi) !== undefined) return i;
+      }
+      return -1;
+    };
+    const iPrev = walk(Math.max(0, weekIdx - 12), weekIdx - 1);
+    if (iPrev < 0) return undefined;
+    const prev = histValue(HIST_WEEKS[iPrev], reg, inp.kpi);
+    const paceNow = (now - prev) / (weekIdx - iPrev) * 12;
+    const cumulative = /ytd/i.test(curNode.name || "");
+    if (!cumulative) return paceNow;
+    const iPrev2 = walk(Math.max(0, weekIdx - 24), iPrev - 1);
+    if (iPrev2 < 0) return undefined;
+    const prev2 = histValue(HIST_WEEKS[iPrev2], reg, inp.kpi);
+    const pacePrior = (prev - prev2) / (iPrev - iPrev2) * 12;
+    return paceNow - pacePrior;
+  }
   if (inp.kind === "change12w") {
     const prevWeek = HIST_WEEKS[Math.max(0, weekIdx - 12)];
     const prev = histValue(prevWeek, reg, inp.kpi);
@@ -449,6 +486,28 @@ function bindSparkButtons(host) {
     }));
 }
 
+// Absolute-level context line for momentum pillars (contextKpi): a low
+// Job Cut score means "easing", so the tile must still show how much
+// cutting is actually happening.
+function pillarContext(p, reg) {
+  if (!p.contextKpi) return "";
+  const k = DATA.regions[reg].kpis[p.contextKpi];
+  if (!k || k.value == null) return "";
+  const t = (p.inputs || []).find((i) =>
+    (i.kind === "pace12w" || i.kind === "change12w") && i.kpi === p.contextKpi);
+  const ch = t && t.raw !== undefined ? t.raw : undefined;
+  const cum = /ytd/i.test(k.name || "");
+  const unit = cum ? "k/12wk vs the prior 12 wk" : "k vs 12 wk ago";
+  const word = ch === undefined ? " · <i>pace change not yet computable on this basis</i>" :
+    ch > 1 ? ` · <b>accelerating</b> (pace +${ch.toFixed(1)}${unit})` :
+    ch < -1 ? ` · <b>easing</b> (pace −${Math.abs(ch).toFixed(1)}${unit})` :
+    " · <b>pace unchanged</b>";
+  const meas = k.measurement === "measured" ? "measured" : "modelled";
+  const disp = FMT[p.contextKpi] ? FMT[p.contextKpi](k.value) : k.value;
+  return `<p class="p-context">Latest level: <b>${disp}</b> — ${k.name}${word}
+    <span class="meas meas-${meas}">${meas}</span></p>`;
+}
+
 function pillarCard(p, reg) {
   const ps = pillarStatus(p);
   return `
@@ -465,6 +524,7 @@ function pillarCard(p, reg) {
         aria-label="Expand ${p.label} history chart">${sparkSvg(p.series, 170, 52, "")}</button>
     </div>
     <p class="p-blurb">${p.blurb || ""}${p.caveat ? ` <em class="p-caveat">${p.caveat}</em>` : ""}</p>
+    ${pillarContext(p, reg)}
     <div class="p-meta">${fmtDelta(p.delta, p.positive)}
       <span class="p-conf" title="Share of this signal's weight backed by measured (not modelled) sources">
         ${Math.round(p.confidence * 100)}% measured</span></div>

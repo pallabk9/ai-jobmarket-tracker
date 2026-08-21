@@ -852,3 +852,11 @@ body.mode-simple .feed {
 dialog.spark-modal { width: min(920px, 94vw); }
 .spark-chart-wrap { position: relative; height: min(430px, 58vh); }
 .spark-chart-wrap canvas { width: 100% !important; height: 100% !important; }
+
+/* --- 2026-08-21: Job Cut Index momentum semantics --- */
+.p-context {
+  font-size: 13px; line-height: 1.5; color: var(--c-ink);
+  margin: 8px 0 0; padding: 7px 12px; border-radius: 8px;
+  background: rgba(37,55,70,0.05); max-width: 620px;
+}
+.p-context .meas { vertical-align: 1px; }
