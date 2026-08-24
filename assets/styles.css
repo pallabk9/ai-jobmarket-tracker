@@ -860,3 +860,22 @@ dialog.spark-modal { width: min(920px, 94vw); }
   background: rgba(37,55,70,0.05); max-width: 620px;
 }
 .p-context .meas { vertical-align: 1px; }
+
+/* --- 2026-08-24: AI Impact hero restructure ---
+   headline row on top; status word sits above the gauge number (left) */
+.derived-hero { flex-direction: column; gap: 16px; }
+.derived-hero h3.dh-title {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 30px; font-weight: 700; color: #fff;
+  margin: 0; letter-spacing: -0.01em; line-height: 1.15;
+  text-transform: none; text-align: left; opacity: 1;
+}
+.dh-body { display: flex; align-items: center; gap: 34px; flex-wrap: wrap; }
+.dh-gauge-col { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.derived-hero .dh-status { font-size: 19px; color: currentColor; font-weight: 700; }
+.dh-gauge-col .dh-status { text-align: center; }
+@media (max-width: 640px) {
+  .derived-hero h3.dh-title { font-size: 22px; }
+  .derived-hero .dh-status { font-size: 16px; }
+  .dh-body { gap: 18px; }
+}

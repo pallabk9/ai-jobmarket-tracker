@@ -644,10 +644,6 @@ function renderDerived() {
   if (!host || !HIST) return;
   const d = computeDerived(region);
   const st = statusOf(d.composite || 0);
-  // "25% Job Cut + 25% Job Opportunity Decline + … − 15% AI Job Creation"
-  const compFormula = PILLARS.map((p, i) =>
-    `${i ? (p.positive ? " − " : " + ") : (p.positive ? "− " : "")}` +
-    `${Math.round(COMPOSITE_WEIGHTS[p.id] * 100)}% ${p.label.replace(/ Index$/, "")}`).join("");
 
   // register series for the click-to-expand popups
   SPARKS = { composite: { label: "AI Impact Index", series: d.compSeries } };
@@ -658,28 +654,36 @@ function renderDerived() {
 
   host.innerHTML = `
   <div class="derived-hero ${st.cls}">
-    <div class="dh-gauge">
-      <svg viewBox="0 0 200 120" width="200" height="120" aria-hidden="true">
-        <path d="M20 105 A85 85 0 0 1 180 105" fill="none" stroke="var(--light-2)" stroke-width="14" stroke-linecap="round"/>
-        <path d="M20 105 A85 85 0 0 1 180 105" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"
-              stroke-dasharray="${(267 * (d.composite || 0) / 100).toFixed(0)} 400"/>
-      </svg>
-      <div class="dh-score">${fmtScore(d.composite)}<span class="dh-outof">/100</span></div>
-    </div><!-- gauge svg scales via CSS -->
-    <div class="dh-main">
-      <div class="dh-kicker">AI Impact Index · ${DATA.regions[region].label}</div>
-      <div class="dh-status">${st.word} impact ${fmtDelta(d.compDelta)}</div>
-      <p class="dh-read">One number, 0–100, for AI's net impact on this job market right now.
-        Four risk indexes push it up; AI job creation pulls it down:
-        ${compFormula} (creation inverted). <b>${Math.round(d.confidence * 100)}%</b> of its weight comes from
-        <em>measured</em> sources this week.</p>
-    </div>
-    <div class="dh-sparkcol">
-      <button type="button" class="spark-btn dh-spark-btn" data-spark="composite"
-        title="Click for the full AI Impact Index history chart"
-        aria-label="Expand AI Impact Index history chart">${sparkSvg(d.compSeries, 260, 64, "")}</button>
-      <span class="dh-spark-cap">weekly since ${HIST_WEEKS[0] || ""} · click to expand</span>
-      <button type="button" class="ghost-btn dh-how deep-only" data-modal="methodology-modal">Full methodology →</button>
+    <h3 class="dh-title">AI Impact Index · ${DATA.regions[region].label}</h3>
+    <div class="dh-body">
+      <div class="dh-gauge-col">
+        <div class="dh-status">${st.word} impact ${fmtDelta(d.compDelta)}</div>
+        <div class="dh-gauge">
+          <svg viewBox="0 0 200 120" width="200" height="120" aria-hidden="true">
+            <path d="M20 105 A85 85 0 0 1 180 105" fill="none" stroke="var(--light-2)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M20 105 A85 85 0 0 1 180 105" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"
+                  stroke-dasharray="${(267 * (d.composite || 0) / 100).toFixed(0)} 400"/>
+          </svg>
+          <div class="dh-score">${fmtScore(d.composite)}<span class="dh-outof">/100</span></div>
+        </div><!-- gauge svg scales via CSS -->
+      </div>
+      <div class="dh-main">
+        <p class="dh-read">This is the headline score for this market: <b>how much AI is
+          affecting jobs right now</b>, from 0 (no impact) to 100 (severe impact).</p>
+        <p class="dh-read">It is built from the five indexes below. <b>Bad news pushes the
+          score up</b> — job cuts, fewer job openings, graduates struggling, AI arriving
+          faster. <b>Good news pulls it down</b> — new jobs created by AI.</p>
+        <p class="dh-read"><b>${Math.round(d.confidence * 100)}%</b> of this week's score
+          comes from directly <em>measured</em> data; the rest comes from clearly labelled
+          estimates.</p>
+      </div>
+      <div class="dh-sparkcol">
+        <button type="button" class="spark-btn dh-spark-btn" data-spark="composite"
+          title="Click for the full AI Impact Index history chart"
+          aria-label="Expand AI Impact Index history chart">${sparkSvg(d.compSeries, 260, 64, "")}</button>
+        <span class="dh-spark-cap">weekly since ${HIST_WEEKS[0] || ""} · click to expand</span>
+        <button type="button" class="ghost-btn dh-how deep-only" data-modal="methodology-modal">Full methodology →</button>
+      </div>
     </div>
   </div>
 
