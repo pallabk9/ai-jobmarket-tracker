@@ -7,7 +7,7 @@
   <meta name="description" content="Weekly, monthly and yearly tracking of AI-driven labour market change across six regions. Grounded in the Anthropic Observed Exposure methodology.">
   <link rel="preload" href="assets/fonts/Manrope-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/Spectral-Bold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/styles.css?v=20260824a">
+  <link rel="stylesheet" href="assets/styles.css?v=20260824b">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='5' fill='%23253746'/><text x='12' y='17' text-anchor='middle' font-family='Arial' font-size='13' font-weight='800' fill='%23FF5C39'>AI</text></svg>">
 </head>
 <body>
@@ -135,8 +135,8 @@
       </article>
 
       <article class="gl-card">
-        <h3>AI Impact Index &amp; the five indexes</h3>
-        <p>The Simple view's headline layer. Four risk indexes &mdash; <strong>Job Cut Index</strong>, <strong>Job Opportunity Decline Index</strong>, <strong>Graduate Unemployment Index</strong>, <strong>AI Adoption Index</strong> &mdash; push the AI Impact Index up, and one positive index &mdash; <strong>AI Job Creation Index</strong> &mdash; pulls it down (it enters inverted). Each scores 0&ndash;100 against fixed calibration bands and combines 25/25/20/15/&minus;15% into one AI Impact Index per region. Click any mini-graph for the full history chart. Computed live in your browser from the raw KPIs; switch to <strong>Deep</strong> view and expand "Under the hood" on any card to see every input, band, weight and source. Each score shows what share of its weight comes from <em>measured</em> sources.</p>
+        <h3>Job Impact Index &amp; the four indexes</h3>
+        <p>The Simple view's headline layer. Three risk indexes &mdash; <strong>Job Cut Index</strong>, <strong>Job Opportunity Decline Index</strong>, <strong>Graduate Unemployment Index</strong> &mdash; push the Job Impact Index up, and one positive index &mdash; <strong>AI Job Creation Index</strong> &mdash; pulls it down (it enters inverted). Each scores 0&ndash;100 against fixed calibration bands and combines 30/30/20/&minus;20% into one Job Impact Index per region. The <strong>AI Adoption Index</strong> sits below as an early-warning context tile &mdash; it shows AI arriving in work but is deliberately <em>not</em> part of the score, so the headline reflects job outcomes only. Click any mini-graph for the full history chart. Computed live in your browser from the raw KPIs; switch to <strong>Deep</strong> view and expand "Under the hood" on any card to see every input, band, weight and source. Each score shows what share of its weight comes from <em>measured</em> sources.</p>
       </article>
 
       <article class="gl-card">
@@ -178,7 +178,7 @@
     <div class="controls">
       <div class="ctl-grp mode-ctl" role="group" aria-label="Detail level">
         <span class="ctl-label">View</span>
-        <span class="pill active" data-mode="simple" title="The headline read: one AI Impact Index and five plain-language indexes">Simple</span>
+        <span class="pill active" data-mode="simple" title="The headline read: one Job Impact Index and its plain-language indexes">Simple</span>
         <span class="pill" data-mode="deep" title="Everything under the hood: all raw KPIs, formulas, charts and provenance">Deep</span>
       </div>
       <div class="ctl-grp">
@@ -201,7 +201,7 @@
       </div>
     </div>
 
-    <!-- Derived layer: AI Impact Index + five index tiles (both modes;
+    <!-- Derived layer: Job Impact Index + index tiles (both modes;
          per-card "under the hood" lineage panels appear in Deep) -->
     <div id="derived"></div>
 
@@ -489,7 +489,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
-<script src="assets/dashboard.js?v=20260824a"></script>
+<script src="assets/dashboard.js?v=20260824b"></script>
 
 </body>
 </html>

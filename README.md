@@ -35,12 +35,12 @@ A live dashboard tracking AI's impact on labour markets across six regions, grou
     └── weekly-update.yml            # Monday 06:00 UTC cron
 ```
 
-## Simple / Deep view and derived metrics (2026-08-14; renamed + five-index composite 2026-08-20)
+## Simple / Deep view and derived metrics (2026-08-14; Job Impact Index four-index composite 2026-08-24)
 
 The dashboard has two reading levels, toggled at the top of the Live
 dashboard section (persisted per browser):
 
-- **Simple** (default): one **AI Impact Index** (0-100) per region plus
+- **Simple** (default): one **Job Impact Index** (0-100) per region plus
   five plain-language indexes - *Job Cut Index*, *Job Opportunity Decline
   Index*, *Graduate Unemployment Index* (an inference indicator, caveated
   on the tile), *AI Job Creation Index* (positive direction - pulls the
@@ -56,8 +56,14 @@ dashboard section (persisted per browser):
   → calibration band → normalized score → weight → contribution, with its
   source link and provenance badge.
 
-Composite: 25% Job Cut + 25% Opportunity Decline + 20% Graduate
-Unemployment + 15% Adoption + 15% × (100 − Job Creation).
+Composite (renamed **Job Impact Index**, 2026-08-24): 30% Job Cut +
+30% Opportunity Decline + 20% Graduate Unemployment + 20% × (100 − Job
+Creation). The AI Adoption Index was removed from the composite the same
+day — it is a leading indicator, not a job outcome, and it inflated
+adoption-heavy regions (India 33 → 25) — and remains as the full-width
+early-warning context tile. Every tile carries a plain-language
+"Measures ..." definition, and the hero carries its own generated data
+narrative.
 
 **Terminology (2026-08-20):** the dashboard's plain-language term for
 Observed Exposure is now **AI Footprint** (the formal research term is

@@ -1,6 +1,6 @@
-# Derived metrics specification — AI Impact Index & the five indexes
+# Derived metrics specification — Job Impact Index & its indexes
 
-**Added:** 2026-08-14 · **Revised:** 2026-08-20 (five-index composite, renamed layer) ·
+**Added:** 2026-08-14 · **Revised:** 2026-08-24 (Job Impact Index: adoption removed from the composite) ·
 **Computed:** client-side in `assets/dashboard.js` (function `computeDerived`)
 from `data/current.json` + `data/historical.csv`. Nothing is stored; the lineage shown in Deep mode
 is the live calculation, so the dashboard and its explanation can never drift apart.
@@ -9,8 +9,8 @@ is the live calculation, so the dashboard and its explanation can never drift ap
 
 The ten raw KPIs are precise but demand context to read. The derived layer answers the reader's
 actual question — *"what net impact is AI having on this job market right now, and which way is
-it moving?"* — in one number per region plus five named indexes, while Deep mode exposes every
-input, band, and weight so the translation is fully auditable.
+it moving?"* — in one number per region plus four composite indexes and an adoption context
+tile, while Deep mode exposes every input, band, and weight so the translation is fully auditable.
 
 ## Naming (2026-08-20 review)
 
@@ -18,7 +18,7 @@ The layer was renamed for a corporate-leadership audience. Old → new:
 
 | Old term | New term |
 |---|---|
-| AI Pressure Index | **AI Impact Index** |
+| AI Pressure Index | AI Impact Index (2026-08-20) → **Job Impact Index** (2026-08-24) |
 | Job displacement (pillar) | **Job Cut Index** |
 | Hiring pullback (pillar) | **Job Opportunity Decline Index** |
 | Early-career squeeze (pillar) | **Graduate Unemployment Index** |
@@ -27,11 +27,11 @@ The layer was renamed for a corporate-leadership audience. Old → new:
 | exposure / Observed Exposure (dashboard label) | **AI Footprint** (formal research term unchanged in citations) |
 | capability gap | **Untapped AI Potential** |
 
-## The five indexes (each scored 0–100 within-region)
+## The five indexes (each scored 0–100 within-region; four enter the composite, adoption is context-only)
 
 | Index | Direction | Question it answers | Input KPIs (weight within index) |
 |---|---|---|---|
-| **Job Cut Index** | risk (up) | Are jobs being cut? | `ai_layoffs_ytd` pace vs 12wk ago (100%) |
+| **Job Cut Index** | risk (up) | Are jobs being cut? | `ai_layoffs_ytd` — 12-week flow (cumulative series) or rolling-quarter level (level series) (100%) |
 | **Job Opportunity Decline Index** | risk (up) | Are exposed roles advertised less? | `exposed_posting_index` level (60%), its 12-week trend (40%) |
 | **Graduate Unemployment Index** | risk (up) | Are young workers feeling it first? | `topq_unemp_delta` level (50%), `hire_rate_22_25` (30%), `graduate_posting` (20%) |
 | **AI Job Creation Index** | **positive (down)** | Is AI creating new jobs? | `net_creation` level (100%) |
@@ -43,12 +43,18 @@ dashboard tile carries this caveat verbatim.
 
 ## Composite
 
-**AI Impact Index** = 0.25·JobCut + 0.25·OpportunityDecline + 0.20·GraduateUnemployment
-+ 0.15·Adoption + **0.15·(100 − JobCreation)**
+**Job Impact Index** = 0.30·JobCut + 0.30·OpportunityDecline + 0.20·GraduateUnemployment
++ **0.20·(100 − JobCreation)**
 
-Four risk indexes push the composite **up**; the AI Job Creation Index is a positive-direction
-index and enters **inverted** — strong AI-attributed job creation pulls the AI Impact Index
-**down**. On the tiles the creation index reads naturally (higher = more creation, tinted green);
+Three risk indexes push the composite **up**; the AI Job Creation Index is a positive-direction
+index and enters **inverted** — strong AI-attributed job creation pulls the Job Impact Index
+**down**. **The AI Adoption Index was removed from the composite on 2026-08-24**: it is a
+leading indicator (AI arriving in work), not a job outcome, and it inflated scores in
+adoption-heavy regions (India read 33 with it, 25 without) where no job harm was observed.
+It remains on the dashboard as the full-width early-warning context tile, scored and
+narrated but unweighted. Each tile also carries a fixed plain-language "Measures ..."
+definition, and the hero carries its own generated data narrative (change vs last month,
+vs the recent average, and the biggest-moving index). On the tiles the creation index reads naturally (higher = more creation, tinted green);
 the inversion happens only inside the composite, and the Deep-mode lineage prints it explicitly.
 
 Status bands (composite and risk indexes): **0–25 Low · 25–50 Moderate · 50–70 Elevated ·
@@ -57,7 +63,8 @@ Encouraging · Strong** (colour scale inverted: high = green).
 
 In the dashboard layout, the four 2×2 hook tiles are Job Cut, Job Opportunity Decline, Graduate
 Unemployment and AI Job Creation; the AI Adoption Index renders as a full-width context tile
-below them (it remains a weighted composite input).
+below them — scored, badged and narrated like the others, but not a composite input since
+2026-08-24.
 
 ## Normalization — fixed calibration bands, not cross-region ranks
 
@@ -127,6 +134,10 @@ reading); `graduate_posting` moved from Displacement into the Graduate Unemploym
 old Displacement pillar became the single-input Job Cut Index. Composite weights moved from
 30/25/25/20 (four pillars) to 25/25/20/15/15 (five indexes, creation inverted).
 
+Change log 2026-08-24: the AI Adoption Index was removed from the composite (leading indicator,
+not a job outcome); weights moved to 30/30/20/20 with creation still inverted, and the composite
+was renamed **Job Impact Index**.
+
 ## Confidence
 
 Every derived metric carries **confidence = Σ weight of inputs whose KPI is `measured`** for that
@@ -143,7 +154,7 @@ If an entire index is unscorable, its composite weight redistributes across the 
 
 ## History popups
 
-Every index tile's mini sparkline — and the AI Impact Index sparkline in the hero — is a button:
+Every index tile's mini sparkline — and the Job Impact Index sparkline in the hero — is a button:
 clicking it opens a full Chart.js line chart (y = the index, 0–100; x = ISO weeks) built from the
 same client-side series that drew the sparkline.
 
