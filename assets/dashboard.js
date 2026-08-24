@@ -105,21 +105,13 @@ const BANDS = {
   posting_trend:  { lo: 10,  hi: -10, label: "Posting index, 12-week change" },
   unemp_delta:    { lo: 0,   hi: 10,  label: "Early-career unemployment delta (pp)" },
   hire_rate:      { lo: 10,  hi: -30, label: "Youth hire/employment change (%)" },
-  mention_level:  { lo: 0,   hi: 15,  label: "AI-mention posting share (%)" },
-  // Adzuna keyword proxy (IN/APAC) is a deliberately looser net than the
-  // Hiring Lab curated taxonomy - it needs its own, wider calibration
-  mention_level_adz: { lo: 0, hi: 40, label: "AI-mention share, Adzuna keyword basis (%)" },
-  mention_trend:  { lo: -1,  hi: 3,   label: "AI-mention share, 12-week change (pp)" },
-  automation:     { lo: 30,  hi: 70,  label: "Automation share of AI use (%)" },
-  gap_closing:    { lo: 40,  hi: 10,  label: "Untapped AI Potential (pp; closing = high)" },
 };
 
 // The index pillars. Risk indexes push the Job Impact Index UP;
 // the AI Job Creation Index (positive: true) pulls it DOWN — its score
 // enters the composite inverted (100 − score). Each input: source KPI,
 // band, weight, and how the raw number is obtained (kind: "level" uses the
-// current value; "change12w" uses current minus the value 12 weeks earlier;
-// "automation" inverts augmentation).
+// current value; "change12w" uses current minus the value 12 weeks earlier).
 const PILLARS = [
   {
     id: "displacement", label: "Job Cut Index", icon: "✖",
@@ -184,32 +176,17 @@ const PILLARS = [
       { kpi: "net_creation", band: "creation_idx", weight: 1.00, kind: "level" },
     ],
   },
-  {
-    id: "adoption", label: "AI Adoption Index", icon: "⚙", wide: true,
-    question: "How fast is AI entering work?",
-    measures: "Measures how quickly AI is entering everyday work. An early-warning signal shown for context — it is not part of the Job Impact Index.",
-    blurb: "How quickly AI is actually entering work: AI mentions in job ads, the automation share of AI use, and how fast Untapped AI Potential is being converted into practice. Context for the four indexes above — rapid adoption without job creation is what turns footprint into impact.",
-    implications: {
-      up: "AI is entering work faster — untapped potential converting into practice historically precedes labour-market effects.",
-      down: "the pace of AI adoption has cooled slightly.",
-      flat: "adoption is proceeding at a steady pace.",
-    },
-    inputs: [
-      { kpi: "ai_mention_postings", band: "mention_level", altBand: "mention_level_adz", weight: 0.40, kind: "level" },
-      { kpi: "ai_mention_postings", band: "mention_trend", weight: 0.20, kind: "change12w" },
-      { kpi: "augmentation_share",  band: "automation",    weight: 0.20, kind: "automation" },
-      { kpi: "capability_gap",      band: "gap_closing",   weight: 0.20, kind: "level" },
-    ],
-  },
 ];
 
 // Composite weights for the JOB IMPACT INDEX (renamed from AI Impact
 // Index, 2026-08-24). The AI Adoption Index was removed from the
 // composite the same day - it is a leading indicator (AI arriving), not
 // an outcome, and it propped up scores in adoption-heavy regions with no
-// observed job harm. It remains on the page as the full-width
-// early-warning context tile. The creation pillar enters INVERTED
-// (100 − score): strong AI job creation pulls the Job Impact Index down.
+// observed job harm - and then removed from the dashboard entirely later
+// that day; its raw inputs (AI-mention share, automation share, Untapped
+// AI Potential) remain visible as KPI tiles in Deep view. The creation
+// pillar enters INVERTED (100 − score): strong AI job creation pulls the
+// Job Impact Index down.
 const COMPOSITE_WEIGHTS = { displacement: 0.30, pullback: 0.30,
                             earlycareer: 0.20, creation: 0.20 };
 
@@ -303,7 +280,6 @@ function rawInput(inp, reg, weekIdx) {
     ? (DATA.regions[reg].kpis[inp.kpi] || {}).value : undefined;
   const now = live !== undefined && live !== null ? live : histValue(week, reg, inp.kpi);
   if (now === undefined) return undefined;
-  if (inp.kind === "automation") return 100 - now;
   if (inp.kind === "flow12w") {
     // The CURRENT VOLUME of job cutting, per series basis:
     //  * level series (UK rolling-quarter redundancy level - name without
@@ -353,15 +329,13 @@ function rawInput(inp, reg, weekIdx) {
 function scorePillar(pillar, reg, weekIdx) {
   const inputs = pillar.inputs.map((inp) => {
     const raw = rawInput(inp, reg, weekIdx);
-    // basis-aware bands: the Adzuna keyword proxy and the two layoff-series
-    // bases (cumulative YTD vs level) each use their own calibration
+    // basis-aware bands: the two layoff-series bases (cumulative YTD vs
+    // level) each use their own calibration
     const node = DATA.regions[reg].kpis[inp.kpi] || {};
     let band = inp.band;
     if (inp.bandByBasis) {
       band = /ytd/i.test(node.name || "")
         ? inp.bandByBasis.cumulative : inp.bandByBasis.level;
-    } else if (inp.altBand && (node.source || "").includes("Adzuna")) {
-      band = inp.altBand;
     }
     return { ...inp, band, raw, norm: raw === undefined ? undefined : normBand(band, raw) };
   });
@@ -417,7 +391,8 @@ function computeDerived(reg) {
   });
   // Positive pillars (AI Job Creation) enter the composite inverted:
   // strong creation pulls the Job Impact Index down. Only pillars with a
-  // composite weight count - the AI Adoption Index is context-only.
+  // composite weight count (all four, since the AI Adoption Index left
+  // the dashboard on 2026-08-24 - the filter guards future context tiles).
   const cScore = (p, s) => (p.positive ? 100 - s : s);
   const availP = pillars.filter((p) =>
     p.score !== undefined && COMPOSITE_WEIGHTS[p.id] !== undefined);
@@ -666,7 +641,7 @@ function pillarContext(p, reg) {
 function pillarCard(p, reg) {
   const ps = pillarStatus(p);
   return `
-  <article class="pillar ${ps.cls} ${p.positive ? "p-positive" : ""} ${p.wide ? "pillar-wide" : ""}">
+  <article class="pillar ${ps.cls} ${p.positive ? "p-positive" : ""}">
     <header>
       <span class="p-q">${p.question}</span>
       <span class="p-label">${p.label}</span>
@@ -700,9 +675,6 @@ function renderDerived() {
   // register series for the click-to-expand popups
   SPARKS = { composite: { label: "Job Impact Index", series: d.compSeries } };
   d.pillars.forEach((p) => { SPARKS[p.id] = { label: p.label, series: p.series, positive: p.positive }; });
-
-  const gridPillars = d.pillars.filter((p) => !p.wide);
-  const widePillars = d.pillars.filter((p) => p.wide);
 
   host.innerHTML = `
   <div class="derived-hero ${st.cls}">
@@ -741,9 +713,8 @@ function renderDerived() {
   </div>
 
   <div class="pillar-grid">
-    ${gridPillars.map((p) => pillarCard(p, region)).join("")}
+    ${d.pillars.map((p) => pillarCard(p, region)).join("")}
   </div>
-  ${widePillars.map((p) => pillarCard(p, region)).join("")}
   <p class="derived-note deep-only">Derived metrics are computed in your browser from
     <a href="data/current.json">current.json</a> + <a href="data/historical.csv">historical.csv</a>
     using fixed calibration bands — spec in
