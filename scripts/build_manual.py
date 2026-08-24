@@ -151,7 +151,7 @@ def on_cover(canvas, doc):
     c.setStrokeColor(colors.HexColor("#33485A")); c.setLineWidth(0.8)
     c.line(M, 2.15 * cm, W - M, 2.15 * cm)
     c.setFillColor(DARKMUTE); c.setFont(SANS, 8)
-    c.drawString(M, 1.65 * cm, "Version 2.0  -  August 2026")
+    c.drawString(M, 1.65 * cm, "Version 2.1  -  August 2026")
     c.drawRightString(W - M, 1.65 * cm, "It's in our DNA")
     c.restoreState()
 
@@ -444,7 +444,9 @@ story.append(Paragraph(
     "the positive-direction creation index instead reads Weak / Moderate / Encouraging / Strong with "
     "an inverted colour scale &mdash; always accompany the colour, and every score carries a "
     "confidence chip: the share of its weight backed by <i>measured</i> (not modelled) sources that "
-    "week. Every index tile shows an explainer line stating what it means, and every mini sparkline "
+    "week. Every index tile carries a dynamically generated reading &mdash; how far the index moved "
+    "versus last month and versus its recent-months average, which underlying input drove the move "
+    "(with its raw values), and the implication &mdash; and every mini sparkline "
     "(including the AI Impact Index's own, on the right of the hero panel) is clickable: it opens a "
     "full history chart with the index on the y-axis and the weekly timeline on the x-axis.", body))
 story.append(Paragraph(
