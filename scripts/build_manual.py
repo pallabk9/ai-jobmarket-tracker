@@ -120,7 +120,7 @@ def on_cover(canvas, doc):
     # reversed logo, top-left
     draw_awa_logo(c, M, H - 2.15 * cm, 24, dark_bg=True)
     c.setFont(SANS, 8.5); c.setFillColor(DARKMUTE)
-    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v2.2     AUGUST 2026")
+    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v2.3     AUGUST 2026")
     # kicker (Spectral italic, coral)
     c.setFont(SERIF_I, 16); c.setFillColor(CORAL)
     c.drawString(M, H * 0.63, "The DNA of work")
@@ -151,7 +151,7 @@ def on_cover(canvas, doc):
     c.setStrokeColor(colors.HexColor("#33485A")); c.setLineWidth(0.8)
     c.line(M, 2.15 * cm, W - M, 2.15 * cm)
     c.setFillColor(DARKMUTE); c.setFont(SANS, 8)
-    c.drawString(M, 1.65 * cm, "Version 2.2  -  August 2026")
+    c.drawString(M, 1.65 * cm, "Version 2.3  -  August 2026")
     c.drawRightString(W - M, 1.65 * cm, "It's in our DNA")
     c.restoreState()
 
@@ -229,8 +229,7 @@ story.append(Paragraph(
 story.append(Paragraph(
     "The dashboard opens in a <b>Simple</b> view built for a fast, plain-language read: one "
     "Job Impact Index per region, four plain-language composite indexes (three risk indexes "
-    "plus a positive-direction AI Job Creation Index that pulls the composite down) with an "
-    "AI Adoption Index shown for context, and a sector "
+    "plus a positive-direction AI Job Creation Index that pulls the composite down), and a sector "
     "pulse ranking eleven industry sectors by AI pressure. A <b>Deep</b> toggle exposes "
     "everything underneath &mdash; the ten raw KPIs with measured/modelled provenance, the "
     "analytical charts, and \"under the hood\" lineage panels that show every input, "
@@ -437,12 +436,12 @@ story.append(Paragraph(
     "is creating &mdash; new AI-related roles minus the roles AI has displaced), is a "
     "<b>positive-direction</b> index: it enters the composite inverted, so stronger AI-attributed job "
     "creation pulls the Job Impact Index <b>down</b>. Composite weights: 30% Job Cut + 30% Opportunity "
-    "Decline + 20% Graduate Unemployment + 20% &times; (100 &minus; Job Creation). The <i>AI Adoption "
-    "Index</i> (how quickly AI is entering everyday work) renders as a full-width tile below the four: "
-    "since August 2026 it is an early-warning <b>context</b> signal &mdash; scored, badged and narrated "
-    "like the others but deliberately <b>not</b> part of the Job Impact Index, because AI arriving in "
-    "work is a leading indicator rather than a job outcome and it inflated scores in adoption-heavy "
-    "regions where no job harm was observed.", body))
+    "Decline + 20% Graduate Unemployment + 20% &times; (100 &minus; Job Creation). An earlier <i>AI "
+    "Adoption Index</i> was retired in August 2026: AI arriving in work is a leading indicator rather "
+    "than a job outcome, and it inflated scores in adoption-heavy regions where no job harm was "
+    "observed &mdash; so the headline layer now reflects job outcomes only, while the underlying "
+    "adoption signals (AI-mention posting share, automation share, Untapped AI Potential) remain "
+    "visible as raw KPI tiles in Deep view.", body))
 story.append(Paragraph(
     "The Graduate Unemployment Index carries an explicit caveat on its tile: it is an <b>inference "
     "indicator</b> &mdash; it tends to move with AI pressure, but graduate unemployment can also "
@@ -472,9 +471,10 @@ story.append(Paragraph(
     "both endpoints share the same measured/modelled basis, so a KPI switching from a modelled "
     "placeholder to a measured source can never manufacture a spurious trend (the input's weight "
     "redistributes until the new basis accrues 12 weeks of history) - and <b>basis-aware "
-    "calibration</b>: the Adzuna keyword AI-mention proxy used for India and APAC scores against "
-    "its own, wider band, since it is a deliberately looser net than the Indeed Hiring Lab "
-    "taxonomy. Scores compare a region to itself over "
+    "calibration</b>: where regions publish the same signal on different bases, each basis scores "
+    "against its own fixed band - the Job Cut Index scores cumulative YTD layoff series against a "
+    "12-week-flow band and the UK's rolling-quarter redundancy level against a level band. "
+    "Scores compare a region to itself over "
     "time and are not cross-country footprint rankings, consistent with the quartile-rank rule in "
     "section 8.3.", body))
 
@@ -731,7 +731,7 @@ for r in refs:
 
 story.append(Spacer(1, 1*cm))
 story.append(Paragraph(
-    "<i>Prepared June 2026; revised 24 August 2026 &mdash; v2.2. This revision renames the composite the <b>Job Impact Index</b> and removes the AI Adoption Index from it (now an unweighted early-warning context tile), documents the four-index weights (30/30/20/20 with the AI Job Creation Index inverted), the level-grounded Job Cut Index, the fixed \"Measures &hellip;\" definition on every tile, and the generated data narratives on the hero and every index. Earlier revisions (v2.1, 20 August 2026) introduced the corporate renaming (AI Footprint; Untapped AI Potential), the clickable index-history charts, the data-provenance narrative, and the eleventh sector (power &amp; utilities). Updates to this manual follow major methodological revisions.</i>",
+    "<i>Prepared June 2026; revised 24 August 2026 &mdash; v2.3. This revision renames the composite the <b>Job Impact Index</b>, removes the AI Adoption Index from the composite and then from the dashboard (its raw adoption signals remain as Deep-view KPI tiles), and documents the four-index weights (30/30/20/20 with the AI Job Creation Index inverted), the level-grounded Job Cut Index, the fixed \"Measures &hellip;\" definition on every tile, and the generated data narratives on the hero and every index. Earlier revisions (v2.1, 20 August 2026) introduced the corporate renaming (AI Footprint; Untapped AI Potential), the clickable index-history charts, the data-provenance narrative, and the eleventh sector (power &amp; utilities). Updates to this manual follow major methodological revisions.</i>",
     small))
 
 # ------------------------------------------------------------------
