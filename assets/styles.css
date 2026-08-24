@@ -879,3 +879,9 @@ dialog.spark-modal { width: min(920px, 94vw); }
   .derived-hero .dh-status { font-size: 16px; }
   .dh-body { gap: 18px; }
 }
+
+/* --- 2026-08-24b: Job Impact Index (adoption out of composite) --- */
+.p-measures {
+  font-size: 12.5px; line-height: 1.5; color: var(--c-muted);
+  margin: -6px 0 10px; font-style: italic; max-width: 600px;
+}

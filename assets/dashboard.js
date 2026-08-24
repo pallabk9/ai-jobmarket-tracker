@@ -114,7 +114,7 @@ const BANDS = {
   gap_closing:    { lo: 40,  hi: 10,  label: "Untapped AI Potential (pp; closing = high)" },
 };
 
-// The five index pillars. Four risk indexes push the AI Impact Index UP;
+// The index pillars. Risk indexes push the Job Impact Index UP;
 // the AI Job Creation Index (positive: true) pulls it DOWN — its score
 // enters the composite inverted (100 − score). Each input: source KPI,
 // band, weight, and how the raw number is obtained (kind: "level" uses the
@@ -124,6 +124,7 @@ const PILLARS = [
   {
     id: "displacement", label: "Job Cut Index", icon: "✖",
     question: "How heavy are job cuts right now?",
+    measures: "Measures the number of layoffs and redundancies announced in the most recent months — attributed to AI where the source tracks attribution.",
     blurb: "Grounded in the current volume of job cutting — announced layoffs and redundancies in the most recent period — scored against a fixed band for the region's series.",
     implications: {
       up: "more workers are being displaced than in recent months — expect it to surface first in the most exposed sectors in the Sector pulse below.",
@@ -140,6 +141,7 @@ const PILLARS = [
   {
     id: "pullback", label: "Job Opportunity Decline Index", icon: "▼",
     question: "Are exposed roles being advertised less?",
+    measures: "Measures the reduction in the number of jobs being advertised in the occupations most exposed to AI.",
     blurb: "Whether openings in AI-exposed occupations are shrinking — the level and 12-week trend of job postings in high-AI-footprint roles. Higher = fewer opportunities.",
     implications: {
       up: "opportunities in AI-exposed roles are tightening — a tougher market for exposed skills and for people trying to enter them.",
@@ -154,6 +156,7 @@ const PILLARS = [
   {
     id: "earlycareer", label: "Graduate Unemployment Index", icon: "◎",
     question: "Are young workers feeling it first?",
+    measures: "Measures how much worse fresh graduates and young workers are faring than the historical norm.",
     blurb: "How early-career workers are faring: the youth-vs-overall unemployment gap, youth hiring, and recent-graduate outcomes.",
     implications: {
       up: "early-career workers are absorbing more of the adjustment — historically the first place AI pressure shows.",
@@ -170,9 +173,10 @@ const PILLARS = [
   {
     id: "creation", label: "AI Job Creation Index", icon: "✚", positive: true,
     question: "Is AI creating new jobs?",
-    blurb: "The positive side of the ledger — net new AI-attributed roles (new AI/ML/data roles minus AI-attributed displacement). A higher score here pulls the AI Impact Index down.",
+    measures: "Measures the number of new jobs AI is creating — new AI-related roles minus the roles AI has displaced.",
+    blurb: "The positive side of the ledger — net new AI-attributed roles (new AI/ML/data roles minus AI-attributed displacement). A higher score here pulls the Job Impact Index down.",
     implications: {
-      up: "AI-attributed job creation is strengthening, pulling the AI Impact Index down.",
+      up: "AI-attributed job creation is strengthening, pulling the Job Impact Index down.",
       down: "the job-creation offset is weakening, so the risk indexes carry more of the composite.",
       flat: "AI-attributed job creation is steady — a constant offset against the risk indexes.",
     },
@@ -183,6 +187,7 @@ const PILLARS = [
   {
     id: "adoption", label: "AI Adoption Index", icon: "⚙", wide: true,
     question: "How fast is AI entering work?",
+    measures: "Measures how quickly AI is entering everyday work. An early-warning signal shown for context — it is not part of the Job Impact Index.",
     blurb: "How quickly AI is actually entering work: AI mentions in job ads, the automation share of AI use, and how fast Untapped AI Potential is being converted into practice. Context for the four indexes above — rapid adoption without job creation is what turns footprint into impact.",
     implications: {
       up: "AI is entering work faster — untapped potential converting into practice historically precedes labour-market effects.",
@@ -198,10 +203,15 @@ const PILLARS = [
   },
 ];
 
-// Composite weights. The creation pillar enters INVERTED (100 − score):
-// strong AI job creation pulls the AI Impact Index down.
-const COMPOSITE_WEIGHTS = { displacement: 0.25, pullback: 0.25,
-                            earlycareer: 0.20, adoption: 0.15, creation: 0.15 };
+// Composite weights for the JOB IMPACT INDEX (renamed from AI Impact
+// Index, 2026-08-24). The AI Adoption Index was removed from the
+// composite the same day - it is a leading indicator (AI arriving), not
+// an outcome, and it propped up scores in adoption-heavy regions with no
+// observed job harm. It remains on the page as the full-width
+// early-warning context tile. The creation pillar enters INVERTED
+// (100 − score): strong AI job creation pulls the Job Impact Index down.
+const COMPOSITE_WEIGHTS = { displacement: 0.30, pullback: 0.30,
+                            earlycareer: 0.20, creation: 0.20 };
 
 const STATUS_BANDS = [
   { max: 25,  word: "Low",      cls: "st-low" },
@@ -406,25 +416,45 @@ function computeDerived(reg) {
              avg, months, driver, confidence: conf };
   });
   // Positive pillars (AI Job Creation) enter the composite inverted:
-  // strong creation pulls the AI Impact Index down.
+  // strong creation pulls the Job Impact Index down. Only pillars with a
+  // composite weight count - the AI Adoption Index is context-only.
   const cScore = (p, s) => (p.positive ? 100 - s : s);
-  const availP = pillars.filter((p) => p.score !== undefined);
+  const availP = pillars.filter((p) =>
+    p.score !== undefined && COMPOSITE_WEIGHTS[p.id] !== undefined);
   const wSum = availP.reduce((s, p) => s + COMPOSITE_WEIGHTS[p.id], 0);
   const composite = availP.reduce((s, p) =>
     s + cScore(p, p.score) * (COMPOSITE_WEIGHTS[p.id] / wSum), 0);
   const compSeries = HIST_WEEKS.map((_, i) => {
     const scored = PILLARS.map((p) => ({ id: p.id, positive: p.positive,
                                          s: scorePillar(p, reg, i).score }))
-      .filter((x) => x.s !== undefined);
+      .filter((x) => x.s !== undefined && COMPOSITE_WEIGHTS[x.id] !== undefined);
     const w = scored.reduce((s, x) => s + COMPOSITE_WEIGHTS[x.id], 0);
     return scored.length ? scored.reduce((s, x) =>
       s + cScore(x, x.s) * (COMPOSITE_WEIGHTS[x.id] / w), 0) : undefined;
   });
-  const compPrev = compSeries[Math.max(0, lastIdx - 4)];
+  const prevIdx4 = Math.max(0, lastIdx - 4);
+  const compPrev = compSeries[prevIdx4];
   const confidence = availP.reduce((s, p) =>
     s + p.confidence * (COMPOSITE_WEIGHTS[p.id] / wSum), 0);
+  // hero narrative ingredients: recent-window average + biggest driver index
+  const compPts = compSeries.filter((v) => v !== undefined).slice(-26);
+  const compAvg = compPts.length >= 4
+    ? compPts.reduce((s, v) => s + v, 0) / compPts.length : undefined;
+  const compMonths = compPts.length
+    ? Math.max(1, Math.round(compPts.length / 4.345)) : 0;
+  let compDriver;
+  availP.forEach((p) => {
+    const prevS = p.series[prevIdx4];
+    if (prevS === undefined) return;
+    const d = (cScore(p, p.score) - cScore(p, prevS)) * (COMPOSITE_WEIGHTS[p.id] / wSum);
+    if (!compDriver || Math.abs(d) > Math.abs(compDriver.d)) {
+      compDriver = { d, label: p.label, rose: p.score > prevS };
+    }
+  });
+  if (compDriver && Math.abs(compDriver.d) < 0.5) compDriver = undefined;
   return { composite, compSeries,
            compDelta: compPrev !== undefined ? composite - compPrev : undefined,
+           compAvg, compMonths, compDriver,
            confidence, pillars };
 }
 
@@ -475,7 +505,7 @@ function lineageTable(pillar, reg) {
     <tbody>${rows}</tbody>
     <tfoot><tr><td colspan="6">Index score = Σ (weight × normalized input) = <b>${fmtScore(pillar.score)}</b>
     &nbsp;·&nbsp; ${Math.round(pillar.confidence * 100)}% of weight from <em>measured</em> sources${
-    pillar.positive ? `<br>This is a <em>positive-direction</em> index: it enters the AI Impact Index inverted
+    pillar.positive ? `<br>This is a <em>positive-direction</em> index: it enters the Job Impact Index inverted
     (100 − ${fmtScore(pillar.score)} = ${pillar.score === undefined ? "—" : Math.round(100 - pillar.score)}), so stronger AI job creation pulls the headline index <b>down</b>.` : ""}</td></tr></tfoot>
   </table>`;
 }
@@ -492,7 +522,7 @@ function openSparkModal(key) {
   const sub = document.getElementById("spark-modal-sub");
   if (title) title.textContent = `${item.label} — ${DATA.regions[region].label}`;
   if (sub) sub.textContent = item.positive
-    ? "Weekly history, 0–100. Positive-direction index: higher = more AI-attributed job creation (pulls the AI Impact Index down)."
+    ? "Weekly history, 0–100. Positive-direction index: higher = more AI-attributed job creation (pulls the Job Impact Index down)."
     : "Weekly history, 0–100 against fixed calibration bands. Higher = more pressure on this job market.";
   if (!dlg.open) dlg.showModal();
   const pts = HIST_WEEKS.map((w, i) => ({ w, v: item.series[i] }))
@@ -550,6 +580,27 @@ const fmtRawNum = (v) => (Math.abs(v) >= 100 ? v.toFixed(0) : v.toFixed(1));
 const lcFirst = (s) => (s && s[1] && s[1] === s[1].toLowerCase()
   ? s[0].toLowerCase() + s.slice(1) : s);
 const pts = (v) => `${Math.abs(v).toFixed(0)} point${Math.abs(v) >= 1.5 ? "s" : ""}`;
+
+// Data narrative for the Job Impact Index hero: how the composite moved,
+// vs its recent average, and which index drove the move.
+function heroNarrative(d) {
+  if (d.composite === undefined || d.compDelta === undefined) return "";
+  const flat = Math.abs(d.compDelta) < 0.5;
+  let s = flat ? "<b>Little changed vs last month</b>"
+    : `<b>${d.compDelta > 0 ? "Up" : "Down"} ${pts(d.compDelta)} vs last month</b>`;
+  if (d.compAvg !== undefined && d.compMonths) {
+    const da = d.composite - d.compAvg;
+    s += Math.abs(da) < 0.5
+      ? ` and in line with its ${d.compMonths}-month average`
+      : ` and ${pts(da)} ${da > 0 ? "above" : "below"} its ${d.compMonths}-month average`;
+  }
+  s += ".";
+  if (d.compDriver) {
+    s += ` The biggest mover: the <b>${d.compDriver.label}</b> ${d.compDriver.rose ? "rose" : "fell"},
+      which ${d.compDriver.d > 0 ? "pushed the score up" : "pulled the score down"}.`;
+  }
+  return s;
+}
 
 function pillarInsight(p) {
   if (p.score === undefined || p.delta === undefined) return p.blurb || "";
@@ -620,6 +671,7 @@ function pillarCard(p, reg) {
       <span class="p-q">${p.question}</span>
       <span class="p-label">${p.label}</span>
     </header>
+    ${p.measures ? `<p class="p-measures">${p.measures}</p>` : ""}
     <div class="p-score-row">
       <span class="p-score">${fmtScore(p.score)}</span>
       <span class="p-status">${ps.word}</span>
@@ -646,7 +698,7 @@ function renderDerived() {
   const st = statusOf(d.composite || 0);
 
   // register series for the click-to-expand popups
-  SPARKS = { composite: { label: "AI Impact Index", series: d.compSeries } };
+  SPARKS = { composite: { label: "Job Impact Index", series: d.compSeries } };
   d.pillars.forEach((p) => { SPARKS[p.id] = { label: p.label, series: p.series, positive: p.positive }; });
 
   const gridPillars = d.pillars.filter((p) => !p.wide);
@@ -654,7 +706,7 @@ function renderDerived() {
 
   host.innerHTML = `
   <div class="derived-hero ${st.cls}">
-    <h3 class="dh-title">AI Impact Index · ${DATA.regions[region].label}</h3>
+    <h3 class="dh-title">Job Impact Index · ${DATA.regions[region].label}</h3>
     <div class="dh-body">
       <div class="dh-gauge-col">
         <div class="dh-status">${st.word} impact ${fmtDelta(d.compDelta)}</div>
@@ -668,19 +720,20 @@ function renderDerived() {
         </div><!-- gauge svg scales via CSS -->
       </div>
       <div class="dh-main">
-        <p class="dh-read">This is the headline score for this market: <b>how much AI is
-          affecting jobs right now</b>, from 0 (no impact) to 100 (severe impact).</p>
-        <p class="dh-read">It is built from the five indexes below. <b>Bad news pushes the
-          score up</b> — job cuts, fewer job openings, graduates struggling, AI arriving
-          faster. <b>Good news pulls it down</b> — new jobs created by AI.</p>
-        <p class="dh-read"><b>${Math.round(d.confidence * 100)}%</b> of this week's score
-          comes from directly <em>measured</em> data; the rest comes from clearly labelled
-          estimates.</p>
+        <p class="dh-read">This index shows how AI is <b>increasing or reducing the number of
+          jobs available</b> in the areas of work where AI can most readily be applied
+          — from 0 (no impact) to 100 (severe impact).</p>
+        <p class="dh-read">${heroNarrative(d)}</p>
+        <p class="dh-read">It is built from the four indexes below. <b>Bad news pushes the
+          score up</b> — job cuts, fewer job openings, graduates struggling. <b>Good news
+          pulls it down</b> — new jobs created by AI.
+          <b>${Math.round(d.confidence * 100)}%</b> of this week's score is directly
+          <em>measured</em>; the rest comes from clearly labelled estimates.</p>
       </div>
       <div class="dh-sparkcol">
         <button type="button" class="spark-btn dh-spark-btn" data-spark="composite"
-          title="Click for the full AI Impact Index history chart"
-          aria-label="Expand AI Impact Index history chart">${sparkSvg(d.compSeries, 260, 64, "")}</button>
+          title="Click for the full Job Impact Index history chart"
+          aria-label="Expand Job Impact Index history chart">${sparkSvg(d.compSeries, 260, 64, "")}</button>
         <span class="dh-spark-cap">weekly since ${HIST_WEEKS[0] || ""} · click to expand</span>
         <button type="button" class="ghost-btn dh-how deep-only" data-modal="methodology-modal">Full methodology →</button>
       </div>
