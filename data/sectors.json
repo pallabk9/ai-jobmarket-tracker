@@ -62,7 +62,7 @@
    "section": "D+E"
   }
  ],
- "generated_at": "2026-08-21T10:49:01Z",
+ "generated_at": "2026-08-24T07:03:39Z",
  "regions": {
   "UK": {
    "sectors": {
@@ -158,7 +158,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Banking & Finance)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 1112.0,
@@ -168,7 +168,7 @@
        "source": "ONS JOBS02 workforce jobs (JWS7, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 30.0,
@@ -178,7 +178,7 @@
        "source": "ONS VACS02 vacancies (JP9Q, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -224,7 +224,7 @@
        "source": "ONS JOBS02 workforce jobs (JWS7, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 30.0,
@@ -234,7 +234,7 @@
        "source": "ONS VACS02 vacancies (JP9Q, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -330,7 +330,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Software Development, IT Infrastructure, Operations & Support\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 1577.0,
@@ -340,7 +340,7 @@
        "source": "ONS JOBS02 workforce jobs (JWS6, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 39.0,
@@ -350,7 +350,7 @@
        "source": "ONS VACS02 vacancies (JP9P, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -446,7 +446,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Media & Communications)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 1577.0,
@@ -456,7 +456,7 @@
        "source": "ONS JOBS02 workforce jobs (JWS6, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 39.0,
@@ -466,7 +466,7 @@
        "source": "ONS VACS02 vacancies (JP9P, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -562,7 +562,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Production & Manufacturing, Industrial Engineering)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 2482.0,
@@ -572,7 +572,7 @@
        "source": "ONS JOBS02 workforce jobs (JWR7, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 47.0,
@@ -582,7 +582,7 @@
        "source": "ONS VACS02 vacancies (JP9I, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -678,7 +678,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Nursing, Physicians & Surgeons\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 5090.0,
@@ -688,7 +688,7 @@
        "source": "ONS JOBS02 workforce jobs (JWT5, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 120.0,
@@ -698,7 +698,7 @@
        "source": "ONS VACS02 vacancies (JP9W, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -794,7 +794,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Retail, Loading & Stocking)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 4629.0,
@@ -804,7 +804,7 @@
        "source": "ONS JOBS02 workforce jobs (JWS3, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 87.0,
@@ -814,7 +814,7 @@
        "source": "ONS VACS02 vacancies (JP9M, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -910,7 +910,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Legal, Accounting\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 3492.0,
@@ -920,7 +920,7 @@
        "source": "ONS JOBS02 workforce jobs (JWS9, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 70.0,
@@ -930,7 +930,7 @@
        "source": "ONS VACS02 vacancies (JP9S, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1026,7 +1026,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Education & Instruction)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 45.0,
@@ -1036,7 +1036,7 @@
        "source": "ONS VACS02 vacancies (JP9V, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1132,7 +1132,7 @@
        "source": "Indeed Hiring Lab sectors (GB: Community & Social Service, Security & Public Safety)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 30.0,
@@ -1142,7 +1142,7 @@
        "source": "ONS VACS02 vacancies (JP9U, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1188,7 +1188,7 @@
        "source": "ONS JOBS02 workforce jobs (JWR8+JWR9, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/workforcejobsbyindustryjobs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 9.0,
@@ -1198,7 +1198,7 @@
        "source": "ONS VACS02 vacancies (JP9J+JP9K, SA)",
        "source_url": "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/vacanciesbyindustryvacs02",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     }
@@ -1304,7 +1304,7 @@
        "source": "Indeed Hiring Lab sectors (AU: Banking & Finance)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 523.7,
@@ -1314,7 +1314,7 @@
        "source": "ABS Labour Account (ANZSIC K, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 8.9,
@@ -1324,7 +1324,7 @@
        "source": "ABS Job Vacancies (ANZSIC K)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1370,7 +1370,7 @@
        "source": "ABS Labour Account (ANZSIC K, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 8.9,
@@ -1380,7 +1380,7 @@
        "source": "ABS Job Vacancies (ANZSIC K)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1476,7 +1476,7 @@
        "source": "Indeed Hiring Lab sectors (AU: Software Development, IT Infrastructure, Operations & Support\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 207.5,
@@ -1486,7 +1486,7 @@
        "source": "ABS Labour Account (ANZSIC J, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 3.6,
@@ -1496,7 +1496,7 @@
        "source": "ABS Job Vacancies (ANZSIC J)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1592,7 +1592,7 @@
        "source": "Indeed Hiring Lab sectors (AU: Media & Communications)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 207.5,
@@ -1602,7 +1602,7 @@
        "source": "ABS Labour Account (ANZSIC J, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 3.6,
@@ -1612,7 +1612,7 @@
        "source": "ABS Job Vacancies (ANZSIC J)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1708,7 +1708,7 @@
        "source": "Indeed Hiring Lab sectors (AU: Production & Manufacturing, Industrial Engineering)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 904.3,
@@ -1718,7 +1718,7 @@
        "source": "ABS Labour Account (ANZSIC C, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 21.7,
@@ -1728,7 +1728,7 @@
        "source": "ABS Job Vacancies (ANZSIC C)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1824,7 +1824,7 @@
        "source": "Indeed Hiring Lab sectors (AU: Nursing, Physicians & Surgeons\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 2580.6,
@@ -1834,7 +1834,7 @@
        "source": "ABS Labour Account (ANZSIC Q, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 56.7,
@@ -1844,7 +1844,7 @@
        "source": "ABS Job Vacancies (ANZSIC Q)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -1940,7 +1940,7 @@
        "source": "Indeed Hiring Lab sectors (AU: Retail, Loading & Stocking)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 1522.0,
@@ -1950,7 +1950,7 @@
        "source": "ABS Labour Account (ANZSIC G, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 26.0,
@@ -1960,7 +1960,7 @@
        "source": "ABS Job Vacancies (ANZSIC G)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2056,7 +2056,7 @@
        "source": "Indeed Hiring Lab sectors (AU: Legal, Accounting\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 1323.5,
@@ -2066,7 +2066,7 @@
        "source": "ABS Labour Account (ANZSIC M, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 35.7,
@@ -2076,7 +2076,7 @@
        "source": "ABS Job Vacancies (ANZSIC M)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2122,7 +2122,7 @@
        "source": "ABS Labour Account (ANZSIC P, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 11.0,
@@ -2132,7 +2132,7 @@
        "source": "ABS Job Vacancies (ANZSIC P)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2228,7 +2228,7 @@
        "source": "Indeed Hiring Lab sectors (AU: Community & Social Service, Security & Public Safety)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 891.9,
@@ -2238,7 +2238,7 @@
        "source": "ABS Labour Account (ANZSIC O, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 21.2,
@@ -2248,7 +2248,7 @@
        "source": "ABS Job Vacancies (ANZSIC O)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2294,7 +2294,7 @@
        "source": "ABS Labour Account (ANZSIC D, measure M12)",
        "source_url": "https://www.abs.gov.au/statistics/labour/labour-accounts",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 3.7,
@@ -2304,7 +2304,7 @@
        "source": "ABS Job Vacancies (ANZSIC D)",
        "source_url": "https://www.abs.gov.au/statistics/labour/jobs/job-vacancies-australia",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     }
@@ -2410,7 +2410,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Banking & Finance)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 3099.6,
@@ -2420,7 +2420,7 @@
        "source": "Eurostat lfsq_egan22d (K64), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 1.7,
@@ -2430,7 +2430,7 @@
        "source": "Eurostat jvs_q_nace2 JVR (NACE K, EU27)",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/jvs_q_nace2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 10518,
@@ -2441,7 +2441,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 31 announcements - ERM's Financial bucket includes insurance & real estate",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2487,7 +2487,7 @@
        "source": "Eurostat lfsq_egan22d (K65), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 1.7,
@@ -2497,7 +2497,7 @@
        "source": "Eurostat jvs_q_nace2 JVR (NACE K, EU27)",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/jvs_q_nace2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2593,7 +2593,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Software Development, IT Infrastructure, Operations & Support\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 8007.3,
@@ -2603,7 +2603,7 @@
        "source": "Eurostat lfsq_egan2 (NACE J), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 2.2,
@@ -2613,7 +2613,7 @@
        "source": "Eurostat jvs_q_nace2 JVR (NACE J, EU27)",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/jvs_q_nace2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 25783,
@@ -2624,7 +2624,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 57 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2720,7 +2720,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Media & Communications)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 8007.3,
@@ -2730,7 +2730,7 @@
        "source": "Eurostat lfsq_egan2 (NACE J), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 2.2,
@@ -2740,7 +2740,7 @@
        "source": "Eurostat jvs_q_nace2 JVR (NACE J, EU27)",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/jvs_q_nace2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 4282,
@@ -2751,7 +2751,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 23 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2847,7 +2847,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Production & Manufacturing, Industrial Engineering)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 31399.8,
@@ -2857,7 +2857,7 @@
        "source": "Eurostat lfsq_egan2 (NACE C), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 1.5,
@@ -2867,18 +2867,18 @@
        "source": "Eurostat jvs_q_nace2 JVR (NACE C, EU27)",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/jvs_q_nace2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
-       "value": 136483,
+       "value": 137356,
        "unit": "announced job losses (12mo)",
        "period": "2025-08 onward",
        "delta_prev": null,
-       "events": 420,
-       "source": "Eurofound European Restructuring Monitor, EU27, 420 announcements",
+       "events": 425,
+       "source": "Eurofound European Restructuring Monitor, EU27, 425 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -2974,7 +2974,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Nursing, Physicians & Surgeons\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 24095.3,
@@ -2984,7 +2984,7 @@
        "source": "Eurostat lfsq_egan2 (NACE Q), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 7088,
@@ -2995,7 +2995,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 27 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -3091,7 +3091,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Retail, Loading & Stocking)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 27991.8,
@@ -3101,7 +3101,7 @@
        "source": "Eurostat lfsq_egan2 (NACE G), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 1.8,
@@ -3111,7 +3111,7 @@
        "source": "Eurostat jvs_q_nace2 JVR (NACE G, EU27)",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/jvs_q_nace2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 30608,
@@ -3122,7 +3122,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 80 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -3218,7 +3218,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Legal, Accounting\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 12806.6,
@@ -3228,7 +3228,7 @@
        "source": "Eurostat lfsq_egan2 (NACE M), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 2.4,
@@ -3238,7 +3238,7 @@
        "source": "Eurostat jvs_q_nace2 JVR (NACE M, EU27)",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/jvs_q_nace2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 5140,
@@ -3249,7 +3249,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 17 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -3345,7 +3345,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Education & Instruction)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 15960.8,
@@ -3355,7 +3355,7 @@
        "source": "Eurostat lfsq_egan2 (NACE P), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 3510,
@@ -3366,7 +3366,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 3 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -3462,7 +3462,7 @@
        "source": "Indeed Hiring Lab sectors (DE+FR: Community & Social Service, Security & Public Safety)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 14666.3,
@@ -3472,7 +3472,7 @@
        "source": "Eurostat lfsq_egan2 (NACE O), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 7241,
@@ -3483,7 +3483,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 20 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -3529,7 +3529,7 @@
        "source": "Eurostat lfsq_egan2 (NACE D+E), EU27",
        "source_url": "https://ec.europa.eu/eurostat/databrowser/view/lfsq_egan2/default/table",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 3167,
@@ -3540,7 +3540,7 @@
        "source": "Eurofound European Restructuring Monitor, EU27, 8 announcements",
        "source_url": "https://apps.eurofound.europa.eu/restructuringevents/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     }
@@ -3614,7 +3614,7 @@
        "source": "Indeed Hiring Lab sectors (US: Banking & Finance)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 6652.2,
@@ -3624,7 +3624,7 @@
        "source": "BLS CES (CES5552000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 25748,
@@ -3635,7 +3635,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Banking & financial markets",
@@ -3731,7 +3731,7 @@
        "source": "Indeed Hiring Lab sectors (US: Software Development, IT Infrastructure, Operations & Support\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 2780.0,
@@ -3741,7 +3741,7 @@
        "source": "BLS CES (CES5000000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 149023,
@@ -3752,7 +3752,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "IT & software",
@@ -3848,7 +3848,7 @@
        "source": "Indeed Hiring Lab sectors (US: Media & Communications)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 571.8,
@@ -3858,7 +3858,7 @@
        "source": "BLS CES (CES5051700001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 7761,
@@ -3869,7 +3869,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Telecom & media",
@@ -3965,7 +3965,7 @@
        "source": "Indeed Hiring Lab sectors (US: Production & Manufacturing, Industrial Engineering)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 12611.0,
@@ -3975,7 +3975,7 @@
        "source": "BLS CES (CES3000000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 68332,
@@ -3986,7 +3986,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Manufacturing",
@@ -4082,7 +4082,7 @@
        "source": "Indeed Hiring Lab sectors (US: Nursing, Physicians & Surgeons\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 23912.2,
@@ -4092,7 +4092,7 @@
        "source": "BLS CES (CES6562000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 48092,
@@ -4103,7 +4103,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Healthcare",
@@ -4199,7 +4199,7 @@
        "source": "Indeed Hiring Lab sectors (US: Retail, Loading & Stocking)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 15440.9,
@@ -4209,7 +4209,7 @@
        "source": "BLS CES (CES4200000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 12946,
@@ -4220,7 +4220,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Retail & consumer",
@@ -4316,7 +4316,7 @@
        "source": "Indeed Hiring Lab sectors (US: Legal, Accounting\u2026)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 10837.3,
@@ -4326,7 +4326,7 @@
        "source": "BLS CES (CES6054000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 23942,
@@ -4337,7 +4337,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Professional services",
@@ -4433,7 +4433,7 @@
        "source": "Indeed Hiring Lab sectors (US: Education & Instruction)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 4049.7,
@@ -4443,7 +4443,7 @@
        "source": "BLS CES (CES6561000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 15499,
@@ -4454,7 +4454,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Education",
@@ -4524,7 +4524,7 @@
        "source": "Indeed Hiring Lab sectors (US: Community & Social Service, Security & Public Safety)",
        "source_url": "https://github.com/hiring-lab/job_postings_tracker",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 23270.0,
@@ -4534,7 +4534,7 @@
        "source": "BLS CES (CES9000000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 20752,
@@ -4545,7 +4545,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Government & public",
@@ -4591,7 +4591,7 @@
        "source": "BLS CES (CES5552400001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "layoffs": {
        "value": 6908,
@@ -4602,7 +4602,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Insurance",
@@ -4649,7 +4649,7 @@
        "source": "Challenger, Gray & Christmas job cuts by industry (all-cause; AI-cited share tracked at the headline KPI)",
        "source_url": "https://www.challengergray.com/blog/category/job-cuts-report/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:33:04Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "employment": {
        "value": 608.1,
@@ -4659,7 +4659,7 @@
        "source": "BLS CES (CES4422000001, SA)",
        "source_url": "https://www.bls.gov/ces/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      },
      "label": "Power & utilities",
@@ -4737,7 +4737,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "momentum": {
        "value": -12.0,
@@ -4747,7 +4747,7 @@
        "source": "Naukri JobSpeak monthly (text-parsed from published report)",
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 20053,
@@ -4804,7 +4804,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "momentum": {
        "value": 16.0,
@@ -4814,7 +4814,7 @@
        "source": "Naukri JobSpeak monthly (text-parsed from published report)",
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -4860,7 +4860,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "momentum": {
        "value": 18.0,
@@ -4870,7 +4870,7 @@
        "source": "Naukri JobSpeak monthly (text-parsed from published report)",
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 101006,
@@ -4927,7 +4927,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "momentum": {
        "value": 6.0,
@@ -4937,7 +4937,7 @@
        "source": "Naukri JobSpeak monthly (text-parsed from published report)",
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -4983,7 +4983,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC C, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "momentum": {
        "value": 14.0,
@@ -4993,7 +4993,7 @@
        "source": "Naukri JobSpeak monthly (text-parsed from published report)",
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 2987,
@@ -5050,7 +5050,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC Q, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "momentum": {
        "value": 4.0,
@@ -5060,7 +5060,7 @@
        "source": "Naukri JobSpeak monthly (text-parsed from published report)",
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 2593,
@@ -5117,7 +5117,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC G, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "momentum": {
        "value": -12.0,
@@ -5127,7 +5127,7 @@
        "source": "Naukri JobSpeak monthly (text-parsed from published report)",
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 1913,
@@ -5184,7 +5184,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC M, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 9408,
@@ -5241,7 +5241,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC P, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "momentum": {
        "value": -4.0,
@@ -5251,7 +5251,7 @@
        "source": "Naukri JobSpeak monthly (text-parsed from published report)",
        "source_url": "https://www.naukri.com/blog/tag/naukri-jobspeak/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 2322,
@@ -5308,7 +5308,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -5354,7 +5354,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC D+E, IND)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 1368,
@@ -5421,7 +5421,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 8700,
@@ -5431,7 +5431,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market)",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 7450,
@@ -5488,7 +5488,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC K, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 1200,
@@ -5498,7 +5498,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market)",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -5544,7 +5544,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 10500,
@@ -5554,7 +5554,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market)",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 13347,
@@ -5611,7 +5611,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC J, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 1100,
@@ -5621,7 +5621,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market)",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -5667,7 +5667,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC C, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 16000,
@@ -5677,7 +5677,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market)",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 631,
@@ -5734,7 +5734,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC Q, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 10300,
@@ -5744,7 +5744,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market)",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 940,
@@ -5801,7 +5801,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC G, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 4200,
@@ -5811,7 +5811,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market)",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 767,
@@ -5868,7 +5868,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC M, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 13800,
@@ -5878,7 +5878,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market)",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 3136,
@@ -5935,7 +5935,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC P, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 912,
@@ -5992,7 +5992,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC O, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "vacancies": {
        "value": 14000,
@@ -6002,7 +6002,7 @@
        "source": "Singapore MOM job vacancies by industry (SG proxy market incl. education (SSIC grouping))",
        "source_url": "https://data.gov.sg/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       }
      }
     },
@@ -6048,7 +6048,7 @@
        "source": "ILOSTAT EMP_TEMP_SEX_ECO (ISIC D+E, pooled SGP+JPN+KOR)",
        "source_url": "https://ilostat.ilo.org/",
        "measurement": "measured",
-       "updated_at": "2026-08-21T10:49:01Z"
+       "updated_at": "2026-08-24T07:03:39Z"
       },
       "postings": {
        "value": 372,
