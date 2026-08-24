@@ -124,7 +124,12 @@ const PILLARS = [
   {
     id: "displacement", label: "Job Cut Index", icon: "✖",
     question: "How heavy are job cuts right now?",
-    blurb: "Grounded in the current volume of job cutting — announced layoffs and redundancies in the most recent period — scored against a fixed band for the region's series. The mini-graph is the timeline: how that volume has changed week by week; the arrow shows the direction of travel.",
+    blurb: "Grounded in the current volume of job cutting — announced layoffs and redundancies in the most recent period — scored against a fixed band for the region's series.",
+    implications: {
+      up: "more workers are being displaced than in recent months — expect it to surface first in the most exposed sectors in the Sector pulse below.",
+      down: "displacement pressure is easing relative to recent months; the line below shows how much cutting still continues.",
+      flat: "displacement pressure is holding steady at the level shown below.",
+    },
     contextKpi: "ai_layoffs_ytd",
     inputs: [
       { kpi: "ai_layoffs_ytd",
@@ -136,6 +141,11 @@ const PILLARS = [
     id: "pullback", label: "Job Opportunity Decline Index", icon: "▼",
     question: "Are exposed roles being advertised less?",
     blurb: "Whether openings in AI-exposed occupations are shrinking — the level and 12-week trend of job postings in high-AI-footprint roles. Higher = fewer opportunities.",
+    implications: {
+      up: "opportunities in AI-exposed roles are tightening — a tougher market for exposed skills and for people trying to enter them.",
+      down: "hiring in AI-exposed roles is holding up better than in recent months.",
+      flat: "posting activity in exposed roles is broadly stable.",
+    },
     inputs: [
       { kpi: "exposed_posting_index", band: "posting_level", weight: 0.60, kind: "level" },
       { kpi: "exposed_posting_index", band: "posting_trend", weight: 0.40, kind: "change12w" },
@@ -145,6 +155,11 @@ const PILLARS = [
     id: "earlycareer", label: "Graduate Unemployment Index", icon: "◎",
     question: "Are young workers feeling it first?",
     blurb: "How early-career workers are faring: the youth-vs-overall unemployment gap, youth hiring, and recent-graduate outcomes.",
+    implications: {
+      up: "early-career workers are absorbing more of the adjustment — historically the first place AI pressure shows.",
+      down: "the squeeze on early-career workers is easing.",
+      flat: "early-career conditions are broadly unchanged.",
+    },
     caveat: "An inference indicator — it tends to move with AI pressure, but graduate unemployment can also reflect the wider economic cycle and other causes.",
     inputs: [
       { kpi: "topq_unemp_delta", band: "unemp_delta", weight: 0.50, kind: "level" },
@@ -156,6 +171,11 @@ const PILLARS = [
     id: "creation", label: "AI Job Creation Index", icon: "✚", positive: true,
     question: "Is AI creating new jobs?",
     blurb: "The positive side of the ledger — net new AI-attributed roles (new AI/ML/data roles minus AI-attributed displacement). A higher score here pulls the AI Impact Index down.",
+    implications: {
+      up: "AI-attributed job creation is strengthening, pulling the AI Impact Index down.",
+      down: "the job-creation offset is weakening, so the risk indexes carry more of the composite.",
+      flat: "AI-attributed job creation is steady — a constant offset against the risk indexes.",
+    },
     inputs: [
       { kpi: "net_creation", band: "creation_idx", weight: 1.00, kind: "level" },
     ],
@@ -164,6 +184,11 @@ const PILLARS = [
     id: "adoption", label: "AI Adoption Index", icon: "⚙", wide: true,
     question: "How fast is AI entering work?",
     blurb: "How quickly AI is actually entering work: AI mentions in job ads, the automation share of AI use, and how fast Untapped AI Potential is being converted into practice. Context for the four indexes above — rapid adoption without job creation is what turns footprint into impact.",
+    implications: {
+      up: "AI is entering work faster — untapped potential converting into practice historically precedes labour-market effects.",
+      down: "the pace of AI adoption has cooled slightly.",
+      flat: "adoption is proceeding at a steady pace.",
+    },
     inputs: [
       { kpi: "ai_mention_postings", band: "mention_level", altBand: "mention_level_adz", weight: 0.40, kind: "level" },
       { kpi: "ai_mention_postings", band: "mention_trend", weight: 0.20, kind: "change12w" },
@@ -351,11 +376,34 @@ function computeDerived(reg) {
     const prevIdx = Math.max(0, lastIdx - 4);
     const delta = (now.score !== undefined && series[prevIdx] !== undefined)
       ? now.score - series[prevIdx] : undefined;
+    // insight ingredients: recent-window average + the biggest-moving input
+    const windowPts = series.map((v, i) => [i, v])
+      .filter(([, v]) => v !== undefined).slice(-26);
+    const avg = windowPts.length >= 4
+      ? windowPts.reduce((s, [, v]) => s + v, 0) / windowPts.length : undefined;
+    const months = windowPts.length
+      ? Math.max(1, Math.round(windowPts.length / 4.345)) : 0;
+    let driver;
+    if (now.score !== undefined) {
+      const prev = scorePillar(p, reg, prevIdx);
+      let best;
+      now.inputs.forEach((i, ix) => {
+        const q = prev.inputs[ix];
+        if (i.norm === undefined || !q || q.norm === undefined) return;
+        const d = i.norm * (i.effWeight || 0) - q.norm * (q.effWeight || 0);
+        if (!best || Math.abs(d) > Math.abs(best.d)) best = { d, i, q };
+      });
+      if (best && Math.abs(best.d) >= 0.5) {
+        driver = { label: BANDS[best.i.band].label,
+                   rawNow: best.i.raw, rawPrev: best.q.raw, up: best.d > 0 };
+      }
+    }
     // confidence = share of effective weight backed by measured KPIs
     const kpis = DATA.regions[reg].kpis;
     const conf = now.inputs.reduce((s, i) =>
       s + ((kpis[i.kpi] || {}).measurement === "measured" ? i.effWeight || 0 : 0), 0);
-    return { ...p, score: now.score, inputs: now.inputs, series, delta, confidence: conf };
+    return { ...p, score: now.score, inputs: now.inputs, series, delta,
+             avg, months, driver, confidence: conf };
   });
   // Positive pillars (AI Job Creation) enter the composite inverted:
   // strong creation pulls the AI Impact Index down.
@@ -495,6 +543,40 @@ function bindSparkButtons(host) {
     }));
 }
 
+// Data-driven tile reading: how far the index moved vs last month and vs
+// its recent average, what drove the move, and the implication. Falls
+// back to the static blurb when the series is too short to say anything.
+const fmtRawNum = (v) => (Math.abs(v) >= 100 ? v.toFixed(0) : v.toFixed(1));
+const lcFirst = (s) => (s && s[1] && s[1] === s[1].toLowerCase()
+  ? s[0].toLowerCase() + s.slice(1) : s);
+const pts = (v) => `${Math.abs(v).toFixed(0)} point${Math.abs(v) >= 1.5 ? "s" : ""}`;
+
+function pillarInsight(p) {
+  if (p.score === undefined || p.delta === undefined) return p.blurb || "";
+  const parts = [];
+  const flat = Math.abs(p.delta) < 0.5;
+  let head = flat ? "<b>Little changed vs last month</b>"
+    : `<b>${p.delta > 0 ? "Up" : "Down"} ${pts(p.delta)} vs last month</b>`;
+  if (p.avg !== undefined && p.months) {
+    const da = p.score - p.avg;
+    head += Math.abs(da) < 0.5
+      ? ` and in line with its ${p.months}-month average`
+      : ` and ${pts(da)} ${da > 0 ? "above" : "below"} its ${p.months}-month average`;
+  }
+  parts.push(head + ".");
+  if (p.driver) {
+    const dir = p.driver.rawNow > p.driver.rawPrev ? "a rise" : "a fall";
+    parts.push(`Driven by ${dir} in ${lcFirst(p.driver.label)} `
+      + `(${fmtRawNum(p.driver.rawPrev)} → ${fmtRawNum(p.driver.rawNow)}), `
+      + `which ${p.driver.up ? "pushed the index up" : "pulled the index down"}.`);
+  } else if (flat) {
+    parts.push("No single input moved materially.");
+  }
+  const impl = (p.implications || {})[flat ? "flat" : p.delta > 0 ? "up" : "down"];
+  if (impl) parts.push(`<b>Implication:</b> ${impl}`);
+  return parts.join(" ");
+}
+
 // Absolute-level context line for momentum pillars (contextKpi): a low
 // Job Cut score means "easing", so the tile must still show how much
 // cutting is actually happening.
@@ -545,7 +627,7 @@ function pillarCard(p, reg) {
         title="Click for the full ${p.label} history chart"
         aria-label="Expand ${p.label} history chart">${sparkSvg(p.series, 170, 52, "")}</button>
     </div>
-    <p class="p-blurb">${p.blurb || ""}${p.caveat ? ` <em class="p-caveat">${p.caveat}</em>` : ""}</p>
+    <p class="p-blurb">${pillarInsight(p)}${p.caveat ? ` <em class="p-caveat">${p.caveat}</em>` : ""}</p>
     ${pillarContext(p, reg)}
     <div class="p-meta">${fmtDelta(p.delta, p.positive)}
       <span class="p-conf" title="Share of this signal's weight backed by measured (not modelled) sources">
