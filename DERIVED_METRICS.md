@@ -1,6 +1,6 @@
 # Derived metrics specification — Job Impact Index & its indexes
 
-**Added:** 2026-08-14 · **Revised:** 2026-08-24 (Job Impact Index: adoption removed from the composite) ·
+**Added:** 2026-08-14 · **Revised:** 2026-08-24 (Job Impact Index: AI Adoption Index removed from the composite, then from the dashboard) ·
 **Computed:** client-side in `assets/dashboard.js` (function `computeDerived`)
 from `data/current.json` + `data/historical.csv`. Nothing is stored; the lineage shown in Deep mode
 is the live calculation, so the dashboard and its explanation can never drift apart.
@@ -9,8 +9,8 @@ is the live calculation, so the dashboard and its explanation can never drift ap
 
 The ten raw KPIs are precise but demand context to read. The derived layer answers the reader's
 actual question — *"what net impact is AI having on this job market right now, and which way is
-it moving?"* — in one number per region plus four composite indexes and an adoption context
-tile, while Deep mode exposes every input, band, and weight so the translation is fully auditable.
+it moving?"* — in one number per region plus four composite indexes, while Deep mode exposes
+every input, band, and weight so the translation is fully auditable.
 
 ## Naming (2026-08-20 review)
 
@@ -22,12 +22,12 @@ The layer was renamed for a corporate-leadership audience. Old → new:
 | Job displacement (pillar) | **Job Cut Index** |
 | Hiring pullback (pillar) | **Job Opportunity Decline Index** |
 | Early-career squeeze (pillar) | **Graduate Unemployment Index** |
-| AI adoption pace (pillar) | **AI Adoption Index** |
+| AI adoption pace (pillar) | **AI Adoption Index** (removed from the dashboard 2026-08-24) |
 | — (new) | **AI Job Creation Index** (positive direction) |
 | exposure / Observed Exposure (dashboard label) | **AI Footprint** (formal research term unchanged in citations) |
 | capability gap | **Untapped AI Potential** |
 
-## The five indexes (each scored 0–100 within-region; four enter the composite, adoption is context-only)
+## The four indexes (each scored 0–100 within-region)
 
 | Index | Direction | Question it answers | Input KPIs (weight within index) |
 |---|---|---|---|
@@ -35,7 +35,6 @@ The layer was renamed for a corporate-leadership audience. Old → new:
 | **Job Opportunity Decline Index** | risk (up) | Are exposed roles advertised less? | `exposed_posting_index` level (60%), its 12-week trend (40%) |
 | **Graduate Unemployment Index** | risk (up) | Are young workers feeling it first? | `topq_unemp_delta` level (50%), `hire_rate_22_25` (30%), `graduate_posting` (20%) |
 | **AI Job Creation Index** | **positive (down)** | Is AI creating new jobs? | `net_creation` level (100%) |
-| **AI Adoption Index** | risk (up) | How fast is AI entering work? | `ai_mention_postings` level (40%) + 12wk trend (20%), automation share `100−augmentation_share` (20%), `capability_gap` (Untapped AI Potential) closing headroom (20%) |
 
 The **Graduate Unemployment Index is an inference indicator**: it tends to move with AI pressure,
 but graduate unemployment can also reflect the wider economic cycle and other causes — the
@@ -51,8 +50,9 @@ index and enters **inverted** — strong AI-attributed job creation pulls the Jo
 **down**. **The AI Adoption Index was removed from the composite on 2026-08-24**: it is a
 leading indicator (AI arriving in work), not a job outcome, and it inflated scores in
 adoption-heavy regions (India read 33 with it, 25 without) where no job harm was observed.
-It remains on the dashboard as the full-width early-warning context tile, scored and
-narrated but unweighted. Each tile also carries a fixed plain-language "Measures ..."
+Later the same day it was removed from the dashboard entirely; its raw inputs — the
+AI-mention posting share, the automation share, and the Untapped AI Potential gap — remain
+visible as KPI tiles in Deep mode. Each tile carries a fixed plain-language "Measures ..."
 definition, and the hero carries its own generated data narrative (change vs last month,
 vs the recent average, and the biggest-moving index). On the tiles the creation index reads naturally (higher = more creation, tinted green);
 the inversion happens only inside the composite, and the Deep-mode lineage prints it explicitly.
@@ -62,9 +62,7 @@ Status bands (composite and risk indexes): **0–25 Low · 25–50 Moderate · 5
 Encouraging · Strong** (colour scale inverted: high = green).
 
 In the dashboard layout, the four 2×2 hook tiles are Job Cut, Job Opportunity Decline, Graduate
-Unemployment and AI Job Creation; the AI Adoption Index renders as a full-width context tile
-below them — scored, badged and narrated like the others, but not a composite input since
-2026-08-24.
+Unemployment and AI Job Creation.
 
 ## Normalization — fixed calibration bands, not cross-region ranks
 
@@ -83,10 +81,6 @@ Observed Exposure methodology (no absolute cross-country footprint claims).
 | posting index 12wk trend | +10 pts | −10 pts | falling = higher |
 | `topq_unemp_delta` | 0 pp | 10 pp | bigger youth gap = higher |
 | `hire_rate_22_25` | +10 % | −30 % | falling hires = higher |
-| `ai_mention_postings` | 0 % | 15 % | more AI postings = higher adoption |
-| mention 12wk trend | −1 pp | +3 pp | rising = higher |
-| automation share (100−aug) | 30 % | 70 % | more automation = higher |
-| `capability_gap` (Untapped AI Potential) | 40 pp (wide) | 10 pp (closing) | closing potential gap = higher |
 
 Trend inputs use the value 12 weeks before the current snapshot in `historical.csv`
 (or the oldest available week when history is shorter).
@@ -123,11 +117,6 @@ The tile prints the exact latest figure alongside the score — the US shows its
 plus the last-12-weeks flow; the UK shows the rolling-quarter level with a rising/falling
 word — so the score is always anchored to a real number.
 
-**Basis-aware band (2026-08-20).** The Adzuna keyword AI-mention proxy (IN/APAC) is a
-deliberately looser net than the Hiring Lab curated taxonomy (~20%+ vs ~5–9% shares), so
-the mention *level* input uses its own calibration band (0 → 40%) whenever the KPI's source
-is Adzuna. The lineage table shows which band applied.
-
 Change log 2026-08-20: `net_creation` was promoted from a 25% input inside the old Displacement
 pillar to its own positive-direction index (band recalibrated −50→+150 k for the standalone
 reading); `graduate_posting` moved from Displacement into the Graduate Unemployment Index; the
@@ -136,7 +125,10 @@ old Displacement pillar became the single-input Job Cut Index. Composite weights
 
 Change log 2026-08-24: the AI Adoption Index was removed from the composite (leading indicator,
 not a job outcome); weights moved to 30/30/20/20 with creation still inverted, and the composite
-was renamed **Job Impact Index**.
+was renamed **Job Impact Index**. Later the same day the AI Adoption Index tile was removed from
+the dashboard altogether, retiring its calibration bands (mention level 0→15% and the wider
+Adzuna-basis 0→40% band, mention 12-week trend −1→+3 pp, automation share 30→70%,
+Untapped-AI-Potential closing 40→10 pp); its raw KPIs stay on the page in Deep mode.
 
 ## Confidence
 
