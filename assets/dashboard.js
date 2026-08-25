@@ -165,7 +165,7 @@ const PILLARS = [
   {
     id: "creation", label: "AI Job Creation Index", icon: "✚", positive: true,
     question: "Is AI creating new jobs?",
-    measures: "Measures the number of new jobs AI is creating — new AI-related roles minus the roles AI has displaced.",
+    measures: "Measures the number of new jobs AI is creating minus the roles AI has displaced.",
     blurb: "The positive side of the ledger — net new AI-attributed roles (new AI/ML/data roles minus AI-attributed displacement). A higher score here pulls the Job Impact Index down.",
     implications: {
       up: "AI-attributed job creation is strengthening, pulling the Job Impact Index down.",
