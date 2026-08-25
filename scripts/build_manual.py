@@ -433,7 +433,7 @@ story.append(Paragraph(
     "occupations most exposed to AI &mdash; posting level and 12-week trend), and the "
     "<i>Graduate Unemployment Index</i> (how much worse fresh graduates and young workers are faring "
     "than the historical norm). The fourth, the <i>AI Job Creation Index</i> (the number of new jobs AI "
-    "is creating &mdash; new AI-related roles minus the roles AI has displaced), is a "
+    "is creating minus the roles AI has displaced), is a "
     "<b>positive-direction</b> index: it enters the composite inverted, so stronger AI-attributed job "
     "creation pulls the Job Impact Index <b>down</b>. Composite weights: 30% Job Cut + 30% Opportunity "
     "Decline + 20% Graduate Unemployment + 20% &times; (100 &minus; Job Creation). An earlier <i>AI "
