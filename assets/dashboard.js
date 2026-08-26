@@ -1592,19 +1592,22 @@ if (typeof Chart !== "undefined") {
 })();
 
 // ---------- Visitor counter ----------
-// Counts once per browser session via counterapi.dev (no backend needed).
+// Counts once per browser session via Abacus (abacus.jasoncameron.dev) —
+// free, keyless, no backend needed. (counterapi.dev v1, used until
+// 2026-08-26, was shut down by the provider with an HTTP 410; its count
+// history could not be recovered, so the tally restarted at the switch.)
 (function visitorCounter() {
   const el = document.getElementById("visitor-count");
   if (!el) return;
   let cached = null;
   try { cached = sessionStorage.getItem("aijmt_visits"); } catch (e) {}
   if (cached) { el.textContent = Number(cached).toLocaleString("en-GB"); return; }
-  fetch("https://api.counterapi.dev/v1/aijmtracker/visits/up")
+  fetch("https://abacus.jasoncameron.dev/hit/aijmtracker/visits")
     .then((r) => r.json())
     .then((j) => {
-      if (j && typeof j.count === "number") {
-        el.textContent = j.count.toLocaleString("en-GB");
-        try { sessionStorage.setItem("aijmt_visits", String(j.count)); } catch (e) {}
+      if (j && typeof j.value === "number") {
+        el.textContent = j.value.toLocaleString("en-GB");
+        try { sessionStorage.setItem("aijmt_visits", String(j.value)); } catch (e) {}
       } else {
         el.textContent = "—";
       }
