@@ -120,7 +120,7 @@ def on_cover(canvas, doc):
     # reversed logo, top-left
     draw_awa_logo(c, M, H - 2.15 * cm, 24, dark_bg=True)
     c.setFont(SANS, 8.5); c.setFillColor(DARKMUTE)
-    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v2.3     AUGUST 2026")
+    c.drawRightString(W - 1.5 * cm, H - 2.02 * cm, "USER MANUAL     v3.0     AUGUST 2026")
     # kicker (Spectral italic, coral)
     c.setFont(SERIF_I, 16); c.setFillColor(CORAL)
     c.drawString(M, H * 0.63, "The DNA of work")
@@ -151,7 +151,7 @@ def on_cover(canvas, doc):
     c.setStrokeColor(colors.HexColor("#33485A")); c.setLineWidth(0.8)
     c.line(M, 2.15 * cm, W - M, 2.15 * cm)
     c.setFillColor(DARKMUTE); c.setFont(SANS, 8)
-    c.drawString(M, 1.65 * cm, "Version 2.3  -  August 2026")
+    c.drawString(M, 1.65 * cm, "Version 3.0  -  August 2026")
     c.drawRightString(W - M, 1.65 * cm, "It's in our DNA")
     c.restoreState()
 
@@ -228,8 +228,8 @@ story.append(Paragraph(
     body))
 story.append(Paragraph(
     "The dashboard opens in a <b>Simple</b> view built for a fast, plain-language read: one "
-    "Job Impact Index per region, four plain-language composite indexes (three risk indexes "
-    "plus a positive-direction AI Job Creation Index that pulls the composite down), and a sector "
+    "Job Impact Index per region, five plain-language composite indexes (three risk indexes "
+    "plus two positive-direction creation indexes that pull the composite down), and a sector "
     "pulse ranking eleven industry sectors by AI pressure. A <b>Deep</b> toggle exposes "
     "everything underneath &mdash; the ten raw KPIs with measured/modelled provenance, the "
     "analytical charts, and \"under the hood\" lineage panels that show every input, "
@@ -399,10 +399,20 @@ kpis = [
      "Quarterly.",
      "More than 15% YoY drop."),
     ("Net AI-attributed job creation",
-     "New AI, ML, data, security postings minus AI-attributed displacement events over the latest 12 months, in thousands of roles.",
+     "New AI, ML, data, security postings minus AI-attributed displacement events over the latest 12 months, in thousands of roles. Since Aug 2026 a Deep-view context KPI (it powers the Net job change chart); the AI Job Creation Index now runs on the advertised-AI-jobs count below.",
      "WEF Future of Jobs 2025 regional baseline plus posting-derived adjustments.",
      "Quarterly.",
      "Net swings into negative territory."),
+    ("Advertised AI-skill jobs (live ads)",
+     "Count of live job ads matching the AI term set (ai, genai, llm, chatgpt, copilot, tensorflow, pytorch), in thousands, summed across the region's Adzuna markets (EU = DE+FR; APAC = Singapore proxy). A keyword net: an ad mentioning AI counts whether AI is the whole job or one skill among many. Powers the AI Job Creation Index, scored as an index against its launch baseline (=100).",
+     "Adzuna live job-ad counts (measured, all six regions).",
+     "Weekly.",
+     "Index vs launch baseline falls below 80."),
+    ("Employment in new AI businesses",
+     "Estimated people employed at AI-first businesses founded in the last three years, in thousands. Modelled: Stanford AI Index newly-funded AI startup counts per geography x a three-year founding cohort x ~15 average early-stage headcount; unfunded formations conservatively excluded. No statistics agency measures this directly. Powers the AI New Enterprise Index.",
+     "AWA model; anchors from the Stanford AI Index and OECD.AI.",
+     "Revisited with each anchor publication (at least annually).",
+     "Anchor revision moves a region by more than 25%."),
 ]
 for name, definition, source, refresh, alert in kpis:
     story.append(Paragraph(name, h3))
@@ -418,30 +428,33 @@ for name, definition, source, refresh, alert in kpis:
 story.append(PageBreak())
 story.append(Paragraph("5. How to read each dashboard panel", h1))
 
-story.append(Paragraph("5.1 Simple and Deep views &mdash; the derived layer (added Aug 2026; Job Impact Index four-index composite Aug 2026)", h2))
+story.append(Paragraph("5.1 Simple and Deep views &mdash; the derived layer (added Aug 2026; five-index Job Impact composite, Aug 2026 review)", h2))
 story.append(Paragraph(
     "The dashboard opens in <b>Simple</b> view: one <b>Job Impact Index</b> (0&ndash;100) per region "
     "&mdash; how AI is increasing or reducing the number of jobs available in the areas of work where "
-    "AI can most readily be applied &mdash; built from four plain-language indexes, each carrying a "
-    "fixed \"Measures &hellip;\" definition on its tile. Three are risk indexes that push the composite "
-    "up &mdash; the <i>Job Cut Index</i> (the number of layoffs and redundancies announced in the most "
-    "recent months, attributed to AI where the source tracks attribution: the score is grounded in the "
-    "current volume of cutting &mdash; the 12-week flow of announced cuts, or the rolling-quarter "
-    "redundancy level where the source publishes a level &mdash; against fixed bands, and the tile "
-    "always prints the absolute figure so the score is anchored to a real number), the "
-    "<i>Job Opportunity Decline Index</i> (the reduction in the number of jobs being advertised in the "
-    "occupations most exposed to AI &mdash; posting level and 12-week trend), and the "
-    "<i>Graduate Unemployment Index</i> (how much worse fresh graduates and young workers are faring "
-    "than the historical norm). The fourth, the <i>AI Job Creation Index</i> (the number of new jobs AI "
-    "is creating minus the roles AI has displaced), is a "
-    "<b>positive-direction</b> index: it enters the composite inverted, so stronger AI-attributed job "
-    "creation pulls the Job Impact Index <b>down</b>. Composite weights: 30% Job Cut + 30% Opportunity "
-    "Decline + 20% Graduate Unemployment + 20% &times; (100 &minus; Job Creation). An earlier <i>AI "
-    "Adoption Index</i> was retired in August 2026: AI arriving in work is a leading indicator rather "
-    "than a job outcome, and it inflated scores in adoption-heavy regions where no job harm was "
-    "observed &mdash; so the headline layer now reflects job outcomes only, while the underlying "
-    "adoption signals (AI-mention posting share, automation share, Untapped AI Potential) remain "
-    "visible as raw KPI tiles in Deep view.", body))
+    "AI can most readily be applied &mdash; built from five plain-language indexes, each carrying a "
+    "fixed \"Measures &hellip;\" definition and a direction line (\"the higher the number &hellip;\") "
+    "on its tile. Three are risk indexes that push the composite up: the <i>AI Redundancy Index</i> "
+    "(reported redundancies attributed to AI displacement, counted where the source tracks AI "
+    "attribution &mdash; the UK series counts all redundancies; the score is grounded in the current "
+    "volume of cutting against fixed bands, and the tile always prints the absolute figure), the "
+    "<i>AI Advertised Job Displacement Index</i> (the reduction in advertised jobs in the occupations "
+    "most exposed to AI versus what would have been expected before AI &mdash; posting level and "
+    "12-week trend), and the <i>Graduate Unemployment Index</i> (graduate and young-worker "
+    "unemployment versus the historically expected norm). Two are <b>positive-direction</b> creation "
+    "indexes that enter the composite inverted and pull it <b>down</b>: the <i>AI Job Creation "
+    "Index</i> (the number of newly advertised jobs that call for AI &mdash; the measured Adzuna count "
+    "of live ads matching AI terms, indexed to its launch baseline) and the <i>AI New Enterprise "
+    "Index</i> (people employed in new businesses created because of AI &mdash; a clearly badged "
+    "modelled estimate anchored to published AI-startup formation data, since no statistics agency "
+    "measures this directly). Composite weights: 25% Redundancy + 25% Advertised Displacement + 20% "
+    "Graduate Unemployment + 15% &times; (100 &minus; Job Creation) + 15% &times; (100 &minus; New "
+    "Enterprise). The two creation indexes overlap only slightly &mdash; an advertised role at a newly "
+    "founded AI firm can appear in both &mdash; a documented design choice, since they track different "
+    "mechanisms (incumbents advertising AI roles vs AI spawning new businesses) and together cap at "
+    "30% of the composite. An earlier <i>AI Adoption Index</i> was retired in August 2026: AI arriving "
+    "in work is a leading indicator rather than a job outcome; its underlying signals remain visible "
+    "as raw KPI tiles in Deep view.", body))
 story.append(Paragraph(
     "The Graduate Unemployment Index carries an explicit caveat on its tile: it is an <b>inference "
     "indicator</b> &mdash; it tends to move with AI pressure, but graduate unemployment can also "
@@ -472,7 +485,7 @@ story.append(Paragraph(
     "placeholder to a measured source can never manufacture a spurious trend (the input's weight "
     "redistributes until the new basis accrues 12 weeks of history) - and <b>basis-aware "
     "calibration</b>: where regions publish the same signal on different bases, each basis scores "
-    "against its own fixed band - the Job Cut Index scores cumulative YTD layoff series against a "
+    "against its own fixed band - the AI Redundancy Index scores cumulative YTD layoff series against a "
     "12-week-flow band and the UK's rolling-quarter redundancy level against a level band. "
     "Scores compare a region to itself over "
     "time and are not cross-country footprint rankings, consistent with the quartile-rank rule in "
@@ -731,7 +744,7 @@ for r in refs:
 
 story.append(Spacer(1, 1*cm))
 story.append(Paragraph(
-    "<i>Prepared June 2026; revised 24 August 2026 &mdash; v2.3. This revision renames the composite the <b>Job Impact Index</b>, removes the AI Adoption Index from the composite and then from the dashboard (its raw adoption signals remain as Deep-view KPI tiles), and documents the four-index weights (30/30/20/20 with the AI Job Creation Index inverted), the level-grounded Job Cut Index, the fixed \"Measures &hellip;\" definition on every tile, and the generated data narratives on the hero and every index. Earlier revisions (v2.1, 20 August 2026) introduced the corporate renaming (AI Footprint; Untapped AI Potential), the clickable index-history charts, the data-provenance narrative, and the eleventh sector (power &amp; utilities). Updates to this manual follow major methodological revisions.</i>",
+    "<i>Prepared June 2026; revised 26 August 2026 &mdash; v3.0. This revision implements the August 2026 five-index review: renames (AI Redundancy Index; AI Advertised Job Displacement Index), the AI Job Creation Index redefined onto the measured Adzuna count of advertised AI jobs (indexed to its launch baseline), the new modelled AI New Enterprise Index, weights 25/25/20/&minus;15/&minus;15, the documented creation/enterprise overlap boundary, and a direction line on every tile definition. Earlier revisions: v2.x (August 2026) renamed the composite the Job Impact Index, retired the AI Adoption Index, introduced the level-grounded redundancy scoring, the corporate renaming (AI Footprint; Untapped AI Potential), clickable index-history charts, the data-provenance narrative, and the eleventh sector (power &amp; utilities). Updates to this manual follow major methodological revisions.</i>",
     small))
 
 # ------------------------------------------------------------------

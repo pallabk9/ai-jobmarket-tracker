@@ -53,6 +53,9 @@ KPIS = [
     ("ai_skill_premium",      "AI-skill salary premium",                 "%",       "down"),
     ("graduate_posting",      "Graduate posting in exposed roles",       "%",       "up"),
     ("net_creation",          "Net AI-attributed job creation",          "k roles", "down"),
+    # Andrew review 2026-08-26: two creation-side KPIs for the five-index layer
+    ("ai_job_ads",            "Advertised AI-skill jobs (live ads)",     "k ads",   "down"),
+    ("ai_new_enterprise_jobs", "Employment in new AI businesses",        "k roles", "down"),
 ]
 
 SOURCES = {
@@ -66,6 +69,8 @@ SOURCES = {
     "ai_skill_premium":      ("Lightcast + Indeed", "https://lightcast.io/"),
     "graduate_posting":      ("IFOW + Big 4 disclosures", "https://www.ifow.org/news-articles/the-impact-of-ai-on-entry-level-jobs-a-graduate-perspective"),
     "net_creation":          ("WEF Future of Jobs 2025 + regional adapter", "https://www.weforum.org/publications/the-future-of-jobs-report-2025/"),
+    "ai_job_ads":            ("Adzuna live job-ad counts", "https://developer.adzuna.com/"),
+    "ai_new_enterprise_jobs": ("AWA model · Stanford AI Index + OECD.AI anchors", "https://hai.stanford.edu/ai-index"),
 }
 
 # ------------------------------------------------------------------
@@ -571,6 +576,19 @@ def _adapter_adzuna_mention(region, on_date_iso):
         f"Adzuna ({market} keyword proxy: AI-term share of live postings)", \
         "https://developer.adzuna.com/"
 
+def _adapter_adzuna_ai_ads(region, on_date_iso):
+    """Live job ads matching the AI term set, in thousands (summed across the
+    region's Adzuna markets). Powers the AI Job Creation Index: the count of
+    newly advertised roles that call for AI. Keyword proxy - an ad that
+    mentions AI is counted whether AI is the job or one skill among many."""
+    total = 0.0
+    for cc in ADZUNA_CC[region]:
+        total += _adzuna_count(cc, what_or=ADZUNA_AI_TERMS)
+    market = "+".join(c.upper() for c in ADZUNA_CC[region])
+    return round(total / 1000.0, 2), \
+        f"Adzuna ({market}: live job ads matching AI terms)", \
+        "https://developer.adzuna.com/"
+
 def _adapter_adzuna_posting(region, on_date_iso):
     """Exposed-sector posting index. Sums live posting counts across the 8
     high-exposure Adzuna categories; indexed to 100 at the first measured
@@ -738,6 +756,13 @@ REAL_ADAPTERS = {
     ("ai_skill_premium", "EU"): _adapter_adzuna_premium,
     ("ai_skill_premium", "APAC"): _adapter_adzuna_premium,
     ("ai_skill_premium", "AU"): _adapter_adzuna_premium,
+    # AI Job Creation Index input: live AI-term ad counts, all six regions
+    ("ai_job_ads", "US"): _adapter_adzuna_ai_ads,
+    ("ai_job_ads", "UK"): _adapter_adzuna_ai_ads,
+    ("ai_job_ads", "IN"): _adapter_adzuna_ai_ads,
+    ("ai_job_ads", "EU"): _adapter_adzuna_ai_ads,
+    ("ai_job_ads", "APAC"): _adapter_adzuna_ai_ads,
+    ("ai_job_ads", "AU"): _adapter_adzuna_ai_ads,
     # Official-statistics proxies (relabelled via NAME_OVERRIDES)
     ("ai_layoffs_ytd", "UK"): _adapter_ons_redundancy,
     ("graduate_posting", "EU"): _adapter_eurostat_graduate,

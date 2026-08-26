@@ -163,7 +163,12 @@ def main():
                 row = rows_w.get((region, kpi_id))
                 if not row:
                     continue
-                node = snap["regions"][region]["kpis"][kpi_id]
+                node = snap["regions"][region]["kpis"].get(kpi_id)
+                if node is None:
+                    # KPI added after this snapshot was frozen (e.g. the
+                    # 2026-08-26 creation-side KPIs) - frozen snapshots are
+                    # the audit trail, so never inject new keys into them.
+                    continue
                 node["value"] = float(row["value"])
                 node["name"] = row["kpi_name"]
                 node["source"] = row["source_name"]
