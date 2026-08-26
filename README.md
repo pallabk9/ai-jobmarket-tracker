@@ -35,18 +35,21 @@ A live dashboard tracking AI's impact on labour markets across six regions, grou
     └── weekly-update.yml            # Monday 06:00 UTC cron
 ```
 
-## Simple / Deep view and derived metrics (2026-08-14; Job Impact Index four-index composite 2026-08-24)
+## Simple / Deep view and derived metrics (2026-08-14; Job Impact Index five-index composite 2026-08-26)
 
 The dashboard has two reading levels, toggled at the top of the Live
 dashboard section (persisted per browser):
 
 - **Simple** (default): one **Job Impact Index** (0-100) per region plus
-  four plain-language indexes - *Job Cut Index*, *Job Opportunity Decline
-  Index*, *Graduate Unemployment Index* (an inference indicator, caveated
-  on the tile), and *AI Job Creation Index* (positive direction - pulls
-  the composite **down**; enters inverted) - each with a status word, an
-  explainer line, month-over-month delta, a clickable sparkline (opens a
-  full history chart), and a "% measured" confidence chip. A data-provenance narrative
+  five plain-language indexes - *AI Redundancy Index*, *AI Advertised Job
+  Displacement Index*, *Graduate Unemployment Index* (an inference
+  indicator, caveated on the tile), *AI Job Creation Index* (newly
+  advertised AI jobs) and *AI New Enterprise Index* (employment at new AI
+  businesses; both positive direction - they pull the composite **down**;
+  enter inverted) - each with a status word, a "Measures ..." definition
+  ending in a direction line, month-over-month delta, a clickable
+  sparkline (opens a full history chart), and a "% measured" confidence
+  chip. A data-provenance narrative
   at the top of the page explains the authoritative-sources /
   measured-vs-modelled contract.
 - **Deep**: everything under the hood - all ten raw KPI tiles with
@@ -55,15 +58,20 @@ dashboard section (persisted per browser):
   → calibration band → normalized score → weight → contribution, with its
   source link and provenance badge.
 
-Composite (renamed **Job Impact Index**, 2026-08-24): 30% Job Cut +
-30% Opportunity Decline + 20% Graduate Unemployment + 20% × (100 − Job
-Creation). The AI Adoption Index was removed from the composite the same
-day — it is a leading indicator, not a job outcome, and it inflated
-adoption-heavy regions (India 33 → 25) — and then removed from the
-dashboard entirely; its raw signals (AI-mention share, automation share,
-Untapped AI Potential) stay visible as KPI tiles in Deep view. Every
-tile carries a plain-language "Measures ..." definition, and the hero
-carries its own generated data narrative.
+Composite (**Job Impact Index**; five-index layer per the Andrew review,
+2026-08-26): 25% AI Redundancy + 25% Advertised Job Displacement + 20%
+Graduate Unemployment + 15% × (100 − Job Creation) + 15% × (100 − New
+Enterprise). The AI Job Creation Index is measured — the live Adzuna
+count of job ads matching AI terms, indexed to its launch baseline — and
+the AI New Enterprise Index is a modelled anchor series (Stanford AI
+Index startup counts × cohort × average early headcount). The two
+creation-side indexes overlap only slightly (an advertised role at a new
+AI firm can appear in both) — a documented design choice, as they track
+different mechanisms. The AI Adoption Index was removed on 2026-08-24
+(leading indicator, not a job outcome); its raw signals stay visible as
+KPI tiles in Deep view. Every tile carries a plain-language
+"Measures ..." definition, and the hero carries its own generated data
+narrative.
 
 **Terminology (2026-08-20):** the dashboard's plain-language term for
 Observed Exposure is now **AI Footprint** (the formal research term is
