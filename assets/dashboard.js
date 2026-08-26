@@ -33,6 +33,8 @@ const FMT = {
   augmentation_share:    (v) => `${v.toFixed(0)}%`,
   exposed_posting_index: (v) => `${v.toFixed(0)}`,
   ai_skill_premium:      (v) => `${v >= 0 ? "+" : ""}${v.toFixed(0)}%`,
+  ai_job_ads:            (v) => `${v >= 100 ? v.toFixed(0) : v.toFixed(1)}k ads`,
+  ai_new_enterprise_jobs: (v) => `${v.toFixed(1)}k roles`,
   graduate_posting:      (v) => `${v >= 0 ? "+" : ""}${v.toFixed(0)}%`,
   net_creation:          (v) => `${v.toFixed(0)}K`,
 };
@@ -49,6 +51,8 @@ const KPI_SHORT = {
   ai_skill_premium:      "AI-skill salary premium",
   graduate_posting:      "Graduate posting (exposed)",
   net_creation:          "Net AI-attributed creation",
+  ai_job_ads:            "Advertised AI-skill jobs",
+  ai_new_enterprise_jobs: "Employment in new AI businesses",
 };
 
 // Per-metric glossary + methodology, surfaced on hover over each KPI tile
@@ -64,6 +68,8 @@ const GLOSS = {
   ai_skill_premium: "Median advertised salary for AI postings minus comparable non-AI postings (%). Source: Indeed Hiring Lab + Lightcast. Modelled.",
   graduate_posting: "Year-on-year change in entry-level postings in exposed roles; Big-4 graduate disclosures used where available. Source: Indeed + IFOW + employer filings. Modelled.",
   net_creation: "New AI/ML/data/security postings minus AI-attributed displacement over the latest 12 months (000s of roles). Source: WEF Future of Jobs 2025 + regional adapters. Modelled.",
+  ai_job_ads: "Count of live job ads matching AI terms (ai, genai, llm, chatgpt, copilot, tensorflow, pytorch), thousands, summed across the region's Adzuna markets (EU = DE+FR; APAC = Singapore proxy). Measured weekly; powers the AI Job Creation Index. A keyword net: an ad mentioning AI counts whether AI is the whole job or one skill among many.",
+  ai_new_enterprise_jobs: "Estimated people employed at AI-first businesses founded in the last three years. Modelled from published anchors (Stanford AI Index newly-funded startup counts × 3-year cohort × ~15 average early headcount) — no statistics agency measures this directly. Powers the AI New Enterprise Index.",
 };
 
 // State
@@ -87,7 +93,7 @@ const charts = {};
 // scores compare a region to itself over time (methodology lock: no absolute
 // cross-country exposure claims).
 const BANDS = {
-  // Job Cut Index is LEVEL-GROUNDED (per design review 2026-08-21): the
+  // AI Redundancy Index (né Job Cut Index) is LEVEL-GROUNDED (2026-08-21): the
   // score reflects how much cutting is happening now, and the timeline
   // shows that volume over time. Two bases, each with its own fixed band:
   //  * cumulative YTD series (US Challenger AI-cited + modelled regions):
@@ -99,7 +105,16 @@ const BANDS = {
   //    level itself. 60k ≈ the post-1995 record low; 250k ≈ severe
   //    recession (2009 peaked ~310k, COVID ~400k).
   layoffs_level_q: { lo: 60, hi: 250, label: "Redundancies per rolling quarter (k, all-cause)" },
-  creation_idx:   { lo: -50, hi: 150, label: "Net AI-attributed job creation (k roles)" },
+  // (creation_idx -50→150 retired 2026-08-26 with the net_creation input;
+  // the net_creation KPI itself remains, powering the Net job change chart.)
+  // AI Job Creation Index: live AI-term ad count indexed to its first
+  // same-basis observation (launch = 100). 60 = a severe collapse in AI
+  // advertising; 160 = a boom well above launch. Launch week scores 40.
+  ai_ads_idx:     { lo: 60,  hi: 160, label: "Advertised AI jobs, index vs launch baseline (=100)" },
+  // AI New Enterprise Index: employment at AI businesses founded in the
+  // last 3 years (modelled anchors; see backfill_new_indexes.py). 0 = no
+  // enterprise creation; 60k ≈ a third above the strongest current region.
+  enterprise_idx: { lo: 0,   hi: 60,  label: "Employment in new AI businesses (k roles)" },
   graduate:       { lo: 10,  hi: -40, label: "Graduate postings YoY (%)" },
   posting_level:  { lo: 110, hi: 60,  label: "Posting index level" },
   posting_trend:  { lo: 10,  hi: -10, label: "Posting index, 12-week change" },
@@ -107,16 +122,17 @@ const BANDS = {
   hire_rate:      { lo: 10,  hi: -30, label: "Youth hire/employment change (%)" },
 };
 
-// The index pillars. Risk indexes push the Job Impact Index UP;
-// the AI Job Creation Index (positive: true) pulls it DOWN — its score
-// enters the composite inverted (100 − score). Each input: source KPI,
-// band, weight, and how the raw number is obtained (kind: "level" uses the
-// current value; "change12w" uses current minus the value 12 weeks earlier).
+// The index pillars. Risk indexes push the Job Impact Index UP; the two
+// creation-side indexes (positive: true) pull it DOWN — their scores enter
+// the composite inverted (100 − score). Each input: source KPI, band,
+// weight, and how the raw number is obtained (kind: "level" uses the
+// current value; "change12w" uses current minus the value 12 weeks
+// earlier; "indexvsbase" is 100 × current ÷ first same-basis observation).
 const PILLARS = [
   {
-    id: "displacement", label: "Job Cut Index", icon: "✖",
-    question: "How heavy are job cuts right now?",
-    measures: "Measures the number of layoffs and redundancies announced in the most recent months — attributed to AI where the source tracks attribution.",
+    id: "displacement", label: "AI Redundancy Index", icon: "✖",
+    question: "How many redundancies is AI causing?",
+    measures: "Measures reported redundancies attributed to AI displacement — counted where the source tracks AI attribution (the UK series counts all redundancies). The higher the number, the more redundancies have taken place recently.",
     blurb: "Grounded in the current volume of job cutting — announced layoffs and redundancies in the most recent period — scored against a fixed band for the region's series.",
     implications: {
       up: "more workers are being displaced than in recent months — expect it to surface first in the most exposed sectors in the Sector pulse below.",
@@ -131,9 +147,9 @@ const PILLARS = [
     ],
   },
   {
-    id: "pullback", label: "Job Opportunity Decline Index", icon: "▼",
-    question: "Are exposed roles being advertised less?",
-    measures: "Measures the reduction in the number of jobs being advertised in the occupations most exposed to AI.",
+    id: "pullback", label: "AI Advertised Job Displacement Index", icon: "▼",
+    question: "Are advertised jobs disappearing?",
+    measures: "Measures the reduction in advertised jobs in the occupations most exposed to AI, versus what would have been expected before AI. The higher the number, the greater the shortfall in advertised jobs.",
     blurb: "Whether openings in AI-exposed occupations are shrinking — the level and 12-week trend of job postings in high-AI-footprint roles. Higher = fewer opportunities.",
     implications: {
       up: "opportunities in AI-exposed roles are tightening — a tougher market for exposed skills and for people trying to enter them.",
@@ -148,7 +164,7 @@ const PILLARS = [
   {
     id: "earlycareer", label: "Graduate Unemployment Index", icon: "◎",
     question: "Are young workers feeling it first?",
-    measures: "Measures how much worse fresh graduates and young workers are faring than the historical norm.",
+    measures: "Measures graduate and young-worker unemployment versus what would have been expected historically. The higher the number, the more graduates are out of work relative to the norm.",
     blurb: "How early-career workers are faring: the youth-vs-overall unemployment gap, youth hiring, and recent-graduate outcomes.",
     implications: {
       up: "early-career workers are absorbing more of the adjustment — historically the first place AI pressure shows.",
@@ -165,30 +181,49 @@ const PILLARS = [
   {
     id: "creation", label: "AI Job Creation Index", icon: "✚", positive: true,
     question: "Is AI creating new jobs?",
-    measures: "Measures the number of new jobs AI is creating minus the roles AI has displaced.",
-    blurb: "The positive side of the ledger — net new AI-attributed roles (new AI/ML/data roles minus AI-attributed displacement). A higher score here pulls the Job Impact Index down.",
+    measures: "Measures the number of newly advertised jobs that call for AI. The higher the number, the more AI jobs are being created.",
+    blurb: "The count of live job ads matching AI terms, indexed to its launch baseline (=100). A higher score pulls the Job Impact Index down.",
     implications: {
-      up: "AI-attributed job creation is strengthening, pulling the Job Impact Index down.",
-      down: "the job-creation offset is weakening, so the risk indexes carry more of the composite.",
-      flat: "AI-attributed job creation is steady — a constant offset against the risk indexes.",
+      up: "employers are advertising more AI roles than at the baseline — job creation from AI is strengthening.",
+      down: "fewer AI roles are being advertised than before, so the creation offset is weakening.",
+      flat: "AI job advertising is running at its baseline pace.",
     },
+    contextKpi: "ai_job_ads",
     inputs: [
-      { kpi: "net_creation", band: "creation_idx", weight: 1.00, kind: "level" },
+      { kpi: "ai_job_ads", band: "ai_ads_idx", weight: 1.00, kind: "indexvsbase" },
+    ],
+  },
+  {
+    id: "enterprise", label: "AI New Enterprise Index", icon: "✦", positive: true,
+    question: "Is AI spawning new businesses?",
+    measures: "Measures the number of people employed in new businesses created because of AI. The higher the number, the more jobs new AI enterprises are adding.",
+    blurb: "Entrepreneurial job creation — employment at AI-first businesses founded in the last three years. A higher score pulls the Job Impact Index down.",
+    implications: {
+      up: "new AI businesses are adding jobs faster — entrepreneurial creation is strengthening.",
+      down: "hiring at new AI businesses has cooled.",
+      flat: "employment at new AI businesses is steady.",
+    },
+    caveat: "A modelled estimate anchored to published AI-startup formation and funding data — no statistics agency measures this directly yet.",
+    contextKpi: "ai_new_enterprise_jobs",
+    inputs: [
+      { kpi: "ai_new_enterprise_jobs", band: "enterprise_idx", weight: 1.00, kind: "level" },
     ],
   },
 ];
 
-// Composite weights for the JOB IMPACT INDEX (renamed from AI Impact
-// Index, 2026-08-24). The AI Adoption Index was removed from the
-// composite the same day - it is a leading indicator (AI arriving), not
-// an outcome, and it propped up scores in adoption-heavy regions with no
-// observed job harm - and then removed from the dashboard entirely later
-// that day; its raw inputs (AI-mention share, automation share, Untapped
-// AI Potential) remain visible as KPI tiles in Deep view. The creation
-// pillar enters INVERTED (100 − score): strong AI job creation pulls the
-// Job Impact Index down.
-const COMPOSITE_WEIGHTS = { displacement: 0.30, pullback: 0.30,
-                            earlycareer: 0.20, creation: 0.20 };
+// Composite weights for the JOB IMPACT INDEX. Five-index layer per the
+// Andrew review of 2026-08-26: three risk indexes push the score UP, two
+// creation-side indexes (positive: true) enter INVERTED (100 − score) and
+// pull it DOWN. Creation + Enterprise overlap slightly (a newly-founded AI
+// firm's advertised roles can appear in both) — a documented design choice:
+// they measure different mechanisms (incumbents advertising AI roles vs AI
+// spawning new businesses) and together cap at 30% of the composite.
+// Earlier layers: 30/25/25/20 four pillars (2026-08-14);
+// 25/25/20/15/15 five indexes incl. adoption (2026-08-20); 30/30/20/20
+// four indexes, adoption removed (2026-08-24).
+const COMPOSITE_WEIGHTS = { displacement: 0.25, pullback: 0.25,
+                            earlycareer: 0.20, creation: 0.15,
+                            enterprise: 0.15 };
 
 const STATUS_BANDS = [
   { max: 25,  word: "Low",      cls: "st-low" },
@@ -304,6 +339,24 @@ function rawInput(inp, reg, weekIdx) {
       }
     }
     return undefined;
+  }
+  if (inp.kind === "indexvsbase") {
+    // 100 × current ÷ first same-basis observation. Baseline = the OLDEST
+    // week in history whose measurement basis matches the current one
+    // (regime-break safe by construction), so the series reads 100 at
+    // launch and drifts with the real count thereafter.
+    const mNow = live !== undefined && live !== null
+      ? ((DATA.regions[reg].kpis[inp.kpi] || {}).measurement || "")
+      : (histMeas(week, reg, inp.kpi) || "");
+    for (let i = 0; i <= weekIdx; i++) {
+      const base = histValue(HIST_WEEKS[i], reg, inp.kpi);
+      if (base !== undefined && base > 0
+          && (histMeas(HIST_WEEKS[i], reg, inp.kpi) || "") === mNow) {
+        return 100 * now / base;
+      }
+    }
+    // No same-basis history yet (first live week): the value IS the base.
+    return now > 0 ? 100 : undefined;
   }
   if (inp.kind === "change12w") {
     const prevWeek = HIST_WEEKS[Math.max(0, weekIdx - 12)];
@@ -497,7 +550,7 @@ function openSparkModal(key) {
   const sub = document.getElementById("spark-modal-sub");
   if (title) title.textContent = `${item.label} — ${DATA.regions[region].label}`;
   if (sub) sub.textContent = item.positive
-    ? "Weekly history, 0–100. Positive-direction index: higher = more AI-attributed job creation (pulls the Job Impact Index down)."
+    ? "Weekly history, 0–100. Positive-direction index: higher = more AI-attributed job creation (pulls the Job Impact Index down). New indexes start at their launch baseline, so the line grows from launch week."
     : "Weekly history, 0–100 against fixed calibration bands. Higher = more pressure on this job market.";
   if (!dlg.open) dlg.showModal();
   const pts = HIST_WEEKS.map((w, i) => ({ w, v: item.series[i] }))
@@ -696,10 +749,10 @@ function renderDerived() {
           jobs available</b> in the areas of work where AI can most readily be applied
           — from 0 (no impact) to 100 (severe impact).</p>
         <p class="dh-read">${heroNarrative(d)}</p>
-        <p class="dh-read">It is built from the four indexes below. <b>Bad news pushes the
-          score up</b> — job cuts, fewer job openings, graduates struggling. <b>Good news
-          pulls it down</b> — new jobs created by AI.
-          <b>${Math.round(d.confidence * 100)}%</b> of this week's score is directly
+        <p class="dh-read">It is built from the five indexes below. <b>Bad news pushes the
+          score up</b> — redundancies, disappearing job ads, graduates struggling.
+          <b>Good news pulls it down</b> — new AI jobs advertised and new AI businesses
+          hiring. <b>${Math.round(d.confidence * 100)}%</b> of this week's score is directly
           <em>measured</em>; the rest comes from clearly labelled estimates.</p>
       </div>
       <div class="dh-sparkcol">
