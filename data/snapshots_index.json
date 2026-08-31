@@ -1,5 +1,6 @@
 {
   "snapshots": [
+    "2026-W35",
     "2026-W34",
     "2026-W33",
     "2026-W32",
@@ -111,6 +112,18 @@
     {
       "id": "net_creation",
       "name": "Net AI-attributed job creation",
+      "unit": "k roles",
+      "direction": "down"
+    },
+    {
+      "id": "ai_job_ads",
+      "name": "Advertised AI-skill jobs (live ads)",
+      "unit": "k ads",
+      "direction": "down"
+    },
+    {
+      "id": "ai_new_enterprise_jobs",
+      "name": "Employment in new AI businesses",
       "unit": "k roles",
       "direction": "down"
     }
